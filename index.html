@@ -92,6 +92,20 @@
 				</label>
 			</div>
 			<div class="mdui-valign mdui-center mdui-p-a-3">
+				<label class="mdui-switch mdui-center">
+					<input id="change_chinese" type="checkbox" />
+					<i class="mdui-switch-icon"></i>
+					<span class="mdui-m-a-1">设置语言为中文</span>
+				</label>
+			</div>
+			<div class="mdui-valign mdui-center mdui-p-a-3">
+				<label class="mdui-switch mdui-center">
+					<input id="peak_area" type="checkbox" />
+					<i class="mdui-switch-icon"></i>
+					<span class="mdui-m-a-1">峰面积代替峰高</span>
+				</label>
+			</div>
+			<div class="mdui-valign mdui-center mdui-p-a-3">
 				<label class="mdui-center">选择输出格式</label>
 			</div>
 			<div class="mdui-valign mdui-center" style="width: 140px; height: 40px">
@@ -144,7 +158,32 @@
 					sample_status = "STD";
 				}
 			};
-			
+			var Chinese = "-cn"
+			var language = function(){
+				if ($("#change_chinese").is(":checked")) {
+					console.log("Language is Chinese");
+					mdui.snackbar({ message: "设置语言为中文" });
+					Chinese = "-cn";
+				} else {
+					console.log("Language is English");
+					mdui.snackbar({ message: "默认语言为英语" });
+					Chinese = null;
+				}
+			}
+			var peak = "-area"
+			var peak_status = function(){
+				if ($("#peak_area").is(":checked")) {
+					console.log("peak area");
+					mdui.snackbar({ message: "峰面积代替峰高" });
+					peak = "-area";
+				} else {
+					console.log("peak height");
+					mdui.snackbar({ message: "峰高" });
+					peak = null;
+				}
+			}
+			$("#peak_area").on("click",peak_status);
+			$("#change_chinese").on("click",language);
 			$("#sample_name").on("click", name_status);
 			$("#sample_out").on("click", out_status);
 			$("#closebox").on("click", box_status);
@@ -183,7 +222,7 @@
 
 			var path = require("path");
 			var exec = require("child_process").execFile;
-			function start(file_path,Encoding, switch_status,sample_status) {
+			function start(file_path,Encoding, switch_status,sample_status,Chinese,peak) {
 				console.log("Request handler 'start' was called.");
 				var exe_file;
 				if (process.platform === "darwin") {
@@ -194,7 +233,7 @@
 				}
 				exec(
 					exe_file,
-					["-i", file_path,"-e",Encoding, "-s", switch_status,"-c",sample_status],
+					["-i", file_path,"-e",Encoding, "-s", switch_status,"-c",sample_status,Chinese,peak],
 					function (error, stdout, stderr) {
 						if (error || stderr) {
 							var notice = "[WARNING] 输入文件 " + file_path + " 处理有误";
@@ -222,7 +261,7 @@
 				e.preventDefault();
 				for (let f of e.dataTransfer.files) {
 					console.log("File(s) you dragged here: ", f.path);
-					start(f.path, Encoding, switch_status,sample_status);
+					start(f.path, Encoding, switch_status,sample_status,Chinese,peak);
 				}
 				return false;
 			};
@@ -248,7 +287,7 @@
 							mdui.snackbar({ message: "未选择任何文件" });
 							return;
 						} else {
-							start(result.filePaths,Encoding,switch_status,sample_status);
+							start(result.filePaths,Encoding,switch_status,sample_status,Chinese,peak);
 						}
 					})
 					.catch((err) => {
