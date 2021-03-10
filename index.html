@@ -106,6 +106,13 @@
 				</label>
 			</div>
 			<div class="mdui-valign mdui-center mdui-p-a-3">
+				<label class="mdui-switch mdui-center">
+					<input id="more_button" type="checkbox" />
+					<i class="mdui-switch-icon"></i>
+					<span class="mdui-m-a-1">显示更多计算结果</span>
+				</label>
+			</div>
+			<div class="mdui-valign mdui-center mdui-p-a-3">
 				<label class="mdui-center">选择输出格式</label>
 			</div>
 			<div class="mdui-valign mdui-center" style="width: 140px; height: 40px">
@@ -170,6 +177,18 @@
 					Chinese = null;
 				}
 			}
+			var more = "-v"
+			var more_status = function(){
+				if ($("#more_button").is(":checked")) {
+					console.log("more Calculation results");
+					mdui.snackbar({ message: "输出显示更多计算结果" });
+					more = "-v";
+				} else {
+					console.log("not more Calculation results");
+					mdui.snackbar({ message: "无更多就算结果" });
+					more = null;
+				}
+			}
 			var peak = "-area"
 			var peak_status = function(){
 				if ($("#peak_area").is(":checked")) {
@@ -182,6 +201,7 @@
 					peak = null;
 				}
 			}
+			$("#more_button").on("click",more_status);
 			$("#peak_area").on("click",peak_status);
 			$("#change_chinese").on("click",language);
 			$("#sample_name").on("click", name_status);
@@ -222,7 +242,7 @@
 
 			var path = require("path");
 			var exec = require("child_process").execFile;
-			function start(file_path,Encoding, switch_status,sample_status,Chinese,peak) {
+			function start(file_path,Encoding, switch_status,sample_status,Chinese,peak,more) {
 				console.log("Request handler 'start' was called.");
 				var exe_file;
 				if (process.platform === "darwin") {
@@ -233,7 +253,7 @@
 				}
 				exec(
 					exe_file,
-					["-i", file_path,"-e",Encoding, "-s", switch_status,"-c",sample_status,Chinese,peak],
+					["-i", file_path,"-e",Encoding, "-s", switch_status,"-c",sample_status,Chinese,peak,more],
 					function (error, stdout, stderr) {
 						if (error || stderr) {
 							var notice = "[WARNING] 输入文件 " + file_path + " 处理有误";
@@ -261,7 +281,7 @@
 				e.preventDefault();
 				for (let f of e.dataTransfer.files) {
 					console.log("File(s) you dragged here: ", f.path);
-					start(f.path, Encoding, switch_status,sample_status,Chinese,peak);
+					start(f.path, Encoding, switch_status,sample_status,Chinese,peak,more);
 				}
 				return false;
 			};
@@ -287,7 +307,7 @@
 							mdui.snackbar({ message: "未选择任何文件" });
 							return;
 						} else {
-							start(result.filePaths,Encoding,switch_status,sample_status,Chinese,peak);
+							start(result.filePaths,Encoding,switch_status,sample_status,Chinese,peak,more);
 						}
 					})
 					.catch((err) => {
