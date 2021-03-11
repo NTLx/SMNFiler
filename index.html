@@ -73,43 +73,43 @@
       </div>
     </div>
     <div id="tab2" class="mdui-p-a-3">
-      <div class="mdui-valign mdui-center mdui-col-xs-6 mdui-p-a-1">
-        <label class="mdui-switch mdui-center">
+      <div class="mdui-valign  mdui-col-xs-6 mdui-p-a-1">
+        <label class="mdui-switch ">
           <input id="sample_out" type="checkbox" />
           <i class="mdui-switch-icon"></i>
-          <span class="mdui-m-a-1">按样本输出</span>
+          <span class="mdui-m-a-1">按样本名拆分输出</span>
         </label>
       </div>
-      <div class="mdui-valign mdui-center mdui-col-xs-6 mdui-p-a-1">
-        <label class="mdui-switch mdui-center">
+      <div class="mdui-valign  mdui-col-xs-6 mdui-p-a-1">
+        <label class="mdui-switch ">
           <input id="closebox" type="checkbox" />
           <i class="mdui-switch-icon"></i>
           <span class="mdui-m-a-1">关闭退出提示窗口</span>
         </label>
       </div>
-      <div class="mdui-valign mdui-center mdui-col-xs-6 mdui-p-a-1">
-        <label class="mdui-switch mdui-center">
+      <div class="mdui-valign  mdui-col-xs-6 mdui-p-a-1">
+        <label class="mdui-switch ">
           <input id="sample_name" type="checkbox" />
           <i class="mdui-switch-icon"></i>
           <button class="mdui-m-a-1 mdui-btn mdui-btn-raised mdui-ripple mdui-color-blue" mdui-dialog="{target:'#dialog'}"> 自定义样本名 </button>
         </label>
       </div>
-      <div class="mdui-valign mdui-center mdui-col-xs-6 mdui-p-a-1">
-        <label class="mdui-switch mdui-center">
+      <div class="mdui-valign  mdui-col-xs-6 mdui-p-a-1">
+        <label class="mdui-switch ">
           <input id="change_chinese" type="checkbox" />
           <i class="mdui-switch-icon"></i>
           <span class="mdui-m-a-1">设置语言为中文</span>
         </label>
       </div>
-      <div class="mdui-valign mdui-center mdui-col-xs-6 mdui-p-a-1">
-        <label class="mdui-switch mdui-center">
+      <div class="mdui-valign  mdui-col-xs-6 mdui-p-a-1">
+        <label class="mdui-switch ">
           <input id="peak_area" type="checkbox" />
           <i class="mdui-switch-icon"></i>
           <span class="mdui-m-a-1">峰面积代替峰高</span>
         </label>
       </div>
-      <div class="mdui-valign mdui-center mdui-col-xs-6 mdui-p-a-1">
-        <label class="mdui-switch mdui-center">
+      <div class="mdui-valign  mdui-col-xs-6 mdui-p-a-1">
+        <label class="mdui-switch ">
           <input id="more_button" type="checkbox" />
           <i class="mdui-switch-icon"></i>
           <span class="mdui-m-a-1">显示更多计算结果</span>
@@ -144,16 +144,16 @@
     </div>
     <script>
       var $ = mdui.$;
-      var switch_status = 0;
+      var switch_status = null;
       var out_status = function () {
         if ($("#sample_out").is(":checked")) {
           console.log("Sample split output is on");
-          mdui.snackbar({ message: "输出将会按样本拆分" });
-          switch_status = 1;
+          mdui.snackbar({ message: "输出将会按样本名拆分" });
+          switch_status = "'-s' 1";
         } else {
           console.log("Sample split output is off");
-          mdui.snackbar({ message: "每个输入文件将只输出一个结果文件" });
-          switch_status = 0;
+          mdui.snackbar({ message: "输出文件不会按照样本名拆分" });
+          switch_status = null;
         }
       };
       var box_status = function () {
@@ -286,7 +286,6 @@
             file_path,
             "-e",
             Encoding,
-            "-s",
             switch_status,
             "-c",
             sample_status,

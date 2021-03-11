@@ -23,6 +23,7 @@
     "productName": "SMNFiler",
     "files": [
       "analysis.exe",
+      "analysis.mac",
       "main.js",
       "index.html",
       "renderer.js",
