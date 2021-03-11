@@ -56,7 +56,7 @@
         >
           <i class="mdui-icon material-icons">&#xe879;</i>退出
         </button>
-        <div class="mdui-dialog" id="closed">
+        <!-- <div class="mdui-dialog" id="closed">
           <div class="mdui-dialog-title">你确定要退出该窗口吗？</div>
           <div class="mdui-dialog-content"></div>
           <div class="mdui-dialog-actions">
@@ -69,7 +69,7 @@
               确定
             </button>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
     <div id="tab2" class="mdui-p-a-3">
@@ -80,35 +80,35 @@
           <span class="mdui-m-a-1">样本名拆分输出</span>
         </label>
       </div> -->
-      <div class="mdui-valign mdui-col-xs-4 mdui-p-a-2 mdui-center">
-        <label class="mdui-switch">
+      <!-- <div class="mdui-valign mdui-row-xs-2 mdui-p-a-2 mdui-center">
+        <label class="mdui-switch mdui-col">
           <input id="closebox" type="checkbox" />
           <i class="mdui-switch-icon"></i>
           <span class="mdui-m-a-1">关闭退出提示</span>
         </label>
-      </div>
-      <div class="mdui-valign mdui-col-xs-4 mdui-p-a-2 mdui-center">
+      </div> -->
+      <div class="mdui-valign mdui-col-xs-6 mdui-p-a-2 mdui-center">
         <label class="mdui-switch">
           <input id="change_chinese" type="checkbox" />
           <i class="mdui-switch-icon"></i>
           <span class="mdui-m-a-1">设置语言为中文</span>
         </label>
       </div>
-      <div class="mdui-valign mdui-col-xs-4 mdui-p-a-2 mdui-center">
+      <div class="mdui-valign mdui-col-xs-6 mdui-p-a-2 mdui-center">
         <label class="mdui-switch">
           <input id="peak_area" type="checkbox" />
           <i class="mdui-switch-icon"></i>
           <span class="mdui-m-a-1">峰面积代替峰高</span>
         </label>
       </div>
-      <div class="mdui-valign mdui-col-xs-4 mdui-p-a-2 mdui-center">
+      <div class="mdui-valign mdui-col-xs-6 mdui-p-a-2 mdui-center">
         <label class="mdui-switch">
           <input id="more_button" type="checkbox" />
           <i class="mdui-switch-icon"></i>
           <span class="mdui-m-a-1">更多计算结果</span>
         </label>
       </div>
-      <div class="mdui-valign mdui-col-xs-4 mdui-p-a-2">
+      <div class="mdui-valign mdui-col-xs-6 mdui-p-a-2 mdui-center">
         <label class="mdui-switch">
           <button
             class="mdui-m-a-1 mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme"
@@ -120,11 +120,11 @@
         </label>
       </div>
       <div class="mdui-valign mdui-p-a-3">
-        <label>选择输出格式</label>
+        <label>选择输出格式:</label>
       </div>
       <div class="mdui-valign" style="width: 140px; height: 40px">
         <form class="mdui-center mdui-p-a-1">
-          <label class="mdui-radio mdui-center">
+          <label class="mdui-radio mdui-center ">
             <input id="utf" type="radio" name="group1" checked />
             <i class="mdui-radio-icon"></i>UTF-8
           </label>
@@ -159,17 +159,17 @@
       //     switch_status = "";
       //   }
       // };
-      var box_status = function () {
-        if ($("#closebox").is(":checked")) {
-          console.log("The exit prompt is closed");
-          mdui.snackbar({ message: "关闭退出提示框" });
-          closeBox();
-        } else {
-          console.log("The exit prompt is opend");
-          mdui.snackbar({ message: "打开退出提示框" });
-          openBox();
-        }
-      };
+      // var box_status = function () {
+      //   if ($("#closebox").is(":checked")) {
+      //     console.log("The exit prompt is closed");
+      //     mdui.snackbar({ message: "关闭退出提示框" });
+      //     closeBox();
+      //   } else {
+      //     console.log("The exit prompt is opend");
+      //     mdui.snackbar({ message: "打开退出提示框" });
+      //     openBox();
+      //   }
+      // };
 
       var inst = new mdui.Dialog("#dialog");
       var sample_status = "STD";
@@ -227,8 +227,8 @@
         if ($("#gbk").is(":checked")) {
           console.log("Output set GBK Encode");
           mdui.snackbar({ message: "输出文件将以 GBK 格式编码" });
-          Encoding = "GBK"
-          Chinese ="-cn"    
+          Encoding = "GBK";
+          Chinese = "-cn";
         }
         if ($("#utf").is(":checked")) {
           console.log("Output set UTF-8 Encode");
@@ -242,19 +242,17 @@
       $("#peak_area").on("click", peak_status);
       $("#change_chinese").on("click", language);
       // $("#sample_out").on("click", out_status);
-      $("#closebox").on("click", box_status);
-      function closeBox() {
-        const prompt = document.getElementById("prompt");
-        prompt.removeAttribute("mdui-dialog");
-        prompt.setAttribute("onclick", "javascript:window.close()");
-      }
-      function openBox() {
-        const prompt = document.getElementById("prompt");
-        prompt.removeAttribute("onclick");
-        prompt.setAttribute("mdui-dialog", '{target:"#closed"}');
-      }
-      
-
+      // $("#closebox").on("click", box_status);
+      // function closeBox() {
+      //   const prompt = document.getElementById("prompt");
+      //   prompt.removeAttribute("mdui-dialog");
+      //   prompt.setAttribute("onclick", "javascript:window.close()");
+      // }
+      // function openBox() {
+      //   const prompt = document.getElementById("prompt");
+      //   prompt.removeAttribute("onclick");
+      //   prompt.setAttribute("mdui-dialog", '{target:"#closed"}');
+      // }
       function mOver1(obj) {
         mdui.snackbar({ message: "进入分析面板", timeout: 1000 });
       }
@@ -264,14 +262,7 @@
 
       var path = require("path");
       var exec = require("child_process").execFile;
-      function start(
-        file_path,
-        Encoding,
-        sample_status,
-        Chinese,
-        peak,
-        more
-      ) {
+      function start(file_path, Encoding, sample_status, Chinese, peak, more) {
         console.log("Request handler 'start' was called.");
         var exe_file;
         if (process.platform === "darwin") {
@@ -291,7 +282,7 @@
             sample_status,
             Chinese,
             peak,
-            more
+            more,
           ],
           function (error, stdout, stderr) {
             if (error || stderr) {
@@ -303,7 +294,17 @@
               var notice = "输入文件 " + file_path + " 处理完成";
               mdui.snackbar({ message: notice });
               console.log("stdout:\n" + stdout);
-              console.log("-i",file_path,"-e",Encoding,"-c",sample_status,Chinese,peak,more)
+              console.log(
+                "-i",
+                file_path,
+                "-e",
+                Encoding,
+                "-c",
+                sample_status,
+                Chinese,
+                peak,
+                more
+              );
             }
           }
         );
@@ -321,14 +322,7 @@
         e.preventDefault();
         for (let f of e.dataTransfer.files) {
           console.log("File(s) you dragged here: ", f.path);
-          start(
-            f.path,
-            Encoding,
-            sample_status,
-            Chinese,
-            peak,
-            more
-          );
+          start(f.path, Encoding, sample_status, Chinese, peak, more);
         }
         return false;
       };
