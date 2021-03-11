@@ -73,52 +73,56 @@
       </div>
     </div>
     <div id="tab2" class="mdui-p-a-3">
-      <div class="mdui-valign  mdui-col-xs-6 mdui-p-a-1">
-        <label class="mdui-switch ">
+      <!-- <div class="mdui-valign mdui-col-xs-4 mdui-p-a-2 mdui-center">
+        <label class="mdui-switch">
           <input id="sample_out" type="checkbox" />
           <i class="mdui-switch-icon"></i>
-          <span class="mdui-m-a-1">按样本名拆分输出</span>
+          <span class="mdui-m-a-1">样本名拆分输出</span>
         </label>
-      </div>
-      <div class="mdui-valign  mdui-col-xs-6 mdui-p-a-1">
-        <label class="mdui-switch ">
+      </div> -->
+      <div class="mdui-valign mdui-col-xs-4 mdui-p-a-2 mdui-center">
+        <label class="mdui-switch">
           <input id="closebox" type="checkbox" />
           <i class="mdui-switch-icon"></i>
-          <span class="mdui-m-a-1">关闭退出提示窗口</span>
+          <span class="mdui-m-a-1">关闭退出提示</span>
         </label>
       </div>
-      <div class="mdui-valign  mdui-col-xs-6 mdui-p-a-1">
-        <label class="mdui-switch ">
-          <input id="sample_name" type="checkbox" />
-          <i class="mdui-switch-icon"></i>
-          <button class="mdui-m-a-1 mdui-btn mdui-btn-raised mdui-ripple mdui-color-blue" mdui-dialog="{target:'#dialog'}"> 自定义样本名 </button>
-        </label>
-      </div>
-      <div class="mdui-valign  mdui-col-xs-6 mdui-p-a-1">
-        <label class="mdui-switch ">
+      <div class="mdui-valign mdui-col-xs-4 mdui-p-a-2 mdui-center">
+        <label class="mdui-switch">
           <input id="change_chinese" type="checkbox" />
           <i class="mdui-switch-icon"></i>
           <span class="mdui-m-a-1">设置语言为中文</span>
         </label>
       </div>
-      <div class="mdui-valign  mdui-col-xs-6 mdui-p-a-1">
-        <label class="mdui-switch ">
+      <div class="mdui-valign mdui-col-xs-4 mdui-p-a-2 mdui-center">
+        <label class="mdui-switch">
           <input id="peak_area" type="checkbox" />
           <i class="mdui-switch-icon"></i>
           <span class="mdui-m-a-1">峰面积代替峰高</span>
         </label>
       </div>
-      <div class="mdui-valign  mdui-col-xs-6 mdui-p-a-1">
-        <label class="mdui-switch ">
+      <div class="mdui-valign mdui-col-xs-4 mdui-p-a-2 mdui-center">
+        <label class="mdui-switch">
           <input id="more_button" type="checkbox" />
           <i class="mdui-switch-icon"></i>
-          <span class="mdui-m-a-1">显示更多计算结果</span>
+          <span class="mdui-m-a-1">更多计算结果</span>
         </label>
       </div>
-      <div class="mdui-valign mdui-center mdui-p-a-3">
-        <label class="mdui-center">选择输出格式</label>
+      <div class="mdui-valign mdui-col-xs-4 mdui-p-a-2">
+        <label class="mdui-switch">
+          <button
+            class="mdui-m-a-1 mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme"
+            mdui-dialog="{target:'#dialog'}"
+            id="customer"
+          >
+            自定义样本名
+          </button>
+        </label>
       </div>
-      <div class="mdui-valign mdui-center" style="width: 140px; height: 40px">
+      <div class="mdui-valign mdui-p-a-3">
+        <label>选择输出格式</label>
+      </div>
+      <div class="mdui-valign" style="width: 140px; height: 40px">
         <form class="mdui-center mdui-p-a-1">
           <label class="mdui-radio mdui-center">
             <input id="utf" type="radio" name="group1" checked />
@@ -130,11 +134,10 @@
           </label>
         </form>
       </div>
-
       <div class="mdui-dialog" id="dialog">
         <div class="mdui-dialog-title">请自定义标准品样本名</div>
         <div class="mdui-dialog-content">
-          <input type="text" name="sample" id="samples"/>
+          <input type="text" name="sample" id="samples" />
         </div>
         <div class="mdui-dialog-actions">
           <button class="mdui-btn mdui-ripple" mdui-dialog-cancel>取消</button>
@@ -144,18 +147,18 @@
     </div>
     <script>
       var $ = mdui.$;
-      var switch_status = null;
-      var out_status = function () {
-        if ($("#sample_out").is(":checked")) {
-          console.log("Sample split output is on");
-          mdui.snackbar({ message: "输出将会按样本名拆分" });
-          switch_status = "'-s' 1";
-        } else {
-          console.log("Sample split output is off");
-          mdui.snackbar({ message: "输出文件不会按照样本名拆分" });
-          switch_status = null;
-        }
-      };
+      // var switch_status = "";
+      // var out_status = function () {
+      //   if ($("#sample_out").is(":checked")) {
+      //     console.log("Sample split output is on");
+      //     mdui.snackbar({ message: "输出将会按样本名拆分" });
+      //     switch_status = "'-s' 1";
+      //   } else {
+      //     console.log("Sample split output is off");
+      //     mdui.snackbar({ message: "输出文件不会按照样本名拆分" });
+      //     switch_status = "";
+      //   }
+      // };
       var box_status = function () {
         if ($("#closebox").is(":checked")) {
           console.log("The exit prompt is closed");
@@ -167,25 +170,23 @@
           openBox();
         }
       };
+
+      var inst = new mdui.Dialog("#dialog");
       var sample_status = "STD";
-      var name_status = function () {
-        if ($("#sample_name").is(":checked")) {
-          console.log("Custom sample name is on");
+      // method
+      document
+        .getElementById("customer")
+        .addEventListener("click", function () {
           mdui.snackbar({ message: "自定义标准品样本名" });
           var dialog = document.getElementById("dialog");
           dialog.addEventListener("confirm.mdui.dialog", function () {
             console.log("confirm");
-			sample_status1=document.getElementById('samples').value
-			sample_status=sample_status1
-			console.log(sample_status)
+            sample_status1 = document.getElementById("samples").value;
+            sample_status = sample_status1;
+            console.log(sample_status);
           });
-        } else {
-          console.log("Custom sample name is off,The Default is STD");
-          mdui.snackbar({ message: "标准品样本名默认为STD" });
-          sample_status = "STD";
-        }
-      };
-      var Chinese = "-cn";
+        });
+      var Chinese = "";
       var language = function () {
         if ($("#change_chinese").is(":checked")) {
           console.log("Language is Chinese");
@@ -194,10 +195,10 @@
         } else {
           console.log("Language is English");
           mdui.snackbar({ message: "默认语言为英语" });
-          Chinese = null;
+          Chinese = "";
         }
       };
-      var more = "-v";
+      var more = "";
       var more_status = function () {
         if ($("#more_button").is(":checked")) {
           console.log("more Calculation results");
@@ -206,10 +207,10 @@
         } else {
           console.log("not more Calculation results");
           mdui.snackbar({ message: "无更多就算结果" });
-          more = null;
+          more = "";
         }
       };
-      var peak = "-area";
+      var peak = "";
       var peak_status = function () {
         if ($("#peak_area").is(":checked")) {
           console.log("peak area");
@@ -218,14 +219,31 @@
         } else {
           console.log("peak height");
           mdui.snackbar({ message: "峰高" });
-          peak = null;
+          peak = "";
         }
       };
+      var Encoding = "UTF8";
+      var encod_status = function () {
+        
+        if ($("#gbk").is(":checked")) {
+          console.log("Output set GBK Encode");
+          mdui.snackbar({ message: "输出文件将以 GBK 格式编码" });
+          Encoding = "GBK";
+          Chinese ="-cn"
+          
+        }
+        if ($("#utf").is(":checked")) {
+          console.log("Output set UTF-8 Encode");
+          mdui.snackbar({ message: "输出文件将以 UTF-8 格式编码" });
+          Encoding = "UTF8";
+        }
+      };
+      $("#utf").on("click", encod_status);
+      $("#gbk").on("click", encod_status);
       $("#more_button").on("click", more_status);
       $("#peak_area").on("click", peak_status);
       $("#change_chinese").on("click", language);
-      $("#sample_name").on("click", name_status);
-      $("#sample_out").on("click", out_status);
+      // $("#sample_out").on("click", out_status);
       $("#closebox").on("click", box_status);
       function closeBox() {
         const prompt = document.getElementById("prompt");
@@ -237,21 +255,7 @@
         prompt.removeAttribute("onclick");
         prompt.setAttribute("mdui-dialog", '{target:"#closed"}');
       }
-      var Encoding = "UTF8";
-      var encod_status = function () {
-        if ($("#utf").is(":checked")) {
-          console.log("Output set UTF-8 Encode");
-          mdui.snackbar({ message: "输出文件将以 UTF-8 格式编码" });
-          Encoding = "UTF8";
-        }
-        if ($("#gbk").is(":checked")) {
-          console.log("Output set GBK Encode");
-          mdui.snackbar({ message: "输出文件将以 GBK 格式编码" });
-          Encoding = "GBK";
-        }
-      };
-      $("#utf").on("click", encod_status);
-      $("#gbk").on("click", encod_status);
+      
 
       function mOver1(obj) {
         mdui.snackbar({ message: "进入分析面板", timeout: 1000 });
@@ -262,10 +266,12 @@
 
       var path = require("path");
       var exec = require("child_process").execFile;
+      if(Chinese=="-cn"||peak=="-area"||more=="-v"){
+        var test =["-i",file_path,"-c" , sample_status ,"-e",Encoding,Chinese,peak,more] 
+      }
       function start(
         file_path,
         Encoding,
-        switch_status,
         sample_status,
         Chinese,
         peak,
@@ -286,12 +292,11 @@
             file_path,
             "-e",
             Encoding,
-            switch_status,
             "-c",
             sample_status,
             Chinese,
             peak,
-            more,
+            more
           ],
           function (error, stdout, stderr) {
             if (error || stderr) {
@@ -303,6 +308,7 @@
               var notice = "输入文件 " + file_path + " 处理完成";
               mdui.snackbar({ message: notice });
               console.log("stdout:\n" + stdout);
+              console.log("-i",file_path,"-e",Encoding,"-c",sample_status,Chinese,peak,more)
             }
           }
         );
@@ -323,7 +329,6 @@
           start(
             f.path,
             Encoding,
-            switch_status,
             sample_status,
             Chinese,
             peak,
@@ -357,7 +362,6 @@
               start(
                 result.filePaths,
                 Encoding,
-                switch_status,
                 sample_status,
                 Chinese,
                 peak,
