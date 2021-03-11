@@ -224,13 +224,11 @@
       };
       var Encoding = "UTF8";
       var encod_status = function () {
-        
         if ($("#gbk").is(":checked")) {
           console.log("Output set GBK Encode");
           mdui.snackbar({ message: "输出文件将以 GBK 格式编码" });
-          Encoding = "GBK";
-          Chinese ="-cn"
-          
+          Encoding = "GBK"
+          Chinese ="-cn"    
         }
         if ($("#utf").is(":checked")) {
           console.log("Output set UTF-8 Encode");
@@ -266,9 +264,6 @@
 
       var path = require("path");
       var exec = require("child_process").execFile;
-      if(Chinese=="-cn"||peak=="-area"||more=="-v"){
-        var test =["-i",file_path,"-c" , sample_status ,"-e",Encoding,Chinese,peak,more] 
-      }
       function start(
         file_path,
         Encoding,
