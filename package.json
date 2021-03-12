@@ -1,0 +1,64 @@
+{
+  "name": "SMNFiler",
+  "author": "Letmeouted",
+  "version": "0.0.1",
+  "description": "SMNFiler",
+  "license": "GPL-3.0",
+  "repository": "https://github.com/NTLx/SMNFiler.git",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win --ia32"
+  },
+  "keywords": [
+    "Electron",
+    "Data Analysis",
+    "SMNFiler"
+  ],
+  "devDependencies": {
+    "electron": "^11.1.1"
+  },
+  "build": {
+    "appId": "SMNFiler.app",
+    "productName": "SMNFiler",
+    "files": [
+      "analysis.exe",
+      "analysis.mac",
+      "main.js",
+      "index.html",
+      "renderer.js",
+      "style.css",
+      "jquery-3.4.1.min.js"
+    ],
+    "directories": {
+      "buildResources": "build",
+      "output": "dist"
+    },
+    "dmg": {
+      "title": "SMNFiler",
+      "icon": "build/Icon.icns"
+    },
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "target": [
+        "dmg"
+      ],
+      "icon": "icons/Icon.icns",
+      "artifactName": "${productName}.v${version}.MacOS.${ext}"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "ia32"
+          ]
+        }
+      ],
+      "artifactName": "${productName}.v${version}.Win_Portable.${ext}"
+    }
+  },
+  "dependencies": {
+    "mdui": "^1.0.1"
+  }
+}
