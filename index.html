@@ -52,7 +52,7 @@
         <button
           class="mdui-btn mdui-ripple mdui-color-teal mdui-btn-raised mdui-float-right"
           id="prompt"
-          mdui-dialog="{target:'#closed'}"
+          onclick="window.close()"
         >
           <i class="mdui-icon material-icons">&#xe879;</i>退出
         </button>
@@ -262,7 +262,7 @@
 
       var path = require("path");
       var exec = require("child_process").execFile;
-      function start(file_path, Encoding, sample_status, Chinese, peak, more) {
+      function start(file_path, Encoding, sample_status,peak, more,Chinese) {
         console.log("Request handler 'start' was called.");
         var exe_file;
         if (process.platform === "darwin") {
@@ -280,9 +280,9 @@
             Encoding,
             "-c",
             sample_status,
-            Chinese,
             peak,
             more,
+            Chinese
           ],
           function (error, stdout, stderr) {
             if (error || stderr) {
@@ -301,9 +301,9 @@
                 Encoding,
                 "-c",
                 sample_status,
-                Chinese,
                 peak,
-                more
+                more,
+                Chinese
               );
             }
           }
@@ -322,7 +322,7 @@
         e.preventDefault();
         for (let f of e.dataTransfer.files) {
           console.log("File(s) you dragged here: ", f.path);
-          start(f.path, Encoding, sample_status, Chinese, peak, more);
+          start(f.path, Encoding, sample_status,peak,more,Chinese);
         }
         return false;
       };
@@ -352,9 +352,9 @@
                 result.filePaths,
                 Encoding,
                 sample_status,
-                Chinese,
                 peak,
-                more
+                more,
+                Chinese
               );
             }
           })
