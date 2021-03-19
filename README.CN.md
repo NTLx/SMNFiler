@@ -5,7 +5,7 @@
 -->
 # SMNFiler
 
-`SMNFiler` ：
+`SMNFiler`：
 
 - 使用 [Electron](https://electronjs.org) 框架进行跨平台开发
 - 基于 [electron-quick-start](https://github.com/electron/electron-quick-start) 和 [MDUI](https://github.com/zdhxiong/mdui) 项目搭建用户界面
@@ -60,18 +60,17 @@
 
 设置面板如图：
 
-![each sample output](https://cdn.jsdelivr.net/gh/Letmeouted/PicGO/Pic/6AAC09DF-CEC8-4166-969E-2CAA7641DB5B.png))
+![each sample output](https://cdn.jsdelivr.net/gh/Letmeouted/PicGO/Pic/6AAC09DF-CEC8-4166-969E-2CAA7641DB5B.png)
 
-默认输出共有两个文件，如需更多计算结果，可将开关按钮打开，便可多出一个详情文件。
+默认输出结果共有两个文件，如需更多计算结果，可将`更多计算结果`开关按钮打开，便可多出一个详情文件。
 
-默认输出文件中含有峰高，如需峰面积，可将峰面积代替峰高开关打开。
+默认输出结果中含有峰高，如需峰面积，可将`峰面积代替峰高`开关按钮打开。
 
-默认输出结果文件为英文，如需使用中文，可打开中文开关按钮。
-
-> 输出文件夹不会改变。
+默认输出结果为英文，如需使用中文，可将`设置为中文`开关按钮打开。
 
 默认输出编码格式为 `UTF-8` ；为兼容 `Excel` ，可手动修改为 `GBK` 。
 
+> 输出文件夹不会改变。
 
 
 ## 反馈
@@ -84,7 +83,7 @@
 
 [![Feature Requests](https://cloud.githubusercontent.com/assets/390379/10127973/045b3a96-6560-11e5-9b20-31a2032956b2.png)](https://feathub.com/NTLx/SMNFiler)
 
-[![Feature Requests](https://feathub.com/NTLx/AneuFiler?format=svg)](https://feathub.com/NTLx/SMNFiler)
+[![Feature Requests](https://feathub.com/NTLx/SMNFiler?format=svg)](https://feathub.com/NTLx/SMNFiler)
 ## 参与
 
 如果您想要参与本软件的开发，或有意为本项目贡献一份力量，却不知如何开始，可以参考 [这里](https://opensource.guide/zh-cn/) 。
