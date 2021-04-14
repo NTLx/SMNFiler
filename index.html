@@ -260,10 +260,59 @@
         mdui.snackbar({ message: "进入设置面板", timeout: 1000 });
       }
 
-      var path = require("path");
-      var exec = require("child_process").execFile;
-      function start(file_path, Encoding, sample_status,peak, more,Chinese) {
+      // var path = require("path");
+      // var exec = require("child_process").execFile;
+      // function start(file_path, Encoding, sample_status,peak, more,Chinese) {
+      //   console.log("Request handler 'start' was called.");
+      //   var exe_file;
+      //   if (process.platform === "darwin") {
+      //     exe_file = path.join(__dirname, "analysis.mac");
+      //   }
+      //   if (process.platform === "win32") {
+      //     exe_file = path.join(__dirname, "analysis.exe");
+      //   }
+      //   exec(
+      //     exe_file,
+      //     [
+      //       "-i",
+      //       file_path,
+      //       "-e",
+      //       Encoding,
+      //       "-c",
+      //       sample_status,
+      //       peak,
+      //       more,
+      //       Chinese
+      //     ],
+      //     function (error, stdout, stderr) {
+      //       if (error || stderr) {
+      //         var notice = "[WARNING] 输入文件 " + file_path + " 处理有误";
+      //         mdui.snackbar({ message: notice, position: "left-top" });
+      //         console.log("error:\n" + error);
+      //         console.log("stderr:\n" + stderr);
+      //       } else if (stdout) {
+      //         var notice = "输入文件 " + file_path + " 处理完成";
+      //         mdui.snackbar({ message: notice });
+      //         console.log("stdout:\n" + stdout);
+      //         console.log(
+      //           "-i",
+      //           file_path,
+      //           "-e",
+      //           Encoding,
+      //           "-c",
+      //           sample_status,
+      //           peak,
+      //           more,
+      //           Chinese
+      //         );
+      //       }
+      //     }
+      //   );
+      // }
+      var path = require("path"); 
+      function start(file_path, Encoding, sample_status, peak, more, Chinese) {
         console.log("Request handler 'start' was called.");
+        const {spawn}= require("child_process");
         var exe_file;
         if (process.platform === "darwin") {
           exe_file = path.join(__dirname, "analysis.mac");
@@ -271,9 +320,22 @@
         if (process.platform === "win32") {
           exe_file = path.join(__dirname, "analysis.exe");
         }
-        exec(
-          exe_file,
-          [
+        var childProcess = spawn(exe_file, [
+          "-i",
+          file_path,
+          "-e",
+          Encoding,
+          "-c",
+          sample_status,
+          peak,
+          more,
+          Chinese,
+        ]);
+        childProcess.stdout.on("data", (data) => {
+          console.log(`stdout: ${data}`);
+          var notice = "输入文件 " + file_path + " 处理完成";
+          mdui.snackbar({ message: notice });
+          console.log(
             "-i",
             file_path,
             "-e",
@@ -283,31 +345,18 @@
             peak,
             more,
             Chinese
-          ],
-          function (error, stdout, stderr) {
-            if (error || stderr) {
-              var notice = "[WARNING] 输入文件 " + file_path + " 处理有误";
-              mdui.snackbar({ message: notice, position: "left-top" });
-              console.log("error:\n" + error);
-              console.log("stderr:\n" + stderr);
-            } else if (stdout) {
-              var notice = "输入文件 " + file_path + " 处理完成";
-              mdui.snackbar({ message: notice });
-              console.log("stdout:\n" + stdout);
-              console.log(
-                "-i",
-                file_path,
-                "-e",
-                Encoding,
-                "-c",
-                sample_status,
-                peak,
-                more,
-                Chinese
-              );
-            }
-          }
-        );
+          );
+        });
+        childProcess.stderr.on("data", (data) => {
+          console.log(`stderr: ${data}`);
+          var notice = "[WARNING] 输入文件 " + file_path + " 处理有误";
+          mdui.snackbar({ message: notice, position: "left-top" });
+          console.log("error:\n" + error);
+          console.log("stderr:\n" + stderr);
+        });
+        childProcess.on("close", (code) => {
+          console.log(`子进程退出码：${code}`);
+        });
       }
 
       // event: drag file(s) to window
