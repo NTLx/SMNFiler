@@ -30,6 +30,7 @@
       "style.css",
       "jquery-3.4.1.min.js"
     ],
+    "asar":false,
     "directories": {
       "buildResources": "build",
       "output": "dist"
