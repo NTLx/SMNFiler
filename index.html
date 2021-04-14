@@ -46,7 +46,7 @@
           style="height: 15px; margin-left: 18px"
         >
           <p class="mdui-center">
-            注意：文件命名格式当中不能含有空格，特殊符号，以及中文。
+            <br/>注意：文件名当中不能含有空格、特殊符号、中文
           </p>
         </div>
         <button
@@ -259,6 +259,8 @@
       function mOver2(obj) {
         mdui.snackbar({ message: "进入设置面板", timeout: 1000 });
       }
+      
+      // child_process.execFile method
 
       // var path = require("path");
       // var exec = require("child_process").execFile;
@@ -309,6 +311,7 @@
       //     }
       //   );
       // }
+      // child_process.spawn method
       var path = require("path"); 
       function start(file_path, Encoding, sample_status, peak, more, Chinese) {
         console.log("Request handler 'start' was called.");
