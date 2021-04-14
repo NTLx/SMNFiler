@@ -16,7 +16,8 @@
     "SMNFiler"
   ],
   "devDependencies": {
-    "electron": "^11.1.1"
+    "electron": "^11.1.1",
+    "electron-builder": "^22.10.5"
   },
   "build": {
     "appId": "SMNFiler.app",
@@ -30,7 +31,7 @@
       "style.css",
       "jquery-3.4.1.min.js"
     ],
-    "asar":false,
+    "asar": false,
     "directories": {
       "buildResources": "build",
       "output": "dist"
