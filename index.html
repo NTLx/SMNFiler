@@ -110,6 +110,13 @@
       </div>
       <div class="mdui-valign mdui-col-xs-6 mdui-p-a-2 mdui-center">
         <label class="mdui-switch">
+          <input id="sample_order" type="checkbox" checked/>
+          <i class="mdui-switch-icon"></i>
+          <span class="mdui-m-a-1">保持输入样本顺序</span>
+        </label>
+      </div>
+      <div class="mdui-valign mdui-col-xs-6 mdui-p-a-2 mdui-center">
+        <label class="mdui-switch">
           <button
             class="mdui-m-a-1 mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme"
             mdui-dialog="{target:'#dialog'}"
@@ -222,6 +229,18 @@
           peak = "";
         }
       };
+      var order = "-k";
+      var samplename_order = function () {
+        if ($("#sample_order").is(":checked")) {
+          console.log("sample_order");
+          mdui.snackbar({ message: "保持样本输入顺序" });
+          order= "-k";
+        } else {
+          console.log("not sample_order");
+          mdui.snackbar({ message: "不保持样本输入顺序" });
+          order = "";
+        }
+      };
       var Encoding = "UTF8";
       var encod_status = function () {
         if ($("#gbk").is(":checked")) {
@@ -241,6 +260,7 @@
       $("#more_button").on("click", more_status);
       $("#peak_area").on("click", peak_status);
       $("#change_chinese").on("click", language);
+      $("#sample_order").on("click",samplename_order)
       // $("#sample_out").on("click", out_status);
       // $("#closebox").on("click", box_status);
       // function closeBox() {
@@ -264,7 +284,7 @@
 
       // var path = require("path");
       // var exec = require("child_process").execFile;
-      // function start(file_path, Encoding, sample_status,peak, more,Chinese) {
+      // function start(file_path, Encoding, sample_status, peak, more, Chinese, order) {
       //   console.log("Request handler 'start' was called.");
       //   var exe_file;
       //   if (process.platform === "darwin") {
@@ -284,7 +304,8 @@
       //       sample_status,
       //       peak,
       //       more,
-      //       Chinese
+      //       Chinese,
+      //       order
       //     ],
       //     function (error, stdout, stderr) {
       //       if (error || stderr) {
@@ -305,7 +326,8 @@
       //           sample_status,
       //           peak,
       //           more,
-      //           Chinese
+      //           Chinese,
+      //           order
       //         );
       //       }
       //     }
@@ -313,7 +335,7 @@
       // }
       // child_process.spawn method
       var path = require("path"); 
-      function start(file_path, Encoding, sample_status, peak, more, Chinese) {
+      function start(file_path, Encoding, sample_status, peak, more, Chinese, order) {
         console.log("Request handler 'start' was called.");
         const {spawn}= require("child_process");
         var exe_file;
@@ -333,6 +355,7 @@
           peak,
           more,
           Chinese,
+          order
         ]);
         childProcess.stdout.on("data", (data) => {
           console.log(`stdout: ${data}`);
@@ -347,7 +370,8 @@
             sample_status,
             peak,
             more,
-            Chinese
+            Chinese,
+            order
           );
         });
         childProcess.stderr.on("data", (data) => {
@@ -374,7 +398,7 @@
         e.preventDefault();
         for (let f of e.dataTransfer.files) {
           console.log("File(s) you dragged here: ", f.path);
-          start(f.path, Encoding, sample_status,peak,more,Chinese);
+          start(f.path, Encoding, sample_status,peak,more,Chinese,order);
         }
         return false;
       };
@@ -406,7 +430,8 @@
                 sample_status,
                 peak,
                 more,
-                Chinese
+                Chinese,
+                order
               );
             }
           })
