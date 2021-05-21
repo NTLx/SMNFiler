@@ -318,7 +318,7 @@
             mdui.snackbar({ message: notice, position: "left-top" });
             console.log("error:\n" + error);
             console.log("stderr:\n" + stderr);
-            document.getElementById('restderr').innerHTML += "*******************************" + "<br/>" + "当前处理文件名：" + fileName + '<br/>' + "错误提示信息：" + error + '<br/>' + "报警提示信息：" + stderr + '<br/>' + '*******************************' + '<br/>'
+            document.getElementById('restderr').innerHTML += "*******************************" + "<br/>" + "当前处理文件名：" + fileName + '<br/>' + "错误提示信息：" + error + '<br/>' + "报错提示信息：" + stderr + '<br/>' + '*******************************' + '<br/>'
 						document.getElementById('restore').innerHTML += "*******************************"+'<br/>'+"当前处理文件名："+fileName+'<br/>'+'*******************************'+'<br/>'
           } else if (stdout) {
             setTimeout(function () {
