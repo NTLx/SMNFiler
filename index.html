@@ -22,6 +22,12 @@
       <a href="#tab2" class="mdui-ripple" onmousedown="mOver2(this)"
         ><i id="tab2_icon" class="mdui-icon material-icons">&#xe8b8;</i></a
       >
+      <a href="#tab3" class="mdui-ripple" onmousedown="mOver3(this)">
+				<i id="tab3_icon" class="mdui-icon material-icons">&#xe616;</i>
+			</a>
+			<a href="#tab4" class="mdui-ripple" onmousedown="mOver4(this)">
+				<i id="tab4_icon" class="mdui-icon material-icons">&#xe000;</i>
+			</a>
     </div>
     <div id="tab1" class="mdui-p-a-1">
       <div
@@ -152,6 +158,21 @@
         </div>
       </div>
     </div>
+    <div id="tab3" class="mdui-p-a-1">
+			<div  class="layout" >
+				<div class="mdui-col-xs-12  panel">运行时信息</div>
+				<div id="restore" class="mdui-col-xs-12 result2">
+				</div>
+			</div>
+		</div>
+		<div id="tab4" class="mdui-p-a-1">
+			<div  class="layout" >
+				<div class="mdui-col-xs-12 panel">文件处理有误信息</div>
+				<div id="restderr" class="mdui-col-xs-12 result1" >
+				</div>
+				
+			</div>
+		</div>
     <script>
       var $ = mdui.$;
       // var switch_status = "";
@@ -279,7 +300,12 @@
       function mOver2(obj) {
         mdui.snackbar({ message: "进入设置面板", timeout: 1000 });
       }
-      
+      function mOver3(obj) {
+				mdui.snackbar({ message:"进入运行面板",timeout: 1000})
+			}
+			function mOver4(obj) {
+				mdui.snackbar({ message:"进入异常输出面板",timeout: 1000})
+			}
       // child_process.execFile method
 
       // var path = require("path");
@@ -337,6 +363,16 @@
       var path = require("path"); 
       function start(file_path, Encoding, sample_status, peak, more, Chinese, order) {
         console.log("Request handler 'start' was called.");
+        console.log(file_path)
+				if(file_path.constructor===Array){
+				file_name =file_path[0].trim()
+				fileName=file_name.substring(file_name.lastIndexOf('\\')+1)
+				document.getElementById('restore').innerHTML += "*******************************"+'<br/>'+"当前处理文件名："+fileName+'<br/>'+'*******************************'+'<br/>';
+				}else{
+				file_name =file_path.trim()
+				fileName=file_name.substring(file_name.lastIndexOf('\\')+1)
+				document.getElementById('restore').innerHTML += "*******************************"+'<br/>'+"当前处理文件名："+fileName+'<br/>'+'*******************************'+'<br/>';
+				}
         const {spawn}= require("child_process");
         var exe_file;
         if (process.platform === "darwin") {
@@ -357,10 +393,21 @@
           Chinese,
           order
         ]);
-        childProcess.stdout.on("data", (data) => {
+        childProcess.stderr.on("data", (data) => {
+          console.log(`stderr: ${data}`);
+          var notice = "[WARNING] 输入文件 " + file_path + " 处理有误";
+          mdui.snackbar({ message: notice, position: "left-top" });
+          document.getElementById('restderr').innerHTML +="*******************************"+"<br/>"+"当前处理文件名："+fileName+'<br/>'+'<br/>'+"错误提示信息："+data+'<br/>'+'*******************************'+'<br/>'
+        });
+          childProcess.stdout.on("data", (data) => {
           console.log(`stdout: ${data}`);
+          if(data===''){
+            document.getElementById('restore').innerHTML += "*******************************"+'<br/>'+"当前处理文件名："+fileName+'<br/>'+'*******************************'+'<br/>'
+          }else{
+            setTimeout(function(){
           var notice = "输入文件 " + file_path + " 处理完成";
           mdui.snackbar({ message: notice });
+        },5000)
           console.log(
             "-i",
             file_path,
@@ -373,13 +420,8 @@
             Chinese,
             order
           );
-        });
-        childProcess.stderr.on("data", (data) => {
-          console.log(`stderr: ${data}`);
-          var notice = "[WARNING] 输入文件 " + file_path + " 处理有误";
-          mdui.snackbar({ message: notice, position: "left-top" });
-          console.log("error:\n" + error);
-          console.log("stderr:\n" + stderr);
+          document.getElementById('restore').innerHTML += "*******************************"+'<br/>'+"当前处理文件名："+fileName+'<br/>'+"处理文件耗时："+data+'<br/>'+'*******************************'+'<br/>'
+          } 
         });
         childProcess.on("close", (code) => {
           console.log(`子进程退出码：${code}`);
@@ -441,5 +483,29 @@
           });
       }
     </script>
+    <style>
+      .body{
+				overflow-x: hidden;
+			}
+			.panel {
+				text-align: center;
+				font-size: 16px;
+				margin-top: 16px;
+			}
+			.result1{
+				margin-top: 16px;
+				height: 200px;
+				overflow-y: auto;
+				padding-left: 36px;
+				padding-right: 36px;
+			}
+			.result2{
+        margin-top: 16px;
+				height: 200px;
+				overflow-y: auto;
+				padding-left: 36px;
+				padding-right: 36px;
+			}
+    </style>
   </body>
 </html>
