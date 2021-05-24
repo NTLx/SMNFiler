@@ -285,12 +285,12 @@
     function start(file_path, Encoding, sample_status, peak, more, Chinese, order) {
       console.log("Request handler 'start' was called.");
       if (file_path.constructor === Array) {
-				file_name = file_path[0].trim()
-				fileName = file_name.substring(file_name.lastIndexOf('\\') + 1)
-			} else {
-				file_name = file_path.trim()
-				fileName = file_name.substring(file_name.lastIndexOf('\\') + 1)
-			}
+        file_name = file_path[0].trim()
+        fileName = file_name.substring(file_name.lastIndexOf('\\') + 1)
+      } else {
+        file_name = file_path.trim()
+        fileName = file_name.substring(file_name.lastIndexOf('\\') + 1)
+      }
       var exe_file;
       if (process.platform === "darwin") {
         exe_file = path.join(__dirname, "analysis.mac");
@@ -319,7 +319,7 @@
             console.log("error:\n" + error);
             console.log("stderr:\n" + stderr);
             document.getElementById('restderr').innerHTML += "*******************************" + "<br/>" + "当前处理文件名：" + fileName + '<br/>' + "错误提示信息：" + error + '<br/>' + "报错提示信息：" + stderr + '<br/>' + '*******************************' + '<br/>'
-						document.getElementById('restore').innerHTML += "*******************************"+'<br/>'+"当前处理文件名："+fileName+'<br/>'+'*******************************'+'<br/>'
+            document.getElementById('restore').innerHTML += "*******************************" + '<br/>' + "当前处理文件名：" + fileName + '<br/>' + '*******************************' + '<br/>'
           } else if (stdout) {
             setTimeout(function () {
               var notice = "输入文件 " + file_path + " 处理完成";
@@ -475,20 +475,75 @@
     }
 
     .result1 {
-      margin-top: 16px;
-      height: 200px;
-      overflow-y: auto;
-      padding-left: 36px;
-      padding-right: 36px;
-    }
+			margin-top: 16px;
+			height: 200px;
+			overflow-y:auto;
+			overflow-x: hidden;
+			padding-left: 36px;
+			padding-right: 36px;
+			transition: all .5s;
+		}
 
-    .result2 {
-      margin-top: 16px;
-      height: 200px;
-      overflow-y: auto;
-      padding-left: 36px;
-      padding-right: 36px;
-    }
+		.result2 {
+			margin-top: 16px;
+			height: 200px;
+			overflow-y: auto;		
+			padding-left: 36px;
+			padding-right: 36px;
+		}
+		@media (min-height: 410px) {
+			.result1 {
+				height: 200px;
+			}
+			.result2 {
+				height: 200px;
+			}
+		}
+		@media (min-height: 460px) {
+			.result1 {
+				height: 320px;
+			}
+			.result2 {
+				height: 320px;
+			}
+		}
+		@media (min-height: 500px) {
+			.result1 {
+				height: 360px;
+			}
+			.result2 {
+				height: 360px;
+			}
+		}
+		@media (min-height:600px){
+			.result1 {
+				height: 460px;
+			}
+		}
+		@media (min-height: 700px) {
+			.result1 {
+				height: 560px;
+			}
+			.result2 {
+				height: 560px;
+			}
+		}
+		@media (min-height:850px){
+			.result1{
+				height: 710px;
+			}
+			.result2{
+				height: 710px;
+			}
+		}
+		@media (min-height: 1000px) {
+			.result1 {
+				height: 860px;
+			}
+			.result2 {
+				height: 860px;
+			}
+		}
   </style>
 </body>
 
