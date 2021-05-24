@@ -25,6 +25,8 @@ Suitable for Mac OS X (x64 platform) and Windows.
 
 [Download Portable for win](https://github.com/NTLx/SMNFiler/releases/download/v0.1.0/SMNFiler.v0.1.0.Win_Portable.exe)
 
+> [Download mirror](http://cloud.cubicise.com:10081/s/8GRKCowfwqoLji8) for China user.
+
 ### Mac OS
 
 Move app to `Application` :
@@ -32,6 +34,8 @@ Move app to `Application` :
 ![darwin install](https://cdn.jsdelivr.net/gh/Letmeouted/PicGO/Pic/picture.png)
 
 [Download for Mac OS](https://github.com/NTLx/SMNFiler/releases/download/v0.1.0/SMNFiler.v0.1.0.MacOS.dmg)
+
+> [Download mirror](http://cloud.cubicise.com:10081/s/bxbwwpG6NwkaN76) for China user.
 
 ## Usage
 
@@ -72,14 +76,6 @@ The default encode was set to `UTF-8` ,Mainly for windows users, so that `Excel`
 ## Feedback
 
 Welcome to [open issue](https://github.com/NTLx/SMNFiler/issues/new/choose) on this project to help us make improve for this software, or you can see the [existing issues](https://github.com/NTLx/SMNFiler/issues).
-
-## More Feature
-
-Suggest a new feature by [FeatHub](https://feathub.com/NTLx/SMNFiler)
-
-[![Feature Requests](https://cloud.githubusercontent.com/assets/390379/10127973/045b3a96-6560-11e5-9b20-31a2032956b2.png)](https://feathub.com/NTLx/SMNFiler)
-
-[![Feature Requests](https://feathub.com/NTLx/SMNFiler?format=svg)](https://feathub.com/NTLx/SMNFiler)
 
 ## Participate
 

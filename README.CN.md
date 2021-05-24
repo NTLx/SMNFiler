@@ -23,6 +23,8 @@
 
 [Portable 下载链接](https://github.com/NTLx/SMNFiler/releases/download/v0.1.0/SMNFiler.v0.1.0.Win_Portable.exe)
 
+> 若以上连接效果不佳，请尝试使用 [下载镜像](http://cloud.cubicise.com:10081/s/8GRKCowfwqoLji8)
+
 ### Mac OS
 
 在 Mac OS X 系统下，双击安装包，将软件包移动至 `应用程序` 文件夹内即可使用：
@@ -30,6 +32,8 @@
 ![darwin install](https://cdn.jsdelivr.net/gh/Letmeouted/PicGO/Pic/picture.png)
 
 [Mac OS 下载链接](https://github.com/NTLx/SMNFiler/releases/download/v0.1.0/SMNFiler.v0.1.0.MacOS.dmg)
+
+> 若以上连接效果不佳，请尝试使用 [下载镜像](http://cloud.cubicise.com:10081/s/bxbwwpG6NwkaN76)
 
 ## 软件使用
 
@@ -75,13 +79,6 @@
 
 如在本软件的使用过程中有任何意见或建议，欢迎 [提出](https://github.com/NTLx/SMNFiler/issues/new/choose)，也可以 [查看留言](https://github.com/NTLx/SMNFiler/issues) 。
 
-## 更多功能
-
-如果你还想让 `SMNFiler` 支持新特性，请使用 [FeatHub](https://feathub.com/NTLx/SMNFiler) 投票：
-
-[![Feature Requests](https://cloud.githubusercontent.com/assets/390379/10127973/045b3a96-6560-11e5-9b20-31a2032956b2.png)](https://feathub.com/NTLx/SMNFiler)
-
-[![Feature Requests](https://feathub.com/NTLx/SMNFiler?format=svg)](https://feathub.com/NTLx/SMNFiler)
 ## 参与
 
 如果您想要参与本软件的开发，或有意为本项目贡献一份力量，却不知如何开始，可以参考 [这里](https://opensource.guide/zh-cn/) 。
