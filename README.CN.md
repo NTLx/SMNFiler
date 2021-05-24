@@ -21,9 +21,7 @@
 
 在 Windows 系统下可直接运行 `Portable` 版程序，无需安装。
 
-[Portable 下载链接](https://github.com/NTLx/SMNFiler/releases/download/v0.0.1/SMNFiler.v0.0.1.Win_Portable.exe)
-
-若以上连接效果不佳，请尝试使用 [下载镜像]()
+[Portable 下载链接](https://github.com/NTLx/SMNFiler/releases/download/v0.1.0/SMNFiler.v0.1.0.Win_Portable.exe)
 
 ### Mac OS
 
@@ -31,7 +29,7 @@
 
 ![darwin install](https://cdn.jsdelivr.net/gh/Letmeouted/PicGO/Pic/picture.png)
 
-[Mac OS 下载链接](https://github.com/NTLx/SMNFiler/releases/download/v0.0.1/SMNFiler.v0.0.1.MacOS.dmg)
+[Mac OS 下载链接](https://github.com/NTLx/SMNFiler/releases/download/v0.1.0/SMNFiler.v0.1.0.MacOS.dmg)
 
 ## 软件使用
 

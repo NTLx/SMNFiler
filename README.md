@@ -23,9 +23,7 @@ Suitable for Mac OS X (x64 platform) and Windows.
 
 `Portable` package can run without installation.
 
-[Download Portable for win](https://github.com/NTLx/SMNFiler/releases/download/v0.0.1/SMNFiler.v0.0.1.Win_Portable.exe)
-
-[Download mirror]() for China user.
+[Download Portable for win](https://github.com/NTLx/SMNFiler/releases/download/v0.1.0/SMNFiler.v0.1.0.Win_Portable.exe)
 
 ### Mac OS
 
@@ -33,7 +31,7 @@ Move app to `Application` :
 
 ![darwin install](https://cdn.jsdelivr.net/gh/Letmeouted/PicGO/Pic/picture.png)
 
-[Download for Mac OS](https://github.com/NTLx/SMNFiler/releases/download/v0.0.1/SMNFiler.v0.0.1.MacOS.dmg)
+[Download for Mac OS](https://github.com/NTLx/SMNFiler/releases/download/v0.1.0/SMNFiler.v0.1.0.MacOS.dmg)
 
 ## Usage
 
