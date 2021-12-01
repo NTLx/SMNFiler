@@ -74,7 +74,6 @@
 
 > 输出文件夹不会改变。
 
-
 ## 反馈
 
 如在本软件的使用过程中有任何意见或建议，欢迎 [提出](https://github.com/NTLx/SMNFiler/issues/new/choose)，也可以 [查看留言](https://github.com/NTLx/SMNFiler/issues) 。
@@ -86,4 +85,3 @@
 ## License
 
 [GNU GPLv3](LICENSE)
-
