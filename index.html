@@ -280,9 +280,6 @@
             });
             console.warn("stderr:\n" +stderr)
             const asterisk = "********************************************\n"
-            // console.log("error:\n" + error);
-            // console.log("stderr:\n" + stderr);
-            // console.log("测试stderr:"+stderr.split(".")+"</br>")
             log.warn("\n"+asterisk+"当前处理文件名为："+fileName+"\n报错提示：\n"+ stderr+asterisk)
 						if(error!==null){
 							log.error("\n"+asterisk+"当前处理文件名为："+fileName+"\n错误提示：\n"+ error+asterisk)
@@ -290,7 +287,7 @@
             if(document.getElementById('restore').innerHTML === '<p style="text-align:center">所有日志信息全部位于程序运行日志窗口中</p>'){
 							document.getElementById('restore').innerHTML =""
 						}
-            document.getElementById('restore').innerHTML += asterisk + '<br/>' + "<b style='color:#67c23a'>当前处理文件名：</b>" + fileName + '<br/>' + asterisk + '<br/>'
+            document.getElementById('restore').innerHTML = asterisk + '<br/>' + "<b style='color:#da242a'>当前处理文件名：</b>" + fileName + '<br/>' + asterisk + '<br/>'
           } else if (stdout) {
             setTimeout(function () {
               var notice = "输入文件 " + file_path + " 处理完成";
@@ -303,7 +300,7 @@
 						}
 
             log.info("\n"+asterisk+"当前处理文件名为："+fileName+"\n处理文件耗时：\n"+stdout+asterisk)
-            document.getElementById('restore').innerHTML += asterisk + '<br/>' + "<b style='color:#67c23a'>当前处理文件名：</b>" + fileName + '<br/>' + "<b style='color:#67c23a'>处理文件耗时：</b>" + stdout + '<br/>' + asterisk + '<br/>'
+            document.getElementById('restore').innerHTML = asterisk + '<br/>' + "<b style='color:#67c23a'>当前处理文件名：</b>" + fileName + '<br/>' + "<b style='color:#67c23a'>处理文件耗时：</b>" + stdout + '<br/>' + asterisk + '<br/>'
             // console.log(
             //   "-i",
             //   file_path,
