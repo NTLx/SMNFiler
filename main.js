@@ -62,11 +62,24 @@ ipc.on('tab3',()=>
     })
     newwin.loadURL(path.join('file:',__dirname,'new.html')); //new.html是新开窗口的渲染进程
     newwin.on('closed',()=>{newwin = null})
+    newwin.on('focus',()=>{
+      globalShortcut.register('CommandOrControl+F', function () {
+        if (newwin && newwin.webContents) {
+          newwin.webContents.send('on-find', '')
+        }
+      })
+    })
+    newwin.on('blur', () => {
+      globalShortcut.unregister('CommandOrControl+F')
+    })
     }
 })
 app.on('ready', function() { createWindow() })
 
 // Quit when all windows are closed.
-app.on('window-all-closed', function () { app.quit() })
+app.on('window-all-closed', function () { 
+  app.quit() 
+  globalShortcut.unregister('CommandOrControl+F')
+})
 
 app.on('activate', function () { if (mainWindow === null) createWindow() })
