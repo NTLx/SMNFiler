@@ -23,14 +23,14 @@
     const content=fs.readFileSync(log.transports.file.getFile().path)
     const message = document.getElementById('test')
     message.innerText=content.toString()
-    // const ipc = require('electron').ipcRenderer
-    // const remote = require('electron').remote;
-    // const FindInPage = require('electron-find').FindInPage;
+    const ipc = require('electron').ipcRenderer
+    const remote = require('electron').remote;
+    const FindInPage = require('electron-find').FindInPage;
 
-    // let findInPage = new FindInPage(remote.getCurrentWebContents());
-    // ipc.on('on-find', (e, args) => {
-    //     findInPage.openFindWindow()
-    // })
+    let findInPage = new FindInPage(remote.getCurrentWebContents());
+    ipc.on('on-find', (e, args) => {
+        findInPage.openFindWindow()
+    })
 </script>
 <script type="text/javascript">
     function down(){
