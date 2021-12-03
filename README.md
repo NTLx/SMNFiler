@@ -23,7 +23,7 @@ Suitable for Mac OS X (x64 platform) and Windows.
 
 `Portable` package can run without installation.
 
-[Download Portable for win](https://github.com/NTLx/SMNFiler/releases/download/v0.1.0/SMNFiler.v0.1.0.Win_Portable.exe)
+[Download Portable for win](https://github.com/NTLx/SMNFiler/releases/download/v0.2.0/SMNFiler.v0.2.0.Win_Portable.exe)
 
 > [Download mirror](http://cloud.cubicise.com:10081/s/8GRKCowfwqoLji8) for China user.
 
@@ -33,7 +33,7 @@ Move app to `Application` :
 
 ![darwin install](https://cdn.jsdelivr.net/gh/Letmeouted/PicGO/Pic/picture.png)
 
-[Download for Mac OS](https://github.com/NTLx/SMNFiler/releases/download/v0.1.0/SMNFiler.v0.1.0.MacOS.dmg)
+[Download for Mac OS](https://github.com/NTLx/SMNFiler/releases/download/v0.2.0/SMNFiler.v0.2.0.MacOS.dmg)
 
 > [Download mirror](http://cloud.cubicise.com:10081/s/bxbwwpG6NwkaN76) for China user.
 
@@ -41,7 +41,7 @@ Move app to `Application` :
 
 ## Main window
 
-![main window](https://lx-public-pic.oss-cn-shanghai.aliyuncs.com/PicGo/20190918134715.png)
+![main window](https://cdn.jsdelivr.net/gh/Letmeouted/PicominiPC/img/main.png)
 
 Drag file(s) to process region (means `文件处理区`), or just click this region to select a file.
 
@@ -61,7 +61,7 @@ Press the blue button `退出` could exit the software.
 
 Several settings was offered in `设置面板` , defalut settings should be like this:
 
-![each sample output](https://cdn.jsdelivr.net/gh/Letmeouted/PicGO/Pic/6AAC09DF-CEC8-4166-969E-2CAA7641DB5B.png)
+![each sample output](https://cdn.jsdelivr.net/gh/Letmeouted/PicominiPC/img/settingSMN.png)
 
 By default ,the output result will be two files , If you need more calculation results, you can turn on the `更多计算结果` switch button to create an additional detail file.
 
@@ -72,6 +72,17 @@ By default, the output result will be English, If you need Chinese, you can turn
 The default encode was set to `UTF-8` ,Mainly for windows users, so that `Excel` (from Microsoft Office) could be display rightfully. If you need ~~far~~ more widely used encode format, you can change `选择输出格式` to switch encode from `UTF-8` to `GBK` .
 
 > The output dir will not change.
+
+### Log
+
+The log panel is as shown
+
+![log](https://cdn.jsdelivr.net/gh/Letmeouted/PicominiPC/img/SMNLog.png)
+### Program running log window
+
+The program run log window is shown in the figure
+
+![new window](https://cdn.jsdelivr.net/gh/Letmeouted/PicominiPC/img/newWindow.png)
 
 ## Feedback
 

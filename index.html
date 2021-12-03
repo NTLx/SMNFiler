@@ -10,21 +10,22 @@
   <meta charset="UTF-8" />
   <title>SMNFiler</title>
   <script src="node_modules/mdui/dist/js/mdui.min.js"></script>
+  <script src="node_modules/screenlog/dist/screenlog.min.js"></script>
   <link rel="stylesheet" href="node_modules/mdui/dist/css/mdui.min.css" />
 </head>
 
 <body class="mdui-theme-primary-indigo mdui-bottom-nav-fixed">
   <div class="mdui-tab mdui-tab-centered mdui-tab-full-width" mdui-tab>
-    <a href="#tab1" class="mdui-ripple mdui-tab-active" onmousedown="mOver1(this)"><i id="tab1_icon"
-        class="mdui-icon material-icons">&#xe24d;</i></a>
-    <a href="#tab2" class="mdui-ripple" onmousedown="mOver2(this)"><i id="tab2_icon"
-        class="mdui-icon material-icons">&#xe8b8;</i></a>
+    <a href="#tab1" class="mdui-ripple mdui-tab-active" onmousedown="mOver1(this)">
+      <i id="tab1_icon" class="mdui-icon material-icons">&#xe24d;</i></a>
+    <a href="#tab2" class="mdui-ripple" onmousedown="mOver2(this)">
+      <i id="tab2_icon" class="mdui-icon material-icons">&#xe8b8;</i></a>
     <a href="#tab3" class="mdui-ripple" onmousedown="mOver3(this)">
       <i id="tab3_icon" class="mdui-icon material-icons">&#xe616;</i>
     </a>
-    <a href="#tab4" class="mdui-ripple" onmousedown="mOver4(this)">
+    <!-- <a href="#tab4" class="mdui-ripple" onmousedown="mOver4(this)">
       <i id="tab4_icon" class="mdui-icon material-icons">&#xe000;</i>
-    </a>
+    </a> -->
   </div>
   <div id="tab1" class="mdui-p-a-1">
     <div id="holder"
@@ -49,37 +50,9 @@
         onclick="window.close()">
         <i class="mdui-icon material-icons">&#xe879;</i>退出
       </button>
-      <!-- <div class="mdui-dialog" id="closed">
-          <div class="mdui-dialog-title">你确定要退出该窗口吗？</div>
-          <div class="mdui-dialog-content"></div>
-          <div class="mdui-dialog-actions">
-            <button class="mdui-btn mdui-ripple" mdui-dialog-close>取消</button>
-            <button
-              class="mdui-btn mdui-ripple"
-              mdui-dialog-confirm
-              onclick="javascript:window.close()"
-            >
-              确定
-            </button>
-          </div>
-        </div> -->
     </div>
   </div>
   <div id="tab2" class="mdui-p-a-3">
-    <!-- <div class="mdui-valign mdui-col-xs-4 mdui-p-a-2 mdui-center">
-        <label class="mdui-switch">
-          <input id="sample_out" type="checkbox" />
-          <i class="mdui-switch-icon"></i>
-          <span class="mdui-m-a-1">样本名拆分输出</span>
-        </label>
-      </div> -->
-    <!-- <div class="mdui-valign mdui-row-xs-2 mdui-p-a-2 mdui-center">
-        <label class="mdui-switch mdui-col">
-          <input id="closebox" type="checkbox" />
-          <i class="mdui-switch-icon"></i>
-          <span class="mdui-m-a-1">关闭退出提示</span>
-        </label>
-      </div> -->
     <div class="mdui-valign mdui-col-xs-6 mdui-p-a-2 mdui-center">
       <label class="mdui-switch">
         <input id="change_chinese" type="checkbox" />
@@ -144,45 +117,20 @@
   </div>
   <div id="tab3" class="mdui-p-a-1">
     <div class="layout">
-      <div class="mdui-col-xs-12  panel">运行时信息</div>
-      <div id="restore" class="mdui-col-xs-12 result2">
-      </div>
+      <div class="mdui-col-xs-12  panel">日志信息</div>
+      <div id="restore" class="mdui-col-xs-12 result2"></div>
     </div>
   </div>
-  <div id="tab4" class="mdui-p-a-1">
+  <!-- <div id="tab4" class="mdui-p-a-1">
     <div class="layout">
       <div class="mdui-col-xs-12 panel">文件处理有误信息</div>
       <div id="restderr" class="mdui-col-xs-12 result1">
       </div>
 
     </div>
-  </div>
+  </div> -->
   <script>
     var $ = mdui.$;
-    // var switch_status = "";
-    // var out_status = function () {
-    //   if ($("#sample_out").is(":checked")) {
-    //     console.log("Sample split output is on");
-    //     mdui.snackbar({ message: "输出将会按样本名拆分" });
-    //     switch_status = "'-s' 1";
-    //   } else {
-    //     console.log("Sample split output is off");
-    //     mdui.snackbar({ message: "输出文件不会按照样本名拆分" });
-    //     switch_status = "";
-    //   }
-    // };
-    // var box_status = function () {
-    //   if ($("#closebox").is(":checked")) {
-    //     console.log("The exit prompt is closed");
-    //     mdui.snackbar({ message: "关闭退出提示框" });
-    //     closeBox();
-    //   } else {
-    //     console.log("The exit prompt is opend");
-    //     mdui.snackbar({ message: "打开退出提示框" });
-    //     openBox();
-    //   }
-    // };
-
     var inst = new mdui.Dialog("#dialog");
     var sample_status = "STD";
     // method
@@ -275,12 +223,20 @@
     function mOver3(obj) {
       mdui.snackbar({ message: "进入运行面板", timeout: 1000 })
     }
-    function mOver4(obj) {
-      mdui.snackbar({ message: "进入异常输出面板", timeout: 1000 })
-    }
+    // function mOver4(obj) {
+    //   mdui.snackbar({ message: "进入异常输出面板", timeout: 1000 })
+    // }
     // child_process.execFile method
-
+    var runningLogMessage =document.getElementById('restore').innerHTML
+    console.log(runningLogMessage)
+    if(runningLogMessage === ""){
+      console.log("hahhahdhada")
+      document.getElementById('restore').innerHTML += "<p style='text-align:center'>所有日志信息全部位于程序运行日志窗口中</p>"
+    }
     var path = require("path");
+    var log =require('electron-log');
+		log.transports.console.level = 'silly';
+		// log.transports.file.file = 'C:/SMNFiler/renderer.log'
     var exec = require("child_process").execFile;
     function start(file_path, Encoding, sample_status, peak, more, Chinese, order) {
       console.log("Request handler 'start' was called.");
@@ -315,30 +271,48 @@
         function (error, stdout, stderr) {
           if (error || stderr) {
             var notice = "[WARNING] 输入文件 " + file_path + " 处理有误";
-            mdui.snackbar({ message: notice, position: "left-top" });
-            console.log("error:\n" + error);
-            console.log("stderr:\n" + stderr);
-            document.getElementById('restderr').innerHTML += "*******************************" + "<br/>" + "当前处理文件名：" + fileName + '<br/>' + "错误提示信息：" + error + '<br/>' + "报错提示信息：" + stderr + '<br/>' + '*******************************' + '<br/>'
-            document.getElementById('restore').innerHTML += "*******************************" + '<br/>' + "当前处理文件名：" + fileName + '<br/>' + '*******************************' + '<br/>'
+            mdui.snackbar({ 
+              message: notice,
+              position: "left-top",
+              onClick:function(){
+                ipc.send('tab3');
+              }
+            });
+            console.warn("stderr:\n" +stderr)
+            const asterisk = "********************************************\n"
+            log.warn("\n"+asterisk+"当前处理文件名为："+fileName+"\n报错提示：\n"+ stderr+asterisk)
+						if(error!==null){
+							log.error("\n"+asterisk+"当前处理文件名为："+fileName+"\n错误提示：\n"+ error+asterisk)
+						}
+            if(document.getElementById('restore').innerHTML === '<p style="text-align:center">所有日志信息全部位于程序运行日志窗口中</p>'){
+							document.getElementById('restore').innerHTML =""
+						}
+            document.getElementById('restore').innerHTML = asterisk + '<br/>' + "<b style='color:#da242a'>当前处理文件名：</b>" + fileName + '<br/>' + asterisk + '<br/>'
           } else if (stdout) {
             setTimeout(function () {
               var notice = "输入文件 " + file_path + " 处理完成";
               mdui.snackbar({ message: notice });
             }, 5000)
-            console.log("stdout:\n" + stdout);
-            document.getElementById('restore').innerHTML += "*******************************" + "<br/>" + "当前处理文件名：" + fileName + '<br/>' + "处理文件耗时：" + stdout + '<br/>' + '*******************************' + '<br/>'
-            console.log(
-              "-i",
-              file_path,
-              "-e",
-              Encoding,
-              "-c",
-              sample_status,
-              peak,
-              more,
-              Chinese,
-              order
-            );
+            // console.log("stdout:\n" + stdout);
+            const asterisk ="********************************************\n"
+            if(document.getElementById('restore').innerHTML ==='<p style="text-align:center">所有日志信息全部位于程序运行日志窗口中</p>'){
+							document.getElementById('restore').innerHTML =""
+						}
+
+            log.info("\n"+asterisk+"当前处理文件名为："+fileName+"\n处理文件耗时：\n"+stdout+asterisk)
+            document.getElementById('restore').innerHTML = asterisk + '<br/>' + "<b style='color:#67c23a'>当前处理文件名：</b>" + fileName + '<br/>' + "<b style='color:#67c23a'>处理文件耗时：</b>" + stdout + '<br/>' + asterisk + '<br/>'
+            // console.log(
+            //   "-i",
+            //   file_path,
+            //   "-e",
+            //   Encoding,
+            //   "-c",
+            //   sample_status,
+            //   peak,
+            //   more,
+            //   Chinese,
+            //   order
+            // );
           }
         }
       );
@@ -462,18 +436,21 @@
           console.log("No file selected");
         });
     }
+    const tab3 = document.querySelector('#tab3_icon')
+    const ipc = require('electron').ipcRenderer
+    tab3.onclick = ()=>{
+      ipc.send('tab3')
+    }
   </script>
   <style>
     .body {
       overflow-x: hidden;
     }
-
     .panel {
       text-align: center;
       font-size: 16px;
       margin-top: 16px;
     }
-
     .result1 {
 			margin-top: 16px;
 			height: 200px;
@@ -483,7 +460,6 @@
 			padding-right: 36px;
 			transition: all .5s;
 		}
-
 		.result2 {
 			margin-top: 16px;
 			height: 200px;
@@ -492,54 +468,38 @@
 			padding-right: 36px;
 		}
 		@media (min-height: 410px) {
-			.result1 {
-				height: 200px;
-			}
+
 			.result2 {
 				height: 200px;
 			}
 		}
 		@media (min-height: 460px) {
-			.result1 {
-				height: 320px;
-			}
+		
 			.result2 {
 				height: 320px;
 			}
 		}
 		@media (min-height: 500px) {
-			.result1 {
-				height: 360px;
-			}
 			.result2 {
 				height: 360px;
 			}
 		}
 		@media (min-height:600px){
-			.result1 {
+			.result2 {
 				height: 460px;
 			}
 		}
 		@media (min-height: 700px) {
-			.result1 {
-				height: 560px;
-			}
 			.result2 {
 				height: 560px;
 			}
 		}
 		@media (min-height:850px){
-			.result1{
-				height: 710px;
-			}
 			.result2{
 				height: 710px;
 			}
 		}
 		@media (min-height: 1000px) {
-			.result1 {
-				height: 860px;
-			}
 			.result2 {
 				height: 860px;
 			}
