@@ -223,20 +223,21 @@
     function mOver3(obj) {
       mdui.snackbar({ message: "进入运行面板", timeout: 1000 })
     }
-    // function mOver4(obj) {
-    //   mdui.snackbar({ message: "进入异常输出面板", timeout: 1000 })
-    // }
     // child_process.execFile method
     var runningLogMessage =document.getElementById('restore').innerHTML
-    console.log(runningLogMessage)
     if(runningLogMessage === ""){
-      console.log("hahhahdhada")
       document.getElementById('restore').innerHTML += "<p style='text-align:center'>所有日志信息全部位于程序运行日志窗口中</p>"
     }
     var path = require("path");
     var log =require('electron-log');
 		log.transports.console.level = 'silly';
-		// log.transports.file.file = 'C:/SMNFiler/renderer.log'
+    const { remote } = require('electron');
+		const app = remote.app;
+    var filepath = path.join(app.getPath("temp"))
+    console.log(filepath)
+    var filename = "SMNFiler.log"
+    log.transports.file.resolvePath=()=>path.join(filepath,filename)
+    console.log(log.transports.file.resolvePath)
     var exec = require("child_process").execFile;
     function start(file_path, Encoding, sample_status, peak, more, Chinese, order) {
       console.log("Request handler 'start' was called.");
@@ -279,28 +280,25 @@
               }
             });
             console.warn("stderr:\n" +stderr)
-            const asterisk = "********************************************\n"
-            log.warn("\n"+asterisk+"当前处理文件名为："+fileName+"\n报错提示：\n"+ stderr+asterisk)
+            log.warn("\n"+"当前处理文件名为："+fileName+"\n报错提示：\n"+ stderr)
 						if(error!==null){
-							log.error("\n"+asterisk+"当前处理文件名为："+fileName+"\n错误提示：\n"+ error+asterisk)
+							log.error("\n"+"当前处理文件名为："+fileName+"\n错误提示：\n"+ error)
 						}
             if(document.getElementById('restore').innerHTML === '<p style="text-align:center">所有日志信息全部位于程序运行日志窗口中</p>'){
 							document.getElementById('restore').innerHTML =""
 						}
-            document.getElementById('restore').innerHTML = asterisk + '<br/>' + "<b style='color:#da242a'>当前处理文件名：</b>" + fileName + '<br/>' + asterisk + '<br/>'
+            document.getElementById('restore').innerHTML = '<br/>' + "<b style='color:#da242a'>当前处理文件名：</b>" + fileName + '<br/>'
           } else if (stdout) {
             setTimeout(function () {
               var notice = "输入文件 " + file_path + " 处理完成";
               mdui.snackbar({ message: notice });
             }, 5000)
-            // console.log("stdout:\n" + stdout);
-            const asterisk ="********************************************\n"
             if(document.getElementById('restore').innerHTML ==='<p style="text-align:center">所有日志信息全部位于程序运行日志窗口中</p>'){
 							document.getElementById('restore').innerHTML =""
 						}
 
-            log.info("\n"+asterisk+"当前处理文件名为："+fileName+"\n处理文件耗时：\n"+stdout+asterisk)
-            document.getElementById('restore').innerHTML = asterisk + '<br/>' + "<b style='color:#67c23a'>当前处理文件名：</b>" + fileName + '<br/>' + "<b style='color:#67c23a'>处理文件耗时：</b>" + stdout + '<br/>' + asterisk + '<br/>'
+            log.info("\n"+"当前处理文件名为："+fileName+"\n处理文件耗时：\n"+stdout)
+            document.getElementById('restore').innerHTML =  '<br/>' + "<b style='color:#67c23a'>当前处理文件名：</b>" + fileName + '<br/>' + "<b style='color:#67c23a'>处理文件耗时：</b>" + stdout + '<br/>'
             // console.log(
             //   "-i",
             //   file_path,
