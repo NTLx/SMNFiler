@@ -1,3 +1,10 @@
+<!--
+ * @Descripttion: code everything
+ * @Author: Letmeouted
+ * @Date: 2021-12-01 12:40:35
+ * @LastEditors: Letmeouted
+ * @LastEditTime: 2022-03-02 13:06:56
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,8 +16,15 @@
     <title>程序运行日志</title>
 </head>
 <body>
-    <button onclick="down();" class="mdui-fab mdui-fab-mini mdui-fab-fixed mdui-ripple">
+    <button onclick="up();" class="mdui-fab mdui-fab-mini mdui-fab-fixed mdui-ripple uptop">
+        <i class="mdui-icon material-icons">&#xe5d8;</i>
+    </button>
+    <button  onclick="down();" class="mdui-fab mdui-fab-mini mdui-fab-fixed mdui-ripple ">
         <i class="mdui-icon material-icons">&#xe5db;</i>
+    </button>
+    <button  onclick="download()"
+        class="mdui-fab mdui-fab-mini mdui-fab-fixed mdui-ripple download">
+        <i class="mdui-icon material-icons">&#xe2c4;</i>
     </button>
         <i class="mdui-icon material-icons mdui-center">&#xe0d8;</i>
         <div id="test" style="overflow-y: auto;height: 90vh;">
@@ -20,13 +34,33 @@
     var log =require('electron-log');
     log.transports.console.level = 'silly';
     const fs =require('fs')
-    const content=fs.readFileSync(log.transports.file.getFile().path)
-    const message = document.getElementById('test')
-    message.innerText=content.toString()
+    const path = require("path")
+    const { remote } =require('electron')
+    const app = remote.app
+    var filepath = path.join(app.getPath("temp"))
+    var filename = "SMNFiler.log"
+    console.log(path.join(filepath,filename))
+    log.transports.file.resolvePath = ()=>path.join(filepath,filename)
+    const content =fs.readFileSync(path.join(filepath,filename))
+    var array = content.toString().split("\n")
+    var reg1 = RegExp(/warn/)
+    var reg2 = RegExp(/info/)
+    var reg3 = RegExp(/error/)
+    var message = document.getElementById('test')
+    for (var i = 0; i < array.length; i++) {
+        if (array[i].match(reg1)) {
+            array[i] = "<p style='color:#FF5722;text-align:center'>" + array[i] + "</p>"
+        } else if (array[i].match(reg2)) {
+            array[i] = "<p style='color:#4CAF50;text-align:center'>" + array[i] + "</p>"
+        } else if (array[i].match(reg3)) {
+            array[i] = "<p style='color:#FF5722;text-align:center'>" + array[i] + "</p>"
+        } else {
+            array[i] = "<p style='margin:10px'>" + array[i] + "</p>"
+        }
+        message.innerHTML += array[i].toString()
+    }
     const ipc = require('electron').ipcRenderer
-    const remote = require('electron').remote;
     const FindInPage = require('electron-find').FindInPage;
-
     let findInPage = new FindInPage(remote.getCurrentWebContents());
     ipc.on('on-find', (e, args) => {
         findInPage.openFindWindow()
@@ -39,10 +73,26 @@
         div.scrollTop = div.scrollHeight
         console.log(div.scrollTop)
     }
+    function up() {
+        const div1 = document.getElementById('test')
+        div1.scrollTop = 0
+    }
+    function download(){
+        var filePath = path.join(filepath,filename);
+        var win = remote.getCurrentWindow();
+        win.webContents.downloadURL(filePath);
+    }
 </script>
 <style>
     body{
         overflow: hidden;
+    }
+    .uptop {
+        margin-bottom: 50px;
+    }
+
+    .download {
+        margin-bottom: 160px;
     }
 </style>
 </html>
