@@ -23,7 +23,7 @@ Suitable for Mac OS X (x64 platform) and Windows.
 
 `Portable` package can run without installation.
 
-[Download Portable for win](https://github.com/NTLx/SMNFiler/releases/download/v0.2.0/SMNFiler.v0.2.0.Win_Portable.exe)
+[Download Portable for win](https://github.com/NTLx/SMNFiler/releases/download/v0.2.1/SMNFiler.v0.2.1.Win_Portable.exe)
 
 > [Download mirror](http://cloud.cubicise.com:10081/s/8GRKCowfwqoLji8) for China user.
 
@@ -33,7 +33,7 @@ Move app to `Application` :
 
 ![darwin install](https://cdn.jsdelivr.net/gh/Letmeouted/PicGO/Pic/picture.png)
 
-[Download for Mac OS](https://github.com/NTLx/SMNFiler/releases/download/v0.2.0/SMNFiler.v0.2.0.MacOS.dmg)
+[Download for Mac OS](https://github.com/NTLx/SMNFiler/releases/download/v0.2.1/SMNFiler.v0.2.1.MacOS.dmg)
 
 > [Download mirror](http://cloud.cubicise.com:10081/s/bxbwwpG6NwkaN76) for China user.
 
@@ -82,7 +82,7 @@ The log panel is as shown
 
 The program run log window is shown in the figure
 
-![new window](https://cdn.jsdelivr.net/gh/Letmeouted/PicominiPC/img/newWindow.png)
+![new window](https://cdn.jsdelivr.net/gh/Letmeouted/PicominiPC/img/screen.log.png)
 
 ## Feedback
 

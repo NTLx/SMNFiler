@@ -1,9 +1,9 @@
 <!--
- * @Descripttion: code everything
+ * @Description: code everything
  * @Author: Letmeouted
  * @Date: 2021-12-01 12:40:35
  * @LastEditors: Letmeouted
- * @LastEditTime: 2022-03-02 13:06:56
+ * @LastEditTime: 2022-03-04 12:31:47
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -81,6 +81,8 @@
         var filePath = path.join(filepath,filename);
         var win = remote.getCurrentWindow();
         win.webContents.downloadURL(filePath);
+        // Mac 版本
+        // win.webContents.downloadURL("file:///"+filePath)
     }
 </script>
 <style>
