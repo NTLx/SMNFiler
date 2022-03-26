@@ -35,6 +35,7 @@ function createWindow () {
   mainWindow.on('closed', function () { mainWindow = null })
 }
 const path = require('path')
+const fs = require('fs')
 const url = require('url')
 const ipc = require('electron').ipcMain
 let newwin=null;
@@ -60,7 +61,19 @@ ipc.on('tab3',()=>
         }
     })
     newwin.loadURL(path.join('file:',__dirname,'new.html')); //new.html是新开窗口的渲染进程
-    newwin.on('closed',()=>{newwin = null})
+    newwin.on('closed',()=>{
+      newwin = null;
+      const { app } =require('electron')
+      var filepath = path.join(app.getPath('temp'))
+      var filename = "SMNFiler.log"
+      fs.unlink(path.join(filepath,filename),function(err){
+        if(err){
+          console.log("An error ocurred updating the file" + err.message)
+          return
+        }
+        console.log("File successfully deleted")
+      })
+    })
     newwin.on('focus',()=>{
       globalShortcut.register('CommandOrControl+F', function () {
         if (newwin && newwin.webContents) {
