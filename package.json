@@ -16,7 +16,7 @@
     "SMNFiler"
   ],
   "devDependencies": {
-    "electron": "^11.1.1",
+    "electron": "^18.0.1",
     "electron-builder": "^22.10.5"
   },
   "build": {
