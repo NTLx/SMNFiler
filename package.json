@@ -1,22 +1,26 @@
 {
   "name": "SMNFiler",
   "author": "Letmeouted",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "SMNFiler",
   "license": "GPL-3.0",
   "repository": "https://github.com/NTLx/SMNFiler.git",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "dist": "electron-builder --win --ia32"
+    "dist": "electron-builder --win --ia32",
+    "dist-linux": "electron-builder --linux --ia32"
   },
   "keywords": [
     "Electron",
     "Data Analysis",
     "SMNFiler"
   ],
+  "author":{
+    "email": "huafeng.wang@cubicise.com"
+  },
   "devDependencies": {
-    "electron": "^18.0.1",
+    "electron": "^13.6.6",
     "electron-builder": "^22.10.5"
   },
   "build": {
@@ -59,7 +63,15 @@
         }
       ],
       "artifactName": "${productName}.v${version}.Win_Portable.${ext}"
-    }
+    },
+    "linux": {
+      "icon": "build/tmp.iconset/icon_128X128.png",
+      "category":"Network",
+      "target": [
+              "deb"
+        ],
+        "artifactName":"${productName}.v${version}.${ext}"
+      }
   },
   "dependencies": {
     "electron-find": "^1.0.7",
