@@ -67,7 +67,7 @@
         <span class="mdui-m-a-1">峰面积代替峰高</span>
       </label>
     </div>
-    <div class="mdui-valign mdui-col-xs-6 mdui-p-a-2 mdui-center">
+    <!-- <div class="mdui-valign mdui-col-xs-6 mdui-p-a-2 mdui-center">
       <label class="mdui-switch">
         <input id="more_button" type="checkbox" />
         <i class="mdui-switch-icon"></i>
@@ -80,7 +80,7 @@
         <i class="mdui-switch-icon"></i>
         <span class="mdui-m-a-1">保持输入样本顺序</span>
       </label>
-    </div>
+    </div> -->
     <div class="mdui-valign mdui-col-xs-6 mdui-p-a-2 mdui-center">
       <label class="mdui-switch">
         <button class="mdui-m-a-1 mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme"
@@ -155,56 +155,56 @@
       if ($("#change_chinese").is(":checked")) {
         console.log("Language is Chinese");
         mdui.snackbar({ message: "设置语言为中文" });
-        Chinese = "-cn";
+        Chinese = "-l";
       } else {
         console.log("Language is English");
         mdui.snackbar({ message: "默认语言为英语" });
         Chinese = "";
       }
     };
-    var more = "";
-    var more_status = function () {
-      if ($("#more_button").is(":checked")) {
-        console.log("more Calculation results");
-        mdui.snackbar({ message: "输出显示更多计算结果" });
-        more = "-v";
-      } else {
-        console.log("not more Calculation results");
-        mdui.snackbar({ message: "无更多计算结果" });
-        more = "";
-      }
-    };
+    // var more = "";
+    // var more_status = function () {
+    //   if ($("#more_button").is(":checked")) {
+    //     console.log("more Calculation results");
+    //     mdui.snackbar({ message: "输出显示更多计算结果" });
+    //     more = "-v";
+    //   } else {
+    //     console.log("not more Calculation results");
+    //     mdui.snackbar({ message: "无更多计算结果" });
+    //     more = "";
+    //   }
+    // };
     var peak = "";
     var peak_status = function () {
       if ($("#peak_area").is(":checked")) {
         console.log("peak area");
         mdui.snackbar({ message: "峰面积代替峰高" });
-        peak = "-area";
+        peak = "-a";
       } else {
         console.log("peak height");
         mdui.snackbar({ message: "峰高" });
         peak = "";
       }
     };
-    var order = "-k";
-    var samplename_order = function () {
-      if ($("#sample_order").is(":checked")) {
-        console.log("sample_order");
-        mdui.snackbar({ message: "保持样本输入顺序" });
-        order = "-k";
-      } else {
-        console.log("not sample_order");
-        mdui.snackbar({ message: "不保持样本输入顺序" });
-        order = "";
-      }
-    };
+    // var order = "-k";
+    // var samplename_order = function () {
+    //   if ($("#sample_order").is(":checked")) {
+    //     console.log("sample_order");
+    //     mdui.snackbar({ message: "保持样本输入顺序" });
+    //     order = "-k";
+    //   } else {
+    //     console.log("not sample_order");
+    //     mdui.snackbar({ message: "不保持样本输入顺序" });
+    //     order = "";
+    //   }
+    // };
     var Encoding = "UTF8";
     var encod_status = function () {
       if ($("#gbk").is(":checked")) {
         console.log("Output set GBK Encode");
         mdui.snackbar({ message: "输出文件将以 GBK 格式编码" });
         Encoding = "GBK";
-        Chinese = "-cn";
+        Chinese = "-l";
       }
       if ($("#utf").is(":checked")) {
         console.log("Output set UTF-8 Encode");
@@ -244,7 +244,8 @@
     log.transports.file.resolvePath = () => path.join(filepath, filename)
     console.log(log.transports.file.resolvePath)
     var exec = require("child_process").execFile;
-    function start(file_path, Encoding, sample_status, peak, more, Chinese, order) {
+    // function start(file_path, Encoding, sample_status, peak, more, Chinese, order) {}
+    function start(file_path, Encoding, sample_status, peak, Chinese) {
       console.log("Request handler 'start' was called.");
       if (file_path.constructor === Array) {
         file_name = file_path[0].trim()
@@ -258,21 +259,34 @@
         exe_file = path.join(__dirname, "analysis.mac");
       }
       if (process.platform === "win32") {
-        exe_file = path.join(__dirname, "analysis.exe");
+        exe_file = path.join(__dirname, "analy_miss.exe");
+      }
+      if(process.platform === "linux") {
+        exe_file = path.join(__dirname,"analysis_miss")
       }
       exec(
         exe_file,
+        // [
+        //   "-i",
+        //   file_path,
+        //   "-e",
+        //   Encoding,
+        //   "-c",
+        //   sample_status,
+        //   peak,
+        //   more,
+        //   Chinese,
+        //   order
+        // ],
         [
-          "-i",
+            "-i",
           file_path,
           "-e",
           Encoding,
           "-c",
           sample_status,
           peak,
-          more,
-          Chinese,
-          order
+          Chinese
         ],
         function (error, stdout, stderr) {
           if (error || stderr) {
@@ -397,7 +411,8 @@
       e.preventDefault();
       for (let f of e.dataTransfer.files) {
         console.log("File(s) you dragged here: ", f.path);
-        start(f.path, Encoding, sample_status, peak, more, Chinese, order);
+        // start(f.path, Encoding, sample_status, peak, more, Chinese, order);
+        start(f.path, Encoding, sample_status, peak, Chinese);
       }
       return false;
     };
@@ -423,14 +438,21 @@
             mdui.snackbar({ message: "未选择任何文件" });
             return;
           } else {
+            // start(
+            //   result.filePaths,
+            //   Encoding,
+            //   sample_status,
+            //   peak,
+            //   more,
+            //   Chinese,
+            //   order
+            // );
             start(
               result.filePaths,
               Encoding,
               sample_status,
               peak,
-              more,
-              Chinese,
-              order
+              Chinese
             );
           }
         })
