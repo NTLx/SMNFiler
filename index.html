@@ -175,6 +175,21 @@
           console.log(sample_status);
         });
       });
+     // NTCTest method
+     var NTC_status = "";
+    document.getElementById("customer_ntcTest").addEventListener("click",function(){
+      mdui.snackbar({message:"自定义NTC测试"});
+      var dialog1 = document.getElementById("dialog_ntcTest");
+      dialog1.addEventListener("confirm.mdui.dialog",function(){
+        console.log("confirm1");
+        NTC_status1 = document.getElementById("ntcTest").value;
+        if(NTC_status1 ==""){
+          NTC_status = ""
+        }else{
+          NTC_status = NTC_status1;
+        }
+      })
+    })
     var Chinese = "";
     var language = function () {
       if ($("#change_chinese").is(":checked")) {
