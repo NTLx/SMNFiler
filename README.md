@@ -1,8 +1,3 @@
-<!--
- * @Author: Letmeouted
- * @Email: 1002726239@qq.com
- * @FilePath: \SMNFiler\README.md
--->
 # SMNFiler
 
 [EN](README.md) | [🇨🇳中文](README.CN.md)
@@ -62,8 +57,6 @@ Press the blue button `退出` could exit the software.
 Several settings was offered in `设置面板` , defalut settings should be like this:
 
 ![each sample output](https://cdn.jsdelivr.net/gh/Letmeouted/PicominiPC/img/settingSMN.png)
-
-By default ,the output result will be two files , If you need more calculation results, you can turn on the `更多计算结果` switch button to create an additional detail file.
 
 By default, the output result include of Peak height, If you need Peak area, you can turn on the `峰面积代替峰高` switch button.
 
