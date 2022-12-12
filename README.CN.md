@@ -1,8 +1,3 @@
-<!--
- * @Author: Letmeouted
- * @Email: 1002726239@qq.com
- * @FilePath: \SMNFiler\README.cn.md
--->
 # SMNFiler
 
 `SMNFiler`：
@@ -63,8 +58,6 @@
 设置面板如图：
 
 ![each sample output](https://cdn.jsdelivr.net/gh/Letmeouted/PicominiPC/img/settingSMN.png)
-
-默认输出结果共有两个文件，如需更多计算结果，可将`更多计算结果`开关按钮打开，便可多出一个详情文件。
 
 默认输出结果中含有峰高，如需峰面积，可将`峰面积代替峰高`开关按钮打开。
 
