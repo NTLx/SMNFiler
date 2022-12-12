@@ -1,7 +1,7 @@
 {
   "name": "SMNFiler",
   "author": "Letmeouted",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "SMNFiler",
   "license": "GPL-3.0",
   "repository": "https://github.com/NTLx/SMNFiler.git",
@@ -27,16 +27,15 @@
     "appId": "SMNFiler.app",
     "productName": "SMNFiler",
     "files": [
-      "analysis.exe",
-      "analysis.mac",
+      "analysis_miss.exe",
+      "analysis_miss",
       "main.js",
       "index.html",
       "renderer.js",
       "style.css",
-      "new.html",
       "jquery-3.4.1.min.js"
     ],
-    "asar": false,
+    "asar": true,
     "directories": {
       "buildResources": "build",
       "output": "dist"
@@ -54,6 +53,7 @@
       "artifactName": "${productName}.v${version}.MacOS.${ext}"
     },
     "win": {
+      "icon": "build/tmp.iconset/icon_256x256.png",
       "target": [
         {
           "target": "portable",
@@ -65,7 +65,7 @@
       "artifactName": "${productName}.v${version}.Win_Portable.${ext}"
     },
     "linux": {
-      "icon": "build/tmp.iconset/icon_128X128.png",
+      "icon": "build/tmp.iconset/icon_256x256.png",
       "category":"Network",
       "target": [
               "deb"
