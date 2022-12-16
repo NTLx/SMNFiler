@@ -18,7 +18,7 @@ Suitable for Mac OS X (x64 platform) and Windows.
 
 `Portable` package can run without installation.
 
-[Download Portable for win](https://github.com/NTLx/SMNFiler/releases/download/v0.2.4/SMNFiler.v0.2.4.Win_Portable.exe)
+[Download Portable for win](https://github.com/NTLx/SMNFiler/releases/download/v0.3.0/SMNFiler.v0.3.0.Win_Portable.exe)
 
 > [Download mirror](http://cloud.cubicise.com:10081/s/8GRKCowfwqoLji8) for China user.
 
