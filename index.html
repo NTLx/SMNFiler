@@ -103,7 +103,14 @@
         </button>
       </label>
     </div>
-    <div class="mdui-valign mdui-p-a-3">
+    <div class="mdui-valgin mdui-col-xs-6 mdui-p-a-2 mdui-center">
+      <label class="mdui-switch">
+        <button class="mdui-m-a-1 mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme" mdui-dialog="{target:'#dialog_ladderTest'}" id="customer_ladderTest">
+          自定义Ladder测试
+        </button>
+      </label>
+    </div>
+    <div class="mdui-valign mdui-p-a-3" >
       <label>选择输出格式:</label>
     </div>
     <div class="mdui-valign" style="width: 140px; height: 40px">
@@ -130,7 +137,7 @@
       </div>
     </div>
     <div class="mdui-dialog" id="dialog_ntcTest">
-        <div class="mdui-dialog-title">请自定义NTC测试</div>
+        <div class="mdui-dialog-title">请自定义进行NTC检测的样本名</div>
         <div class="mdui-dialog-content">
           <input type="text" name="ntcTest" id="ntcTest"/>
         </div>
@@ -139,6 +146,16 @@
           <button class="mdui-btn mdui-ripple" mdui-dialog-confirm>确认</button>
         </div>
     </div>
+    <div class="mdui-dialog" id="dialog_ladderTest">
+      <div class="mdui-dialog-title">请自定义进行Ladder检测的样本名</div>
+      <div class="mdui-dialog-content">
+        <input type="text" name="ladderTest" id="ladderTest"/>
+      </div>
+      <div class="mdui-dialog-actions">
+        <button class="mdui-btn mdui-ripple" mdui-dialog-cancel>取消</button>
+        <button class="mdui-btn mdui-ripple" mdui-dialog-confirm>确认</button>
+      </div>
+  </div>
   </div>
   <div id="tab3" class="mdui-p-a-1">
     <div class="layout">
@@ -187,6 +204,20 @@
           NTC_status = ""
         }else{
           NTC_status = NTC_status1;
+        }
+      })
+    })
+    var ladder_status = "";
+    document.getElementById("customer_ladderTest").addEventListener("click",function(){
+      mdui.snackbar({message:"自定义Ladder测试"});
+      var dialog1 = document.getElementById("dialog_ladderTest");
+      dialog1.addEventListener("confirm.mdui.dialog",function(){
+        console.log("confirm1");
+        ladder_status1 = document.getElementById("ladderTest").value;
+        if(ladder_status1 ==""){
+          ladder_status = ""
+        }else{
+          ladder_status = ladder_status1;
         }
       })
     })
@@ -286,7 +317,7 @@
     console.log(log.transports.file.resolvePath)
     var exec = require("child_process").execFile;
     // function start(file_path, Encoding, sample_status, peak, more, Chinese, order) {}
-    function start(file_path, Encoding, sample_status, peak, Chinese,NTC_status) {
+    function start(file_path, Encoding, sample_status, peak, Chinese,NTC_status,ladder_status) {
       console.log("Request handler 'start' was called.");
       if (file_path.constructor === Array) {
         file_name = file_path[0].trim()
@@ -305,7 +336,7 @@
       if(process.platform === "linux") {
         exe_file = path.join(__dirname,"analysis_miss")
       }
-      if(NTC_status ==""){
+      if(NTC_status ==""&& ladder_status ==""){
         exec(
         exe_file,
         // [
@@ -330,9 +361,163 @@
           peak,
           Chinese,
           NTC_status,
+          ladder_status
         ],
         function (error, stdout, stderr) {
-          console.log( "-i",file_path,"-e",Encoding,"-c",sample_status,peak,Chinese,NTC_status)
+          console.log( "-i",file_path,"-e",Encoding,"-c",sample_status,peak,Chinese,NTC_status,ladder_status)
+          console.log("stdout",stdout)
+          console.log("stderr",stderr)
+          if (error || stderr) {
+            var notice = "[WARNING] 输入文件 " + file_path + " 处理有误";
+            mdui.snackbar({
+              message: notice,
+              position: "left-top",
+              onClick: function () {
+                ipc.send('tab3');
+              }
+            });
+            console.warn("stderr:\n" + stderr)
+            log.warn("\n" + "当前处理文件名为：" + fileName + "\n报错提示：\n" + stderr)
+            if (error !== null) {
+              log.error("\n" + "当前处理文件名为：" + fileName + "\n错误提示：\n" + error)
+            }
+            // if(document.getElementById('restore').innerHTML === '<p style="text-align:center">所有日志信息全部位于程序运行日志窗口中</p>'){
+            // 	document.getElementById('restore').innerHTML =""
+            // }
+            // document.getElementById('restore').innerHTML = '<br/>' + "<b style='color:#da242a'>当前处理文件名：</b>" + fileName + '<br/>'
+          } else if (stdout) {
+            setTimeout(function () {
+              var notice = "输入文件 " + file_path + " 处理完成";
+              mdui.snackbar({ message: notice });
+            }, 5000)
+            // if(document.getElementById('restore').innerHTML ==='<p style="text-align:center">所有日志信息全部位于程序运行日志窗口中</p>'){
+            // 	document.getElementById('restore').innerHTML =""
+            // }
+
+            log.info("\n" + "当前处理文件名为：" + fileName + "\n处理文件耗时：\n" + stdout)
+            // document.getElementById('restore').innerHTML =  '<br/>' + "<b style='color:#67c23a'>当前处理文件名：</b>" + fileName + '<br/>' + "<b style='color:#67c23a'>处理文件耗时：</b>" + stdout + '<br/>'
+            // console.log(
+            //   "-i",
+            //   file_path,
+            //   "-e",
+            //   Encoding,
+            //   "-c",
+            //   sample_status,
+            //   peak,
+            //   more,
+            //   Chinese,
+            //   order
+            // );
+          }
+        }
+      );
+      }else if(NTC_status !=""&& ladder_status !=""){
+        exec(
+        exe_file,
+        // [
+        //   "-i",
+        //   file_path,
+        //   "-e",
+        //   Encoding,
+        //   "-c",
+        //   sample_status,
+        //   peak,
+        //   more,
+        //   Chinese,
+        //   order
+        // ],
+        [
+            "-i",
+          file_path,
+          "-e",
+          Encoding,
+          "-c",
+          sample_status,
+          peak,
+          Chinese,
+          "-n",
+          NTC_status,
+          "-d",
+          ladder_status
+        ],
+        function (error, stdout, stderr) {
+          console.log( "-i",file_path,"-e",Encoding,"-c",sample_status,peak,Chinese,"-n",NTC_status,"-d",ladder_status)
+          console.log("stdout",stdout)
+          console.log("stderr",stderr)
+          if (error || stderr) {
+            var notice = "[WARNING] 输入文件 " + file_path + " 处理有误";
+            mdui.snackbar({
+              message: notice,
+              position: "left-top",
+              onClick: function () {
+                ipc.send('tab3');
+              }
+            });
+            console.warn("stderr:\n" + stderr)
+            log.warn("\n" + "当前处理文件名为：" + fileName + "\n报错提示：\n" + stderr)
+            if (error !== null) {
+              log.error("\n" + "当前处理文件名为：" + fileName + "\n错误提示：\n" + error)
+            }
+            // if(document.getElementById('restore').innerHTML === '<p style="text-align:center">所有日志信息全部位于程序运行日志窗口中</p>'){
+            // 	document.getElementById('restore').innerHTML =""
+            // }
+            // document.getElementById('restore').innerHTML = '<br/>' + "<b style='color:#da242a'>当前处理文件名：</b>" + fileName + '<br/>'
+          } else if (stdout) {
+            setTimeout(function () {
+              var notice = "输入文件 " + file_path + " 处理完成";
+              mdui.snackbar({ message: notice });
+            }, 5000)
+            // if(document.getElementById('restore').innerHTML ==='<p style="text-align:center">所有日志信息全部位于程序运行日志窗口中</p>'){
+            // 	document.getElementById('restore').innerHTML =""
+            // }
+
+            log.info("\n" + "当前处理文件名为：" + fileName + "\n处理文件耗时：\n" + stdout)
+            // document.getElementById('restore').innerHTML =  '<br/>' + "<b style='color:#67c23a'>当前处理文件名：</b>" + fileName + '<br/>' + "<b style='color:#67c23a'>处理文件耗时：</b>" + stdout + '<br/>'
+            // console.log(
+            //   "-i",
+            //   file_path,
+            //   "-e",
+            //   Encoding,
+            //   "-c",
+            //   sample_status,
+            //   peak,
+            //   more,
+            //   Chinese,
+            //   order
+            // );
+          }
+        }
+      );
+      }else if(NTC_status!=""&&ladder_status==""){
+        exec(
+        exe_file,
+        // [
+        //   "-i",
+        //   file_path,
+        //   "-e",
+        //   Encoding,
+        //   "-c",
+        //   sample_status,
+        //   peak,
+        //   more,
+        //   Chinese,
+        //   order
+        // ],
+        [
+            "-i",
+          file_path,
+          "-e",
+          Encoding,
+          "-c",
+          sample_status,
+          peak,
+          Chinese,
+          "-n",
+          NTC_status,
+          ladder_status
+        ],
+        function (error, stdout, stderr) {
+          console.log( "-i",file_path,"-e",Encoding,"-c",sample_status,peak,Chinese,"-n",NTC_status,ladder_status)
           console.log("stdout",stdout)
           console.log("stderr",stderr)
           if (error || stderr) {
@@ -403,11 +588,12 @@
           sample_status,
           peak,
           Chinese,
-          "-n",
           NTC_status,
+          "-d",
+          ladder_status
         ],
         function (error, stdout, stderr) {
-          console.log( "-i",file_path,"-e",Encoding,"-c",sample_status,peak,Chinese,NTC_status)
+          console.log( "-i",file_path,"-e",Encoding,"-c",sample_status,peak,Chinese,NTC_status,"-d",ladder_status)
           console.log("stdout",stdout)
           console.log("stderr",stderr)
           if (error || stderr) {
@@ -534,7 +720,7 @@
       for (let f of e.dataTransfer.files) {
         console.log("File(s) you dragged here: ", f.path);
         // start(f.path, Encoding, sample_status, peak, more, Chinese, order);
-        start(f.path, Encoding, sample_status, peak, Chinese, NTC_status);
+        start(f.path, Encoding, sample_status, peak, Chinese, NTC_status,ladder_status);
       }
       return false;
     };
@@ -575,7 +761,8 @@
               sample_status,
               peak,
               Chinese,
-              NTC_status
+              NTC_status,
+              ladder_status
             );
           }
         })
@@ -651,7 +838,13 @@
     .uptop {
       margin-bottom: 50px;
     }
-
+    #customer,#customer_ntcTest {
+      min-width: 154px;
+    }
+    #customer_ladderTest{
+      min-width: 154px;
+      text-transform: none;
+    }
     .download {
       margin-bottom: 160px;
     }
