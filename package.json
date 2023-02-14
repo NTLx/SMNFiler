@@ -1,6 +1,8 @@
 {
   "name": "SMNFiler",
-  "author": "Letmeouted",
+  "author": {
+    "email": "huafeng.wang@cubicise.com"
+  },
   "version": "0.3.0",
   "description": "SMNFiler",
   "license": "GPL-3.0",
@@ -16,9 +18,6 @@
     "Data Analysis",
     "SMNFiler"
   ],
-  "author":{
-    "email": "huafeng.wang@cubicise.com"
-  },
   "devDependencies": {
     "electron": "^13.6.6",
     "electron-builder": "^22.10.5"
@@ -66,17 +65,16 @@
     },
     "linux": {
       "icon": "build/tmp.iconset/icon_256x256.png",
-      "category":"Network",
+      "category": "Network",
       "target": [
-              "deb"
-        ],
-        "artifactName":"${productName}.v${version}.${ext}"
-      }
+        "deb"
+      ],
+      "artifactName": "${productName}.v${version}.${ext}"
+    }
   },
   "dependencies": {
     "electron-find": "^1.0.7",
     "electron-log": "^4.4.1",
-    "mdui": "^1.0.1",
-    "screenlog": "^0.3.0"
+    "mdui": "^1.0.1"
   }
 }

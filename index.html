@@ -5,69 +5,80 @@
 -->
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>SMNFiler</title>
+    <script src="node_modules/mdui/dist/js/mdui.min.js"></script>
+    <link rel="stylesheet" href="node_modules/mdui/dist/css/mdui.min.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <title>SMNFiler</title>
-  <script src="node_modules/mdui/dist/js/mdui.min.js"></script>
-  <script src="node_modules/screenlog/dist/screenlog.min.js"></script>
-  <link rel="stylesheet" href="node_modules/mdui/dist/css/mdui.min.css" />
-</head>
-
-<body class="mdui-theme-primary-indigo mdui-bottom-nav-fixed">
-  <div class="mdui-tab mdui-tab-centered mdui-tab-full-width" mdui-tab>
-    <a href="#tab1" class="mdui-ripple mdui-tab-active" onmousedown="mOver1(this)">
-      <i id="tab1_icon" class="mdui-icon material-icons">&#xe24d;</i></a>
-    <a href="#tab2" class="mdui-ripple" onmousedown="mOver2(this)">
-      <i id="tab2_icon" class="mdui-icon material-icons">&#xe8b8;</i></a>
-    <a href="#tab3" class="mdui-ripple" onmousedown="mOver3(this)">
-      <i id="tab3_icon" class="mdui-icon material-icons">&#xe616;</i>
-    </a>
-    <!-- <a href="#tab4" class="mdui-ripple" onmousedown="mOver4(this)">
-      <i id="tab4_icon" class="mdui-icon material-icons">&#xe000;</i>
-    </a> -->
-  </div>
-  <div id="tab1" class="mdui-p-a-1">
-    <div id="holder"
-      class="mdui-valign mdui-hoverable mdui-ripple mdui-shadow-1 mdui-m-a-2 mdui-color-theme mdui-img-rounded"
-      style="height: 200px">
-      <p class="mdui-center">
-        <i class="mdui-icon material-icons">&#xe226;</i>文件处理区
-      </p>
+  <body class="mdui-theme-primary-indigo mdui-bottom-nav-fixed">
+    <div class="mdui-tab mdui-tab-centered mdui-tab-full-width" mdui-tab>
+      <a
+        href="#tab1"
+        class="mdui-ripple mdui-tab-active"
+        onmousedown="mOver1(this)"
+      >
+        <i id="tab1_icon" class="mdui-icon material-icons">&#xe24d;</i></a
+      >
+      <a href="#tab2" class="mdui-ripple" onmousedown="mOver2(this)">
+        <i id="tab2_icon" class="mdui-icon material-icons">&#xe8b8;</i></a
+      >
+      <a href="#tab3" class="mdui-ripple" onmousedown="mOver3(this)">
+        <i id="tab3_icon" class="mdui-icon material-icons">&#xe616;</i>
+      </a>
     </div>
-
-    <div class="mdui-m-x-2 mdui-m-y-4">
-      <button class="mdui-btn mdui-ripple mdui-color-orange mdui-btn-raised mdui-float-left"
-        onclick="window.open('https://github.com/NTLx/SMNFiler')">
-        <i class="mdui-icon material-icons">&#xe8fd;</i>帮助
-      </button>
-      <div class="mdui-valign mdui-float-left" style="height: 15px; margin-left: 18px">
+    <div id="tab1" class="mdui-p-a-1">
+      <div
+        id="holder"
+        class="mdui-valign mdui-hoverable mdui-ripple mdui-shadow-1 mdui-m-a-2 mdui-color-theme mdui-img-rounded"
+        style="height: 200px"
+      >
         <p class="mdui-center">
-          <br />注意：文件名当中不能含有空格、特殊符号、中文
+          <i class="mdui-icon material-icons">&#xe226;</i>文件处理区
         </p>
       </div>
-      <button class="mdui-btn mdui-ripple mdui-color-teal mdui-btn-raised mdui-float-right" id="prompt"
-        onclick="window.close()">
-        <i class="mdui-icon material-icons">&#xe879;</i>退出
-      </button>
+
+      <div class="mdui-m-x-2 mdui-m-y-4">
+        <button
+          class="mdui-btn mdui-ripple mdui-color-orange mdui-btn-raised mdui-float-left"
+          onclick="window.open('https://github.com/NTLx/SMNFiler')"
+        >
+          <i class="mdui-icon material-icons">&#xe8fd;</i>帮助
+        </button>
+        <div
+          class="mdui-valign mdui-float-left"
+          style="height: 15px; margin-left: 18px"
+        >
+          <p class="mdui-center">
+            <br />注意：文件名当中不能含有空格、特殊符号、中文
+          </p>
+        </div>
+        <button
+          class="mdui-btn mdui-ripple mdui-color-teal mdui-btn-raised mdui-float-right"
+          id="prompt"
+          onclick="window.close()"
+        >
+          <i class="mdui-icon material-icons">&#xe879;</i>退出
+        </button>
+      </div>
     </div>
-  </div>
-  <div id="tab2" class="mdui-p-a-3">
-    <div class="mdui-valign mdui-col-xs-6 mdui-p-a-2 mdui-center">
-      <label class="mdui-switch">
-        <input id="change_chinese" type="checkbox" />
-        <i class="mdui-switch-icon"></i>
-        <span class="mdui-m-a-1">设置语言为中文</span>
-      </label>
-    </div>
-    <div class="mdui-valign mdui-col-xs-6 mdui-p-a-2 mdui-center">
-      <label class="mdui-switch">
-        <input id="peak_area" type="checkbox" />
-        <i class="mdui-switch-icon"></i>
-        <span class="mdui-m-a-1">峰面积代替峰高</span>
-      </label>
-    </div>
-    <!-- <div class="mdui-valign mdui-col-xs-6 mdui-p-a-2 mdui-center">
+    <div id="tab2" class="mdui-p-a-3">
+      <div class="mdui-valign mdui-col-xs-4 mdui-p-a-2 mdui-center">
+        <label class="mdui-switch">
+          <input id="change_chinese" type="checkbox" />
+          <i class="mdui-switch-icon"></i>
+          <span class="mdui-m-a-1">设置语言为中文</span>
+        </label>
+      </div>
+      <div class="mdui-valign mdui-col-xs-4 mdui-p-a-2 mdui-center">
+        <label class="mdui-switch">
+          <input id="peak_area" type="checkbox" />
+          <i class="mdui-switch-icon"></i>
+          <span class="mdui-m-a-1">峰面积代替峰高</span>
+        </label>
+      </div>
+      <!-- <div class="mdui-valign mdui-col-xs-6 mdui-p-a-2 mdui-center">
       <label class="mdui-switch">
         <input id="more_button" type="checkbox" />
         <i class="mdui-switch-icon"></i>
@@ -81,845 +92,900 @@
         <span class="mdui-m-a-1">保持输入样本顺序</span>
       </label>
     </div> -->
-    <!-- <div class="mdui-valign mdui-col-xs-6 mdui-p-a-2 mdui-center">
+      <!-- <div class="mdui-valign mdui-col-xs-6 mdui-p-a-2 mdui-center">
       <label class="mdui-switch">
         <input id="NTC_Test" type="checkbox" />
         <i class="mdui-switch-icon"></i>
         <span class="mdui-m-a-1">进行NTC测试</span>
       </label>
     </div> -->
-    <div class="mdui-valign mdui-col-xs-6 mdui-p-a-2 mdui-center">
-      <label class="mdui-switch">
-        <button class="mdui-m-a-1 mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme"
-          mdui-dialog="{target:'#dialog'}" id="customer">
-          自定义样本名
-        </button>
-      </label>
-    </div>
-    <div class="mdui-valgin mdui-col-xs-6 mdui-p-a-2 mdui-center">
-      <label class="mdui-switch">
-        <button class="mdui-m-a-1 mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme" mdui-dialog="{target:'#dialog_ntcTest'}" id="customer_ntcTest">
-          自定义NTC测试
-        </button>
-      </label>
-    </div>
-    <div class="mdui-valgin mdui-col-xs-6 mdui-p-a-2 mdui-center">
-      <label class="mdui-switch">
-        <button class="mdui-m-a-1 mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme" mdui-dialog="{target:'#dialog_ladderTest'}" id="customer_ladderTest">
-          自定义Ladder测试
-        </button>
-      </label>
-    </div>
-    <div class="mdui-valign mdui-p-a-3" >
-      <label>选择输出格式:</label>
-    </div>
-    <div class="mdui-valign" style="width: 140px; height: 40px">
-      <form class="mdui-center mdui-p-a-1">
-        <label class="mdui-radio mdui-center ">
-          <input id="utf" type="radio" name="group1" checked />
-          <i class="mdui-radio-icon"></i>UTF-8
+      <div class="mdui-valign mdui-col-xs-4 mdui-p-a-2 mdui-center">
+        <label class="mdui-switch">
+          <button
+            class="mdui-m-a-1 mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme"
+            mdui-dialog="{target:'#dialog'}"
+            id="customer"
+          >
+            自定义样本名
+          </button>
         </label>
-        <label class="mdui-radio mdui-center">
-          <input id="gbk" type="radio" name="group1" />
-          <i class="mdui-radio-icon"></i>GBK
+      </div>
+      <div class="mdui-valgin mdui-col-xs-4 mdui-p-a-2 mdui-center">
+        <label class="mdui-switch">
+          <button
+            class="mdui-m-a-1 mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme"
+            mdui-dialog="{target:'#dialog_ntcTest'}"
+            id="customer_ntcTest"
+          >
+            自定义NTC测试
+          </button>
         </label>
-      </form>
-    </div>
-    
-    <div class="mdui-dialog" id="dialog">
-      <div class="mdui-dialog-title">请自定义标准品样本名</div>
-      <div class="mdui-dialog-content">
-        <input type="text" name="sample" id="samples" />
       </div>
-      <div class="mdui-dialog-actions">
-        <button class="mdui-btn mdui-ripple" mdui-dialog-cancel>取消</button>
-        <button class="mdui-btn mdui-ripple" mdui-dialog-confirm>确认</button>
+      <div class="mdui-valgin mdui-col-xs-4 mdui-p-a-2 mdui-center">
+        <label class="mdui-switch">
+          <button
+            class="mdui-m-a-1 mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme"
+            mdui-dialog="{target:'#dialog_ladderTest'}"
+            id="customer_ladderTest"
+          >
+            自定义Ladder测试
+          </button>
+        </label>
       </div>
-    </div>
-    <div class="mdui-dialog" id="dialog_ntcTest">
-        <div class="mdui-dialog-title">请自定义进行NTC检测的样本名</div>
+      <div class="mdui-valign mdui-p-a-3">
+        <label>选择输出格式:</label>
+      </div>
+      <div class="mdui-valign" style="width: 140px; height: 40px">
+        <form class="mdui-center mdui-p-a-1">
+          <label class="mdui-radio mdui-center">
+            <input id="utf" type="radio" name="group1" checked />
+            <i class="mdui-radio-icon"></i>UTF-8
+          </label>
+          <label class="mdui-radio mdui-center">
+            <input id="gbk" type="radio" name="group1" />
+            <i class="mdui-radio-icon"></i>GBK
+          </label>
+        </form>
+      </div>
+
+      <div class="mdui-dialog" id="dialog">
+        <div class="mdui-dialog-title">请自定义标准品样本名</div>
         <div class="mdui-dialog-content">
-          <input type="text" name="ntcTest" id="ntcTest"/>
+          <input type="text" name="sample" id="samples" />
         </div>
         <div class="mdui-dialog-actions">
           <button class="mdui-btn mdui-ripple" mdui-dialog-cancel>取消</button>
           <button class="mdui-btn mdui-ripple" mdui-dialog-confirm>确认</button>
         </div>
+      </div>
+      <div class="mdui-dialog" id="dialog_ntcTest">
+        <div class="mdui-dialog-title">请自定义进行NTC检测的样本名</div>
+        <div class="mdui-dialog-content">
+          <input type="text" name="ntcTest" id="ntcTest" />
+        </div>
+        <div class="mdui-dialog-actions">
+          <button class="mdui-btn mdui-ripple" mdui-dialog-cancel>取消</button>
+          <button class="mdui-btn mdui-ripple" mdui-dialog-confirm>确认</button>
+        </div>
+      </div>
+      <div class="mdui-dialog" id="dialog_ladderTest">
+        <div class="mdui-dialog-title">请自定义进行Ladder检测的样本名</div>
+        <div class="mdui-dialog-content">
+          <input type="text" name="ladderTest" id="ladderTest" />
+        </div>
+        <div class="mdui-dialog-actions">
+          <button class="mdui-btn mdui-ripple" mdui-dialog-cancel>取消</button>
+          <button class="mdui-btn mdui-ripple" mdui-dialog-confirm>确认</button>
+        </div>
+      </div>
     </div>
-    <div class="mdui-dialog" id="dialog_ladderTest">
-      <div class="mdui-dialog-title">请自定义进行Ladder检测的样本名</div>
-      <div class="mdui-dialog-content">
-        <input type="text" name="ladderTest" id="ladderTest"/>
-      </div>
-      <div class="mdui-dialog-actions">
-        <button class="mdui-btn mdui-ripple" mdui-dialog-cancel>取消</button>
-        <button class="mdui-btn mdui-ripple" mdui-dialog-confirm>确认</button>
-      </div>
-  </div>
-  </div>
-  <div id="tab3" class="mdui-p-a-1">
-    <div class="layout">
-      <!-- <div class="mdui-col-xs-12  panel">日志信息</div>
+    <div id="tab3" class="mdui-p-a-1">
+      <div class="layout">
+        <!-- <div class="mdui-col-xs-12  panel">日志信息</div>
       <div id="restore" class="mdui-col-xs-12 result2"></div> -->
-      <button onclick="up();" class="mdui-fab mdui-fab-mini mdui-fab-fixed mdui-ripple uptop">
-        <i class="mdui-icon material-icons">&#xe5d8;</i>
-      </button>
-      <button onclick="down();" class="mdui-fab mdui-fab-mini mdui-fab-fixed mdui-ripple ">
-        <i class="mdui-icon material-icons">&#xe5db;</i>
-      </button>
-      <button onclick="download()" class="mdui-fab mdui-fab-mini mdui-fab-fixed mdui-ripple download">
-        <i class="mdui-icon material-icons">&#xe2c4;</i>
-      </button>
-      <!-- <i class="mdui-icon material-icons mdui-center">&#xe0d8;</i> -->
-      <div id="test" style="overflow-y: auto;height: 90vh;">
+        <button
+          onclick="up();"
+          class="mdui-fab mdui-fab-mini mdui-fab-fixed mdui-ripple uptop"
+        >
+          <i class="mdui-icon material-icons">&#xe5d8;</i>
+        </button>
+        <button
+          onclick="down();"
+          class="mdui-fab mdui-fab-mini mdui-fab-fixed mdui-ripple"
+        >
+          <i class="mdui-icon material-icons">&#xe5db;</i>
+        </button>
+        <button
+          onclick="download()"
+          class="mdui-fab mdui-fab-mini mdui-fab-fixed mdui-ripple download"
+        >
+          <i class="mdui-icon material-icons">&#xe2c4;</i>
+        </button>
+        <!-- <i class="mdui-icon material-icons mdui-center">&#xe0d8;</i> -->
+        <div id="test" style="overflow-y: auto; height: 90vh"></div>
       </div>
     </div>
-  </div>
-  <script>
-    var $ = mdui.$;
-    var inst = new mdui.Dialog("#dialog");
-    var sample_status = "STD";
-    // method
-    document
-      .getElementById("customer")
-      .addEventListener("click", function () {
-        mdui.snackbar({ message: "自定义标准品样本名" });
-        var dialog = document.getElementById("dialog");
-        dialog.addEventListener("confirm.mdui.dialog", function () {
-          console.log("confirm");
-          sample_status1 = document.getElementById("samples").value;
-          sample_status = sample_status1;
-          console.log(sample_status);
+    <script>
+      var $ = mdui.$;
+      var inst = new mdui.Dialog("#dialog");
+      var sample_status = "STD";
+      // method
+      document
+        .getElementById("customer")
+        .addEventListener("click", function () {
+          mdui.snackbar({ message: "自定义标准品样本名" });
+          var dialog = document.getElementById("dialog");
+          dialog.addEventListener("confirm.mdui.dialog", function () {
+            console.log("confirm");
+            sample_status1 = document.getElementById("samples").value;
+            sample_status = sample_status1;
+            console.log(sample_status);
+          });
         });
-      });
-     // NTCTest method
-     var NTC_status = "";
-    document.getElementById("customer_ntcTest").addEventListener("click",function(){
-      mdui.snackbar({message:"自定义NTC测试"});
-      var dialog1 = document.getElementById("dialog_ntcTest");
-      dialog1.addEventListener("confirm.mdui.dialog",function(){
-        console.log("confirm1");
-        NTC_status1 = document.getElementById("ntcTest").value;
-        if(NTC_status1 ==""){
-          NTC_status = ""
-        }else{
-          NTC_status = NTC_status1;
-        }
-      })
-    })
-    var ladder_status = "";
-    document.getElementById("customer_ladderTest").addEventListener("click",function(){
-      mdui.snackbar({message:"自定义Ladder测试"});
-      var dialog1 = document.getElementById("dialog_ladderTest");
-      dialog1.addEventListener("confirm.mdui.dialog",function(){
-        console.log("confirm1");
-        ladder_status1 = document.getElementById("ladderTest").value;
-        if(ladder_status1 ==""){
-          ladder_status = ""
-        }else{
-          ladder_status = ladder_status1;
-        }
-      })
-    })
-    var Chinese = "";
-    var language = function () {
-      if ($("#change_chinese").is(":checked")) {
-        console.log("Language is Chinese");
-        mdui.snackbar({ message: "设置语言为中文" });
-        Chinese = "-l";
-      } else {
-        console.log("Language is English");
-        mdui.snackbar({ message: "设置语言为英语" });
-        Chinese = "";
-      }
-    };
-    // var more = "";
-    // var more_status = function () {
-    //   if ($("#more_button").is(":checked")) {
-    //     console.log("more Calculation results");
-    //     mdui.snackbar({ message: "输出显示更多计算结果" });
-    //     more = "-v";
-    //   } else {
-    //     console.log("not more Calculation results");
-    //     mdui.snackbar({ message: "无更多计算结果" });
-    //     more = "";
-    //   }
-    // };
-    var peak = "";
-    var peak_status = function () {
-      if ($("#peak_area").is(":checked")) {
-        console.log("peak area");
-        mdui.snackbar({ message: "峰面积代替峰高" });
-        peak = "-a";
-      } else {
-        console.log("peak height");
-        mdui.snackbar({ message: "峰高" });
-        peak = "";
-      }
-    };
-    // var order = "-k";
-    // var samplename_order = function () {
-    //   if ($("#sample_order").is(":checked")) {
-    //     console.log("sample_order");
-    //     mdui.snackbar({ message: "保持样本输入顺序" });
-    //     order = "-k";
-    //   } else {
-    //     console.log("not sample_order");
-    //     mdui.snackbar({ message: "不保持样本输入顺序" });
-    //     order = "";
-    //   }
-    // };
-    var Encoding = "UTF8";
-    var encod_status = function () {
-      if ($("#gbk").is(":checked")) {
-        console.log("Output set GBK Encode");
-        mdui.snackbar({ message: "输出文件将以 GBK 格式编码" });
-        Encoding = "GBK";
-        Chinese = "-l";
-      }
-      if ($("#utf").is(":checked")) {
-        console.log("Output set UTF-8 Encode");
-        mdui.snackbar({ message: "输出文件将以 UTF-8 格式编码" });
-        Encoding = "UTF8";
-      }
-    };
-    $("#utf").on("click", encod_status);
-    $("#gbk").on("click", encod_status);
-    // $("#NTC_Test").on("click",NTC_status);
-    // $("#more_button").on("click", more_status);
-    $("#peak_area").on("click", peak_status);
-    $("#change_chinese").on("click", language);
-    // $("#sample_order").on("click", samplename_order)
-    function mOver1(obj) {
-      mdui.snackbar({ message: "进入分析面板", timeout: 1000 });
-    }
-    function mOver2(obj) {
-      mdui.snackbar({ message: "进入设置面板", timeout: 1000 });
-    }
-    function mOver3(obj) {
-      mdui.snackbar({ message: "进入日志面板", timeout: 1000 })
-    }
-    // child_process.execFile method
-    // var runningLogMessage =document.getElementById('restore').innerHTML
-    // if(runningLogMessage === ""){
-    //   document.getElementById('restore').innerHTML += "<p style='text-align:center'>所有日志信息全部位于程序运行日志窗口中</p>"
-    // }
-    var path = require("path");
-    var log = require('electron-log');
-    log.transports.console.level = 'silly';
-    var { remote } = require('electron');
-    var fs = require('fs')
-    var app = remote.app;
-    var filepath = path.join(app.getPath("temp"))
-    console.log(filepath)
-    var filename = "SMNFiler.log"
-    log.transports.file.resolvePath = () => path.join(filepath, filename)
-    console.log(log.transports.file.resolvePath)
-    var exec = require("child_process").execFile;
-    // function start(file_path, Encoding, sample_status, peak, more, Chinese, order) {}
-    function start(file_path, Encoding, sample_status, peak, Chinese,NTC_status,ladder_status) {
-      console.log("Request handler 'start' was called.");
-      if (file_path.constructor === Array) {
-        file_name = file_path[0].trim()
-        fileName = file_name.substring(file_name.lastIndexOf('\\') + 1)
-      } else {
-        file_name = file_path.trim()
-        fileName = file_name.substring(file_name.lastIndexOf('\\') + 1)
-      }
-      var exe_file;
-      if (process.platform === "darwin") {
-        exe_file = path.join(__dirname, "analysis.mac");
-      }
-      if (process.platform === "win32") {
-        exe_file = path.join(__dirname, "analysis_miss.exe");
-      }
-      if(process.platform === "linux") {
-        exe_file = path.join(__dirname,"analysis_miss")
-      }
-      if(NTC_status ==""&& ladder_status ==""){
-        exec(
-        exe_file,
-        // [
-        //   "-i",
-        //   file_path,
-        //   "-e",
-        //   Encoding,
-        //   "-c",
-        //   sample_status,
-        //   peak,
-        //   more,
-        //   Chinese,
-        //   order
-        // ],
-        [
-            "-i",
-          file_path,
-          "-e",
-          Encoding,
-          "-c",
-          sample_status,
-          peak,
-          Chinese,
-          NTC_status,
-          ladder_status
-        ],
-        function (error, stdout, stderr) {
-          console.log( "-i",file_path,"-e",Encoding,"-c",sample_status,peak,Chinese,NTC_status,ladder_status)
-          console.log("stdout",stdout)
-          console.log("stderr",stderr)
-          if (error || stderr) {
-            var notice = "[WARNING] 输入文件 " + file_path + " 处理有误";
-            mdui.snackbar({
-              message: notice,
-              position: "left-top",
-              onClick: function () {
-                ipc.send('tab3');
-              }
-            });
-            console.warn("stderr:\n" + stderr)
-            log.warn("\n" + "当前处理文件名为：" + fileName + "\n报错提示：\n" + stderr)
-            if (error !== null) {
-              log.error("\n" + "当前处理文件名为：" + fileName + "\n错误提示：\n" + error)
+      // NTCTest method
+      var NTC_status = "";
+      document
+        .getElementById("customer_ntcTest")
+        .addEventListener("click", function () {
+          mdui.snackbar({ message: "自定义NTC测试" });
+          var dialog1 = document.getElementById("dialog_ntcTest");
+          dialog1.addEventListener("confirm.mdui.dialog", function () {
+            console.log("confirm1");
+            NTC_status1 = document.getElementById("ntcTest").value;
+            if (NTC_status1 == "") {
+              NTC_status = "";
+            } else {
+              NTC_status = NTC_status1;
             }
-            // if(document.getElementById('restore').innerHTML === '<p style="text-align:center">所有日志信息全部位于程序运行日志窗口中</p>'){
-            // 	document.getElementById('restore').innerHTML =""
-            // }
-            // document.getElementById('restore').innerHTML = '<br/>' + "<b style='color:#da242a'>当前处理文件名：</b>" + fileName + '<br/>'
-          } else if (stdout) {
-            setTimeout(function () {
-              var notice = "输入文件 " + file_path + " 处理完成";
-              mdui.snackbar({ message: notice });
-            }, 1000)
-            // if(document.getElementById('restore').innerHTML ==='<p style="text-align:center">所有日志信息全部位于程序运行日志窗口中</p>'){
-            // 	document.getElementById('restore').innerHTML =""
-            // }
-
-            log.info("\n" + "当前处理文件名为：" + fileName + "\n处理文件耗时：\n" + stdout)
-            // document.getElementById('restore').innerHTML =  '<br/>' + "<b style='color:#67c23a'>当前处理文件名：</b>" + fileName + '<br/>' + "<b style='color:#67c23a'>处理文件耗时：</b>" + stdout + '<br/>'
-            // console.log(
-            //   "-i",
-            //   file_path,
-            //   "-e",
-            //   Encoding,
-            //   "-c",
-            //   sample_status,
-            //   peak,
-            //   more,
-            //   Chinese,
-            //   order
-            // );
-          }
-        }
-      );
-      }else if(NTC_status !=""&& ladder_status !=""){
-        exec(
-        exe_file,
-        // [
-        //   "-i",
-        //   file_path,
-        //   "-e",
-        //   Encoding,
-        //   "-c",
-        //   sample_status,
-        //   peak,
-        //   more,
-        //   Chinese,
-        //   order
-        // ],
-        [
-            "-i",
-          file_path,
-          "-e",
-          Encoding,
-          "-c",
-          sample_status,
-          peak,
-          Chinese,
-          "-n",
-          NTC_status,
-          "-d",
-          ladder_status
-        ],
-        function (error, stdout, stderr) {
-          console.log( "-i",file_path,"-e",Encoding,"-c",sample_status,peak,Chinese,"-n",NTC_status,"-d",ladder_status)
-          console.log("stdout",stdout)
-          console.log("stderr",stderr)
-          if (error || stderr) {
-            var notice = "[WARNING] 输入文件 " + file_path + " 处理有误";
-            mdui.snackbar({
-              message: notice,
-              position: "left-top",
-              onClick: function () {
-                ipc.send('tab3');
-              }
-            });
-            console.warn("stderr:\n" + stderr)
-            log.warn("\n" + "当前处理文件名为：" + fileName + "\n报错提示：\n" + stderr)
-            if (error !== null) {
-              log.error("\n" + "当前处理文件名为：" + fileName + "\n错误提示：\n" + error)
+          });
+        });
+      var ladder_status = "";
+      document
+        .getElementById("customer_ladderTest")
+        .addEventListener("click", function () {
+          mdui.snackbar({ message: "自定义Ladder测试" });
+          var dialog1 = document.getElementById("dialog_ladderTest");
+          dialog1.addEventListener("confirm.mdui.dialog", function () {
+            console.log("confirm1");
+            ladder_status1 = document.getElementById("ladderTest").value;
+            if (ladder_status1 == "") {
+              ladder_status = "";
+            } else {
+              ladder_status = ladder_status1;
             }
-            // if(document.getElementById('restore').innerHTML === '<p style="text-align:center">所有日志信息全部位于程序运行日志窗口中</p>'){
-            // 	document.getElementById('restore').innerHTML =""
-            // }
-            // document.getElementById('restore').innerHTML = '<br/>' + "<b style='color:#da242a'>当前处理文件名：</b>" + fileName + '<br/>'
-          } else if (stdout) {
-            setTimeout(function () {
-              var notice = "输入文件 " + file_path + " 处理完成";
-              mdui.snackbar({ message: notice });
-            }, 1000)
-            // if(document.getElementById('restore').innerHTML ==='<p style="text-align:center">所有日志信息全部位于程序运行日志窗口中</p>'){
-            // 	document.getElementById('restore').innerHTML =""
-            // }
-
-            log.info("\n" + "当前处理文件名为：" + fileName + "\n处理文件耗时：\n" + stdout)
-            // document.getElementById('restore').innerHTML =  '<br/>' + "<b style='color:#67c23a'>当前处理文件名：</b>" + fileName + '<br/>' + "<b style='color:#67c23a'>处理文件耗时：</b>" + stdout + '<br/>'
-            // console.log(
-            //   "-i",
-            //   file_path,
-            //   "-e",
-            //   Encoding,
-            //   "-c",
-            //   sample_status,
-            //   peak,
-            //   more,
-            //   Chinese,
-            //   order
-            // );
-          }
+          });
+        });
+      var Chinese = "";
+      var language = function () {
+        if ($("#change_chinese").is(":checked")) {
+          console.log("Language is Chinese");
+          mdui.snackbar({ message: "设置语言为中文" });
+          Chinese = "-l";
+        } else {
+          console.log("Language is English");
+          mdui.snackbar({ message: "设置语言为英语" });
+          Chinese = "";
         }
-      );
-      }else if(NTC_status!=""&&ladder_status==""){
-        exec(
-        exe_file,
-        // [
-        //   "-i",
-        //   file_path,
-        //   "-e",
-        //   Encoding,
-        //   "-c",
-        //   sample_status,
-        //   peak,
-        //   more,
-        //   Chinese,
-        //   order
-        // ],
-        [
-            "-i",
-          file_path,
-          "-e",
-          Encoding,
-          "-c",
-          sample_status,
-          peak,
-          Chinese,
-          "-n",
-          NTC_status,
-          ladder_status
-        ],
-        function (error, stdout, stderr) {
-          console.log( "-i",file_path,"-e",Encoding,"-c",sample_status,peak,Chinese,"-n",NTC_status,ladder_status)
-          console.log("stdout",stdout)
-          console.log("stderr",stderr)
-          if (error || stderr) {
-            var notice = "[WARNING] 输入文件 " + file_path + " 处理有误";
-            mdui.snackbar({
-              message: notice,
-              position: "left-top",
-              onClick: function () {
-                ipc.send('tab3');
-              }
-            });
-            console.warn("stderr:\n" + stderr)
-            log.warn("\n" + "当前处理文件名为：" + fileName + "\n报错提示：\n" + stderr)
-            if (error !== null) {
-              log.error("\n" + "当前处理文件名为：" + fileName + "\n错误提示：\n" + error)
-            }
-            // if(document.getElementById('restore').innerHTML === '<p style="text-align:center">所有日志信息全部位于程序运行日志窗口中</p>'){
-            // 	document.getElementById('restore').innerHTML =""
-            // }
-            // document.getElementById('restore').innerHTML = '<br/>' + "<b style='color:#da242a'>当前处理文件名：</b>" + fileName + '<br/>'
-          } else if (stdout) {
-            setTimeout(function () {
-              var notice = "输入文件 " + file_path + " 处理完成";
-              mdui.snackbar({ message: notice });
-            }, 1000)
-            // if(document.getElementById('restore').innerHTML ==='<p style="text-align:center">所有日志信息全部位于程序运行日志窗口中</p>'){
-            // 	document.getElementById('restore').innerHTML =""
-            // }
-
-            log.info("\n" + "当前处理文件名为：" + fileName + "\n处理文件耗时：\n" + stdout)
-            // document.getElementById('restore').innerHTML =  '<br/>' + "<b style='color:#67c23a'>当前处理文件名：</b>" + fileName + '<br/>' + "<b style='color:#67c23a'>处理文件耗时：</b>" + stdout + '<br/>'
-            // console.log(
-            //   "-i",
-            //   file_path,
-            //   "-e",
-            //   Encoding,
-            //   "-c",
-            //   sample_status,
-            //   peak,
-            //   more,
-            //   Chinese,
-            //   order
-            // );
-          }
-        }
-      );
-      }else{
-        exec(
-        exe_file,
-        // [
-        //   "-i",
-        //   file_path,
-        //   "-e",
-        //   Encoding,
-        //   "-c",
-        //   sample_status,
-        //   peak,
-        //   more,
-        //   Chinese,
-        //   order
-        // ],
-        [
-            "-i",
-          file_path,
-          "-e",
-          Encoding,
-          "-c",
-          sample_status,
-          peak,
-          Chinese,
-          NTC_status,
-          "-d",
-          ladder_status
-        ],
-        function (error, stdout, stderr) {
-          console.log( "-i",file_path,"-e",Encoding,"-c",sample_status,peak,Chinese,NTC_status,"-d",ladder_status)
-          console.log("stdout",stdout)
-          console.log("stderr",stderr)
-          if (error || stderr) {
-            var notice = "[WARNING] 输入文件 " + file_path + " 处理有误";
-            mdui.snackbar({
-              message: notice,
-              position: "left-top",
-              onClick: function () {
-                ipc.send('tab3');
-              }
-            });
-            console.warn("stderr:\n" + stderr)
-            log.warn("\n" + "当前处理文件名为：" + fileName + "\n报错提示：\n" + stderr)
-            if (error !== null) {
-              log.error("\n" + "当前处理文件名为：" + fileName + "\n错误提示：\n" + error)
-            }
-            // if(document.getElementById('restore').innerHTML === '<p style="text-align:center">所有日志信息全部位于程序运行日志窗口中</p>'){
-            // 	document.getElementById('restore').innerHTML =""
-            // }
-            // document.getElementById('restore').innerHTML = '<br/>' + "<b style='color:#da242a'>当前处理文件名：</b>" + fileName + '<br/>'
-          } else if (stdout) {
-            setTimeout(function () {
-              var notice = "输入文件 " + file_path + " 处理完成";
-              mdui.snackbar({ message: notice });
-            }, 1000)
-            // if(document.getElementById('restore').innerHTML ==='<p style="text-align:center">所有日志信息全部位于程序运行日志窗口中</p>'){
-            // 	document.getElementById('restore').innerHTML =""
-            // }
-
-            log.info("\n" + "当前处理文件名为：" + fileName + "\n处理文件耗时：\n" + stdout)
-            // document.getElementById('restore').innerHTML =  '<br/>' + "<b style='color:#67c23a'>当前处理文件名：</b>" + fileName + '<br/>' + "<b style='color:#67c23a'>处理文件耗时：</b>" + stdout + '<br/>'
-            // console.log(
-            //   "-i",
-            //   file_path,
-            //   "-e",
-            //   Encoding,
-            //   "-c",
-            //   sample_status,
-            //   peak,
-            //   more,
-            //   Chinese,
-            //   order
-            // );
-          }
-        }
-      );
-      }   
-    }
-    // child_process.spawn method
-    // var path = require("path");
-
-    // function start(file_path, Encoding, sample_status, peak, more, Chinese, order) {
-    //   console.log("Request handler 'start' was called.");
-    //   console.log(file_path)
-    //   if (file_path.constructor === Array) {
-    //     file_name = file_path[0].trim()
-    //     fileName = file_name.substring(file_name.lastIndexOf('\\') + 1)
-    //   } else {
-    //     file_name = file_path.trim()
-    //     fileName = file_name.substring(file_name.lastIndexOf('\\') + 1)
-    //   }
-    //   const { spawn } = require("child_process");
-    //   var exe_file;
-    //   if (process.platform === "darwin") {
-    //     exe_file = path.join(__dirname, "analysis.mac");
-    //   }
-    //   if (process.platform === "win32") {
-    //     exe_file = path.join(__dirname, "analysis.exe");
-    //   }
-    //   var childProcess = spawn(exe_file, [
-    //     "-i",
-    //     file_path,
-    //     "-e",
-    //     Encoding,
-    //     "-c",
-    //     sample_status,
-    //     peak,
-    //     more,
-    //     Chinese,
-    //     order
-    //   ]); 
-    //   childProcess.stderr.on("data", (data) => {
-    //     console.log(`stderr: ${data}`);
-    //     var notice = "[WARNING] 输入文件 " + file_path + " 处理有误";
-    //     mdui.snackbar({ message: notice, position: "left-top" });
-    //     document.getElementById('restderr').innerHTML += "*******************************" + "<br/>" + "当前处理文件名：" + fileName + '<br/>'+ "错误提示信息：" + data + '<br/>' + '*******************************' + '<br/>'
-    //    document.getElementById('restore').innerHTML += "*******************************" + "<br/>" + "当前处理文件名：" + fileName + '<br/>' + '*******************************' + '<br/>'
-    //   });
-    //   childProcess.stdout.on("data", (data) => {
-    //     console.log(`stdout: ${data}`);
-    //     setTimeout(function () {
-    //       var notice = "输入文件 " + file_path + " 处理完成";
-    //       mdui.snackbar({ message: notice });
-    //     }, 5000)
-    //   document.getElementById('restore').innerHTML +="*******************************" + "<br/>" + "当前处理文件名：" + fileName + '<br/>' + "处理文件耗时：" + data + '<br/>' + '*******************************' + '<br/>'
-    //     console.log(
-    //       "-i",
-    //       file_path,
-    //       "-e",
-    //       Encoding,
-    //       "-c",
-    //       sample_status,
-    //       peak,
-    //       more,
-    //       Chinese,
-    //       order
-    //     );
-    //   });
-    //   childProcess.on("close", (code) => {
-    //     console.log(`子进程退出码：${code}`);
-    //   });
-    // }
-
-    // event: drag file(s) to window
-    const holder = document.getElementById("holder");
-    holder.ondragover = () => {
-      return false;
-    };
-    holder.ondragleave = holder.ondragend = () => {
-      return false;
-    };
-    holder.ondrop = (e) => {
-      e.preventDefault();
-      for (let f of e.dataTransfer.files) {
-        console.log("File(s) you dragged here: ", f.path);
-        // start(f.path, Encoding, sample_status, peak, more, Chinese, order);
-        start(f.path, Encoding, sample_status, peak, Chinese, NTC_status,ladder_status);
-      }
-      return false;
-    };
-    // event: click to open file manager
-    const os = require("os");
-    let default_path = os.homedir();
-    const { dialog } = require("electron").remote;
-    const fileManagerBtn = document.getElementById("holder");
-    fileManagerBtn.addEventListener("click", showOpenDialogHandler);
-    function showOpenDialogHandler() {
-      var options = {
-        defaultPath: default_path,
-        filters: [{ name: "RawData", extensions: ["txt", "csv"] }],
-        properties: ["openFile"],
       };
-      dialog
-        .showOpenDialog(options)
-        .then((result) => {
-          console.log("Select file" + result.filePaths);
-          console.log(result.filePaths);
-          if (!result.filePaths[0]) {
-            console.log("No file selected");
-            mdui.snackbar({ message: "未选择任何文件" });
-            return;
-          } else {
-            // start(
-            //   result.filePaths,
-            //   Encoding,
-            //   sample_status,
-            //   peak,
-            //   more,
-            //   Chinese,
-            //   order
-            // );
-            start(
-              result.filePaths,
+      // var more = "";
+      // var more_status = function () {
+      //   if ($("#more_button").is(":checked")) {
+      //     console.log("more Calculation results");
+      //     mdui.snackbar({ message: "输出显示更多计算结果" });
+      //     more = "-v";
+      //   } else {
+      //     console.log("not more Calculation results");
+      //     mdui.snackbar({ message: "无更多计算结果" });
+      //     more = "";
+      //   }
+      // };
+      var peak = "";
+      var peak_status = function () {
+        if ($("#peak_area").is(":checked")) {
+          console.log("peak area");
+          mdui.snackbar({ message: "峰面积代替峰高" });
+          peak = "-a";
+        } else {
+          console.log("peak height");
+          mdui.snackbar({ message: "峰高" });
+          peak = "";
+        }
+      };
+
+      // var order = "-k";
+      // var samplename_order = function () {
+      //   if ($("#sample_order").is(":checked")) {
+      //     console.log("sample_order");
+      //     mdui.snackbar({ message: "保持样本输入顺序" });
+      //     order = "-k";
+      //   } else {
+      //     console.log("not sample_order");
+      //     mdui.snackbar({ message: "不保持样本输入顺序" });
+      //     order = "";
+      //   }
+      // };
+      var Encoding = "UTF-8";
+      var encod_status = function () {
+        if ($("#gbk").is(":checked")) {
+          console.log("Output set GBK Encode");
+          mdui.snackbar({ message: "输出文件将以 GBK 格式编码" });
+          Encoding = "GBK";
+          Chinese = "-l";
+        }
+        if ($("#utf").is(":checked")) {
+          console.log("Output set UTF-8 Encode");
+          mdui.snackbar({ message: "输出文件将以 UTF-8 格式编码" });
+          Encoding = "UTF-8";
+        }
+      };
+      $("#utf").on("click", encod_status);
+      $("#gbk").on("click", encod_status);
+      // $("#NTC_Test").on("click",NTC_status);
+      // $("#more_button").on("click", more_status);
+      $("#peak_area").on("click", peak_status);
+      $("#change_chinese").on("click", language);
+      // $("#sample_order").on("click", samplename_order)
+      function mOver1(obj) {
+        mdui.snackbar({ message: "进入分析面板", timeout: 1000 });
+      }
+      function mOver2(obj) {
+        mdui.snackbar({ message: "进入设置面板", timeout: 1000 });
+      }
+      function mOver3(obj) {
+        mdui.snackbar({ message: "进入日志面板", timeout: 1000 });
+      }
+      var path = require("path");
+      var log = require("electron-log");
+      log.transports.console.level = "silly";
+      var { remote } = require("electron");
+      var fs = require("fs");
+      var app = remote.app;
+      var filepath = path.join(app.getPath("temp"));
+      console.log(filepath);
+      var filename = "SMNFiler.log";
+      log.transports.file.resolvePath = () => path.join(filepath, filename);
+      console.log(log.transports.file.resolvePath);
+      var exec = require("child_process").execFile;
+      // function start(file_path, Encoding, sample_status, peak, more, Chinese, order) {}
+      function start(
+        file_path,
+        Encoding,
+        sample_status,
+        peak,
+        Chinese,
+        NTC_status,
+        ladder_status
+      ) {
+        console.log("Request handler 'start' was called.");
+        if (file_path.constructor === Array) {
+          file_name = file_path[0].trim();
+          fileName = file_name.substring(file_name.lastIndexOf("\\") + 1);
+        } else {
+          file_name = file_path.trim();
+          fileName = file_name.substring(file_name.lastIndexOf("\\") + 1);
+        }
+        var exe_file;
+        if (process.platform === "darwin") {
+          exe_file = path.join(__dirname, "analysis.mac");
+        }
+        if (process.platform === "win32") {
+          exe_file = path.join(__dirname, "analysis_miss.exe");
+        }
+        if (process.platform === "linux") {
+          exe_file = path.join(__dirname, "analysis_miss");
+        }
+        if (NTC_status == "" && ladder_status == "") {
+          exec(
+            exe_file,
+            [
+              "-i",
+              file_path,
+              "-e",
               Encoding,
+              "-c",
               sample_status,
               peak,
               Chinese,
               NTC_status,
               ladder_status
-            );
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-          console.log("No file selected");
-        });
-    }
-    var tab3 = document.querySelector('#tab3_icon')
-    var ipc = require('electron').ipcRenderer
-    tab3.onclick = () => {
-      // ipc.send('tab3')
-      // var log = require('electron-log');
-      // log.transports.console.level = 'silly';
-      // var path = require("path")
-      // var { remote } = require('electron')
-      // var app = remote.app
-      // var filepath = path.join(app.getPath("temp"))
-      // var filename = "SMNFiler.log"
-      // console.log(path.join(filepath, filename))
-      // log.transports.file.resolvePath = () => path.join(filepath, filename)
-      var content = fs.readFileSync(path.join(filepath, filename))
-      var array = content.toString().split("\n")
-      var reg1 = RegExp(/warn/)
-      var reg2 = RegExp(/info/)
-      var reg3 = RegExp(/error/)
-      var message = document.getElementById('test')
-      message.innerHTML = ""
-      for (var i = 0; i < array.length; i++) {
-        if (array[i].match(reg1)) {
-          array[i] = "<p style='color:#FF5722;text-align:center'>" + array[i] + "</p>"
-        } else if (array[i].match(reg2)) {
-          array[i] = "<p style='color:#4CAF50;text-align:center'>" + array[i] + "</p>"
-        } else if (array[i].match(reg3)) {
-          array[i] = "<p style='color:#FF5722;text-align:center'>" + array[i] + "</p>"
+            ],
+            function (error, stdout, stderr) {
+              console.log(
+                "-i",
+                file_path,
+                "-e",
+                Encoding,
+                "-c",
+                sample_status,
+                peak,
+                Chinese,
+                NTC_status,
+                ladder_status
+              );
+              console.log("stdout", stdout);
+              console.log("stderr", stderr);
+              if (error || stderr) {
+                var notice = "[WARNING] 输入文件 " + file_path + " 处理有误";
+                mdui.snackbar({
+                  message: notice,
+                  position: "left-top",
+                  onClick: function () {
+                    ipc.send("tab3");
+                  },
+                });
+                console.warn("stderr:\n" + stderr);
+                log.warn(
+                  "\n" +
+                    "当前处理文件名为：" +
+                    fileName +
+                    "\n报错提示：\n" +
+                    stderr
+                );
+                if (error !== null) {
+                  log.error(
+                    "\n" +
+                      "当前处理文件名为：" +
+                      fileName +
+                      "\n错误提示：\n" +
+                      error
+                  );
+                }
+                // if(document.getElementById('restore').innerHTML === '<p style="text-align:center">所有日志信息全部位于程序运行日志窗口中</p>'){
+                // 	document.getElementById('restore').innerHTML =""
+                // }
+                // document.getElementById('restore').innerHTML = '<br/>' + "<b style='color:#da242a'>当前处理文件名：</b>" + fileName + '<br/>'
+              } else if (stdout) {
+                setTimeout(function () {
+                  var notice = "输入文件 " + file_path + " 处理完成";
+                  mdui.snackbar({ message: notice });
+                }, 1000);
+                // if(document.getElementById('restore').innerHTML ==='<p style="text-align:center">所有日志信息全部位于程序运行日志窗口中</p>'){
+                // 	document.getElementById('restore').innerHTML =""
+                // }
+
+                log.info(
+                  "\n" +
+                    "当前处理文件名为：" +
+                    fileName +
+                    "\n处理文件耗时：\n" +
+                    stdout
+                );
+              }
+            }
+          );
+        } else if (NTC_status != "" && ladder_status != "") {
+          exec(
+            exe_file,
+            [
+              "-i",
+              file_path,
+              "-e",
+              Encoding,
+              "-c",
+              sample_status,
+              peak,
+              Chinese,
+              "-n",
+              NTC_status,
+              "-d",
+              ladder_status
+            ],
+            function (error, stdout, stderr) {
+              console.log(
+                "-i",
+                file_path,
+                "-e",
+                Encoding,
+                "-c",
+                sample_status,
+                peak,
+                Chinese,
+                "-n",
+                NTC_status,
+                "-d",
+                ladder_status
+              );
+              console.log("stdout", stdout);
+              console.log("stderr", stderr);
+              if (error || stderr) {
+                var notice = "[WARNING] 输入文件 " + file_path + " 处理有误";
+                mdui.snackbar({
+                  message: notice,
+                  position: "left-top",
+                  onClick: function () {
+                    ipc.send("tab3");
+                  },
+                });
+                console.warn("stderr:\n" + stderr);
+                log.warn(
+                  "\n" +
+                    "当前处理文件名为：" +
+                    fileName +
+                    "\n报错提示：\n" +
+                    stderr
+                );
+                if (error !== null) {
+                  log.error(
+                    "\n" +
+                      "当前处理文件名为：" +
+                      fileName +
+                      "\n错误提示：\n" +
+                      error
+                  );
+                }
+                // if(document.getElementById('restore').innerHTML === '<p style="text-align:center">所有日志信息全部位于程序运行日志窗口中</p>'){
+                // 	document.getElementById('restore').innerHTML =""
+                // }
+                // document.getElementById('restore').innerHTML = '<br/>' + "<b style='color:#da242a'>当前处理文件名：</b>" 
+              } else if (stdout) {
+                setTimeout(function () {
+                  var notice = "输入文件 " + file_path + " 处理完成";
+                  mdui.snackbar({ message: notice });
+                }, 1000);
+                // if(document.getElementById('restore').innerHTML ==='<p style="text-align:center">所有日志信息全部位于程序运行日志窗口中</p>'){
+                // 	document.getElementById('restore').innerHTML =""
+                // }
+
+                log.info(
+                  "\n" +
+                    "当前处理文件名为：" +
+                    fileName +
+                    "\n处理文件耗时：\n" +
+                    stdout
+                );
+              }
+            }
+          );
+        } else if (NTC_status != "" && ladder_status == "") {
+          exec(
+            exe_file,
+            [
+              "-i",
+              file_path,
+              "-e",
+              Encoding,
+              "-c",
+              sample_status,
+              peak,
+              Chinese,
+              "-n",
+              NTC_status,
+              ladder_status
+            ],
+            function (error, stdout, stderr) {
+              console.log(
+                "-i",
+                file_path,
+                "-e",
+                Encoding,
+                "-c",
+                sample_status,
+                peak,
+                Chinese,
+                "-n",
+                NTC_status,
+                ladder_status
+              );
+              console.log("stdout", stdout);
+              console.log("stderr", stderr);
+              if (error || stderr) {
+                var notice = "[WARNING] 输入文件 " + file_path + " 处理有误";
+                mdui.snackbar({
+                  message: notice,
+                  position: "left-top",
+                  onClick: function () {
+                    ipc.send("tab3");
+                  },
+                });
+                console.warn("stderr:\n" + stderr);
+                log.warn(
+                  "\n" +
+                    "当前处理文件名为：" +
+                    fileName +
+                    "\n报错提示：\n" +
+                    stderr
+                );
+                if (error !== null) {
+                  log.error(
+                    "\n" +
+                      "当前处理文件名为：" +
+                      fileName +
+                      "\n错误提示：\n" +
+                      error
+                  );
+                }
+                // if(document.getElementById('restore').innerHTML === '<p style="text-align:center">所有日志信息全部位于程序运行日志窗口中</p>'){
+                // 	document.getElementById('restore').innerHTML =""
+                // }
+                // document.getElementById('restore').innerHTML = '<br/>' + "<b style='color:#da242a'>当前处理文件名：</b>" + fileName + '<br/>'
+              } else if (stdout) {
+                setTimeout(function () {
+                  var notice = "输入文件 " + file_path + " 处理完成";
+                  mdui.snackbar({ message: notice });
+                }, 1000);
+                // if(document.getElementById('restore').innerHTML ==='<p style="text-align:center">所有日志信息全部位于程序运行日志窗口中</p>'){
+                // 	document.getElementById('restore').innerHTML =""
+                // }
+
+                log.info(
+                  "\n" +
+                    "当前处理文件名为：" +
+                    fileName +
+                    "\n处理文件耗时：\n" +
+                    stdout
+                );
+              }
+            }
+          );
         } else {
-          array[i] = "<p style='margin:10px'>" + array[i] + "</p>"
+          exec(
+            exe_file,
+            [
+              "-i",
+              file_path,
+              "-e",
+              Encoding,
+              "-c",
+              sample_status,
+              peak,
+              Chinese,
+              NTC_status,
+              "-d",
+              ladder_status
+            ],
+            function (error, stdout, stderr) {
+              console.log(
+                "-i",
+                file_path,
+                "-e",
+                Encoding,
+                "-c",
+                sample_status,
+                peak,
+                Chinese,
+                NTC_status,
+                "-d",
+                ladder_status
+              );
+              console.log("stdout", stdout);
+              console.log("stderr", stderr);
+              if (error || stderr) {
+                var notice = "[WARNING] 输入文件 " + file_path + " 处理有误";
+                mdui.snackbar({
+                  message: notice,
+                  position: "left-top",
+                  onClick: function () {
+                    ipc.send("tab3");
+                  },
+                });
+                console.warn("stderr:\n" + stderr);
+                log.warn(
+                  "\n" +
+                    "当前处理文件名为：" +
+                    fileName +
+                    "\n报错提示：\n" +
+                    stderr
+                );
+                if (error !== null) {
+                  log.error(
+                    "\n" +
+                      "当前处理文件名为：" +
+                      fileName +
+                      "\n错误提示：\n" +
+                      error
+                  );
+                }
+                // if(document.getElementById('restore').innerHTML === '<p style="text-align:center">所有日志信息全部位于程序运行日志窗口中</p>'){
+                // 	document.getElementById('restore').innerHTML =""
+                // }
+                // document.getElementById('restore').innerHTML = '<br/>' + "<b style='color:#da242a'>当前处理文件名：</b>" + fileName + '<br/>'
+              } else if (stdout) {
+                setTimeout(function () {
+                  var notice = "输入文件 " + file_path + " 处理完成";
+                  mdui.snackbar({ message: notice });
+                }, 1000);
+                // if(document.getElementById('restore').innerHTML ==='<p style="text-align:center">所有日志信息全部位于程序运行日志窗口中</p>'){
+                // 	document.getElementById('restore').innerHTML =""
+                // }
+
+                log.info(
+                  "\n" +
+                    "当前处理文件名为：" +
+                    fileName +
+                    "\n处理文件耗时：\n" +
+                    stdout
+                );
+              }
+            }
+          );
         }
-        message.innerHTML += array[i].toString()
       }
-      
-    }
-      const FindInPage = require('electron-find').FindInPage;
+      // child_process.spawn method
+      // var path = require("path");
+
+      // function start(file_path, Encoding, sample_status, peak, more, Chinese, order) {
+      //   console.log("Request handler 'start' was called.");
+      //   console.log(file_path)
+      //   if (file_path.constructor === Array) {
+      //     file_name = file_path[0].trim()
+      //     fileName = file_name.substring(file_name.lastIndexOf('\\') + 1)
+      //   } else {
+      //     file_name = file_path.trim()
+      //     fileName = file_name.substring(file_name.lastIndexOf('\\') + 1)
+      //   }
+      //   const { spawn } = require("child_process");
+      //   var exe_file;
+      //   if (process.platform === "darwin") {
+      //     exe_file = path.join(__dirname, "analysis.mac");
+      //   }
+      //   if (process.platform === "win32") {
+      //     exe_file = path.join(__dirname, "analysis.exe");
+      //   }
+      //   var childProcess = spawn(exe_file, [
+      //     "-i",
+      //     file_path,
+      //     "-e",
+      //     Encoding,
+      //     "-c",
+      //     sample_status,
+      //     peak,
+      //     more,
+      //     Chinese,
+      //     order
+      //   ]);
+      //   childProcess.stderr.on("data", (data) => {
+      //     console.log(`stderr: ${data}`);
+      //     var notice = "[WARNING] 输入文件 " + file_path + " 处理有误";
+      //     mdui.snackbar({ message: notice, position: "left-top" });
+      //     document.getElementById('restderr').innerHTML += "*******************************" + "<br/>" + "当前处理文件名：" + fileName + '<br/>'+ "错误提示信息：" + data + '<br/>' + '*******************************' + '<br/>'
+      //    document.getElementById('restore').innerHTML += "*******************************" + "<br/>" + "当前处理文件名：" + fileName + '<br/>' + '*******************************' + '<br/>'
+      //   });
+      //   childProcess.stdout.on("data", (data) => {
+      //     console.log(`stdout: ${data}`);
+      //     setTimeout(function () {
+      //       var notice = "输入文件 " + file_path + " 处理完成";
+      //       mdui.snackbar({ message: notice });
+      //     }, 5000)
+      //   document.getElementById('restore').innerHTML +="*******************************" + "<br/>" + "当前处理文件名：" + fileName + '<br/>' + "处理文件耗时：" + data + '<br/>' + '*******************************' + '<br/>'
+      //     console.log(
+      //       "-i",
+      //       file_path,
+      //       "-e",
+      //       Encoding,
+      //       "-c",
+      //       sample_status,
+      //       peak,
+      //       more,
+      //       Chinese,
+      //       order
+      //     );
+      //   });
+      //   childProcess.on("close", (code) => {
+      //     console.log(`子进程退出码：${code}`);
+      //   });
+      // }
+
+      // event: drag file(s) to window
+      const holder = document.getElementById("holder");
+      holder.ondragover = () => {
+        return false;
+      };
+      holder.ondragleave = holder.ondragend = () => {
+        return false;
+      };
+      holder.ondrop = (e) => {
+        e.preventDefault();
+        for (let f of e.dataTransfer.files) {
+          console.log("File(s) you dragged here: ", f.path);
+          // start(f.path, Encoding, sample_status, peak, more, Chinese, order);
+          start(
+            f.path,
+            Encoding,
+            sample_status,
+            peak,
+            Chinese,
+            NTC_status,
+            ladder_status
+          );
+        }
+        return false;
+      };
+      // event: click to open file manager
+      const os = require("os");
+      let default_path = os.homedir();
+      const { dialog } = require("electron").remote;
+      const fileManagerBtn = document.getElementById("holder");
+      fileManagerBtn.addEventListener("click", showOpenDialogHandler);
+      function showOpenDialogHandler() {
+        var options = {
+          defaultPath: default_path,
+          filters: [{ name: "RawData", extensions: ["txt", "csv"] }],
+          properties: ["openFile"],
+        };
+        dialog
+          .showOpenDialog(options)
+          .then((result) => {
+            console.log("Select file" + result.filePaths);
+            console.log(result.filePaths);
+            if (!result.filePaths[0]) {
+              console.log("No file selected");
+              mdui.snackbar({ message: "未选择任何文件" });
+              return;
+            } else {
+              // start(
+              //   result.filePaths,
+              //   Encoding,
+              //   sample_status,
+              //   peak,
+              //   more,
+              //   Chinese,
+              //   order
+              // );
+              start(
+                result.filePaths,
+                Encoding,
+                sample_status,
+                peak,
+                Chinese,
+                NTC_status,
+                ladder_status
+              );
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            console.log("No file selected");
+          });
+      }
+      var tab3 = document.querySelector("#tab3_icon");
+      var ipc = require("electron").ipcRenderer;
+      tab3.onclick = () => {
+        // ipc.send('tab3')
+        // var log = require('electron-log');
+        // log.transports.console.level = 'silly';
+        // var path = require("path")
+        // var { remote } = require('electron')
+        // var app = remote.app
+        // var filepath = path.join(app.getPath("temp"))
+        // var filename = "SMNFiler.log"
+        // console.log(path.join(filepath, filename))
+        // log.transports.file.resolvePath = () => path.join(filepath, filename)
+        var content = fs.readFileSync(path.join(filepath, filename));
+        var array = content.toString().split("\n");
+        var reg1 = RegExp(/warn/);
+        var reg2 = RegExp(/info/);
+        var reg3 = RegExp(/error/);
+        var message = document.getElementById("test");
+        message.innerHTML = "";
+        for (var i = 0; i < array.length; i++) {
+          if (array[i].match(reg1)) {
+            array[i] =
+              "<p style='color:#FF5722;text-align:center'>" + array[i] + "</p>";
+          } else if (array[i].match(reg2)) {
+            array[i] =
+              "<p style='color:#4CAF50;text-align:center'>" + array[i] + "</p>";
+          } else if (array[i].match(reg3)) {
+            array[i] =
+              "<p style='color:#FF5722;text-align:center'>" + array[i] + "</p>";
+          } else {
+            array[i] = "<p style='margin:10px'>" + array[i] + "</p>";
+          }
+          message.innerHTML += array[i].toString();
+        }
+      };
+      const FindInPage = require("electron-find").FindInPage;
       let findInPage = new FindInPage(remote.getCurrentWebContents());
-      ipc.on('on-find', (e, args) => {
-        findInPage.openFindWindow()
-      })
-  </script>
-  <script type="text/javascript">
-    function down() {
-      const div = document.getElementById('test')
-      console.log(div.scrollHeight)
-      div.scrollTop = div.scrollHeight
-      console.log(div.scrollTop)
-    }
-    function up() {
-      const div1 = document.getElementById('test')
-      div1.scrollTop = 0
-    }
-    function download() {
-      var filePath = path.join(filepath, filename);
-      var win = remote.getCurrentWindow();
-      win.webContents.downloadURL(filePath);
-      // Mac 版本
-      // win.webContents.downloadURL("file:///"+filePath)
-    }
-  </script>
-  <style>
-    body {
-      overflow: hidden;
-    }
+      ipc.on("on-find", (e, args) => {
+        findInPage.openFindWindow();
+      });
+    </script>
+    <script type="text/javascript">
+      function down() {
+        const div = document.getElementById("test");
+        console.log(div.scrollHeight);
+        div.scrollTop = div.scrollHeight;
+        console.log(div.scrollTop);
+      }
+      function up() {
+        const div1 = document.getElementById("test");
+        div1.scrollTop = 0;
+      }
+      function download() {
+        var filePath = path.join(filepath, filename);
+        var win = remote.getCurrentWindow();
+        win.webContents.downloadURL(filePath);
+        // Mac 版本
+        // win.webContents.downloadURL("file:///"+filePath)
+      }
+    </script>
+    <style>
+      body {
+        overflow: hidden;
+      }
 
-    .uptop {
-      margin-bottom: 50px;
-    }
-    #customer,#customer_ntcTest {
-      min-width: 154px;
-    }
-    #customer_ladderTest{
-      min-width: 154px;
-      text-transform: none;
-    }
-    .download {
-      margin-bottom: 160px;
-    }
-    .body {
-      overflow-x: hidden;
-    }
+      .uptop {
+        margin-bottom: 50px;
+      }
+      #customer,
+      #customer_ntcTest {
+        min-width: 154px;
+      }
+      #customer_ladderTest {
+        min-width: 154px;
+        text-transform: none;
+      }
+      .download {
+        margin-bottom: 160px;
+      }
+      .body {
+        overflow-x: hidden;
+      }
 
-    .panel {
-      text-align: center;
-      font-size: 16px;
-      margin-top: 16px;
-    }
+      .panel {
+        text-align: center;
+        font-size: 16px;
+        margin-top: 16px;
+      }
 
-    .result1 {
-      margin-top: 16px;
-      height: 200px;
-      overflow-y: auto;
-      overflow-x: hidden;
-      padding-left: 36px;
-      padding-right: 36px;
-      transition: all .5s;
-    }
-
-    .result2 {
-      margin-top: 16px;
-      height: 200px;
-      overflow-y: auto;
-      padding-left: 36px;
-      padding-right: 36px;
-    }
-
-    @media (min-height: 410px) {
-
-      .result2 {
+      .result1 {
+        margin-top: 16px;
         height: 200px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding-left: 36px;
+        padding-right: 36px;
+        transition: all 0.5s;
       }
-    }
-
-    @media (min-height: 460px) {
 
       .result2 {
-        height: 320px;
+        margin-top: 16px;
+        height: 200px;
+        overflow-y: auto;
+        padding-left: 36px;
+        padding-right: 36px;
       }
-    }
 
-    @media (min-height: 500px) {
-      .result2 {
-        height: 360px;
+      @media (min-height: 410px) {
+        .result2 {
+          height: 200px;
+        }
       }
-    }
 
-    @media (min-height:600px) {
-      .result2 {
-        height: 460px;
+      @media (min-height: 460px) {
+        .result2 {
+          height: 320px;
+        }
       }
-    }
 
-    @media (min-height: 700px) {
-      .result2 {
-        height: 560px;
+      @media (min-height: 500px) {
+        .result2 {
+          height: 360px;
+        }
       }
-    }
 
-    @media (min-height:850px) {
-      .result2 {
-        height: 710px;
+      @media (min-height: 600px) {
+        .result2 {
+          height: 460px;
+        }
       }
-    }
 
-    @media (min-height: 1000px) {
-      .result2 {
-        height: 860px;
+      @media (min-height: 700px) {
+        .result2 {
+          height: 560px;
+        }
       }
-    }
-  </style>
-</body>
 
+      @media (min-height: 850px) {
+        .result2 {
+          height: 710px;
+        }
+      }
+
+      @media (min-height: 1000px) {
+        .result2 {
+          height: 860px;
+        }
+      }
+    </style>
+  </body>
 </html>
