@@ -795,7 +795,6 @@
       //     console.log(`子进程退出码：${code}`);
       //   });
       // }
-
       // event: drag file(s) to window
       const holder = document.getElementById("holder");
       holder.ondragover = () => {
@@ -867,6 +866,27 @@
             console.log(err);
             console.log("No file selected");
           });
+      }
+      var uploadSample = document.getElementById("addUploadSample")
+      uploadSample.addEventListener("click",showUploadSampleDialog);
+      function showUploadSampleDialog(){
+        var options= {
+          defaultPath:default_path,
+          filters:[{name:"RawData",extensions:["xlsx","xls"]}],
+          properties:["openFile"]
+        }
+        dialog.showOpenDialog(options).then((result)=>{
+          console.log("Now Select sample file"+result.filePaths)
+          if(!result.filePaths[0]){
+            console.log("No sample file selected")
+            mdui.snackbar({message:"未选择样本文件"})
+            return
+          }else{
+            sampleFileStart(result.filePaths)
+          }
+        }).catch((err)=>{
+          console.log("err",err)
+        })
       }
       var tab3 = document.querySelector("#tab3_icon");
       var ipc = require("electron").ipcRenderer;
