@@ -21,6 +21,9 @@
       >
         <i id="tab1_icon" class="mdui-icon material-icons">&#xe24d;</i></a
       >
+      <a href="#tab4" class="mdui-ripple" onmousedown="mOver4(this)">
+       <i id="tab4_icon" class="mdui-icon material-icons">&#xe865;</i>
+      </a>
       <a href="#tab2" class="mdui-ripple" onmousedown="mOver2(this)">
         <i id="tab2_icon" class="mdui-icon material-icons">&#xe8b8;</i></a
       >
@@ -61,6 +64,31 @@
         >
           <i class="mdui-icon material-icons">&#xe879;</i>退出
         </button>
+      </div>
+    </div>
+    <div id="tab4" class="mdui-p-a-1">
+      <div style="overflow-y: auto;height: 80vh;">
+        <button id="addUploadSample" class="mdui-btn mdui-ripple mdui-color-orange mdui-btn-raised">上传样本数据</button>
+        <p style="text-align: center;font-weight: bold;">运动神经元存活基因拷贝数检验报告数据</p>
+        <table border="1" id="tableContent" style="white-space: nowrap;text-align:center;">
+            <tr width="100%">
+                <th>序号</th>
+                <th>姓名</th>
+                <th>性别</th>
+                <th>手机号</th>
+                <th>简要病史</th>
+                <th>采样日期</th>
+                <th>检验日期</th>
+                <th>报告日期</th>
+                <th>检验单位</th>
+                <th>样本类型</th>
+                <th>检验者</th>
+                <th>审核者</th>
+                <th>SMN1外显子7</th>
+                <th>SMN2外显子7</th>
+                <th>检验结论</th>
+            </tr>
+        </table>
       </div>
     </div>
     <div id="tab2" class="mdui-p-a-3">
@@ -327,6 +355,9 @@
       // $("#sample_order").on("click", samplename_order)
       function mOver1(obj) {
         mdui.snackbar({ message: "进入分析面板", timeout: 1000 });
+      }
+      function mOver4(obj) {
+        mdui.snackbar({ message:"进入出报告面板", timeout:1000})
       }
       function mOver2(obj) {
         mdui.snackbar({ message: "进入设置面板", timeout: 1000 });
