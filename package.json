@@ -75,6 +75,7 @@
   "dependencies": {
     "electron-find": "^1.0.7",
     "electron-log": "^4.4.1",
-    "mdui": "^1.0.1"
+    "mdui": "^1.0.1",
+    "node-xlsx": "^0.21.0"
   }
 }
