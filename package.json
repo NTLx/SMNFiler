@@ -30,11 +30,21 @@
       "analysis_miss",
       "main.js",
       "index.html",
-      "renderer.js",
+      "echarts.js",
       "style.css",
       "jquery-3.4.1.min.js"
     ],
     "asar": true,
+    "extraResources":[{
+      "from":"simsun.ttc",
+      "to":"simsun.ttc"
+    },{
+      "from":"MiSans-Normal.ttf",
+      "to":"MiSans-Normal.ttf"
+    },{
+      "from":"echarts.js",
+      "to":"echarts.js"
+    }],
     "directories": {
       "buildResources": "build",
       "output": "dist"
