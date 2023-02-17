@@ -206,6 +206,26 @@
           <button class="mdui-btn mdui-ripple" mdui-dialog-confirm>确认</button>
         </div>
       </div>
+      <div class="mdui-valign mdui-p-a-1">
+        <label>选择输出文件种类:</label>
+      </div>
+      <div class="mdui-valign" style="width: 680px; height: 40px">
+        <form class="mdui-p-a-1">
+          <label class="mdui-radio">
+            <input id="dataFile" type="radio" name="group2" checked />
+            <i class="mdui-radio-icon"></i>仅输出结果文件
+          </label>
+          <label class="mdui-radio">
+            <input id="dataFileReport" type="radio" name="group2" />
+            <i class="mdui-radio-icon"></i>输出结果文件和报告
+          </label>
+          <label class="mdui-radio">
+            <input id="dataFilePictureReport" type="radio" name="group2" />
+            <i class="mdui-radio-icon"></i>输出结果文件和包含图片报告
+          </label>
+        </form>
+      </div>
+      
     </div>
     <div id="tab3" class="mdui-p-a-1">
       <div class="layout">
@@ -346,8 +366,31 @@
           Encoding = "UTF-8";
         }
       };
+      var includePicture = ""
+      var noPicture = 0
+      var pictureStatus = function(){
+        if($("#dataFile").is(":checked")){
+          mdui.snackbar({message:"输出文件结果文件"})
+          includePicture = ""
+          noPicture =0
+        }
+        if($("#dataFileReport").is(":checked")){
+          mdui.snackbar({message:"输出结果文件和报告"})
+          includePicture = ""
+          noPicture = 1
+        }
+        if($("#dataFilePictureReport").is(":checked")){
+          mdui.snackbar({message:"输出结果文件和包含图片报告"})
+          includePicture = "-f"
+          noPicture = 1
+        }
+      }
+  
       $("#utf").on("click", encod_status);
       $("#gbk").on("click", encod_status);
+      $("#dataFile").on("click",pictureStatus)
+      $("#dataFileReport").on("click",pictureStatus)
+      $("#dataFilePictureReport").on("click",pictureStatus)
       // $("#NTC_Test").on("click",NTC_status);
       // $("#more_button").on("click", more_status);
       $("#peak_area").on("click", peak_status);
@@ -377,6 +420,8 @@
       log.transports.file.resolvePath = () => path.join(filepath, filename);
       console.log(log.transports.file.resolvePath);
       var exec = require("child_process").execFile;
+      var dataAddress = []
+      var dataAddress1 = []
       // function start(file_path, Encoding, sample_status, peak, more, Chinese, order) {}
       function start(
         file_path,
@@ -385,12 +430,18 @@
         peak,
         Chinese,
         NTC_status,
-        ladder_status
+        ladder_status,
+        includePicture
       ) {
+        
+        // fileArrayPath.push(file_path[0])
+        // fileArrayPath.push(file_path[0])
+        // console.log("121212",fileArrayPath)
         console.log("Request handler 'start' was called.");
         if (file_path.constructor === Array) {
           file_name = file_path[0].trim();
           fileName = file_name.substring(file_name.lastIndexOf("\\") + 1);
+         
         } else {
           file_name = file_path.trim();
           fileName = file_name.substring(file_name.lastIndexOf("\\") + 1);
@@ -418,7 +469,8 @@
               peak,
               Chinese,
               NTC_status,
-              ladder_status
+              ladder_status,
+              includePicture
             ],
             function (error, stdout, stderr) {
               console.log(
@@ -431,7 +483,8 @@
                 peak,
                 Chinese,
                 NTC_status,
-                ladder_status
+                ladder_status,
+                includePicture
               );
               console.log("stdout", stdout);
               console.log("stderr", stderr);
@@ -481,6 +534,15 @@
                     "\n处理文件耗时：\n" +
                     stdout
                 );
+                if(includePicture==""&&noPicture==1){
+                  const tab4 = document.querySelector("#tab4_icon")
+                  tab4.click()
+                }else if(includePicture=="-f"&&noPicture==1){
+                  const tab4 = document.querySelector("#tab4_icon")
+                  tab4.click()
+                }else{
+                  
+                }
               }
             }
           );
@@ -499,7 +561,8 @@
               "-n",
               NTC_status,
               "-d",
-              ladder_status
+              ladder_status,
+              includePicture
             ],
             function (error, stdout, stderr) {
               console.log(
@@ -514,7 +577,8 @@
                 "-n",
                 NTC_status,
                 "-d",
-                ladder_status
+                ladder_status,
+                includePicture
               );
               console.log("stdout", stdout);
               console.log("stderr", stderr);
@@ -564,6 +628,15 @@
                     "\n处理文件耗时：\n" +
                     stdout
                 );
+                if(includePicture==""&&noPicture==1){
+                  const tab4 = document.querySelector("#tab4_icon")
+                  tab4.click()
+                }else if(includePicture=="-f"&&noPicture==1){
+                  const tab4 = document.querySelector("#tab4_icon")
+                  tab4.click()
+                }else{
+                  
+                }
               }
             }
           );
@@ -581,7 +654,8 @@
               Chinese,
               "-n",
               NTC_status,
-              ladder_status
+              ladder_status,
+              includePicture
             ],
             function (error, stdout, stderr) {
               console.log(
@@ -595,7 +669,8 @@
                 Chinese,
                 "-n",
                 NTC_status,
-                ladder_status
+                ladder_status,
+                includePicture
               );
               console.log("stdout", stdout);
               console.log("stderr", stderr);
@@ -645,6 +720,15 @@
                     "\n处理文件耗时：\n" +
                     stdout
                 );
+                if(includePicture==""&&noPicture==1){
+                  const tab4 = document.querySelector("#tab4_icon")
+                  tab4.click()
+                }else if(includePicture=="-f"&&noPicture==1){
+                  const tab4 = document.querySelector("#tab4_icon")
+                  tab4.click()
+                }else{
+                  
+                }
               }
             }
           );
@@ -662,7 +746,8 @@
               Chinese,
               NTC_status,
               "-d",
-              ladder_status
+              ladder_status,
+              includePicture
             ],
             function (error, stdout, stderr) {
               console.log(
@@ -676,7 +761,8 @@
                 Chinese,
                 NTC_status,
                 "-d",
-                ladder_status
+                ladder_status,
+                includePicture
               );
               console.log("stdout", stdout);
               console.log("stderr", stderr);
@@ -726,11 +812,23 @@
                     "\n处理文件耗时：\n" +
                     stdout
                 );
+                if(includePicture==""&&noPicture==1){
+                  const tab4 = document.querySelector("#tab4_icon")
+                  tab4.click()
+                }else if(includePicture=="-f"&&noPicture==1){
+                  const tab4 = document.querySelector("#tab4_icon")
+                  tab4.click()
+                }else{
+                  
+                }
               }
             }
           );
         }
+
+        
       }
+      // console.log("fileArrayPath",fileArrayPath)
       // child_process.spawn method
       // var path = require("path");
 
@@ -795,6 +893,1865 @@
       //     console.log(`子进程退出码：${code}`);
       //   });
       // }
+      //function:upload sample file to deal report
+      function sampleFileStart(file_path1){
+        // var resultFilePath = start(file_path,Encoding,sample_status,peak,Chinese,NTC_status,ladder_status);
+        // console.log("resultFilePath",resultFilePath)
+        var path = require("path")
+        console.log("dataAddress1",dataAddress1[0])
+        var copyFileName = dataAddress1[0].substring(dataAddress1[0].lastIndexOf('\\') + 1)
+        var copyFilePath = dataAddress1[0].substring(0,dataAddress1[0].lastIndexOf("\\") + 1)
+        var copyRemoveFileTxt = copyFileName.substring(0,copyFileName.indexOf("."))
+        console.log("copyFileName",copyFileName)
+        console.log("copyFilePath",copyFilePath)
+        console.log("copyRemoveFileTxt",copyRemoveFileTxt)
+        var nowDate = new Date()
+        var nowDateStr = nowDate.getFullYear()+"_"+(nowDate.getMonth()+1)+"_"+nowDate.getDate()
+        console.log("nowDateStr",nowDateStr)
+        var figureFileUrl = path.join(copyFilePath,copyRemoveFileTxt+"."+nowDateStr,copyRemoveFileTxt+"."+nowDateStr+"."+Encoding+".figure.tsv")
+        console.log("figureFileUrl",figureFileUrl)
+        console.log("file_path1.constructor",file_path1.constructor)
+        sampleFileNamePath =file_path1[0].trim()
+        console.log(sampleFileNamePath)
+        sampleFileName = sampleFileNamePath.substring(sampleFileNamePath.lastIndexOf("\\")+1)
+        console.log("sampleFileName",sampleFileName)
+        sampleFileNameCurrentPath = sampleFileNamePath.substring(0,sampleFileNamePath.lastIndexOf("\\")+1)
+        console.log("sampleFileNameCurrentPath",sampleFileNameCurrentPath)
+        log.info("\n"+"当前处理文件名："+sampleFileName+"\n"+"成功传入输入样本数据文件")
+        var fs = require("fs")
+        var xlsx = require("node-xlsx")
+        var sampleSheets = xlsx.parse(file_path1[0])
+        var sampleSheetsData = sampleSheets[0].data
+        var sampleLineData = []
+        var newSampleLineData = []
+        if(includePicture == "-f"){
+          var figureSheets = xlsx.parse(figureFileUrl)
+          var figureSheetsData = figureSheets[0].data
+          var figureLineData = []
+          var newFigureLineData = []
+          for(var k=1;k<figureSheetsData.length;k++){
+            figureLineData.push(figureSheetsData[k])
+          }
+        }
+        for(var j=1;j<sampleSheetsData.length;j++){
+          sampleLineData.push(sampleSheetsData[j])
+          console.log("sampleLineData",sampleLineData)
+        }
+        
+        
+        var htmlName =[]
+        var pdfName = []
+        var newFolderName = []
+        var folderName = []
+        var pdfPathAndName = []
+        var content = []
+        var htmlPathAndName = []
+        var displaySampleData = document.getElementById("tableContent")
+        displaySampleData.innerHTML=`<tr width="100%">
+                    <th>序号</th>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>手机号</th>
+                    <th>简要病史</th>
+                    <th>采样日期</th>
+                    <th>检验日期</th>
+                    <th>报告日期</th>
+                    <th>检验单位</th>
+                    <th>样本类型</th>
+                    <th>检验者</th>
+                    <th>审核者</th>
+                    <th>SMN1外显子7</th>
+                    <th>SMN2外显子7</th>
+                    <th>检验结论</th>
+                </tr>`
+            sampleLineData.forEach(function(item,index){
+              var leftSlash = '/'
+              if (sampleLineData[index][2] == ' ' || sampleLineData[index][2] == undefined) {
+                  sampleLineData[index][2] = leftSlash
+              }
+              if (sampleLineData[index][3] == ' ' || sampleLineData[index][3] == undefined) {
+                  sampleLineData[index][3] = leftSlash
+              }
+              if (sampleLineData[index][4] == ' ' || sampleLineData[index][4] == undefined) {
+                  sampleLineData[index][4] = leftSlash
+              }
+              if (sampleLineData[index][7] == ' ' || sampleLineData[index][7] == undefined) {
+                  sampleLineData[index][7] = leftSlash
+              }
+              if (sampleLineData[index][8] == ' ' || sampleLineData[index][8] == undefined) {
+                  sampleLineData[index][8] = leftSlash
+              }
+              if (sampleLineData[index][12] == '/' || sampleLineData[index][12] == undefined) {
+                  sampleLineData[index][12] = ''
+              }
+              if (sampleLineData[index][14] == ' ' || sampleLineData[index][14] == undefined) {
+                  sampleLineData[index][14] = leftSlash
+              }
+              if (sampleLineData[index][15] == ' ' || sampleLineData[index][15] == undefined) {
+                  sampleLineData[index][15] = leftSlash
+              }
+              displaySampleData.innerHTML += "<tr><td>" + sampleLineData[index][0] + "</td><td>" + sampleLineData[index][1] + "</td><td>" + sampleLineData[index][2] + "</td><td>" + sampleLineData[index][5] + "</td><td>" + sampleLineData[index][8] + "</td><td>" + sampleLineData[index][9] + "</td><td>" + sampleLineData[index][10] + "</td><td>" + sampleLineData[index][11] + "</td><td>" + sampleLineData[index][12] + "</td><td>" + sampleLineData[index][13] + "</td><td>" + sampleLineData[index][14] + "</td><td>" + sampleLineData[index][15] + "</td><td>" + sampleLineData[index][16] + "</td><td>" + sampleLineData[index][17] + "</td><td>" + sampleLineData[index][18] + "</td></tr>"
+              //return report
+              htmlName[index] = sampleLineData[index][0].substring(0,sampleLineData[index][0].indexOf("."))+ ".html"
+              pdfName[index] = sampleLineData[index][0].substring(0,sampleLineData[index][0].indexOf(".")) + ".pdf";
+              folderName[index] = sampleLineData[index][0].substring(0,sampleLineData[index][0].indexOf("."));
+              newFolderName[index] = path.join(copyFilePath,copyRemoveFileTxt + "." + nowDateStr,folderName[index]);
+              fs.mkdirSync(newFolderName[index]);
+              htmlPathAndName[index] = path.join(newFolderName[index],htmlName[index]);
+              pdfPathAndName[index] = path.join(newFolderName[index],pdfName[index]);
+              console.log("pdfPathAndName",pdfPathAndName)
+               //根据SMN1外显子7数值判断检验结论状态值
+               if (sampleLineData[index][16] >= 2) {
+                        var reportResult = "未检出目标基因拷贝数异常"
+               } else if (sampleLineData[index][16] == 1) {
+                   var reportResult = "SMN1基因外显子7杂合型缺失"
+               } else if (sampleLineData[index][16] == 0) {
+                   var reportResult = "SMN1基因外显子7纯合型缺失"
+               }
+               if(includePicture == "-f"){
+                var echartsPath = path.join(__dirname,"../echarts.js")
+                console.log("echartsPath",echartsPath)
+                 var pictureHtml=`<tr>
+                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;'><b>检验结果图谱</b></p>
+                </td>
+                <td width=339 colspan=12 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                  <div id="main" style="height: 306px; width: 460px"></div>
+                </td>
+            </tr>`
+            var pagingTable = ` </td>
+            </tr>
+        </table>
+        <table class=MsoTableGrid border=1 cellspacing=0 cellpadding=0 width=556
+                                                 style='width:416.7pt;border-collapse:collapse;border:none;margin: auto;'>
+            <tr>
+                <td width=556 colspan=13 valign=middle style='width:416.7pt;border:solid windowtext 1.0pt;border:none;padding:0cm 5.4pt 0cm 0pt'>
+                                                         <span style='font-size:10.5pt'>
+                                                            <br clear=all style='page-break-before:always'>
+                                                         </span>
+                                                     </td>
+            </tr>
+        </table>
+        <table class=MsoTableGrid border=1 cellspacing=0 cellpadding=0 width=556 id="mainContent"
+        style='width:416.7pt;margin: auto;border-collapse:collapse;margin-top:40px;'>
+            <tr>
+                <td width=556 colspan=13 valign=middle style='width:416.7pt;
+                padding:0cm 5.4pt 0cm 5.4pt'>`
+          var pagingEnd = `</td>`
+            var pictureScript=`<script type="text/javascript">
+      /* 基于准备好的dom，初始化echarts实例*/
+      var lastData = ${figureLineData[index][11]};
+      if (lastData == false) {
+        var mainContent = document.getElementById("main");
+        var myChart = echarts.init(mainContent);
+        var SMN1 = "${figureLineData[index][1]}";
+        var SMN2 = "${figureLineData[index][2]}";
+        var S01 = "${figureLineData[index][6]}";
+        var S02 = "${figureLineData[index][9]}";
+        var S03 = "${figureLineData[index][10]}";
+        var S04 = "${figureLineData[index][4]}";
+        var S05 = "${figureLineData[index][7]}";
+        var S06 = "${figureLineData[index][3]}";
+        var S07 = "${figureLineData[index][5]}";
+        var S08 = "${figureLineData[index][8]}";
+        if (S01 == "1 2") {
+          var marker1Value1 = {
+            value: 1,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker1Value2 = {
+            value: 1,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        } else if (S01 == "1") {
+          var marker1Value1 = {
+            value: 2,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker1Value2 = {
+            value: 0,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        } else if (S01 == "2") {
+          var marker1Value1 = {
+            value: 0,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker1Value2 = {
+            value: 2,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        }
+        if (S02 == "1 2") {
+          var marker2Value1 = {
+            value: 1,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker2Value2 = {
+            value: 1,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        } else if (S02 == "1") {
+          var marker2Value1 = {
+            value: 2,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker2Value2 = {
+            value: 0,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        } else if (S02 == "2") {
+          var marker2Value1 = {
+            value: 0,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker2Value2 = {
+            value: 2,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        }
+        if (S03 == "1 2") {
+          var marker3Value1 = {
+            value: 1,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker3Value2 = {
+            value: 1,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        } else if (S03 == "1") {
+          var marker3Value1 = {
+            value: 2,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker3Value2 = {
+            value: 0,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        } else if (S03 == "2") {
+          var marker3Value1 = {
+            value: 0,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker3Value2 = {
+            value: 2,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        }
+        if (S04 == "1 2") {
+          var marker4Value1 = {
+            value: 1,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker4Value2 = {
+            value: 1,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+          var marker4Value3 = {
+            value: 0,
+            itemStyle: {
+              color: "#FFC0CB", /*粉色*/
+            },
+          };
+        } else if (S04 == "1") {
+          var marker4Value1 = {
+            value: 2,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker4Value2 = {
+            value: 0,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+          var marker4Value3 = {
+            value: 0,
+            itemStyle: {
+              color: "#FFC0CB", /*粉色*/
+            },
+          };
+        } else if (S04 == "2") {
+          var marker4Value1 = {
+            value: 0,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker4Value2 = {
+            value: 2,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+          var marker4Value3 = {
+            value: 0,
+            itemStyle: {
+              color: "#FFC0CB", /*粉色*/
+            },
+          };
+        } else if (S04 == "2 3") {
+          var marker4Value1 = {
+            value: 0,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker4Value2 = {
+            value: 1,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+          var marker4Value3 = {
+            value: 1,
+            itemStyle: {
+              color: "#FFC0CB", /*粉色*/
+            },
+          };
+        } else if (S04 == "1 3") {
+          var marker4Value1 = {
+            value: 1,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker4Value2 = {
+            value: 0,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+          var marker4Value3 = {
+            value: 1,
+            itemStyle: {
+              color: "#FFC0CB", /*粉色*/
+            },
+          };
+        } else if (S04 == "3") {
+          var marker4Value1 = {
+            value: 0,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker4Value2 = {
+            value: 0,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+          var marker4Value3 = {
+            value: 2,
+            itemStyle: {
+              color: "#FFC0CB", /*粉色*/
+            },
+          };
+        }
+        if (S05 == "1 2") {
+          var marker5Value1 = {
+            value: 1,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker5Value2 = {
+            value: 1,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        } else if (S05 == "1") {
+          var marker5Value1 = {
+            value: 2,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker5Value2 = {
+            value: 0,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        } else if (S05 == "2") {
+          var marker5Value1 = {
+            value: 0,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker5Value2 = {
+            value: 2,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        }
+        if (S06 == "1 2") {
+          var marker6Value1 = {
+            value: 1,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker6Value2 = {
+            value: 1,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        } else if (S06 == "1") {
+          var marker6Value1 = {
+            value: 2,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker6Value2 = {
+            value: 0,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        } else if (S06 == "2") {
+          var marker6Value1 = {
+            value: 0,
+            itemStyle: {
+              color: "#000088", /*黄色*/
+            },
+          };
+          var marker6Value2 = {
+            value: 2,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        }
+        if (S07 == "1 2") {
+          var marker7Value1 = {
+            value: 1,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker7Value2 = {
+            value: 1,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        } else if (S07 == "1") {
+          var marker7Value1 = {
+            value: 2,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker7Value2 = {
+            value: 0,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        } else if (S07 == "2") {
+          var marker7Value1 = {
+            value: 0,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker7Value2 = {
+            value: 2,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        }
+        if (S08 == "11 13") {
+          var marker8Value1 = {
+            value: 1,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker8Value2 = {
+            value: 1,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        } else if (S08 == "11") {
+          var marker8Value1 = {
+            value: 2,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker8Value2 = {
+            value: 0,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        } else if (S08 == "13") {
+          var marker8Value1 = {
+            value: 0,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker8Value2 = {
+            value: 2,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        } else {
+          var marker8Value1 = {
+            value: 0,
+            itemStyle: {
+              color: "#00FFFF", /*青色*/
+            },
+          };
+          var marker8Value2 = {
+            value: 2,
+            itemStyle: {
+              color: "#00FFFF", /*青色*/
+            },
+          };
+        }
+        if (SMN1 > 1) {
+          var SMN1Value1 = {
+            value: SMN1,
+            itemStyle: {
+              color: "#9955FF", /*淡紫色*/
+            },
+          };
+          var SMN1Value2 = {
+            value: 0,
+            itemStyle: {
+              color: "#FF8888", /*淡红色*/
+            },
+          };
+        } else {
+          var SMN1Value1 = {
+            value: 0,
+            itemStyle: {
+              color: "#9955FF", /*淡紫色*/
+            },
+          };
+          var SMN1Value2 = {
+            value: SMN1,
+            itemStyle: {
+              color: "#FF8888", /*淡红色*/
+            },
+          };
+        }
+        if (SMN2 >= 0) {
+          var SMN2Value1 = {
+            value: SMN2,
+            itemStyle: {
+              color: "#9955FF", //淡紫色
+            },
+          };
+          var SMN2Value2 = {
+            value: 0,
+            itemStyle: {
+              color: "#FF8888", //淡红色
+            },
+          };
+        } 
+        var option1 = {
+          color: ["#9955FF", "#FF8888","#000088", "#FFFF00", "#FFC0CB" ],
+          title: {
+            text: "",
+          },
+          animation : false,
+          aria: {
+            enabled: true,
+            decal: {
+              show: true,
+            },
+          },
+          tooltip: {
+            trigger: "axis",
+            axisPointer: {
+              type: "shadow",
+              label: {},
+            },
+          },
+          grid:{top:"24%"},
+          legend: {
+            data: [
+              
+              {
+                name: "SMN1>1,SMN2>=0",
+                icon: "rect",
+
+              },
+              {
+                name: "SMN1<=1",
+                icon: "rect",
+   
+              },
+              {
+                name: "等位基因1",
+                icon: "rect",
+
+              },
+              {
+                name: "等位基因2",
+                icon: "rect",
+
+              },
+              {
+                name: "等位基因3",
+                icon: "rect",
+
+              },
+            ],
+          },
+          xAxis: {
+            data: [
+              "SMN1",
+              "SMN2",
+              "S06",
+              "S04",
+              "S07",
+              "S01",
+              "S05",
+              "S08",
+              "S02",
+              "S03",
+            ],
+            axisLabel: { interval: 0 },
+          },
+          yAxis: [
+            {
+              type: "value",
+              name: "拷贝数",
+              position: "left",
+              alignTicks: true,
+              axisLine: {
+                show: true,
+              },
+              axisLabel: {
+                formatter: "{value}",
+              },
+              interval: 1,
+            },
+
+          ],
+          series: [
+          {
+              name: "SMN1>1,SMN2>=0",
+              type: "bar",
+              data: [SMN1Value1, SMN2Value1, 0, 0, 0, 0, 0, 0, 0, 0],
+              barGap: "0%",
+            },
+            {
+              name: "SMN1<=1",
+              type: "bar",
+              data: [SMN1Value2, SMN2Value2, 0, 0, 0, 0, 0, 0, 0, 0],
+              barGap: "0%",
+
+            },
+            {
+              name: "等位基因1",
+              type: "bar",
+              data: [
+                0,
+                0,
+                marker6Value1,
+                marker4Value1,
+                marker7Value1,
+                marker1Value1,
+                marker5Value1,
+                marker8Value1,
+                marker2Value1,
+                marker3Value1,
+              ],
+              barGap: "0%",
+          
+            },
+            {
+              name: "等位基因2",
+              type: "bar",
+              data: [
+                0,
+                0,
+                marker6Value2,
+                marker4Value2,
+                marker7Value2,
+                marker1Value2,
+                marker5Value2,
+                marker8Value2,
+                marker2Value2,
+                marker3Value2,
+              ],
+              barGap: "0%",
+            },
+            {
+              name: "等位基因3",
+              type: "bar",
+              data: [0, 0, 0, marker4Value3, 0, 0, 0, 0, 0, 0],
+              barGap: "0%",
+            },
+            
+          ],
+        };
+        myChart.setOption(option1);
+      } else {
+        var mainContent = document.getElementById("main");
+        var myChart = echarts.init(mainContent);
+        var SMN1 = "${figureLineData[index][1]}";
+        var SMN2 = "${figureLineData[index][2]}";
+        var S01 = "${figureLineData[index][6]}";
+        var S02 = "${figureLineData[index][9]}";
+        var S03 = "${figureLineData[index][10]}";
+        var S04 = "${figureLineData[index][4]}";
+        var S05 = "${figureLineData[index][7]}";
+        var S06 = "${figureLineData[index][3]}";
+        var S07 = "${figureLineData[index][5]}";
+        var S08 = "${figureLineData[index][8]}";
+        if (S01 == "1 2") {
+          var marker1Value1 = {
+            value: 1,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker1Value2 = {
+            value: 1,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        } else if (S01 == "1") {
+          var marker1Value1 = {
+            value: 2,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker1Value2 = {
+            value: 0,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        } else if (S01 == "2") {
+          var marker1Value1 = {
+            value: 0,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker1Value2 = {
+            value: 2,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        }
+        if (S02 == "1 2") {
+          var marker2Value1 = {
+            value: 1,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker2Value2 = {
+            value: 1,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        } else if (S02 == "1") {
+          var marker2Value1 = {
+            value: 2,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker2Value2 = {
+            value: 0,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        } else if (S02 == "2") {
+          var marker2Value1 = {
+            value: 0,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker2Value2 = {
+            value: 2,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        }
+        if (S03 == "1 2") {
+          var marker3Value1 = {
+            value: 1,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker3Value2 = {
+            value: 1,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        } else if (S03 == "1") {
+          var marker3Value1 = {
+            value: 2,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker3Value2 = {
+            value: 0,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        } else if (S03 == "2") {
+          var marker3Value1 = {
+            value: 0,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker3Value2 = {
+            value: 2,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        }
+        if (S04 == "1 2") {
+          var marker4Value1 = {
+            value: 1,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker4Value2 = {
+            value: 1,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+          var marker4Value3 = {
+            value: 0,
+            itemStyle: {
+              color: "#FFC0CB", /*粉色*/
+            },
+          };
+        } else if (S04 == "1") {
+          var marker4Value1 = {
+            value: 2,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker4Value2 = {
+            value: 0,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+          var marker4Value3 = {
+            value: 0,
+            itemStyle: {
+              color: "#FFC0CB", /*粉色*/
+            },
+          };
+        } else if (S04 == "2") {
+          var marker4Value1 = {
+            value: 0,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker4Value2 = {
+            value: 2,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+          var marker4Value3 = {
+            value: 0,
+            itemStyle: {
+              color: "#FFC0CB", /*粉色*/
+            },
+          };
+        } else if (S04 == "2 3") {
+          var marker4Value1 = {
+            value: 0,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker4Value2 = {
+            value: 1,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+          var marker4Value3 = {
+            value: 1,
+            itemStyle: {
+              color: "#FFC0CB", /*粉色*/
+            },
+          };
+        } else if (S04 == "1 3") {
+          var marker4Value1 = {
+            value: 1,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker4Value2 = {
+            value: 0,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+          var marker4Value3 = {
+            value: 1,
+            itemStyle: {
+              color: "#FFC0CB", /*粉色*/
+            },
+          };
+        } else if (S04 == "3") {
+          var marker4Value1 = {
+            value: 0,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker4Value2 = {
+            value: 0,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+          var marker4Value3 = {
+            value: 2,
+            itemStyle: {
+              color: "#FFC0CB", /*粉色*/
+            },
+          };
+        }
+        if (S05 == "1 2") {
+          var marker5Value1 = {
+            value: 1,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker5Value2 = {
+            value: 1,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        } else if (S05 == "1") {
+          var marker5Value1 = {
+            value: 2,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker5Value2 = {
+            value: 0,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        } else if (S05 == "2") {
+          var marker5Value1 = {
+            value: 0,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker5Value2 = {
+            value: 2,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        }
+        if (S06 == "1 2") {
+          var marker6Value1 = {
+            value: 1,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker6Value2 = {
+            value: 1,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        } else if (S06 == "1") {
+          var marker6Value1 = {
+            value: 2,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker6Value2 = {
+            value: 0,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        } else if (S06 == "2") {
+          var marker6Value1 = {
+            value: 0,
+            itemStyle: {
+              color: "#000088", /*黄色*/
+            },
+          };
+          var marker6Value2 = {
+            value: 2,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        }
+        if (S07 == "1 2") {
+          var marker7Value1 = {
+            value: 1,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker7Value2 = {
+            value: 1,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        } else if (S07 == "1") {
+          var marker7Value1 = {
+            value: 2,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker7Value2 = {
+            value: 0,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        } else if (S07 == "2") {
+          var marker7Value1 = {
+            value: 0,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker7Value2 = {
+            value: 2,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        }
+        if (S08 == "11 13") {
+          var marker8Value1 = {
+            value: 1,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker8Value2 = {
+            value: 1,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        } else if (S08 == "11") {
+          var marker8Value1 = {
+            value: 2,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker8Value2 = {
+            value: 0,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        } else if (S08 == "13") {
+          var marker8Value1 = {
+            value: 0,
+            itemStyle: {
+              color: "#000088", /*深蓝色*/
+            },
+          };
+          var marker8Value2 = {
+            value: 2,
+            itemStyle: {
+              color: "#FFFF00", /*黄色*/
+            },
+          };
+        } else {
+          var marker8Value1 = {
+            value: 0,
+            itemStyle: {
+              color: "#00FFFF", /*青色*/
+            },
+          };
+          var marker8Value2 = {
+            value: 2,
+            itemStyle: {
+              color: "#00FFFF", /*青色*/
+            },
+          };
+        }
+        if (SMN1 > 1) {
+          var SMN1Value1 = {
+            value: SMN1,
+            itemStyle: {
+              color: "#9955FF", /*淡紫色*/
+            },
+          };
+          var SMN1Value2 = {
+            value: 0,
+            itemStyle: {
+              color: "#FF8888", /*淡红色*/
+            },
+          };
+        } else {
+          var SMN1Value1 = {
+            value: 0,
+            itemStyle: {
+              color: "#9955FF", /*淡紫色*/
+            },
+          };
+          var SMN1Value2 = {
+            value: SMN1,
+            itemStyle: {
+              color: "#FF8888", /*淡红色*/
+            },
+          };
+        }
+        if (SMN2 >= 0) {
+          var SMN2Value1 = {
+            value: SMN2,
+            itemStyle: {
+              color: "#9955FF", //淡紫色
+            },
+          };
+          var SMN2Value2 = {
+            value: 0,
+            itemStyle: {
+              color: "#FF8888", //淡红色
+            },
+          };
+        }
+        var option1 = {
+          color: ["#9955FF", "#FF8888","#000088", "#FFFF00", "#FFC0CB" ],
+          title: {
+            text: "",
+          },
+          animation : false,
+          aria: {
+            enabled: true,
+            decal: {
+              show: true,
+            },
+          },
+          tooltip: {
+            trigger: "axis",
+            axisPointer: {
+              type: "shadow",
+              label: {},
+            },
+          },
+          grid:{top:"24%"},
+          legend: {
+            data: [
+              
+              {
+                name: "SMN1>1,SMN2>=0",
+                icon: "rect",
+              },
+              {
+                name: "SMN1<=1",
+                icon: "rect",
+                
+              },
+              {
+                name: "等位基因1",
+                icon: "rect",
+                
+              },
+              {
+                name: "等位基因2",
+                icon: "rect",
+                
+              },
+              {
+                name: "等位基因3",
+                icon: "rect",
+                
+              },
+            ],
+          },
+          xAxis: {
+            data: [
+              "SMN1",
+              "SMN2",
+              "S06",
+              "S04",
+              "S07",
+              "S01",
+              "S05",
+              "S08",
+              "S02",
+              "S03",
+            ],
+            axisLabel: { interval: 0 },
+          },
+          yAxis: [
+            {
+              type: "value",
+              name: "拷贝数",
+              position: "left",
+              alignTicks: true,
+              axisLine: {
+                show: true,
+              },
+              axisLabel: {
+                formatter: "{value}",
+              },
+              interval: 1,
+            },
+
+          ],
+          series: [
+          {
+              name: "SMN1>1,SMN2>=0",
+              type: "bar",
+              data: [SMN1Value1, SMN2Value1, 0, 0, 0, 0, 0, 0, 0, 0],
+              barGap: "0%",
+            },
+            {
+              name: "SMN1<=1",
+              type: "bar",
+              data: [SMN1Value2, SMN2Value2, 0, 0, 0, 0, 0, 0, 0, 0],
+              barGap: "0%",
+
+            },
+            {
+              name: "等位基因1",
+              type: "bar",
+              data: [
+                0,
+                0,
+                marker6Value1,
+                marker4Value1,
+                marker7Value1,
+                marker1Value1,
+                marker5Value1,
+                marker8Value1,
+                marker2Value1,
+                marker3Value1,
+              ],
+              barGap: "0%",
+            },
+            {
+              name: "等位基因2",
+              type: "bar",
+              data: [
+                0,
+                0,
+                marker6Value2,
+                marker4Value2,
+                marker7Value2,
+                marker1Value2,
+                marker5Value2,
+                marker8Value2,
+                marker2Value2,
+                marker3Value2,
+              ],
+              barGap: "0%",
+            },
+            {
+              name: "等位基因3",
+              type: "bar",
+              data: [0, 0, 0, marker4Value3, 0, 0, 0, 0, 0, 0],
+              barGap: "0%",
+             
+            },
+            
+          ],
+        };
+
+        /* 使用刚指定的配置项和数据显示图表*/
+        myChart.setOption(option1);
+      }
+    <\/script>`
+    
+               }else{
+                var pictureHtml =""
+                var pagingTable=""
+                var pagingEnd = ""
+                var pictureScript=""
+                var echartsPath="" 
+               }
+               //根据选择的字体进行渲染
+               if (font_status == 1) {
+                    var changeFont = path.join(__dirname, '../MiSans-Normal.ttf')
+                    var changeFont1 = changeFont.replace(/\\/g, "/")
+                    console.log(changeFont1)
+                    var changeFont2 = 'url(' + changeFont1 + ')'
+                    var currentFont = `@font-face{
+                            font-family:"MiSans-Normal";
+                            src:${changeFont2};
+                            font-display:swap;
+                        }`
+                    var lineSpacing = `line-height:23px`
+                    var beforeStage = `text-indent:-12.85pt`
+                    var fontSetting = 'font-family:"MiSans-Normal"'
+
+                    } else {
+                        var defaultFont = path.join(__dirname, '../simsun.ttc')
+                        var defaultFont1 = defaultFont.replace(/\\/g, "/")
+                        console.log(defaultFont1)
+                        var defaultFont2 = 'url(' + defaultFont1 + ')'
+                        var currentFont = `@font-face{
+                                font-family:"simsun";
+                                src:${defaultFont2};
+                                font-display:swap;
+                            }`
+                        var lineSpacing = `line-height:24px`
+                        var beforeStage = `text-indent:-16.85pt`
+                        var fontSetting = 'font-family:"simsun"'
+              }
+               // 添加 svg 方框图片替换 input 输入框
+               var correctBox = `<svg t="1654332410780" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2963" width="16" height="16" style="vertical-align: middle;">
+                            <path d="M832 128H192a64 64 0 0 0-64 64v640a64 64 0 0 0 64 64h640a64 64 0 0 0 64-64V192a64 64 0 0 0-64-64z m-93.71 270.86L466.76 670.4a32 32 0 0 1-45.26 0L285.71 534.6A32 32 0 0 1 331 489.33L444.14 602.5 693 353.61a32 32 0 0 1 45.26 45.25z" p-id="2964" ></path>
+                   </svg>`
+               var blankBox = `<svg t="1654332611254" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3878" width="16" height="16" style="vertical-align: middle;">
+                       <path d="M774 200c27.6 0 50 22.4 50 50v524c0 27.6-22.4 50-50 50H250c-27.6 0-50-22.4-50-50V250c0-27.6 22.4-50 50-50h524m0-72H250c-16.4 0-32.4 3.2-47.5 9.6-14.5 6.1-27.6 14.9-38.8 26.1-11.2 11.2-20 24.2-26.1 38.8-6.4 15.1-9.6 31.1-9.6 47.5v524c0 16.4 3.2 32.4 9.6 47.5 6.1 14.5 14.9 27.6 26.1 38.8 11.2 11.2 24.2 20 38.8 26.1 15.1 6.4 31.1 9.6 47.5 9.6h524c16.4 0 32.4-3.2 47.5-9.6 14.5-6.1 27.6-14.9 38.8-26.1 11.2-11.2 20-24.2 26.1-38.8 6.4-15.1 9.6-31.1 9.6-47.5V250c0-16.4-3.2-32.4-9.6-47.5-6.1-14.5-14.9-27.6-26.1-38.8-11.2-11.2-24.2-20-38.8-26.1-15.1-6.4-31.1-9.6-47.5-9.6z" p-id="3879"></path>
+                   </svg>`
+               if (reportResult == '未检出目标基因拷贝数异常') {
+                   var defaultBox1 = correctBox
+                   var defaultBox2 = blankBox
+                   var defaultBox3 = blankBox
+                   var defaultBox4 = `font-weight:bold`
+               } else if (reportResult == 'SMN1基因外显子7杂合型缺失') {
+                   var defaultBox1 = blankBox
+                   var defaultBox2 = correctBox
+                   var defaultBox3 = blankBox
+                   var defaultBox5 = `font-weight:bold`
+               } else {
+                   var defaultBox1 = blankBox
+                   var defaultBox2 = blankBox
+                   var defaultBox3 = correctBox
+                   var defaultBox6 = `font-weight:bold`
+               }
+               // HTML File Template
+               content[index] = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G030Report</title>
+    <!-- 引入 echarts.js -->
+    <script src='${echartsPath}'><\/script>
+    <style>
+        /* Style Definitions */
+        p.MsoNormal,
+        li.MsoNormal,
+        div.MsoNormal {
+            margin: 0cm;
+            text-align: justify;
+            text-justify: inter-ideograph;
+            font-size: 10.5pt;
+            /* font-family: Simsun; */
+        }
+
+        p.MsoListParagraph,
+        li.MsoListParagraph,
+        div.MsoListParagraph {
+            margin: 0cm;
+            text-align: justify;
+            text-justify: inter-ideograph;
+            /*text-indent: 21.0pt;*/
+            font-size: 10.5pt;
+            /* font-family: Simsun; */
+        }
+
+        .MsoChpDefault {
+            /* font-family: Simsun; */
+        }
+
+        td {
+            height: 40px;
+        }
+
+        /* Page Definitions */
+        @page WordSection1 {
+            size: 595.3pt 841.9pt;
+            margin: 42.45pt 90.0pt 49.525pt 90.0pt;
+            layout-grid: 15.6pt;
+        }
+        ${currentFont}
+        body{
+            ${fontSetting}
+        }
+        div.WordSection1 {
+            page: WordSection1;
+        }
+        
+        /* List Definitions */
+        ol {
+            margin-bottom: 0cm;
+        }
+
+        ul {
+            margin-bottom: 0cm;
+        }
+
+        .checkbox:checked::after {
+            background: #000;
+        }
+        .page-header,
+        .page-header-space {
+            height: 20px;
+            font-size: 8.5px;
+        }
+
+        .page-footer,
+        .page-footer-space {
+            height: auto;
+            text-align: center;
+            font-size: 8.5px;
+        }
+
+        .page-footer {
+            position: fixed;
+            bottom: 0mm;
+            /* width: 100%; */
+            /* border-top: 1px solid black; */
+            /* for demo */
+            /* background: yellow; */
+            /* for demo */
+        }
+
+        .page-header {
+            position: fixed;
+            top: 0mm;
+            width: 100%;
+            /*  border-bottom: 1px solid black;  for demo */
+            /* background: yellow; */
+            /* for demo */
+        }
+
+        /* 文字阴影宋体打印加粗解决方案 */
+        .fontBolder {
+            text-shadow: 0.15pt 0px 0px black, 0.25pt 0px 0px black, 0.35pt 0px 0px black, -0.25pt 0px 0px black, 0px 0.25pt 0px black, 0px -0.25pt 0px black;
+        }
+
+        @media print {
+            body {
+                margin: 0;
+            }
+        }
+        #mainContent{
+            border: 1px solid windowtext;
+        }
+        /* table tr td{ border-top:1px solid windowtext; } table{ border:1px solid windowtext; border-top-width:0px; }  */
+        /* table{ border-collapse:collapse; } table tr{ border:1px solid windowtext; }  */
+    </style>
+</head>
+<body lang=ZH-CN style='word-wrap:break-word;text-justify-trim:punctuation;text-align: center;'>
+
+    <div class=WordSection1 style='layout-grid:15.6pt;margin-top: 30px;'>
+        <table cellspacing=0 cellpadding=0 width=556
+            style='width:416.7pt;border-collapse:collapse;border:none;margin: auto;text-align: center'>
+            <tr>
+                <td class="page-header" style="text-align: left;width: 416.7pt;border-bottom: solid windowtext 1pt;">
+                    ${sampleLineData[index][12]}
+                    <!-- <hr style="width:416.7pt"> -->
+                </td>
+
+            </tr>
+        </table>
+        <table cellspacing=0 cellpadding=0 width=556
+            style='width:416.7pt;border-collapse:collapse;margin: auto;text-align: center'>
+            <tr>
+                <td class="page-footer" style="width:416.7pt;text-align: right">
+                    检验结果仅对送检样本负责
+                </td>
+            </tr>
+
+        </table>
+        <p class=MsoNormal align=center style='text-align:center;layout-grid-mode:char;margin: 35px 0 35px 0'><b><span
+                    lang=utf-8 style='font-size:14.0pt;'>运动神经元存活基因拷贝数检验报告单</b></p>
+
+        <table class=MsoTableGrid border=1 cellspacing=0 cellpadding=0 width=556 id="mainContent"
+            style='width:416.7pt;margin: auto;border-collapse:collapse;'>
+            <tr>
+                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;'><b>门诊号</b></p>
+                </td>
+                <td width=183 colspan=7 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:left'>
+                        <span>${sampleLineData[index][3]}</span>
+                    </p>
+                </td>
+                <td width=73  colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center'><b>住院号</b></p>
+                </td>
+                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:left'>
+                        <span>${sampleLineData[index][4]}</span>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                    <p class=MsoNormal style='text-align:center'><b>姓名</b></p>
+                </td>
+                <td width=113 colspan=3 style='width:85.0pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                    <p class=MsoNormal align=left style="text-align: left;">
+                        <span>
+                            ${sampleLineData[index][1]}
+                        </span>
+                    </p>
+                </td>
+                <td width=76 style='width:2.0cm;padding:0cm 5.4pt 0cm 5.4pt'>
+                    <p class=MsoNormal align=center style='text-align:center'><b>性别</b></p>
+                </td>
+                <td width=113  colspan=3 style='width:3.0cm;padding:0cm 5.4pt 0cm 5.4pt'>
+                    <p class=MsoNormal align=left style='text-align:left'><span>${sampleLineData[index][2]}</span></p>
+                </td>
+                <td width=73 colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                    <p class=MsoNormal align=center style='text-align:center'><b>手机号</b></p>
+                </td>
+                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                    <p class=MsoNormal align=left style='text-align:left'><span>${sampleLineData[index][5]}</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;'><b>送检科室</b></p>
+                </td>
+                <td width=339 colspan=7 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:left'>
+                        <span>${sampleLineData[index][6]}</span>
+                    </p>
+                </td>
+                <td width=73  colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;white-space: nowrap;'><b>送检医生</b></p>
+                </td>
+                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:left'>
+                        <span>${sampleLineData[index][7]}</span>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;'><b>样本类型</b></p>
+                </td>
+                <td width=183 colspan=7 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:left'>
+                        <span>${sampleLineData[index][13]}</span>
+                    </p>
+                </td>
+                <td width=73  colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;white-space: nowrap;'><b>采样日期</b></p>
+                </td>
+                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:left'>
+                        <span>${sampleLineData[index][9]}</span>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;'><b>简要病史</b></p>
+                </td>
+                <td width=339 colspan=12 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:left'>
+                        <span>${sampleLineData[index][8]}</span>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;'><b>检验方法</b></p>
+                </td>
+                <td width=339 colspan=12 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:center'>
+                        <span >荧光&thinsp;PCR-毛细管电泳法</span>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;'><b>目标基因</b></p>
+                </td>
+                <td width=339 colspan=6 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:center'>
+                        <span><i>SMN1</i>&thinsp;外显子&thinsp;7</span>
+                    </p>
+                </td>
+                <td width=73  colspan=6 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center'>
+                        <span><i>SMN2</i>&thinsp;外显子&thinsp;7</span>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;'><b>检验结果</b></p>
+                </td>
+                <td width=339 colspan=6 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:center'>
+                        <span>${sampleLineData[index][16]}</span>
+                    </p>
+                </td>
+                <td width=73  colspan=6 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center'>
+                        <span>${sampleLineData[index][17]}</span>
+                    </p>
+                </td>
+            </tr>
+            ${pictureHtml}
+            <tr>
+                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;'><b>检验结论</b></p>
+                </td>
+                <td width=183 colspan=12 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:left'>
+                        ${defaultBox1}
+                    <span style="vertical-align: middle;${defaultBox4}" >未检出目标基因拷贝数异常</span>
+                    </p>
+                    <p class=MsoNormal align=left style='text-align:left'>
+                        ${defaultBox2}
+                    <span style="vertical-align: middle;${defaultBox5}" ><i>SMN1&thinsp;</i>基因外显子&thinsp;7&thinsp;杂合型缺失</span>
+                    </p>
+                    <p class=MsoNormal align=left style='text-align:left'>
+                        ${defaultBox3}
+                    <span style="vertical-align: middle;${defaultBox6}" ><i>SMN1&thinsp;</i>基因外显子&thinsp;7&thinsp;纯合型缺失</span>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width=73  style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center'><b>建议</b></p>
+                </td>
+                <td width=110 colspan=12 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center'>
+                        <span>遗传咨询</span>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width=556 colspan=13 style='width:416.7pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                    <p class='MsoNormal' align=center style='text-align:center'><span><b>结果解释</b></span></p>
+                </td>
+            </tr>
+            <tr>
+                <td width=556 colspan=13 valign=middle style='width:416.7pt;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+                    <p class=MsoListParagraph align=justify style='margin-left:23.25pt;${beforeStage};${lineSpacing};'>
+                        1. 本次检验仅用于<i>&thinsp;SMN1&thinsp;</i>中最常见的外显子&thinsp;7&thinsp;缺失型携带者的检验，并未覆盖<i>&thinsp;SMN1&thinsp;</i>基因的罕见点突变检测。因此，当检测结果排除受检者为<i>&thinsp;SMN1&thinsp;</i>第&thinsp;7&thinsp;外显子缺失型携带者时，并不能排除受检者是否携带有<i>&thinsp;SMN1&thinsp;</i>基因的罕见点突变。
+                    </p>
+                    ${pagingTable}
+                    <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >2. 当检出<i>&thinsp;SMN1&thinsp;</i>第&thinsp;7&thinsp;外显子为&thinsp;2&thinsp;拷贝时，并不能直接判断&thinsp;2&thinsp;个拷贝的<i>&thinsp;SMN1&thinsp;</i>在染色体上的排布方式，即不能判断出是否为“&thinsp;2+0&thinsp;”携带者型。当怀疑待检样本存在“&thinsp;2+0&thinsp;”时，建议其配偶进行<i>&thinsp;SMN1&thinsp;</i>基因检测。</p>
+                    <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >3. 受检者进行过骨髓移植、细胞治疗或接受输血，可能会影响血样检测结果的准确性。</p>
+                    <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >4. 该方法检测<i>&thinsp;SMN1&thinsp;</i>基因第&thinsp;7&thinsp;外显子拷贝数时，将以受检者基因组中保守的管家基因为内参。内参基因罕见的突变可能会影响到检测结果的准确性。</p>
+                    <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >5. 检验<i>&thinsp;SMN2&thinsp;</i>基因拷贝数通常仅用于对患者临床预后的评估。正常人群中<i>&thinsp;SMN2&thinsp;</i>基因本身就存在拷贝数变异，可能为&thinsp;0、1、2&thinsp;或以上。</p>
+                    ${pagingEnd}
+            </tr>
+            <tr>
+                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;'><b>检验日期</b></p>
+                </td>
+                <td width=339 colspan=9 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:left'>
+                        <span>${sampleLineData[index][10]}</span>
+                    </p>
+                </td>
+                <td width=73  colspan=2 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;white-space: nowrap;'><b>报告日期</b></p>
+                </td>
+                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:left'>
+                        <span>${sampleLineData[index][11]}</span>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;'><b>检验者</b></p>
+                </td>
+                <td width=339 colspan=9 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:left'>
+                        <span>${sampleLineData[index][14]}</span>
+                    </p>
+                </td>
+                <td width=73  colspan=2 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center'><b>审核者</b></p>
+                </td>
+                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:left'>
+                        <span>${sampleLineData[index][15]}</span>
+                    </p>
+                </td>
+            </tr>
+
+        </table>
+    </div>
+
+</body>
+${pictureScript}
+</html>`
+// write Html File
+fs.writeFile(htmlPathAndName[index], content[index], function (err) {
+                        if (err) {
+                            var notice = "[WARNING] 输入文件 " + sampleFileName + " 处理有误"
+
+                            if (index == htmlPathAndName.length - 1) {
+                                mdui.snackbar({
+                                    message: notice,
+                                    position: "left-top",
+                                    timeout: 1000
+                                })
+                            }
+                            log.error("\n" + "当前处理文件名为：" + sampleFileName + "\n错误提示：\n" + err)
+                            throw err
+                        }
+                        var notice = "输入文件 " + sampleFileName + " 处理完成";
+                        console.log('File is created successfully.');
+                        setTimeout(() => {
+                            if (index == htmlPathAndName.length - 1) {
+                                mdui.snackbar({
+                                    message: notice,
+                                    timeout: 1000
+                                })
+                            }
+                        }, 1000)
+                        log.info("\n" + "当前处理文件名为：" + sampleFileName + "\n" + "成功生成HTML文件：" + htmlName[index])
+                    })
+                    var window_to_PDF1 = []
+                    // Html File change to PDF File method
+                    function afterWrite() {
+                        var {BrowserWindow} = require('electron').remote
+                        window_to_PDF1[index] = new BrowserWindow({ show: false });//to just open the browser in background
+                        window_to_PDF1[index].loadURL(`file://${htmlPathAndName[index].replace(/\\/g, "/")}`); //give the file link you want to display
+                        window_to_PDF1[index].webContents.on('did-finish-load', function () {
+                            var path = require('path')
+                            window_to_PDF1[index].webContents.printToPDF({}).then(data => {
+                                fs.writeFile(pdfPathAndName[index], data, (error) => {
+                                    if (error)
+                                        throw error
+                                    var pdfnotice = `Wrote PDF successfully`
+                                    if (index == pdfPathAndName.length - 1) {
+                                        mdui.snackbar({
+                                            message: pdfnotice,
+                                            onClosed: function () {
+                                                console.log(file_path1[0])
+                                                if (file_path1[0].indexOf('#') != -1 || file_path1[0].indexOf('&') != -1 || file_path1[0].indexOf('+') != -1 || file_path1[0].indexOf('=') != -1 || file_path1[0].indexOf('?') != -1 || file_path1[0].indexOf(' ') != -1) {
+                                                    mdui.alert('检测到您上传的文件或路径中存在特殊字符串或空格！请及时修改！否者会导致无法生成PDF报告的图片信息！');
+                                                }
+                                            }
+                                        })
+                                    }
+                                    log.info("\n" + "当前处理文件名为：" + htmlName[index] + "\n" + "成功生成PDF文件：" + pdfName[index])
+                                    if (switch_status == 0) {
+                                        fs.unlink(htmlPathAndName[index], function (err) {
+                                            if (err) {
+                                                console.log("An error ocurred updating the file" + err.message);
+                                                return;
+                                            }
+                                            console.log("HTML File successfully deleted");
+                                        })
+                                    }
+                                    window_to_PDF1[index].close()
+                                });
+                            }).catch(error => {
+                                if (index == pdfPathAndName.length - 1) {
+                                    mdui.snackbar({
+                                        message: error,
+                                        position: "left-top",
+                                        timeout: 2000
+                                    })
+                                }
+
+                                log.error(`Failed to write PDF ${pdfPathAndName[index]}`, error)
+                            })
+                        })
+                    }
+                    setTimeout(afterWrite, 1000)
+
+            })
+      }
+
+
       // event: drag file(s) to window
       const holder = document.getElementById("holder");
       holder.ondragover = () => {
@@ -808,6 +2765,8 @@
         for (let f of e.dataTransfer.files) {
           console.log("File(s) you dragged here: ", f.path);
           // start(f.path, Encoding, sample_status, peak, more, Chinese, order);
+          dataAddress.push(f.path)
+          dataAddress1 = dataAddress.pop()
           start(
             f.path,
             Encoding,
@@ -815,7 +2774,8 @@
             peak,
             Chinese,
             NTC_status,
-            ladder_status
+            ladder_status,
+            includePicture
           );
         }
         return false;
@@ -837,6 +2797,8 @@
           .then((result) => {
             console.log("Select file" + result.filePaths);
             console.log(result.filePaths);
+            dataAddress.push(result.filePaths)
+            dataAddress1 = dataAddress.pop()
             if (!result.filePaths[0]) {
               console.log("No file selected");
               mdui.snackbar({ message: "未选择任何文件" });
@@ -858,7 +2820,8 @@
                 peak,
                 Chinese,
                 NTC_status,
-                ladder_status
+                ladder_status,
+                includePicture
               );
             }
           })
