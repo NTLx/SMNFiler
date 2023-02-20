@@ -225,7 +225,23 @@
           </label>
         </form>
       </div>
-      
+      <div class="mdui-valign mdui-p-a-1">
+        <label>以下设置只针对生成报告:</label>
+      </div>
+      <div class="mdui-valign  mdui-col-xs-6 mdui-p-a-1 mdui-center">
+        <label class="mdui-switch mdui-center">
+            <input id="outpdf" type="checkbox" />
+            <i class="mdui-switch-icon"></i>
+            <span class="mdui-m-a-1">生成HTML文件</span>
+        </label>
+    </div>
+    <div class="mdui-valign mdui-col-xs-6 mdui-p-a-1 mdui-center">
+        <label class="mdui-switch mdui-center">
+            <input id="switchFont" type="checkbox" />
+            <i class="mdui-switch-icon"></i>
+            <span class="mdui-m-a-1">切换为MiSans字体(默认为宋体)</span>
+        </label>
+    </div>
     </div>
     <div id="tab3" class="mdui-p-a-1">
       <div class="layout">
@@ -385,7 +401,46 @@
           noPicture = 1
         }
       }
-  
+      
+var switch_status = 0;
+        var font_status = 0;
+        var outpdf_status = function () {
+            if ($("#outpdf").is(":checked")) {
+                console.log("generate HTML file is on")
+                mdui.snackbar({
+                    message: "开启生成HTML文件"
+                })
+                switch_status = 1
+                console.log(switch_status)
+            } else {
+                console.log("generate HTML file is off")
+                mdui.snackbar({
+                    message: "关闭生成HTML文件"
+                })
+                switch_status = 0
+                console.log(switch_status)
+            }
+        }
+        var switchFont_status = function () {
+            if ($("#switchFont").is(":checked")) {
+                console.log("切换网页报告字体为 MiSans")
+                mdui.snackbar({
+                    message: "网页报告字体为 MiSans"
+                })
+                font_status = 1
+                console.log(font_status)
+            } else {
+                console.log("切换网页报告字体为宋体")
+                mdui.snackbar({
+                    message: "网页报告字体为宋体"
+                })
+                font_status = 0
+                console.log(font_status)
+            }
+        }
+    $("#outpdf").on("click", outpdf_status)
+      $("#switchFont").on("click", switchFont_status)
+
       $("#utf").on("click", encod_status);
       $("#gbk").on("click", encod_status);
       $("#dataFile").on("click",pictureStatus)
