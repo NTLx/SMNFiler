@@ -954,17 +954,17 @@ var switch_status = 0;
         // console.log("dataAddress1.constructor",dataAddress1.constructor)
         // if(dataAddress1!==array)
          console.log("dataAddress1.length",dataAddress1.length)
-        // if(dataAddress1.length>1){
+        if(dataAddress1.length>1){
           console.log("string")
         var copyFileName = dataAddress1.substring(dataAddress1.lastIndexOf('\\') + 1)
         var copyFilePath = dataAddress1.substring(0,dataAddress1.lastIndexOf("\\") + 1)
         var copyRemoveFileTxt = copyFileName.substring(0,copyFileName.indexOf("."))
-        // }else{
-        //   console.log("Array")
-        // var copyFileName = dataAddress1[0].substring(dataAddress1[0].lastIndexOf('\\') + 1)
-        // var copyFilePath = dataAddress1[0].substring(0,dataAddress1[0].lastIndexOf("\\") + 1)
-        // var copyRemoveFileTxt = copyFileName.substring(0,copyFileName.indexOf("."))
-        // }
+        }else{
+          console.log("Array")
+        var copyFileName = dataAddress1[0].substring(dataAddress1[0].lastIndexOf('\\') + 1)
+        var copyFilePath = dataAddress1[0].substring(0,dataAddress1[0].lastIndexOf("\\") + 1)
+        var copyRemoveFileTxt = copyFileName.substring(0,copyFileName.indexOf("."))
+        }
         // console.log("dataAddress1",dataAddress1)
         // console.log("dataAddress1[1]",dataAddress1[1])
         // console.log("dataAddress1[0]",dataAddress1[0])
