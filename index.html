@@ -1061,11 +1061,11 @@ var switch_status = 0;
               }
               displaySampleData.innerHTML += "<tr><td>" + sampleLineData[index][0] + "</td><td>" + sampleLineData[index][1] + "</td><td>" + sampleLineData[index][2] + "</td><td>" + sampleLineData[index][5] + "</td><td>" + sampleLineData[index][8] + "</td><td>" + sampleLineData[index][9] + "</td><td>" + sampleLineData[index][10] + "</td><td>" + sampleLineData[index][11] + "</td><td>" + sampleLineData[index][12] + "</td><td>" + sampleLineData[index][13] + "</td><td>" + sampleLineData[index][14] + "</td><td>" + sampleLineData[index][15] + "</td><td>" + sampleLineData[index][16] + "</td><td>" + sampleLineData[index][17] + "</td><td>" + sampleLineData[index][18] + "</td></tr>"
               //return report
-              htmlName[index] = sampleLineData[index][0].substring(0,sampleLineData[index][0].indexOf("."))+ ".html"
-              pdfName[index] = sampleLineData[index][0].substring(0,sampleLineData[index][0].indexOf(".")) + ".pdf";
-              folderName[index] = sampleLineData[index][0].substring(0,sampleLineData[index][0].indexOf("."));
-              newFolderName[index] = path.join(copyFilePath,copyRemoveFileTxt + "." + nowDateStr,folderName[index]);
-              fs.mkdirSync(newFolderName[index]);
+              htmlName[index] = sampleLineData[index][1]+"_"+sampleLineData[index][12]+ ".html"
+              pdfName[index] = sampleLineData[index][1]+"_"+sampleLineData[index][12]+".pdf";
+              // folderName[index] = sampleLineData[index][0].substring(0,sampleLineData[index][0].indexOf("."));
+              newFolderName[index] = path.join(copyFilePath,copyRemoveFileTxt + "." + nowDateStr);
+              // fs.mkdirSync(newFolderName[index]);
               htmlPathAndName[index] = path.join(newFolderName[index],htmlName[index]);
               pdfPathAndName[index] = path.join(newFolderName[index],pdfName[index]);
               console.log("pdfPathAndName",pdfPathAndName)
