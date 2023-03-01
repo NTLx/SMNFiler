@@ -16,7 +16,7 @@
 
 在 Windows 系统下可直接运行 `Portable` 版程序，无需安装。
 
-[Portable 下载链接](https://github.com/NTLx/SMNFiler/releases/download/v0.3.0/SMNFiler.v0.3.0.Win_Portable.exe)
+[Portable 下载链接](https://github.com/NTLx/SMNFiler/releases/download/v0.4.0/SMNFiler.v0.4.0.Win_Portable.exe)
 
 > 若以上连接效果不佳，请尝试使用 [下载镜像](http://cloud.cubicise.com:10081/s/8GRKCowfwqoLji8)
 
@@ -34,7 +34,7 @@
 
 ### 程序主窗口
 
-![main window](https://cdn.jsdelivr.net/gh/Letmeouted/PicominiPC/img/main.png)
+![main window](https://cdn.jsdelivr.net/gh/Letmeouted/PicominiPC//img/Snipaste_2023-02-27_13-16-32.png)
 
 将一个或多个文件（下机数据，用默认格式导出）拖拽至 `文件处理区` 即可；也可以点击提示区域，然后选择需要处理的文件。
 
@@ -53,11 +53,17 @@
 
 点击主界面的绿色 `退出` 按钮即可退出程序。
 
+### 上传样本信息文件
+
+![uploadWindow](https://cdn.jsdelivr.net/gh/Letmeouted/PicominiPC//img/Snipaste_2023-02-27_15-14-59.png)
+
+设置中选择了输出文件种类中的`输出结果文件和报告`选项或`输出结果文件和包含图片报告`选项，会自动跳转至该界面。点击上传按钮上传样本信息文件，便可正常输出报告文件（报告文件会自动生成在结果文件的文件夹，并按照文件名自动生成文件夹存放报告文件）。输出包含图片报告文件时，该图片是根据以.figure.tsv结尾的数据文件进行绘制的。
+
 ### 选项
 
 设置面板如图：
 
-![each sample output](https://cdn.jsdelivr.net/gh/Letmeouted/PicominiPC/img/settingSMN.png)
+![each sample output](https://cdn.jsdelivr.net/gh/Letmeouted/PicominiPC//img/Snipaste_2023-02-27_15-15-06.png)
 
 默认输出结果中含有峰高，如需峰面积，可将`峰面积代替峰高`开关按钮打开。
 
@@ -67,7 +73,11 @@
 
 默认输出结果文件中自定义标准品样本名为`STD`，如需自定义标准品样本名，请点击该对话弹出框进行自定义。
 
-默认输出结果文件会自动进行`NTC`检测，如需自定义`NTC`测试名，请点击该对话弹出对话框进行自定义。
+默认输出文件种类只包含结果文件，如需输出报告文件，请选择`输出结果文件和报告`选项。如需输出报告文件（含图片），请选择`输出结果文件和包含图片报告`选项。
+
+#### 针对输出报告文件的设置
+
+用户可以根据自己的需求，对生成的报告文件的字体以及生成报告文件的形式进行特定设置。就目前设置而言，默认生成的报告字体为宋体，并以PDF文件的形式呈现。如需调整字体，可将`切换为MiSans字体（默认为宋体）`开关按钮打开。如需调整生成报告文件以网页的形式呈现，可将`生成HTML文件`开关按钮打开。生成报告文件时，软件在特定目录下生成两个文件，一个是PDF文件形式，另一个是HTML文件形式呈现。
 
 > 输出文件夹不会改变。
 
@@ -75,12 +85,8 @@
 
 日志面板如图：
 
-![log](https://cdn.jsdelivr.net/gh/Letmeouted/PicominiPC/img/SMNLog.png)
-### 程序运行日志窗口
+![log](https://cdn.jsdelivr.net/gh/Letmeouted/PicominiPC//img/Snipaste_2023-02-27_15-19-19.png)
 
-程序运行日志窗口如图:
-
-![new window](https://cdn.jsdelivr.net/gh/Letmeouted/PicominiPC/img/screen.log.png)
 ## 反馈
 
 如在本软件的使用过程中有任何意见或建议，欢迎 [提出](https://github.com/NTLx/SMNFiler/issues/new/choose)，也可以 [查看留言](https://github.com/NTLx/SMNFiler/issues) 。
