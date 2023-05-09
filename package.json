@@ -3,7 +3,7 @@
   "author": {
     "email": "huafeng.wang@cubicise.com"
   },
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "SMNFiler",
   "license": "GPL-3.0",
   "repository": "https://github.com/NTLx/SMNFiler.git",
@@ -74,7 +74,7 @@
       "artifactName": "${productName}.v${version}.Win_Portable.${ext}"
     },
     "linux": {
-      "icon": "build/tmp.iconset/icon_256x256.png",
+      "icon": "build/Icon.icns",
       "category": "Network",
       "target": [
         "deb"

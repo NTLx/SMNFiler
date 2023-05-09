@@ -31,7 +31,7 @@
       <div
         id="holder"
         class="mdui-valign mdui-hoverable mdui-ripple mdui-shadow-1 mdui-m-a-2 mdui-color-theme mdui-img-rounded"
-        style="height: 260px"
+        style="height: 270px"
       >
         <p class="mdui-center">
           <i class="mdui-icon material-icons">&#xe226;</i>文件处理区
@@ -202,7 +202,7 @@
       <div class="mdui-dialog" id="dialog_ntcTest">
         <div class="mdui-dialog-title">请自定义进行NTC检测的样本名</div>
         <div class="mdui-dialog-content">
-          <input type="text" name="ntcTest" id="ntcTest" placeholder="请输入进行NTC检测的样本名"/>
+          <input type="text" name="ntcTest" id="ntcTest" placeholder="请输入进行NTC检测的样本名" style="width:220px;"/>
         </div>
         <div class="mdui-dialog-actions">
           <button class="mdui-btn mdui-ripple" mdui-dialog-cancel>取消</button>
@@ -212,7 +212,7 @@
       <div class="mdui-dialog" id="dialog_ladderTest">
         <div class="mdui-dialog-title">请自定义进行Ladder检测的样本名</div>
         <div class="mdui-dialog-content">
-          <input type="text" name="ladderTest" id="ladderTest" placeholder="请输入进行Ladder检测的样本名"/>
+          <input type="text" name="ladderTest" id="ladderTest" placeholder="请输入进行Ladder检测的样本名" style="width:220px;"/>
         </div>
         <div class="mdui-dialog-actions">
           <button class="mdui-btn mdui-ripple" mdui-dialog-cancel>取消</button>
@@ -977,6 +977,7 @@ var switch_status = 0;
           var newFigureLineData = []
           for(var k=1;k<figureSheetsData.length;k++){
             figureLineData.push(figureSheetsData[k])
+            console.log("figureLineData",figureLineData)
           }
         }
         for(var j=1;j<sampleSheetsData.length;j++){
@@ -984,7 +985,7 @@ var switch_status = 0;
           console.log("sampleLineData",sampleLineData)
         }
         
-        
+        // console.log(figureLineData[])
         var htmlName =[]
         var pdfName = []
         var newFolderName = []
@@ -1012,6 +1013,7 @@ var switch_status = 0;
                 </tr>`
             sampleLineData.forEach(function(item,index){
               var leftSlash = '/'
+              console.log("item",item[0])
               if (sampleLineData[index][2] == ' ' || sampleLineData[index][2] == undefined) {
                   sampleLineData[index][2] = leftSlash
               }
@@ -2686,7 +2688,7 @@ var switch_status = 0;
                     <p class=MsoNormal align=center style='text-align:center;white-space: nowrap;'><b>报告日期</b></p>
                 </td>
                 <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
+                  <p class=MsoNormal align=left style='text-align:left'>
                         <span>${sampleLineData[index][11]}</span>
                     </p>
                 </td>
@@ -2709,10 +2711,8 @@ var switch_status = 0;
                     </p>
                 </td>
             </tr>
-
         </table>
     </div>
-
 </body>
 ${pictureScript}
 </html>`
@@ -2821,8 +2821,8 @@ fs.writeFile(htmlPathAndName[index], content[index], function (err) {
             sample_status,
             peak,
             Chinese,
-            // NTC_status,
-            // ladder_status,
+            NTC_status,
+            ladder_status,
             includePicture
           );
         }
@@ -2852,23 +2852,14 @@ fs.writeFile(htmlPathAndName[index], content[index], function (err) {
               mdui.snackbar({ message: "未选择任何文件" });
               return;
             } else {
-              // start(
-              //   result.filePaths,
-              //   Encoding,
-              //   sample_status,
-              //   peak,
-              //   more,
-              //   Chinese,
-              //   order
-              // );
               start(
                 result.filePaths,
                 Encoding,
                 sample_status,
                 peak,
                 Chinese,
-                // NTC_status,
-                // ladder_status,
+                NTC_status,
+                ladder_status,
                 includePicture
               );
             }
