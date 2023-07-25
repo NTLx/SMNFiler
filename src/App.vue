@@ -57,7 +57,7 @@
             </el-col>
             <el-col :span="12"
               ><div class="exitButton">
-                <el-button type="primary">
+                <el-button type="primary" @click="exitBox">
                   <el-icon><Back /></el-icon>退出
                 </el-button>
               </div>
@@ -86,6 +86,10 @@ export default {
     help() {
       const { shell } = window.require("electron");
       shell.openExternal("https://github.com/NTLx/SMNFiler");
+    },
+    // 退出窗口方法
+    exitBox(){
+      window.close();
     },
     //处理文件列表
     handleChange(file, fileList1) {
