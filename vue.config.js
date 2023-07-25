@@ -27,6 +27,16 @@ module.exports = defineConfig({
         // options placed here will be merged with default configuration and passed to electron-builder
         productName: "SMNFiler",
         appId: "com.smnfiler.app",
+        extraResources: [
+          {
+            from: "./src/assets/analysis_miss.exe",
+            to: "./analysis_miss.exe",
+          },
+          {
+            from: "./src/assets/analysis_miss",
+            to: "./analysis_miss",
+          }
+        ],
         dmg: {
           title: "SMNFiler",
           icon: "./src/assets/app256x256.icns",
