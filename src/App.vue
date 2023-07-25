@@ -87,12 +87,26 @@ export default {
       const { shell } = window.require("electron");
       shell.openExternal("https://github.com/NTLx/SMNFiler");
     },
+    //处理文件列表
+    handleChange(file, fileList1) {
+      // this.fileList1 = [];
+      this.fileList1 = fileList1.slice(-1);
+      console.log("fileList1", fileList1.length);
+    },
     // 上传文件之前文件格式校验方法
     beforeAvatarUpload(file,fileList1){
       let extension = file.name.split(".")[1];
       let extensionList = ["txt","csv"];
       if (extensionList.indexOf(extension) < 0){
-        this.$message.error("很抱歉，您选择的文件格式不符合要求，请重新选择文件！");
+        const formatMessage="很抱歉，您选择的文件格式不符合要求，请重新选择文件！"
+        ElNotification({
+          showClose: true,
+          message: formatMessage,
+          type: "error",
+          position: "top-right",
+          duration: "2000",
+          offset: 60,
+        })
         return false;
       }
     },
