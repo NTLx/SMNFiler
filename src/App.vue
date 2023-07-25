@@ -87,6 +87,15 @@ export default {
       const { shell } = window.require("electron");
       shell.openExternal("https://github.com/NTLx/SMNFiler");
     },
+    // 上传文件之前文件格式校验方法
+    beforeAvatarUpload(file,fileList1){
+      let extension = file.name.split(".")[1];
+      let extensionList = ["txt","csv"];
+      if (extensionList.indexOf(extension) < 0){
+        this.$message.error("很抱歉，您选择的文件格式不符合要求，请重新选择文件！");
+        return false;
+      }
+    },
     // 处理Genemapper下机数据调用可执行文件方法
     httpRequest(data) {
       var file = data.file;
