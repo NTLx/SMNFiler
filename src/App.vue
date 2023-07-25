@@ -70,7 +70,7 @@
 </template>
 
 <script>
-
+import { ElNotification } from "element-plus"; 
 export default {
   data() {
     return {
@@ -80,6 +80,102 @@ export default {
       showUploadGen: true,
       showSampleInformation: false,
     };
+  },
+  methods: {
+    // 处理Genemapper下机数据调用可执行文件方法
+    httpRequest(data) {
+      var file = data.file;
+      var path = require("path");
+      const { exec } = window.require("child_process");
+      var fs = window.require("fs");
+      var exeFile;
+      var linuxOldUrl = path.join(__dirname, "analysis_miss");
+      var windowOldUrl = path.join(__dirname, "analysis_miss.exe");
+      var linuxNewUrl = path.join(process.cwd(), "/resources/analysis_miss");
+      var windowNewUrl = path.join(
+        process.cwd(),
+        "/resources/analysis_miss.exe"
+      );
+      fs.readFile(file.path, function (err, data) {
+        if (err) {
+          return console.error(err);
+        }
+        console.log("异步读取：" + data.toString());
+      });
+      fs.stat(linuxOldUrl, (err) => {
+        if (err) {
+          if (file.path) {
+            console.log("Request handle 'start' was called");
+            if (process.platform === "win32") {
+              exeFile = windowNewUrl;
+            } else if (process.platform === "linux") {
+              exeFile = linuxNewUrl;
+            }
+            exec(exeFile + " -i " + file.path, (error, stdout, stderr) => {
+              if (error || stderr) {
+                const notice = "输入下机数据文件" + file.name + "处理有误！";
+                ElNotification({
+                  showClose: true,
+                  message: notice,
+                  type: "error",
+                  position: "top-right",
+                  duration: "2000",
+                  offset: 60,
+                });
+                console.log("error:\n" + error);
+                console.log("stderr:\n" + stderr);
+              } else if (stdout) {
+                const notice = "输入下机数据文件" + file.name + "处理完成";
+                ElNotification({
+                  showClose: true,
+                  message: notice,
+                  type: "success",
+                  position: "top-right",
+                  duration: "2000",
+                  offset: 60,
+                });
+                console.log("stdout:\n" + stdout);
+              }
+            });
+          }
+        } else {
+        if (file.path) {
+            console.log("Request handle 'start' was called");
+            if (process.platform === "win32") {
+              exeFile = windowNewUrl;
+            } else if (process.platform === "linux") {
+              exeFile = linuxNewUrl;
+            }
+            exec(exeFile + " -i " + file.path, (error, stdout, stderr) => {
+              if (error || stderr) {
+                const notice = "输入下机数据文件" + file.name + "处理有误！";
+                ElNotification({
+                  showClose: true,
+                  message: notice,
+                  type: "error",
+                  position: "top-right",
+                  duration: "2000",
+                  offset: 60,
+                });
+                console.log("error:\n" + error);
+                console.log("stderr:\n" + stderr);
+              } else if (stdout) {
+                const notice = "输入下机数据文件" + file.name + "处理完成";
+                ElNotification({
+                  showClose: true,
+                  message: notice,
+                  type: "success",
+                  position: "top-right",
+                  duration: "2000",
+                  offset: 60,
+                });
+                console.log("stdout:\n" + stdout);
+              }
+            });
+          }
+        }
+      });
+    },
   },
 };
 </script>
