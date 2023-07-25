@@ -82,6 +82,11 @@ export default {
     };
   },
   methods: {
+    // 添加帮助跳转方法
+    help() {
+      const { shell } = window.require("electron");
+      shell.openExternal("https://github.com/NTLx/SMNFiler");
+    },
     // 处理Genemapper下机数据调用可执行文件方法
     httpRequest(data) {
       var file = data.file;
