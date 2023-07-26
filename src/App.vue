@@ -27,10 +27,10 @@
                   ladderName: uploadParams.ladderName,
                   language: uploadParams.language,
                   peakStatus: uploadParams.peakStatus,
-                  outputFormat:uploadParams.outputFormat,
-                  fileType:uploadParams.fileType,
-                  htmlStatus:uploadParams.htmlStatus,
-                  fontStatus:uploadParams.fontStatus
+                  outputFormat: uploadParams.outputFormat,
+                  fileType: uploadParams.fileType,
+                  htmlStatus: uploadParams.htmlStatus,
+                  fontStatus: uploadParams.fontStatus,
                 }"
                 :http-request="httpRequest"
                 :before-upload="beforeAvatarUpload"
@@ -83,7 +83,11 @@
             </el-row>
             <el-row class="fileSetting">
               <el-col :span="8">
-                <el-button type="primary" @click="customSampleName = true" size="large">
+                <el-button
+                  type="primary"
+                  @click="customSampleName = true"
+                  size="large"
+                >
                   自定义样本名
                 </el-button>
                 <el-dialog
@@ -107,7 +111,11 @@
                 </el-dialog>
               </el-col>
               <el-col :span="8">
-                <el-button type="primary" @click="customNTCSampleName = true" size="large">
+                <el-button
+                  type="primary"
+                  @click="customNTCSampleName = true"
+                  size="large"
+                >
                   自定义NTC检测
                 </el-button>
                 <el-dialog
@@ -212,20 +220,27 @@
                   @change="switchFileType"
                   size="large"
                 >
-                  <el-radio-button label="summaryFile">结果文件</el-radio-button>
-                  <el-radio-button label="summaryFileAndReportFile">结果文件和报告</el-radio-button>
-                  <el-radio-button label="summaryFileAndReportPictureFile">结果文件和含图片报告</el-radio-button>
+                  <el-radio-button label="summaryFile"
+                    >结果文件</el-radio-button
+                  >
+                  <el-radio-button label="summaryFileAndReportFile"
+                    >结果文件和报告</el-radio-button
+                  >
+                  <el-radio-button label="summaryFileAndReportPictureFile"
+                    >结果文件和含图片报告</el-radio-button
+                  >
                 </el-radio-group>
               </el-col>
             </el-row>
             <el-row>
-               <el-col :span="24">
+              <el-col :span="24">
                 <el-divider content-position="left">报告文件设置</el-divider>
               </el-col>
             </el-row>
             <el-row class="fileSetting">
               <el-col :span="12">
-                <el-switch v-model="value3"
+                <el-switch
+                  v-model="value3"
                   size="large"
                   inline-prompt
                   active-text="生成 HTML 文件"
@@ -236,12 +251,13 @@
                     --el-switch-off-color: #ff4949;
                   "
                   inactive-text="不生成 HTML 文件"
-                  @change="switchReceiveStatus3">
-
+                  @change="switchReceiveStatus3"
+                >
                 </el-switch>
               </el-col>
               <el-col :span="12">
-                <el-switch v-model="value4"
+                <el-switch
+                  v-model="value4"
                   size="large"
                   inline-prompt
                   active-text="字体:MiSans"
@@ -252,9 +268,21 @@
                     --el-switch-off-color: #ff4949;
                   "
                   inactive-text="字体:宋体"
-                  @change="switchReceiveStatus4">
-
+                  @change="switchReceiveStatus4"
+                >
                 </el-switch>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="24">
+                <el-divider content-position="left">日志</el-divider>
+              </el-col>
+            </el-row>
+            <el-row class="fileSetting">
+              <el-col :span="24">
+                <el-button @click="openLogFile" type="primary" size="large">
+                  打开日志文件
+                </el-button>
               </el-col>
             </el-row>
           </div>
@@ -330,12 +358,20 @@ export default {
       console.log("自定义标准品样本名", data.data.stdName);
       console.log("结果文件为中文", data.data.language);
       console.log("峰状态", data.data.peakStatus);
-      console.log("文件格式",data.data.outputFormat);
-      console.log("文件种类",data.data.fileType);
-      console.log("字体文件状态",data.data.fontStatus);
-      console.log("生成html文件",data.data.htmlStatus);
+      console.log("文件格式", data.data.outputFormat);
+      console.log("文件种类", data.data.fileType);
+      console.log("字体文件状态", data.data.fontStatus);
+      console.log("生成html文件", data.data.htmlStatus);
       var file = data.file;
       var path = require("path");
+      var log = window.require("electron-log");
+      log.transports.console.level = "silly";
+      var app = window.require("@electron/remote").app;
+      var logFilepath = path.join(app.getPath("temp"));
+      console.log(logFilepath);
+      var logFilename = "SMNFilerVue.log";
+      log.transports.file.resolvePath = () =>
+        path.join(logFilepath, logFilename);
       const { exec } = window.require("child_process");
       var fs = window.require("fs");
       var exeFile;
@@ -364,6 +400,7 @@ export default {
             exec(exeFile + " -i " + file.path, (error, stdout, stderr) => {
               if (error || stderr) {
                 const notice = "输入下机数据文件" + file.name + "处理有误！";
+                log.error("\n" + "当前输入下机数据文件" +file.name +"\n" +"处理有误！")
                 ElNotification({
                   showClose: true,
                   message: notice,
@@ -376,6 +413,7 @@ export default {
                 console.log("stderr:\n" + stderr);
               } else if (stdout) {
                 const notice = "输入下机数据文件" + file.name + "处理完成";
+                log.info("\n" + "当前输入下机数据文件" +file.name +"\n" +"处理完成！")
                 ElNotification({
                   showClose: true,
                   message: notice,
@@ -399,6 +437,7 @@ export default {
             exec(exeFile + " -i " + file.path, (error, stdout, stderr) => {
               if (error || stderr) {
                 const notice = "输入下机数据文件" + file.name + "处理有误！";
+                log.error("\n" + "当前输入下机数据文件" +file.name +"\n" +"处理有误！")
                 ElNotification({
                   showClose: true,
                   message: notice,
@@ -411,6 +450,7 @@ export default {
                 console.log("stderr:\n" + stderr);
               } else if (stdout) {
                 const notice = "输入下机数据文件" + file.name + "处理完成";
+                log.info("\n" + "当前输入下机数据文件" +file.name +"\n" +"处理完成！")
                 ElNotification({
                   showClose: true,
                   message: notice,
@@ -453,23 +493,39 @@ export default {
       this.uploadParams.peakStatus = val;
     },
     //文件格式转换GBK，UTF-8
-    switchFileFormat(val){
+    switchFileFormat(val) {
       console.log("输出文件格式", val);
       this.uploadParams.outputFormat = val;
     },
     //切换输出文件种类
-    switchFileType(val){
-       console.log("输出文件种类", val);
+    switchFileType(val) {
+      console.log("输出文件种类", val);
       this.uploadParams.fileType = val;
     },
     // 生成html文件
-    switchReceiveStatus3(val){
+    switchReceiveStatus3(val) {
       this.uploadParams.htmlStatus = val;
     },
     //切换字体文件方法
-    switchReceiveStatus4(val){
+    switchReceiveStatus4(val) {
       this.uploadParams.fontStatus = val;
-    }
+    },
+    // 日志
+    openLogFile() {
+      var log = window.require("electron-log");
+      var path = require("path");
+      var app = window.require("@electron/remote").app;
+      var logFilepath = path.join(app.getPath("temp"));
+      console.log(logFilepath);
+      let convertedLogFilepath = logFilepath.replace(/\\/g, "/");
+      var logFilename = "SMNFilerVue.log";
+      log.transports.file.resolvePath = () =>
+        path.join(convertedLogFilepath, logFilename);
+      console.log(path.join(convertedLogFilepath, logFilename));
+      const { shell } = window.require("electron");
+      shell.openExternal(path.join(convertedLogFilepath, logFilename));
+      // window.open(path.join(convertedLogFilepath, logFilename));
+    },
   },
 };
 </script>
@@ -541,7 +597,7 @@ a.help {
 i.el-icon.el-icon--upload {
   margin-top: 100px;
 }
-.leftText{
+.leftText {
   display: flex;
   align-items: center;
 }
