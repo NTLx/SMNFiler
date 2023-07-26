@@ -21,7 +21,11 @@
                 accept=".txt,.csv"
                 :on-change="handleChange"
                 :file-list="fileList1"
-                :data="{}"
+                :data="{
+                  stdName:uploadParams.stdName,
+                  ntcName:uploadParams.ntcName,
+                  ladderName:uploadParams.ladderName
+                }"
                 :http-request="httpRequest"
                 :before-upload="beforeAvatarUpload"
               >
@@ -64,13 +68,87 @@
             </el-col>
           </el-row>
         </el-tab-pane>
+        <el-tab-pane label="设置" name="third" class="setting">
+          <div class="settingPostion">
+            <el-row>
+              <el-col :span="24">
+                <el-divider content-position="left"> 输出文件设置 </el-divider>
+              </el-col>
+            </el-row>
+            <el-row class="fileSetting">
+              <el-col :span="8">
+                <el-button type="primary" @click="customSampleName = true">
+                  自定义样本名
+                </el-button>
+                <el-dialog v-model="customSampleName" title="请输入标准品样本名">
+                  <el-input
+                    v-model="sampleName"
+                    placeholder="请输入标准品样本名"
+                  ></el-input>
+                  <template #footer>
+                    <span class="dialog-footer">
+                      <el-button @click="customSampleName = false">
+                        取消
+                      </el-button>
+                      <el-button type="primary" @click="saveSampleName">
+                        确认
+                      </el-button>
+                    </span>
+                  </template>
+                </el-dialog>
+              </el-col>
+              <el-col :span="8">
+                <el-button type="primary" @click="customNTCSampleName = true">
+                  自定义NTC检测
+                </el-button>
+                <el-dialog v-model="customNTCSampleName" title="请输入进行NTC检测的样本名">
+                  <el-input
+                    v-model="ntcSampleName"
+                    placeholder="请输入进行NTC检测的样本名"
+                  ></el-input>
+                  <template #footer>
+                    <span class="dialog-footer">
+                      <el-button @click="customNTCSampleName = false">
+                        取消
+                      </el-button>
+                      <el-button type="primary" @click="saveNTCSampleName">
+                        确认
+                      </el-button>
+                    </span>
+                  </template>
+                </el-dialog>
+              </el-col>
+              <el-col :span="8">
+                <el-button type="primary" @click="customLadderSampleName = true">
+                  自定义Ladder检测
+                </el-button>
+                <el-dialog v-model="customLadderSampleName" title="请输入进行Ladder检测的样本名">
+                  <el-input
+                    v-model="ladderSampleName"
+                    placeholder="请输入进行Ladder检测的样本名"
+                  ></el-input>
+                  <template #footer>
+                    <span class="dialog-footer">
+                      <el-button @click="customLadderSampleName = false">
+                        取消
+                      </el-button>
+                      <el-button type="primary" @click="saveLadderSampleName">
+                        确认
+                      </el-button>
+                    </span>
+                  </template>
+                </el-dialog>
+              </el-col>
+            </el-row>
+          </div>
+        </el-tab-pane>
       </el-tabs>
     </el-header>
   </el-container>
 </template>
 
 <script>
-import { ElNotification } from "element-plus"; 
+import { ElNotification } from "element-plus";
 export default {
   data() {
     return {
@@ -79,6 +157,15 @@ export default {
       fileList2: [],
       showUploadGen: true,
       showSampleInformation: false,
+      customSampleName: false,
+      customNTCSampleName: false,
+      customLadderSampleName: false,
+      sampleName:"",
+      ntcSampleName:"",
+      ladderSampleName:"",
+      uploadParams:{
+        outputFormat: "GBK",
+      }
     };
   },
   methods: {
@@ -88,7 +175,7 @@ export default {
       shell.openExternal("https://github.com/NTLx/SMNFiler");
     },
     // 退出窗口方法
-    exitBox(){
+    exitBox() {
       window.close();
     },
     //处理文件列表
@@ -98,11 +185,12 @@ export default {
       console.log("fileList1", fileList1.length);
     },
     // 上传文件之前文件格式校验方法
-    beforeAvatarUpload(file,fileList1){
+    beforeAvatarUpload(file, fileList1) {
       let extension = file.name.split(".")[1];
-      let extensionList = ["txt","csv"];
-      if (extensionList.indexOf(extension) < 0){
-        const formatMessage="很抱歉，您选择的文件格式不符合要求，请重新选择文件！"
+      let extensionList = ["txt", "csv"];
+      if (extensionList.indexOf(extension) < 0) {
+        const formatMessage =
+          "很抱歉，您选择的文件格式不符合要求，请重新选择文件！";
         ElNotification({
           showClose: true,
           message: formatMessage,
@@ -110,12 +198,13 @@ export default {
           position: "top-right",
           duration: "2000",
           offset: 60,
-        })
+        });
         return false;
       }
     },
     // 处理Genemapper下机数据调用可执行文件方法
     httpRequest(data) {
+      console.log("自定义标准品样本名",data.data.stdName)
       var file = data.file;
       var path = require("path");
       const { exec } = window.require("child_process");
@@ -171,7 +260,7 @@ export default {
             });
           }
         } else {
-        if (file.path) {
+          if (file.path) {
             console.log("Request handle 'start' was called");
             if (process.platform === "win32") {
               exeFile = windowNewUrl;
@@ -208,6 +297,24 @@ export default {
         }
       });
     },
+    // 保存自定义样本名
+    saveSampleName() {
+      var sampleName = this.sampleName;
+      this.uploadParams.stdName = sampleName
+      this.customSampleName = false;
+    },
+    // 保存NTC检测样本名
+    saveNTCSampleName(){
+      var ntcSampleName = this.ntcSampleName;
+      this.uploadParams.ntcName = ntcSampleName;
+      this.customNTCSampleName = false;
+    },
+    // 保存Ladder检测样本名
+    saveLadderSampleName(){
+      var ladderSampleName = this.ladderSampleName;
+      this.uploadParams.ladderName = ladderSampleName;
+      this.customLadderSampleName = false;
+    }
   },
 };
 </script>
