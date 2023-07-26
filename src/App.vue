@@ -26,6 +26,7 @@
                   ntcName: uploadParams.ntcName,
                   ladderName: uploadParams.ladderName,
                   language: uploadParams.language,
+                  peakStatus: uploadParams.peakStatus,
                 }"
                 :http-request="httpRequest"
                 :before-upload="beforeAvatarUpload"
@@ -171,7 +172,23 @@
                   @change="switchReceiveStatus1"
                 ></el-switch>
               </el-col>
-              
+              <el-col :span="12">
+                <el-switch
+                  v-model="value2"
+                  class="ml-2"
+                  size="large"
+                  inline-prompt
+                  active-text="峰面积"
+                  active-value="-a"
+                  inactive-value=" "
+                  style="
+                    --el-switch-oncolor: #13ce66;
+                    --el-switch-off-color: #ff4949;
+                  "
+                  inactive-text="峰高"
+                  @change="switchReceiveStatus2"
+                ></el-switch>
+              </el-col>
             </el-row>
           </div>
         </el-tab-pane>
@@ -241,7 +258,7 @@ export default {
     httpRequest(data) {
       console.log("自定义标准品样本名",data.data.stdName)
       console.log("结果文件为中文",data.data.language)
-
+       console.log("峰状态",data.data.peakStatus)
       var file = data.file;
       var path = require("path");
       const { exec } = window.require("child_process");
@@ -356,7 +373,10 @@ export default {
     switchReceiveStatus1(val){
       this.uploadParams.language = val
     },
-    
+     //峰面积
+    switchReceiveStatus2(val){
+      this.uploadParams.peakStatus = val
+    }   
   },
 };
 </script>
