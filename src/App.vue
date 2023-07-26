@@ -27,6 +27,7 @@
                   ladderName: uploadParams.ladderName,
                   language: uploadParams.language,
                   peakStatus: uploadParams.peakStatus,
+                  outputFormat:uploadParams.outputFormat,
                 }"
                 :http-request="httpRequest"
                 :before-upload="beforeAvatarUpload"
@@ -190,6 +191,24 @@
                 ></el-switch>
               </el-col>
             </el-row>
+            <el-row>
+              <el-col :span="12" class="leftText">
+                <span style="radio-label">选择输出文件格式</span>
+                <el-radio-group
+                  v-model="radio1"
+                  class="ml-4"
+                  @change="switchFileFormat"
+                  style="
+                    display: flex;
+                    flex-flow: column nowrap;
+                    align-items: flex-start;
+                  "
+                >
+                  <el-radio label="GBK" size="large">GBK</el-radio>
+                  <el-radio label="UTF-8" size="large">UTF-8</el-radio>
+                </el-radio-group>
+              </el-col>
+            </el-row>
           </div>
         </el-tab-pane>
       </el-tabs>
@@ -210,14 +229,15 @@ export default {
       customSampleName: false,
       customNTCSampleName: false,
       customLadderSampleName: false,
-      sampleName:"",
-      ntcSampleName:"",
-      ladderSampleName:"",
-      uploadParams:{
+      sampleName: "",
+      ntcSampleName: "",
+      ladderSampleName: "",
+      uploadParams: {
         outputFormat: "GBK",
       },
-      value1:" ",
-      value2:" "
+      value1: " ",
+      value2: " ",
+      radio1: "GBK",
     };
   },
   methods: {
@@ -256,9 +276,10 @@ export default {
     },
     // 处理Genemapper下机数据调用可执行文件方法
     httpRequest(data) {
-      console.log("自定义标准品样本名",data.data.stdName)
-      console.log("结果文件为中文",data.data.language)
-       console.log("峰状态",data.data.peakStatus)
+      console.log("自定义标准品样本名", data.data.stdName);
+      console.log("结果文件为中文", data.data.language);
+      console.log("峰状态", data.data.peakStatus);
+      console.log("文件格式",data.data.outputFormat);
       var file = data.file;
       var path = require("path");
       const { exec } = window.require("child_process");
@@ -354,29 +375,34 @@ export default {
     // 保存自定义样本名
     saveSampleName() {
       var sampleName = this.sampleName;
-      this.uploadParams.stdName = sampleName
+      this.uploadParams.stdName = sampleName;
       this.customSampleName = false;
     },
     // 保存NTC检测样本名
-    saveNTCSampleName(){
+    saveNTCSampleName() {
       var ntcSampleName = this.ntcSampleName;
       this.uploadParams.ntcName = ntcSampleName;
       this.customNTCSampleName = false;
     },
     // 保存Ladder检测样本名
-    saveLadderSampleName(){
+    saveLadderSampleName() {
       var ladderSampleName = this.ladderSampleName;
       this.uploadParams.ladderName = ladderSampleName;
       this.customLadderSampleName = false;
     },
     //设置输出结果文件为中文
-    switchReceiveStatus1(val){
-      this.uploadParams.language = val
+    switchReceiveStatus1(val) {
+      this.uploadParams.language = val;
     },
-     //峰面积
-    switchReceiveStatus2(val){
-      this.uploadParams.peakStatus = val
-    }   
+    //峰面积
+    switchReceiveStatus2(val) {
+      this.uploadParams.peakStatus = val;
+    },
+    //文件格式转换GBK，UTF-8
+    switchFileFormat(val){
+      console.log("输出文件格式", val);
+      this.uploadParams.outputFormat = val;
+    }
   },
 };
 </script>
