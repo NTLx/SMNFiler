@@ -22,9 +22,10 @@
                 :on-change="handleChange"
                 :file-list="fileList1"
                 :data="{
-                  stdName:uploadParams.stdName,
-                  ntcName:uploadParams.ntcName,
-                  ladderName:uploadParams.ladderName
+                  stdName: uploadParams.stdName,
+                  ntcName: uploadParams.ntcName,
+                  ladderName: uploadParams.ladderName,
+                  language: uploadParams.language,
                 }"
                 :http-request="httpRequest"
                 :before-upload="beforeAvatarUpload"
@@ -80,7 +81,10 @@
                 <el-button type="primary" @click="customSampleName = true">
                   自定义样本名
                 </el-button>
-                <el-dialog v-model="customSampleName" title="请输入标准品样本名">
+                <el-dialog
+                  v-model="customSampleName"
+                  title="请输入标准品样本名"
+                >
                   <el-input
                     v-model="sampleName"
                     placeholder="请输入标准品样本名"
@@ -101,7 +105,10 @@
                 <el-button type="primary" @click="customNTCSampleName = true">
                   自定义NTC检测
                 </el-button>
-                <el-dialog v-model="customNTCSampleName" title="请输入进行NTC检测的样本名">
+                <el-dialog
+                  v-model="customNTCSampleName"
+                  title="请输入进行NTC检测的样本名"
+                >
                   <el-input
                     v-model="ntcSampleName"
                     placeholder="请输入进行NTC检测的样本名"
@@ -119,10 +126,16 @@
                 </el-dialog>
               </el-col>
               <el-col :span="8">
-                <el-button type="primary" @click="customLadderSampleName = true">
+                <el-button
+                  type="primary"
+                  @click="customLadderSampleName = true"
+                >
                   自定义Ladder检测
                 </el-button>
-                <el-dialog v-model="customLadderSampleName" title="请输入进行Ladder检测的样本名">
+                <el-dialog
+                  v-model="customLadderSampleName"
+                  title="请输入进行Ladder检测的样本名"
+                >
                   <el-input
                     v-model="ladderSampleName"
                     placeholder="请输入进行Ladder检测的样本名"
@@ -139,6 +152,26 @@
                   </template>
                 </el-dialog>
               </el-col>
+            </el-row>
+            <el-row class="fileSetting">
+              <el-col :span="12">
+                <el-switch
+                  v-model="value1"
+                  class="ml-2"
+                  size="large"
+                  inline-prompt
+                  active-text="输出结果中文"
+                  active-value="-l"
+                  inactive-value=" "
+                  style="
+                    --el-switch-oncolor: #13ce66;
+                    --el-switch-off-color: #ff4949;
+                  "
+                  inactive-text="输出结果英文"
+                  @change="switchReceiveStatus1"
+                ></el-switch>
+              </el-col>
+              
             </el-row>
           </div>
         </el-tab-pane>
@@ -165,7 +198,9 @@ export default {
       ladderSampleName:"",
       uploadParams:{
         outputFormat: "GBK",
-      }
+      },
+      value1:" ",
+      value2:" "
     };
   },
   methods: {
@@ -205,6 +240,8 @@ export default {
     // 处理Genemapper下机数据调用可执行文件方法
     httpRequest(data) {
       console.log("自定义标准品样本名",data.data.stdName)
+      console.log("结果文件为中文",data.data.language)
+
       var file = data.file;
       var path = require("path");
       const { exec } = window.require("child_process");
@@ -314,7 +351,12 @@ export default {
       var ladderSampleName = this.ladderSampleName;
       this.uploadParams.ladderName = ladderSampleName;
       this.customLadderSampleName = false;
-    }
+    },
+    //设置输出结果文件为中文
+    switchReceiveStatus1(val){
+      this.uploadParams.language = val
+    },
+    
   },
 };
 </script>
