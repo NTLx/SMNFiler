@@ -305,11 +305,15 @@ export default {
       customSampleName: false,
       customNTCSampleName: false,
       customLadderSampleName: false,
-      sampleName: "",
-      ntcSampleName: "",
-      ladderSampleName: "",
+      sampleName: " ",
+      ntcSampleName: " ",
+      ladderSampleName: " ",
       uploadParams: {
         outputFormat: "GBK",
+        stdName:"STD",
+        ntcName: " ",
+        ladderName: " ",
+        fileType:"summaryFile"
       },
       value1: " ",
       value2: " ",
@@ -397,7 +401,7 @@ export default {
             } else if (process.platform === "linux") {
               exeFile = linuxNewUrl;
             }
-            exec(exeFile + " -i " + file.path, (error, stdout, stderr) => {
+            exec(exeFile + " -i " + file.path + " -e "+data.data.outputFormat+" -c "+data.data.stdName+" "+data.data.peakStatus+" "+data.data.language+" "+data.data.ntcName+" "+data.data.ladderName, (error, stdout, stderr) => {
               if (error || stderr) {
                 const notice = "输入下机数据文件" + file.name + "处理有误！";
                 log.error("\n" + "当前输入下机数据文件" +file.name +"\n" +"处理有误！")
@@ -434,7 +438,7 @@ export default {
             } else if (process.platform === "linux") {
               exeFile = linuxNewUrl;
             }
-            exec(exeFile + " -i " + file.path, (error, stdout, stderr) => {
+            exec(exeFile + " -i " + file.path + " -e "+data.data.outputFormat+" -c "+data.data.stdName+" "+data.data.peakStatus+" "+data.data.language+" "+data.data.ntcName+" "+data.data.ladderName, (error, stdout, stderr) => {
               if (error || stderr) {
                 const notice = "输入下机数据文件" + file.name + "处理有误！";
                 log.error("\n" + "当前输入下机数据文件" +file.name +"\n" +"处理有误！")
