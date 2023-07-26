@@ -28,6 +28,7 @@
                   language: uploadParams.language,
                   peakStatus: uploadParams.peakStatus,
                   outputFormat:uploadParams.outputFormat,
+                  fileType:uploadParams.fileType,
                 }"
                 :http-request="httpRequest"
                 :before-upload="beforeAvatarUpload"
@@ -75,12 +76,12 @@
           <div class="settingPostion">
             <el-row>
               <el-col :span="24">
-                <el-divider content-position="left"> 输出文件设置 </el-divider>
+                <el-divider content-position="left"> 结果文件设置 </el-divider>
               </el-col>
             </el-row>
             <el-row class="fileSetting">
               <el-col :span="8">
-                <el-button type="primary" @click="customSampleName = true">
+                <el-button type="primary" @click="customSampleName = true" size="large">
                   自定义样本名
                 </el-button>
                 <el-dialog
@@ -93,7 +94,7 @@
                   ></el-input>
                   <template #footer>
                     <span class="dialog-footer">
-                      <el-button @click="customSampleName = false">
+                      <el-button @click="customSampleName = false" size="large">
                         取消
                       </el-button>
                       <el-button type="primary" @click="saveSampleName">
@@ -104,7 +105,7 @@
                 </el-dialog>
               </el-col>
               <el-col :span="8">
-                <el-button type="primary" @click="customNTCSampleName = true">
+                <el-button type="primary" @click="customNTCSampleName = true" size="large">
                   自定义NTC检测
                 </el-button>
                 <el-dialog
@@ -131,6 +132,7 @@
                 <el-button
                   type="primary"
                   @click="customLadderSampleName = true"
+                  size="large"
                 >
                   自定义Ladder检测
                 </el-button>
@@ -156,27 +158,25 @@
               </el-col>
             </el-row>
             <el-row class="fileSetting">
-              <el-col :span="12">
+              <el-col :span="8">
                 <el-switch
                   v-model="value1"
-                  class="ml-2"
                   size="large"
                   inline-prompt
-                  active-text="输出结果中文"
+                  active-text="结果文件为中文"
                   active-value="-l"
                   inactive-value=" "
                   style="
                     --el-switch-oncolor: #13ce66;
                     --el-switch-off-color: #ff4949;
                   "
-                  inactive-text="输出结果英文"
+                  inactive-text="结果文件为英文"
                   @change="switchReceiveStatus1"
                 ></el-switch>
               </el-col>
-              <el-col :span="12">
+              <el-col :span="8">
                 <el-switch
                   v-model="value2"
-                  class="ml-2"
                   size="large"
                   inline-prompt
                   active-text="峰面积"
@@ -190,22 +190,29 @@
                   @change="switchReceiveStatus2"
                 ></el-switch>
               </el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="12" class="leftText">
-                <span style="radio-label">选择输出文件格式</span>
+              <el-col :span="8" class="leftText">
+                <span style="radio-label">格式：</span>
                 <el-radio-group
                   v-model="radio1"
-                  class="ml-4"
                   @change="switchFileFormat"
-                  style="
-                    display: flex;
-                    flex-flow: column nowrap;
-                    align-items: flex-start;
-                  "
+                  size="large"
                 >
-                  <el-radio label="GBK" size="large">GBK</el-radio>
-                  <el-radio label="UTF-8" size="large">UTF-8</el-radio>
+                  <el-radio-button label="GBK"></el-radio-button>
+                  <el-radio-button label="UTF-8"></el-radio-button>
+                </el-radio-group>
+              </el-col>
+            </el-row>
+            <el-row class="fileSetting">
+              <el-col :span="24" class="leftText">
+                <span class="radio-label">种类：</span>
+                <el-radio-group
+                  v-model="radio2"
+                  @change="switchFileType"
+                  size="large"
+                >
+                  <el-radio-button label="summaryFile">结果文件</el-radio-button>
+                  <el-radio-button label="summaryFileAndReportFile">结果文件和报告</el-radio-button>
+                  <el-radio-button label="summaryFileAndReportPictureFile">结果文件和含图片报告</el-radio-button>
                 </el-radio-group>
               </el-col>
             </el-row>
@@ -238,6 +245,7 @@ export default {
       value1: " ",
       value2: " ",
       radio1: "GBK",
+      radio2: "summaryFile"
     };
   },
   methods: {
@@ -280,6 +288,7 @@ export default {
       console.log("结果文件为中文", data.data.language);
       console.log("峰状态", data.data.peakStatus);
       console.log("文件格式",data.data.outputFormat);
+      console.log("文件种类",data.data.fileType);
       var file = data.file;
       var path = require("path");
       const { exec } = window.require("child_process");
@@ -402,6 +411,11 @@ export default {
     switchFileFormat(val){
       console.log("输出文件格式", val);
       this.uploadParams.outputFormat = val;
+    },
+    //切换输出文件种类
+    switchFileType(val){
+       console.log("输出文件种类", val);
+      this.uploadParams.fileType = val;
     }
   },
 };
@@ -474,7 +488,8 @@ a.help {
 i.el-icon.el-icon--upload {
   margin-top: 100px;
 }
-.leftText {
-  text-align: left;
+.leftText{
+  display: flex;
+  align-items: center;
 }
 </style>
