@@ -29,6 +29,8 @@
                   peakStatus: uploadParams.peakStatus,
                   outputFormat:uploadParams.outputFormat,
                   fileType:uploadParams.fileType,
+                  htmlStatus:uploadParams.htmlStatus,
+                  fontStatus:uploadParams.fontStatus
                 }"
                 :http-request="httpRequest"
                 :before-upload="beforeAvatarUpload"
@@ -216,6 +218,45 @@
                 </el-radio-group>
               </el-col>
             </el-row>
+            <el-row>
+               <el-col :span="24">
+                <el-divider content-position="left">报告文件设置</el-divider>
+              </el-col>
+            </el-row>
+            <el-row class="fileSetting">
+              <el-col :span="12">
+                <el-switch v-model="value3"
+                  size="large"
+                  inline-prompt
+                  active-text="生成 HTML 文件"
+                  active-value="1"
+                  inactive-value="0"
+                  style="
+                    --el-switch-oncolor: #13ce66;
+                    --el-switch-off-color: #ff4949;
+                  "
+                  inactive-text="不生成 HTML 文件"
+                  @change="switchReceiveStatus3">
+
+                </el-switch>
+              </el-col>
+              <el-col :span="12">
+                <el-switch v-model="value4"
+                  size="large"
+                  inline-prompt
+                  active-text="字体:MiSans"
+                  active-value="1"
+                  inactive-value="0"
+                  style="
+                    --el-switch-oncolor: #13ce66;
+                    --el-switch-off-color: #ff4949;
+                  "
+                  inactive-text="字体:宋体"
+                  @change="switchReceiveStatus4">
+
+                </el-switch>
+              </el-col>
+            </el-row>
           </div>
         </el-tab-pane>
       </el-tabs>
@@ -245,7 +286,9 @@ export default {
       value1: " ",
       value2: " ",
       radio1: "GBK",
-      radio2: "summaryFile"
+      radio2: "summaryFile",
+      value3: 0,
+      value4: 0,
     };
   },
   methods: {
@@ -289,6 +332,8 @@ export default {
       console.log("峰状态", data.data.peakStatus);
       console.log("文件格式",data.data.outputFormat);
       console.log("文件种类",data.data.fileType);
+      console.log("字体文件状态",data.data.fontStatus);
+      console.log("生成html文件",data.data.htmlStatus);
       var file = data.file;
       var path = require("path");
       const { exec } = window.require("child_process");
@@ -416,6 +461,14 @@ export default {
     switchFileType(val){
        console.log("输出文件种类", val);
       this.uploadParams.fileType = val;
+    },
+    // 生成html文件
+    switchReceiveStatus3(val){
+      this.uploadParams.htmlStatus = val;
+    },
+    //切换字体文件方法
+    switchReceiveStatus4(val){
+      this.uploadParams.fontStatus = val;
     }
   },
 };
@@ -479,7 +532,7 @@ a.help {
   text-align: left;
 }
 .fileSetting {
-  margin: 34px 0;
+  margin: 30px 0;
 }
 
 .el-divider__text {
