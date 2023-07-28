@@ -20,7 +20,7 @@ module.exports = defineConfig({
         "@electron/remote",
         "node-xlsx",
         "xlsx",
-        "officegen",
+        "officegen"
       ],
       nodeModulesPath: ["../../node_modules", "./node_modules"],
       builderOptions: {
@@ -35,6 +35,18 @@ module.exports = defineConfig({
           {
             from: "./src/assets/analysis_miss",
             to: "./analysis_miss",
+          },
+          {
+            from:"./src/assets/echarts.js",
+            to: "./echarts.js"
+          },
+          {
+            from:"./src/assets/MiSans-Normal.ttf",
+            to: "./MiSans-Normal.ttf"
+          },
+          {
+            from:"./src/assets/simsun.ttc",
+            to: "./simsun.ttc"
           }
         ],
         dmg: {
