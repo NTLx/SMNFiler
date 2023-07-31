@@ -90,6 +90,7 @@
               fileTypeParameter: uploadParams.fileTypeParameter,
               htmlStatus: uploadParams.htmlStatus,
               fontStatus: uploadParams.fontStatus,
+              selectReport: uploadParams.selectReport,
             }"
             :before-upload="beforeSampleInformationUpload"
           >
@@ -302,7 +303,7 @@
               </el-col>
             </el-row>
             <el-row class="fileSetting">
-              <el-col :span="12">
+              <el-col :span="8">
                 <el-switch
                   v-model="value3"
                   size="large"
@@ -319,7 +320,7 @@
                 >
                 </el-switch>
               </el-col>
-              <el-col :span="12">
+              <el-col :span="8">
                 <el-switch
                   v-model="value4"
                   size="large"
@@ -335,6 +336,20 @@
                   @change="switchReceiveStatus4"
                 >
                 </el-switch>
+              </el-col>
+              <el-col :span="8">
+                <el-select
+                  v-model="value5"
+                  size="large"
+                  @change="handleSelectChange"
+                >
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  />
+                </el-select>
               </el-col>
             </el-row>
             <el-row>
@@ -385,13 +400,19 @@ export default {
         ladderName: " ",
         fileType: "summaryFile",
         fileTypeParameter: " ",
+        selectReport: "default",
       },
+      options: [
+        { label: "默认报告模板", value: "default" },
+        { label: "其他", value: "other" },
+      ],
       value1: " ",
       value2: " ",
       radio1: "UTF-8",
       radio2: "summaryFile",
       value3: 0,
       value4: 0,
+      value5: "default",
     };
   },
   methods: {
@@ -403,10 +424,23 @@ export default {
     // 下载样本数据窗口方法
     download() {
       var path = require("path");
-      var downloadFile = path.join(process.cwd(),"/resources/SMNFilerSampleData.xlsx")
+      var downloadFile = path.join(
+        process.cwd(),
+        "/resources/SMNFilerSampleData.xlsx"
+      );
       var win = window.require("@electron/remote").getCurrentWindow();
       win.webContents.downloadURL(downloadFile);
-      console.log("downloadFile",downloadFile)
+      console.log("downloadFile", downloadFile);
+    },
+    // 下拉单选框值变化方法
+    handleSelectChange(value) {
+      console.log("选项变化:", value);
+      if (value == "default") {
+        this.value5 = "default";
+      } else if (value == "other") {
+        this.value5 = "other";
+      }
+      this.uploadParams.selectReport = value;
     },
     //处理文件列表
     handleChange(file, fileList1) {
@@ -938,6 +972,8 @@ export default {
       var htmlPathAndName = [];
       var pdfPathAndName = [];
       var content = [];
+      var content1 =[];
+      var content2 =[];
       // var docx = [];
       // var header1 = [];
       // var header2=  [];
@@ -1150,7 +1186,7 @@ export default {
                 defaultBox3 = correctBox;
                 var defaultBox6 = `font-weight:bold`;
               }
-              content[index] = `<!DOCTYPE html>
+              content[index] =`<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -1508,12 +1544,359 @@ export default {
     </div>
 </body>
 ${pictureScript}
-</html>`;
-              console.log("content[index]", content[index]);
+</html>`
+content1[index] = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G030Report</title>
+    <!-- 引入 echarts.js -->
+    <script src='${echartsPath}'><\/script>
+    <style>
+        /* Style Definitions */
+        p.MsoNormal,
+        li.MsoNormal,
+        div.MsoNormal {
+            margin: 0cm;
+            text-align: justify;
+            text-justify: inter-ideograph;
+            font-size: 10.5pt;
+            /* font-family: Simsun; */
+        }
+
+        p.MsoListParagraph,
+        li.MsoListParagraph,
+        div.MsoListParagraph {
+            margin: 0cm;
+            text-align: justify;
+            text-justify: inter-ideograph;
+            /*text-indent: 21.0pt;*/
+            font-size: 10.5pt;
+            /* font-family: Simsun; */
+        }
+
+        .MsoChpDefault {
+            /* font-family: Simsun; */
+        }
+
+        td {
+            height: 40px;
+        }
+
+        /* Page Definitions */
+        @page WordSection1 {
+            size: 595.3pt 841.9pt;
+            margin: 42.45pt 90.0pt 49.525pt 90.0pt;
+            layout-grid: 15.6pt;
+        }
+        ${currentFont}
+        body{
+            ${fontSetting}
+        }
+        div.WordSection1 {
+            page: WordSection1;
+        }
+        
+        /* List Definitions */
+        ol {
+            margin-bottom: 0cm;
+        }
+
+        ul {
+            margin-bottom: 0cm;
+        }
+
+        .checkbox:checked::after {
+            background: #000;
+        }
+        .page-header,
+        .page-header-space {
+            height: 20px;
+            font-size: 8.5px;
+        }
+
+        .page-footer,
+        .page-footer-space {
+            height: auto;
+            text-align: center;
+            font-size: 8.5px;
+        }
+
+        .page-footer {
+            position: fixed;
+            bottom: 0mm;
+            /* width: 100%; */
+            /* border-top: 1px solid black; */
+            /* for demo */
+            /* background: yellow; */
+            /* for demo */
+        }
+
+        .page-header {
+            position: fixed;
+            top: 0mm;
+            width: 100%;
+            /*  border-bottom: 1px solid black;  for demo */
+            /* background: yellow; */
+            /* for demo */
+        }
+
+        /* 文字阴影宋体打印加粗解决方案 */
+        .fontBolder {
+            text-shadow: 0.15pt 0px 0px black, 0.25pt 0px 0px black, 0.35pt 0px 0px black, -0.25pt 0px 0px black, 0px 0.25pt 0px black, 0px -0.25pt 0px black;
+        }
+
+        @media print {
+            body {
+                margin: 0;
+            }
+        }
+        #mainContent{
+            border: 1px solid windowtext;
+        }
+        /* table tr td{ border-top:1px solid windowtext; } table{ border:1px solid windowtext; border-top-width:0px; }  */
+        /* table{ border-collapse:collapse; } table tr{ border:1px solid windowtext; }  */
+    </style>
+</head>
+<body lang=ZH-CN style='word-wrap:break-word;text-justify-trim:punctuation;text-align: center;'>
+
+    <div class=WordSection1 style='layout-grid:15.6pt;margin-top: 30px;'>
+        <table cellspacing=0 cellpadding=0 width=556
+            style='width:416.7pt;border-collapse:collapse;border:none;margin: auto;text-align: center'>
+            <tr>
+                <td class="page-header" style="text-align: left;width: 416.7pt;border-bottom: solid windowtext 1pt;">
+                    ${objArr[index].inspectionEntity}
+                    <!-- <hr style="width:416.7pt"> -->
+                </td>
+
+            </tr>
+        </table>
+        <table cellspacing=0 cellpadding=0 width=556
+            style='width:416.7pt;border-collapse:collapse;margin: auto;text-align: center'>
+            <tr>
+                <td class="page-footer" style="width:416.7pt;text-align: right">
+                    检验结果仅对送检样本负责
+                </td>
+            </tr>
+
+        </table>
+        <p class=MsoNormal align=center style='text-align:center;layout-grid-mode:char;margin: 35px 0 35px 0'><b><span
+                    lang=utf-8 style='font-size:14.0pt;'>运动神经元存活基因拷贝数检验报告单</b></p>
+
+        <table class=MsoTableGrid border=1 cellspacing=0 cellpadding=0 width=556 id="mainContent"
+            style='width:416.7pt;margin: auto;border-collapse:collapse;'>
+            <tr>
+                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;'><b>门诊号</b></p>
+                </td>
+                <td width=183 colspan=7 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:left'>
+                        <span>${objArr[index].clinicNumber}</span>
+                    </p>
+                </td>
+                <td width=73  colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center'><b>住院号</b></p>
+                </td>
+                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:left'>
+                        <span>${objArr[index].hospitalNumber}</span>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                    <p class=MsoNormal style='text-align:center'><b>姓名</b></p>
+                </td>
+                <td width=113 colspan=3 style='width:85.0pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                    <p class=MsoNormal align=left style="text-align: left;">
+                        <span>
+                            ${objArr[index].name}
+                        </span>
+                    </p>
+                </td>
+                <td width=76 style='width:2.0cm;padding:0cm 5.4pt 0cm 5.4pt'>
+                    <p class=MsoNormal align=center style='text-align:center'><b>性别</b></p>
+                </td>
+                <td width=113  colspan=3 style='width:3.0cm;padding:0cm 5.4pt 0cm 5.4pt'>
+                    <p class=MsoNormal align=left style='text-align:left'><span>${objArr[index].sex}</span></p>
+                </td>
+                <td width=73 colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                    <p class=MsoNormal align=center style='text-align:center'><b>手机号</b></p>
+                </td>
+                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                    <p class=MsoNormal align=left style='text-align:left'><span>${objArr[index].phone}</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;'><b>送检科室</b></p>
+                </td>
+                <td width=339 colspan=7 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:left'>
+                        <span>${objArr[index].inspectionDepartment}</span>
+                    </p>
+                </td>
+                <td width=73  colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;white-space: nowrap;'><b>送检医生</b></p>
+                </td>
+                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:left'>
+                        <span>${objArr[index].inspectionDoctor}</span>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;'><b>样本类型</b></p>
+                </td>
+                <td width=183 colspan=7 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:left'>
+                        <span>${objArr[index].sampleType}</span>
+                    </p>
+                </td>
+                <td width=73  colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;white-space: nowrap;'><b>采样日期</b></p>
+                </td>
+                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:left'>
+                        <span>${objArr[index].samplingDate}</span>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;'><b>简要病史</b></p>
+                </td>
+                <td width=339 colspan=12 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:left'>
+                        <span>${objArr[index].medicalHistory}</span>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;'><b>检验方法</b></p>
+                </td>
+                <td width=339 colspan=12 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:center'>
+                        <span >荧光&thinsp;PCR-毛细管电泳法</span>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;'><b>目标基因</b></p>
+                </td>
+                <td width=339 colspan=6 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:center'>
+                        <span><i>SMN1</i>&thinsp;外显子&thinsp;7</span>
+                    </p>
+                </td>
+                <td width=73  colspan=6 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center'>
+                        <span><i>SMN2</i>&thinsp;外显子&thinsp;7</span>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;'><b>检验结果</b></p>
+                </td>
+                <td width=339 colspan=6 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:center'>
+                        <span>${objArr[index].smn1}</span>
+                    </p>
+                </td>
+                <td width=73  colspan=6 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center'>
+                        <span>${objArr[index].smn2}</span>
+                    </p>
+                </td>
+            </tr>
+            ${pictureHtml}
+            <tr>
+                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;'><b>检验结论</b></p>
+                </td>
+                <td width=183 colspan=12 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:left'>
+                        ${defaultBox1}
+                    <span style="vertical-align: middle;${defaultBox4}" >未检出目标基因拷贝数异常</span>
+                    </p>
+                    <p class=MsoNormal align=left style='text-align:left'>
+                        ${defaultBox2}
+                    <span style="vertical-align: middle;${defaultBox5}" ><i>SMN1&thinsp;</i>基因外显子&thinsp;7&thinsp;杂合型缺失</span>
+                    </p>
+                    <p class=MsoNormal align=left style='text-align:left'>
+                        ${defaultBox3}
+                    <span style="vertical-align: middle;${defaultBox6}" ><i>SMN1&thinsp;</i>基因外显子&thinsp;7&thinsp;纯合型缺失</span>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width=73  style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center'><b>建议</b></p>
+                </td>
+                <td width=110 colspan=12 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center'>
+                        <span>${recommend}</span>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width=556 colspan=13 style='width:416.7pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                    <p class='MsoNormal' align=center style='text-align:center'><span><b>结果解释</b></span></p>
+                </td>
+            </tr>
+            <tr>
+                <td width=556 colspan=13 valign=middle style='width:416.7pt;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+                    <p class=MsoListParagraph align=justify style='margin-left:23.25pt;${beforeStage};${lineSpacing};'>
+                        1. 本次检验仅用于<i>&thinsp;SMN1&thinsp;</i>中最常见的外显子&thinsp;7&thinsp;缺失型携带者的检验，并未覆盖<i>&thinsp;SMN1&thinsp;</i>基因的罕见点突变检测。因此，当检测结果排除受检者为<i>&thinsp;SMN1&thinsp;</i>第&thinsp;7&thinsp;外显子缺失型携带者时，并不能排除受检者是否携带有<i>&thinsp;SMN1&thinsp;</i>基因的罕见点突变。
+                    </p>
+                    ${pagingTable}
+                    <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >2. 当检出<i>&thinsp;SMN1&thinsp;</i>第&thinsp;7&thinsp;外显子为&thinsp;2&thinsp;拷贝时，并不能直接判断&thinsp;2&thinsp;个拷贝的<i>&thinsp;SMN1&thinsp;</i>在染色体上的排布方式，即不能判断出是否为“&thinsp;2+0&thinsp;”携带者型。当怀疑待检样本存在“&thinsp;2+0&thinsp;”时，建议其配偶进行<i>&thinsp;SMN1&thinsp;</i>基因检测。</p>
+                    <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >3. 受检者进行过骨髓移植、细胞治疗或接受输血，可能会影响血样检测结果的准确性。</p>
+                    <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >4. 该方法检测<i>&thinsp;SMN1&thinsp;</i>基因第&thinsp;7&thinsp;外显子拷贝数时，将以受检者基因组中保守的管家基因为内参。内参基因罕见的突变可能会影响到检测结果的准确性。</p>
+                    <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >5. 检验<i>&thinsp;SMN2&thinsp;</i>基因拷贝数通常仅用于对患者临床预后的评估。正常人群中<i>&thinsp;SMN2&thinsp;</i>基因本身就存在拷贝数变异，可能为&thinsp;0、1、2&thinsp;或以上。</p>
+                    ${pagingEnd}
+            </tr>
+            <tr>
+                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;'><b>检验日期</b></p>
+                </td>
+                <td width=339 colspan=9 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:left'>
+                        <span>${objArr[index].inspectionDate}</span>
+                    </p>
+                </td>
+                <td width=73  colspan=2 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;white-space: nowrap;'><b>报告日期</b></p>
+                </td>
+                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                  <p class=MsoNormal align=left style='text-align:left'>
+                        <span>${objArr[index].reportDate}</span>
+                    </p>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+${pictureScript}
+</html>`
+              if (data1.data.selectReport == "default") {
+                content2[index] = content[index];
+              } else {
+                content2[index] = content1[index];
+              }
+
+              console.log("content2[index]", content2[index]);
               var fs = window.require("fs");
               fs.writeFile(
                 htmlPathAndName[index],
-                content[index],
+                content2[index],
                 function (err) {
                   if (err) {
                     var notice =
@@ -3361,11 +3744,357 @@ ${pictureScript}
 </body>
 ${pictureScript}
 </html>`;
-              console.log("content[index]", content[index]);
+content1[index] = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G030Report</title>
+    <!-- 引入 echarts.js -->
+    <script src='${echartsPath}'><\/script>
+    <style>
+        /* Style Definitions */
+        p.MsoNormal,
+        li.MsoNormal,
+        div.MsoNormal {
+            margin: 0cm;
+            text-align: justify;
+            text-justify: inter-ideograph;
+            font-size: 10.5pt;
+            /* font-family: Simsun; */
+        }
+
+        p.MsoListParagraph,
+        li.MsoListParagraph,
+        div.MsoListParagraph {
+            margin: 0cm;
+            text-align: justify;
+            text-justify: inter-ideograph;
+            /*text-indent: 21.0pt;*/
+            font-size: 10.5pt;
+            /* font-family: Simsun; */
+        }
+
+        .MsoChpDefault {
+            /* font-family: Simsun; */
+        }
+
+        td {
+            height: 40px;
+        }
+
+        /* Page Definitions */
+        @page WordSection1 {
+            size: 595.3pt 841.9pt;
+            margin: 42.45pt 90.0pt 49.525pt 90.0pt;
+            layout-grid: 15.6pt;
+        }
+        ${currentFont}
+        body{
+            ${fontSetting}
+        }
+        div.WordSection1 {
+            page: WordSection1;
+        }
+        
+        /* List Definitions */
+        ol {
+            margin-bottom: 0cm;
+        }
+
+        ul {
+            margin-bottom: 0cm;
+        }
+
+        .checkbox:checked::after {
+            background: #000;
+        }
+        .page-header,
+        .page-header-space {
+            height: 20px;
+            font-size: 8.5px;
+        }
+
+        .page-footer,
+        .page-footer-space {
+            height: auto;
+            text-align: center;
+            font-size: 8.5px;
+        }
+
+        .page-footer {
+            position: fixed;
+            bottom: 0mm;
+            /* width: 100%; */
+            /* border-top: 1px solid black; */
+            /* for demo */
+            /* background: yellow; */
+            /* for demo */
+        }
+
+        .page-header {
+            position: fixed;
+            top: 0mm;
+            width: 100%;
+            /*  border-bottom: 1px solid black;  for demo */
+            /* background: yellow; */
+            /* for demo */
+        }
+
+        /* 文字阴影宋体打印加粗解决方案 */
+        .fontBolder {
+            text-shadow: 0.15pt 0px 0px black, 0.25pt 0px 0px black, 0.35pt 0px 0px black, -0.25pt 0px 0px black, 0px 0.25pt 0px black, 0px -0.25pt 0px black;
+        }
+
+        @media print {
+            body {
+                margin: 0;
+            }
+        }
+        #mainContent{
+            border: 1px solid windowtext;
+        }
+        /* table tr td{ border-top:1px solid windowtext; } table{ border:1px solid windowtext; border-top-width:0px; }  */
+        /* table{ border-collapse:collapse; } table tr{ border:1px solid windowtext; }  */
+    </style>
+</head>
+<body lang=ZH-CN style='word-wrap:break-word;text-justify-trim:punctuation;text-align: center;'>
+
+    <div class=WordSection1 style='layout-grid:15.6pt;margin-top: 30px;'>
+        <table cellspacing=0 cellpadding=0 width=556
+            style='width:416.7pt;border-collapse:collapse;border:none;margin: auto;text-align: center'>
+            <tr>
+                <td class="page-header" style="text-align: left;width: 416.7pt;border-bottom: solid windowtext 1pt;">
+                    ${objArr[index].inspectionEntity}
+                    <!-- <hr style="width:416.7pt"> -->
+                </td>
+
+            </tr>
+        </table>
+        <table cellspacing=0 cellpadding=0 width=556
+            style='width:416.7pt;border-collapse:collapse;margin: auto;text-align: center'>
+            <tr>
+                <td class="page-footer" style="width:416.7pt;text-align: right">
+                    检验结果仅对送检样本负责
+                </td>
+            </tr>
+
+        </table>
+        <p class=MsoNormal align=center style='text-align:center;layout-grid-mode:char;margin: 35px 0 35px 0'><b><span
+                    lang=utf-8 style='font-size:14.0pt;'>运动神经元存活基因拷贝数检验报告单</b></p>
+
+        <table class=MsoTableGrid border=1 cellspacing=0 cellpadding=0 width=556 id="mainContent"
+            style='width:416.7pt;margin: auto;border-collapse:collapse;'>
+            <tr>
+                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;'><b>门诊号</b></p>
+                </td>
+                <td width=183 colspan=7 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:left'>
+                        <span>${objArr[index].clinicNumber}</span>
+                    </p>
+                </td>
+                <td width=73  colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center'><b>住院号</b></p>
+                </td>
+                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:left'>
+                        <span>${objArr[index].hospitalNumber}</span>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                    <p class=MsoNormal style='text-align:center'><b>姓名</b></p>
+                </td>
+                <td width=113 colspan=3 style='width:85.0pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                    <p class=MsoNormal align=left style="text-align: left;">
+                        <span>
+                            ${objArr[index].name}
+                        </span>
+                    </p>
+                </td>
+                <td width=76 style='width:2.0cm;padding:0cm 5.4pt 0cm 5.4pt'>
+                    <p class=MsoNormal align=center style='text-align:center'><b>性别</b></p>
+                </td>
+                <td width=113  colspan=3 style='width:3.0cm;padding:0cm 5.4pt 0cm 5.4pt'>
+                    <p class=MsoNormal align=left style='text-align:left'><span>${objArr[index].sex}</span></p>
+                </td>
+                <td width=73 colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                    <p class=MsoNormal align=center style='text-align:center'><b>手机号</b></p>
+                </td>
+                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                    <p class=MsoNormal align=left style='text-align:left'><span>${objArr[index].phone}</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;'><b>送检科室</b></p>
+                </td>
+                <td width=339 colspan=7 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:left'>
+                        <span>${objArr[index].inspectionDepartment}</span>
+                    </p>
+                </td>
+                <td width=73  colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;white-space: nowrap;'><b>送检医生</b></p>
+                </td>
+                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:left'>
+                        <span>${objArr[index].inspectionDoctor}</span>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;'><b>样本类型</b></p>
+                </td>
+                <td width=183 colspan=7 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:left'>
+                        <span>${objArr[index].sampleType}</span>
+                    </p>
+                </td>
+                <td width=73  colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;white-space: nowrap;'><b>采样日期</b></p>
+                </td>
+                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:left'>
+                        <span>${objArr[index].samplingDate}</span>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;'><b>简要病史</b></p>
+                </td>
+                <td width=339 colspan=12 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:left'>
+                        <span>${objArr[index].medicalHistory}</span>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;'><b>检验方法</b></p>
+                </td>
+                <td width=339 colspan=12 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:center'>
+                        <span >荧光&thinsp;PCR-毛细管电泳法</span>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;'><b>目标基因</b></p>
+                </td>
+                <td width=339 colspan=6 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:center'>
+                        <span><i>SMN1</i>&thinsp;外显子&thinsp;7</span>
+                    </p>
+                </td>
+                <td width=73  colspan=6 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center'>
+                        <span><i>SMN2</i>&thinsp;外显子&thinsp;7</span>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;'><b>检验结果</b></p>
+                </td>
+                <td width=339 colspan=6 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:center'>
+                        <span>${objArr[index].smn1}</span>
+                    </p>
+                </td>
+                <td width=73  colspan=6 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center'>
+                        <span>${objArr[index].smn2}</span>
+                    </p>
+                </td>
+            </tr>
+            ${pictureHtml}
+            <tr>
+                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;'><b>检验结论</b></p>
+                </td>
+                <td width=183 colspan=12 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:left'>
+                        ${defaultBox1}
+                    <span style="vertical-align: middle;${defaultBox4}" >未检出目标基因拷贝数异常</span>
+                    </p>
+                    <p class=MsoNormal align=left style='text-align:left'>
+                        ${defaultBox2}
+                    <span style="vertical-align: middle;${defaultBox5}" ><i>SMN1&thinsp;</i>基因外显子&thinsp;7&thinsp;杂合型缺失</span>
+                    </p>
+                    <p class=MsoNormal align=left style='text-align:left'>
+                        ${defaultBox3}
+                    <span style="vertical-align: middle;${defaultBox6}" ><i>SMN1&thinsp;</i>基因外显子&thinsp;7&thinsp;纯合型缺失</span>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width=73  style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center'><b>建议</b></p>
+                </td>
+                <td width=110 colspan=12 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center'>
+                        <span>${recommend}</span>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td width=556 colspan=13 style='width:416.7pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                    <p class='MsoNormal' align=center style='text-align:center'><span><b>结果解释</b></span></p>
+                </td>
+            </tr>
+            <tr>
+                <td width=556 colspan=13 valign=middle style='width:416.7pt;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+                    <p class=MsoListParagraph align=justify style='margin-left:23.25pt;${beforeStage};${lineSpacing};'>
+                        1. 本次检验仅用于<i>&thinsp;SMN1&thinsp;</i>中最常见的外显子&thinsp;7&thinsp;缺失型携带者的检验，并未覆盖<i>&thinsp;SMN1&thinsp;</i>基因的罕见点突变检测。因此，当检测结果排除受检者为<i>&thinsp;SMN1&thinsp;</i>第&thinsp;7&thinsp;外显子缺失型携带者时，并不能排除受检者是否携带有<i>&thinsp;SMN1&thinsp;</i>基因的罕见点突变。
+                    </p>
+                    ${pagingTable}
+                    <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >2. 当检出<i>&thinsp;SMN1&thinsp;</i>第&thinsp;7&thinsp;外显子为&thinsp;2&thinsp;拷贝时，并不能直接判断&thinsp;2&thinsp;个拷贝的<i>&thinsp;SMN1&thinsp;</i>在染色体上的排布方式，即不能判断出是否为“&thinsp;2+0&thinsp;”携带者型。当怀疑待检样本存在“&thinsp;2+0&thinsp;”时，建议其配偶进行<i>&thinsp;SMN1&thinsp;</i>基因检测。</p>
+                    <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >3. 受检者进行过骨髓移植、细胞治疗或接受输血，可能会影响血样检测结果的准确性。</p>
+                    <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >4. 该方法检测<i>&thinsp;SMN1&thinsp;</i>基因第&thinsp;7&thinsp;外显子拷贝数时，将以受检者基因组中保守的管家基因为内参。内参基因罕见的突变可能会影响到检测结果的准确性。</p>
+                    <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >5. 检验<i>&thinsp;SMN2&thinsp;</i>基因拷贝数通常仅用于对患者临床预后的评估。正常人群中<i>&thinsp;SMN2&thinsp;</i>基因本身就存在拷贝数变异，可能为&thinsp;0、1、2&thinsp;或以上。</p>
+                    ${pagingEnd}
+            </tr>
+            <tr>
+                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;'><b>检验日期</b></p>
+                </td>
+                <td width=339 colspan=9 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=left style='text-align:left'>
+                        <span>${objArr[index].inspectionDate}</span>
+                    </p>
+                </td>
+                <td width=73  colspan=2 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                    <p class=MsoNormal align=center style='text-align:center;white-space: nowrap;'><b>报告日期</b></p>
+                </td>
+                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                  <p class=MsoNormal align=left style='text-align:left'>
+                        <span>${objArr[index].reportDate}</span>
+                    </p>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+${pictureScript}
+</html>`;
+              if(data1.data.selectReport =="default"){
+                content2[index] =content[index];
+              }else if(data1.data.selectReport =="other"){
+                content2[index] = content1[index];
+              }
+              console.log("content2[index]", content2[index]);
               var fs = window.require("fs");
               fs.writeFile(
                 htmlPathAndName[index],
-                content[index],
+                content2[index],
                 function (err) {
                   if (err) {
                     var notice =
@@ -3620,23 +4349,27 @@ ${pictureScript}
         path.join(convertedLogFilepath, logFilename);
       console.log(path.join(convertedLogFilepath, logFilename));
       var fs = window.require("fs");
-      fs.access(path.join(convertedLogFilepath, logFilename), fs.constants.F_OK, (err) => {
-        if (err) {
-          console.log("文件不存在");
-          ElNotification({
-          message: "由于您还未进行任何数据分析操作，因此暂时无日志生成！",
-          type: "error",
-          showClose: true,
-          position: "top-right",
-          duration: "2000",
-          offset: 60,
-        });
-        } else {
-          console.log("文件存在");
-          const { shell } = window.require("electron");
-          shell.openExternal(path.join(convertedLogFilepath, logFilename));
+      fs.access(
+        path.join(convertedLogFilepath, logFilename),
+        fs.constants.F_OK,
+        (err) => {
+          if (err) {
+            console.log("文件不存在");
+            ElNotification({
+              message: "由于您还未进行任何数据分析操作，因此暂时无日志生成！",
+              type: "error",
+              showClose: true,
+              position: "top-right",
+              duration: "2000",
+              offset: 60,
+            });
+          } else {
+            console.log("文件存在");
+            const { shell } = window.require("electron");
+            shell.openExternal(path.join(convertedLogFilepath, logFilename));
+          }
         }
-      });
+      );
     },
   },
 };
