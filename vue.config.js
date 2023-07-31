@@ -47,6 +47,10 @@ module.exports = defineConfig({
           {
             from:"./src/assets/simsun.ttc",
             to: "./simsun.ttc"
+          },
+          {
+            from:"./src/assets/SMNFilerSampleData.xlsx",
+            to:"./SMNFilerSampleData.xlsx"
           }
         ],
         dmg: {

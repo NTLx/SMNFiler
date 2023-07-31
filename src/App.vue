@@ -12,7 +12,7 @@
           name="first"
           v-if="showUploadGen"
         >
-          <div id="holder" class="holder" style="height: 510px">
+          <div id="holder" class="holder" style="height: 519px">
             <div>
               <el-upload
                 class="upload-demo"
@@ -65,9 +65,9 @@
               </div>
             </el-col>
             <el-col :span="12"
-              ><div class="exitButton">
-                <el-button type="primary" @click="exitBox">
-                  <el-icon><Back /></el-icon>退出
+              ><div class="downloadButton">
+                <el-button type="primary" @click="download">
+                  <el-icon><Download /></el-icon>下载
                 </el-button>
               </div>
             </el-col>
@@ -400,9 +400,13 @@ export default {
       const { shell } = window.require("electron");
       shell.openExternal("https://github.com/NTLx/SMNFiler");
     },
-    // 退出窗口方法
-    exitBox() {
-      window.close();
+    // 下载样本数据窗口方法
+    download() {
+      var path = require("path");
+      var downloadFile = path.join(process.cwd(),"/resources/SMNFilerSampleData.xlsx")
+      var win = window.require("@electron/remote").getCurrentWindow();
+      win.webContents.downloadURL(downloadFile);
+      console.log("downloadFile",downloadFile)
     },
     //处理文件列表
     handleChange(file, fileList1) {
@@ -3682,7 +3686,7 @@ a.help {
 .demo-tabs .helpButton {
   text-align: left;
 }
-.demo-tabs .mb-4 .exitButton {
+.demo-tabs .mb-4 .downloadButton {
   text-align: right;
 }
 .setting {
