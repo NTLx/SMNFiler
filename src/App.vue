@@ -444,7 +444,6 @@ export default {
     },
     //处理文件列表
     handleChange(file, fileList1) {
-      // this.fileList1 = [];
       this.fileList1 = fileList1.slice(-1);
       console.log("fileList1", fileList1.length);
     },
@@ -498,7 +497,7 @@ export default {
           message: formatMessage,
           type: "error",
           position: "top-right",
-          duration: "2000",
+          duration: "0",
           offset: 60,
         });
         return false;
@@ -516,7 +515,7 @@ export default {
           message: formatMessage,
           type: "error",
           position: "top-right",
-          duration: "2000",
+          duration: "0",
           offset: 60,
         });
         return false;
@@ -601,7 +600,6 @@ export default {
         if (err) {
           return console.error(err);
         }
-        console.log("异步读取：" + data.toString());
       });
       fs.stat(linuxOldUrl, (err) => {
         if (err) {
@@ -647,7 +645,7 @@ export default {
                     message: stderr,
                     type: "error",
                     position: "top-right",
-                    duration: "2000",
+                    duration: "0",
                     offset: 60,
                   });
                   console.log("error:\n" + error);
@@ -828,7 +826,7 @@ export default {
                     message: stderr,
                     type: "error",
                     position: "top-right",
-                    duration: "2000",
+                    duration: "0",
                     offset: 60,
                   });
                   console.log("error:\n" + error);
@@ -1908,7 +1906,7 @@ ${pictureScript}
                         type: "error",
                         showClose: true,
                         position: "top-right",
-                        duration: "2000",
+                        duration: "0",
                         offset: 60,
                       });
                     }
@@ -1965,7 +1963,7 @@ ${pictureScript}
                       .then((data) => {
                         fs.writeFile(pdfPathAndName[index], data, (error) => {
                           if (error) throw error;
-                          var pdfnotice = `Wrote PDF successfully`;
+                          var pdfnotice = `Wrote `+pdfPathAndName.length+ ` PDF successfully`;
                           if (index == pdfPathAndName.length - 1) {
                             //  mdui.snackbar({
                             //      message: pdfnotice,
@@ -1976,6 +1974,20 @@ ${pictureScript}
                             //         //  }
                             //      }
                             //  })
+                            setTimeout(()=>{
+                              if(sampleFileNamePath.indexOf("#")!=-1||sampleFileNamePath.indexOf("&")!=-1||sampleFileNamePath.indexOf("+")!=-1||sampleFileNamePath.indexOf("=")!=-1||sampleFileNamePath.indexOf("?")!=-1||sampleFileNamePath.indexOf(" ")!=-1){
+                              console.log("测试测试")
+                              ElNotification({
+                                message:"检测到您上传的文件或路径中存在特殊字符串或空格！请及时修改！否者会导致无法生成PDF报告的图片信息！",
+                                type:"warning",
+                                showClose: true,
+                                position:"top-right",
+                                duration: "0",
+                                offset: 60,
+                              })
+                            }
+                            },1000)
+                            
                             ElNotification({
                               message: pdfnotice,
                               type: "success",
@@ -2015,7 +2027,7 @@ ${pictureScript}
                             type: "error",
                             showClose: true,
                             position: "top-right",
-                            duration: "2000",
+                            duration: "0",
                             offset: 60,
                           });
                         }
@@ -4106,7 +4118,7 @@ ${pictureScript}
                         type: "error",
                         showClose: true,
                         position: "top-right",
-                        duration: "2000",
+                        duration: "0",
                         offset: 60,
                       });
                     }
@@ -4163,7 +4175,7 @@ ${pictureScript}
                       .then((data) => {
                         fs.writeFile(pdfPathAndName[index], data, (error) => {
                           if (error) throw error;
-                          var pdfnotice = `Wrote PDF successfully`;
+                           var pdfnotice = `Wrote `+pdfPathAndName.length+ ` PDF successfully`;
                           if (index == pdfPathAndName.length - 1) {
                             //  mdui.snackbar({
                             //      message: pdfnotice,
@@ -4174,6 +4186,18 @@ ${pictureScript}
                             //         //  }
                             //      }
                             //  })
+                            setTimeout(()=>{
+                              if(sampleFileNamePath.indexOf("#")!=-1||sampleFileNamePath.indexOf("&")!=-1||sampleFileNamePath.indexOf("+")!=-1||sampleFileNamePath.indexOf("=")!=-1||sampleFileNamePath.indexOf("?")!=-1||sampleFileNamePath.indexOf(" ")!=-1){
+                              ElNotification({
+                                message:"检测到您上传的文件或路径中存在特殊字符串或空格！请及时修改！否者会导致无法生成PDF报告的图片信息！",
+                                type:"warning",
+                                showClose: true,
+                                position:"top-right",
+                                duration: "0",
+                                offset: 60,
+                              })
+                            }
+                            },1000)
                             ElNotification({
                               message: pdfnotice,
                               type: "success",
@@ -4213,7 +4237,7 @@ ${pictureScript}
                             type: "error",
                             showClose: true,
                             position: "top-right",
-                            duration: "2000",
+                            duration: "0",
                             offset: 60,
                           });
                         }
@@ -4360,7 +4384,7 @@ ${pictureScript}
               type: "error",
               showClose: true,
               position: "top-right",
-              duration: "2000",
+              duration: "0",
               offset: 60,
             });
           } else {
