@@ -241,11 +241,7 @@
                   active-text="结果文件为中文"
                   active-value="-l"
                   inactive-value=" "
-                  style="
-                    --el-switch-oncolor: #13ce66;
-                    --el-switch-off-color: #ff4949;
-                  "
-                  inactive-text="结果文件为英文"
+                  inactive-text="结果文件为中文"
                   @change="switchReceiveStatus1"
                 ></el-switch>
               </el-col>
@@ -311,11 +307,7 @@
                   active-text="生成 HTML 文件"
                   active-value="1"
                   inactive-value="0"
-                  style="
-                    --el-switch-oncolor: #13ce66;
-                    --el-switch-off-color: #ff4949;
-                  "
-                  inactive-text="不生成 HTML 文件"
+                  inactive-text="生成 HTML 文件"
                   @change="switchReceiveStatus3"
                 >
                 </el-switch>
@@ -325,14 +317,10 @@
                   v-model="value4"
                   size="large"
                   inline-prompt
-                  active-text="字体:MiSans"
+                  active-text="MiSans 字体"
                   active-value="1"
                   inactive-value="0"
-                  style="
-                    --el-switch-oncolor: #13ce66;
-                    --el-switch-off-color: #ff4949;
-                  "
-                  inactive-text="字体:宋体"
+                  inactive-text="MiSans 字体"
                   @change="switchReceiveStatus4"
                 >
                 </el-switch>
