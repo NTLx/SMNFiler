@@ -67,7 +67,7 @@
             <el-col :span="12"
               ><div class="downloadButton">
                 <el-button type="primary" @click="download">
-                  <el-icon><Download /></el-icon>下载
+                  <el-icon><Download /></el-icon>下载样本信息模版
                 </el-button>
               </div>
             </el-col>
@@ -153,7 +153,7 @@
                   @click="customSampleName = true"
                   size="large"
                 >
-                  自定义样本名
+                  自定义STD
                 </el-button>
                 <el-dialog
                   v-model="customSampleName"
@@ -249,7 +249,7 @@
                   @change="switchReceiveStatus1"
                 ></el-switch>
               </el-col>
-              <el-col :span="8">
+              <!-- <el-col :span="8">
                 <el-switch
                   v-model="value2"
                   size="large"
@@ -264,7 +264,7 @@
                   inactive-text="峰高"
                   @change="switchReceiveStatus2"
                 ></el-switch>
-              </el-col>
+              </el-col> -->
               <el-col :span="8" class="leftText">
                 <span style="radio-label">格式：</span>
                 <el-radio-group
@@ -401,6 +401,7 @@ export default {
         fileType: "summaryFile",
         fileTypeParameter: " ",
         selectReport: "default",
+        peakStatus:" ",
       },
       options: [
         { label: "默认报告模板", value: "default" },
@@ -642,7 +643,7 @@ export default {
                   );
                   ElNotification({
                     showClose: true,
-                    message: stderr,
+                    message: notice,
                     type: "error",
                     position: "top-right",
                     duration: "0",
@@ -823,7 +824,7 @@ export default {
                   );
                   ElNotification({
                     showClose: true,
-                    message: stderr,
+                    message: notice,
                     type: "error",
                     position: "top-right",
                     duration: "0",
@@ -4286,9 +4287,9 @@ ${pictureScript}
       }
     },
     //峰面积
-    switchReceiveStatus2(val) {
-      this.uploadParams.peakStatus = val;
-    },
+    // switchReceiveStatus2(val) {
+    //   this.uploadParams.peakStatus = val;
+    // },
     //文件格式转换GBK，UTF-8
     switchFileFormat(val) {
       console.log("输出文件格式", val);
