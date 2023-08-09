@@ -253,6 +253,17 @@
               </el-col>
             </el-row>
             <el-row class="fileSetting">
+              <el-col :span="8" class="leftText">
+                <span style="radio-label">格式：</span>
+                <el-radio-group
+                  v-model="radio1"
+                  @change="switchFileFormat"
+                  size="large"
+                >
+                  <el-radio-button label="GBK"></el-radio-button>
+                  <el-radio-button label="UTF-8"></el-radio-button>
+                </el-radio-group>
+              </el-col>
               <el-col :span="8">
                 <el-switch
                   v-model="value1"
@@ -281,17 +292,6 @@
                   @change="switchReceiveStatus2"
                 ></el-switch>
               </el-col> -->
-              <el-col :span="16" class="leftText">
-                <span style="radio-label">格式：</span>
-                <el-radio-group
-                  v-model="radio1"
-                  @change="switchFileFormat"
-                  size="large"
-                >
-                  <el-radio-button label="GBK"></el-radio-button>
-                  <el-radio-button label="UTF-8"></el-radio-button>
-                </el-radio-group>
-              </el-col>
             </el-row>
             <el-row>
               <el-col :span="24">
@@ -299,6 +299,20 @@
               </el-col>
             </el-row>
             <el-row class="fileSetting">
+              <el-col :span="8">
+                <el-select
+                  v-model="value5"
+                  size="large"
+                  @change="handleSelectChange"
+                >
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  />
+                </el-select>
+              </el-col>
               <el-col :span="8">
                 <el-switch
                   v-model="value3"
@@ -324,20 +338,6 @@
                   @change="switchReceiveStatus4"
                 >
                 </el-switch>
-              </el-col>
-              <el-col :span="8">
-                <el-select
-                  v-model="value5"
-                  size="large"
-                  @change="handleSelectChange"
-                >
-                  <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  />
-                </el-select>
               </el-col>
             </el-row>
             <el-row>
