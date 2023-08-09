@@ -154,11 +154,13 @@
                   @change="switchFileType"
                   size="large"
                 >
-                  <el-radio-button label="summaryFile" >结果文件</el-radio-button>
+                  <el-radio-button label="summaryFile"
+                    >结果文件</el-radio-button
+                  >
                   <el-radio-button label="summaryFileAndReportFile"
                     >结果文件和报告</el-radio-button
                   >
-                  <el-radio-button label="summaryFileAndReportPictureFile" 
+                  <el-radio-button label="summaryFileAndReportPictureFile"
                     >结果文件和含图片报告</el-radio-button
                   >
                 </el-radio-group>
@@ -376,18 +378,19 @@ export default {
       customSampleName: false,
       customNTCSampleName: false,
       customLadderSampleName: false,
-      sampleName: " ",
-      ntcSampleName: " ",
-      ladderSampleName: " ",
+      sampleName: "",
+      ntcSampleName: "",
+      ladderSampleName: "",
       uploadParams: {
         outputFormat: "UTF-8",
         stdName: "STD",
-        ntcName: " ",
-        ladderName: " ",
+        ntcName: "",
+        ladderName: "",
         fileType: "summaryFile",
-        fileTypeParameter: " ",
+        fileTypeParameter: "",
         selectReport: "default",
-        peakStatus:" ",
+        peakStatus: "",
+        language:"",
       },
       options: [
         { label: "默认报告模板", value: "default" },
@@ -556,6 +559,15 @@ export default {
     // 处理Genemapper下机数据调用可执行文件方法
     httpRequest(data) {
       console.log("自定义标准品样本名", data.data.stdName);
+      var stdName = data.data.stdName;
+      var language = data.data.language;
+      var peakStatus = data.data.peakStatus;
+      var outputFormat = data.data.outputFormat;
+      var fileType = data.data.fileType;
+      var htmlStatus = data.data.htmlStatus;
+      var fileTypeParameter = data.data.fileTypeParameter;
+      var ntcName = data.data.ntcName;
+      var ladderName = data.data.ladderName;
       console.log("结果文件为中文", data.data.language);
       console.log("峰状态", data.data.peakStatus);
       console.log("文件格式", data.data.outputFormat);
@@ -597,95 +609,777 @@ export default {
             } else if (process.platform === "linux") {
               exeFile = linuxNewUrl;
             }
-            exec(
-              exeFile +
-                " -i " +
-                file.path +
-                " -e " +
-                data.data.outputFormat +
-                " -c " +
-                data.data.stdName +
-                " " +
-                data.data.peakStatus +
-                " " +
-                data.data.language +
-                " " +
-                data.data.ntcName +
-                " " +
-                data.data.ladderName +
-                " " +
-                data.data.fileTypeParameter,
-              (error, stdout, stderr) => {
-                if (error || stderr) {
-                  const notice = "输入下机数据文件" + file.name + "处理有误！";
-                  log.error(
-                    "\n" +
-                      "当前输入下机数据文件" +
-                      file.name +
+            if (ntcName == "" && ladderName == "") {
+              exec(
+                exeFile +
+                  " -i " +
+                  file.path +
+                  " -e " +
+                  outputFormat +
+                  " -c " +
+                  stdName +
+                  " " +
+                  language +
+                  " " +
+                  fileTypeParameter,
+                (error, stdout, stderr) => {
+                  if (error || stderr) {
+                    const notice =
+                      "输入下机数据文件" + file.name + "处理有误！";
+                    log.error(
                       "\n" +
-                      "处理有误！" +
+                        "当前输入下机数据文件" +
+                        file.name +
+                        "\n" +
+                        "处理有误！" +
+                        "\n" +
+                        stderr
+                    );
+                    ElNotification({
+                      showClose: true,
+                      message: notice,
+                      type: "error",
+                      position: "top-right",
+                      duration: "0",
+                      offset: 60,
+                    });
+                    console.log("error:\n" + error);
+                    console.log("stderr:\n" + stderr);
+                  } else if (stdout) {
+                    const notice = "输入下机数据文件" + file.name + "处理完成";
+                    log.info(
                       "\n" +
-                      stderr
-                  );
-                  ElNotification({
-                    showClose: true,
-                    message: notice,
-                    type: "error",
-                    position: "top-right",
-                    duration: "0",
-                    offset: 60,
-                  });
-                  console.log("error:\n" + error);
-                  console.log("stderr:\n" + stderr);
-                } else if (stdout) {
-                  const notice = "输入下机数据文件" + file.name + "处理完成";
-                  log.info(
-                    "\n" +
-                      "当前输入下机数据文件" +
-                      file.name +
+                        "当前输入下机数据文件" +
+                        file.name +
+                        "\n" +
+                        "处理完成！"
+                    );
+                    ElNotification({
+                      showClose: true,
+                      message: notice,
+                      type: "success",
+                      position: "top-right",
+                      duration: "2000",
+                      offset: 60,
+                    });
+                    console.log("stdout:\n" + stdout);
+                    if (fileType !== "summaryFile") {
+                      this.changeTab();
+                      //处理生成的SummaryFile
+                      var inputFile = file.path.substring(
+                        0,
+                        file.path.lastIndexOf("\\") + 1
+                      );
+                      // 获取年月日
+                      var date = new Date();
+                      const year = date.getFullYear(); // 获取年份，例如：2023
+                      const month = date.getMonth() + 1; // 获取月份，注意月份从0开始，所以需要加1，例如：7
+                      const day = date.getDate(); // 获取日期，例如：12
+                      const formattedDate = `${year}_${month}_${day}`;
+                      // 去除文件后缀
+                      var inputFileNameWithOutSuffix = file.name.substring(
+                        0,
+                        file.name.lastIndexOf(".")
+                      );
+                      console.log("inputFile", inputFileNameWithOutSuffix);
+                      var generateDataFolder =
+                        inputFileNameWithOutSuffix + "." + formattedDate;
+                      var outputDirectry = path.join(
+                        inputFile,
+                        generateDataFolder
+                      );
+                      if (fileType == "summaryFileAndReportFile") {
+                        // 解析summary文件
+                        var outPutFileName =
+                          generateDataFolder +
+                          "." +
+                          outputFormat +
+                          ".Summary.tsv";
+                        const summaryFile = path.join(
+                          inputFile,
+                          generateDataFolder,
+                          outPutFileName
+                        );
+                        console.log("summaryFile", summaryFile);
+                        this.outputDirectry = outputDirectry;
+                        var xlsx = window.require("node-xlsx");
+                        // var tsvFile = fs.readFileSync(summaryFile, "utf8");
+                        const parsedData = xlsx.parse(summaryFile);
+                        console.log("parsedData", parsedData);
+                        var parsedSheetData = parsedData[0].data;
+                        // iconv.skipDecodeWarning = true;
+                        var parsedLineData = [];
+                        for (var j = 0; j < parsedSheetData.length; j++) {
+                          if (
+                            parsedSheetData[j][0].includes("warn") ||
+                            parsedSheetData[j][0].includes("All")
+                          ) {
+                            console.log("当前" + j + "行有warn或者含有All");
+                          } else {
+                            console.log("全部数据");
+                            parsedLineData.push(parsedSheetData[j]);
+                          }
+                        }
+                        const outputArr = parsedLineData.map(function (item) {
+                          return {
+                            number: item[0],
+                            removeSuffixNumber: item[1],
+                            SMN1andSMN2: item[2],
+                            SMN1: item[2].split("|")[0],
+                            SMN2: item[2].split("|")[1],
+                          };
+                        });
+                        console.log("outputArr", outputArr);
+                        this.outputArr1 = outputArr;
+                      } else {
+                        // 生成画图文件路径
+                        const outputFigureFile =
+                          generateDataFolder +
+                          "." +
+                          outputFormat +
+                          ".figure.tsv";
+                        const figureFile = path.join(
+                          inputFile,
+                          generateDataFolder,
+                          outputFigureFile
+                        );
+                        this.outputDirectry = outputDirectry;
+                        var xlsx = window.require("node-xlsx");
+                        // 解析画图文件
+                        const parsedData1 = xlsx.parse(figureFile);
+                        var parsedSheetData1 = parsedData1[0].data;
+                        // iconv.skipDecodeWarning = true;
+                        var parsedLineData1 = [];
+                        for (var j = 1; j < parsedSheetData1.length; j++) {
+                          parsedLineData1.push(parsedSheetData1[j]);
+                        }
+                        const outputFigureArr = parsedLineData1.map(function (
+                          item
+                        ) {
+                          return {
+                            fileName: item[0],
+                            SMN1: item[1],
+                            SMN2: item[2],
+                            S06: item[3],
+                            S04: item[4],
+                            S07: item[5],
+                            S01: item[6],
+                            S05: item[7],
+                            S08: item[8],
+                            S02: item[9],
+                            S03: item[10],
+                            WARN: item[11],
+                          };
+                        });
+                        this.outputFigureArr1 = outputFigureArr;
+                      }
+                    }
+                  }
+                }
+              );
+            } else if (ntcName !== "" && ladderName == "") {
+              exec(
+                exeFile +
+                  " -i " +
+                  file.path +
+                  " -e " +
+                  outputFormat +
+                  " -c " +
+                  stdName +
+                  " " +
+                  language +
+                  " -n " +
+                  ntcName +
+                  " " +
+                  fileTypeParameter,
+                (error, stdout, stderr) => {
+                  if (error || stderr) {
+                    const notice =
+                      "输入下机数据文件" + file.name + "处理有误！";
+                    log.error(
                       "\n" +
-                      "处理完成！"
-                  );
-                  ElNotification({
-                    showClose: true,
-                    message: notice,
-                    type: "success",
-                    position: "top-right",
-                    duration: "2000",
-                    offset: 60,
-                  });
-                  console.log("stdout:\n" + stdout);
-                  if (data.data.fileType !== "summaryFile") {
-                    this.changeTab();
-                    //处理生成的SummaryFile
-                    var inputFile = file.path.substring(
-                      0,
-                      file.path.lastIndexOf("\\") + 1
+                        "当前输入下机数据文件" +
+                        file.name +
+                        "\n" +
+                        "处理有误！" +
+                        "\n" +
+                        stderr
                     );
-                    // 获取年月日
-                    var date = new Date();
-                    const year = date.getFullYear(); // 获取年份，例如：2023
-                    const month = date.getMonth() + 1; // 获取月份，注意月份从0开始，所以需要加1，例如：7
-                    const day = date.getDate(); // 获取日期，例如：12
-                    const formattedDate = `${year}_${month}_${day}`;
-                    // 去除文件后缀
-                    var inputFileNameWithOutSuffix = file.name.substring(
-                      0,
-                      file.name.lastIndexOf(".")
+                    ElNotification({
+                      showClose: true,
+                      message: notice,
+                      type: "error",
+                      position: "top-right",
+                      duration: "0",
+                      offset: 60,
+                    });
+                    console.log("error:\n" + error);
+                    console.log("stderr:\n" + stderr);
+                  } else if (stdout) {
+                    const notice = "输入下机数据文件" + file.name + "处理完成";
+                    log.info(
+                      "\n" +
+                        "当前输入下机数据文件" +
+                        file.name +
+                        "\n" +
+                        "处理完成！"
                     );
-                    console.log("inputFile", inputFileNameWithOutSuffix);
-                    var generateDataFolder =
-                      inputFileNameWithOutSuffix + "." + formattedDate;
-                    var outputDirectry = path.join(
-                      inputFile,
-                      generateDataFolder
+                    ElNotification({
+                      showClose: true,
+                      message: notice,
+                      type: "success",
+                      position: "top-right",
+                      duration: "2000",
+                      offset: 60,
+                    });
+                    console.log("stdout:\n" + stdout);
+                    if (fileType !== "summaryFile") {
+                      this.changeTab();
+                      //处理生成的SummaryFile
+                      var inputFile = file.path.substring(
+                        0,
+                        file.path.lastIndexOf("\\") + 1
+                      );
+                      // 获取年月日
+                      var date = new Date();
+                      const year = date.getFullYear(); // 获取年份，例如：2023
+                      const month = date.getMonth() + 1; // 获取月份，注意月份从0开始，所以需要加1，例如：7
+                      const day = date.getDate(); // 获取日期，例如：12
+                      const formattedDate = `${year}_${month}_${day}`;
+                      // 去除文件后缀
+                      var inputFileNameWithOutSuffix = file.name.substring(
+                        0,
+                        file.name.lastIndexOf(".")
+                      );
+                      console.log("inputFile", inputFileNameWithOutSuffix);
+                      var generateDataFolder =
+                        inputFileNameWithOutSuffix + "." + formattedDate;
+                      var outputDirectry = path.join(
+                        inputFile,
+                        generateDataFolder
+                      );
+                      if (fileType == "summaryFileAndReportFile") {
+                        // 解析summary文件
+                        var outPutFileName =
+                          generateDataFolder +
+                          "." +
+                          outputFormat +
+                          ".Summary.tsv";
+                        const summaryFile = path.join(
+                          inputFile,
+                          generateDataFolder,
+                          outPutFileName
+                        );
+                        console.log("summaryFile", summaryFile);
+                        this.outputDirectry = outputDirectry;
+                        var xlsx = window.require("node-xlsx");
+                        // var tsvFile = fs.readFileSync(summaryFile, "utf8");
+                        const parsedData = xlsx.parse(summaryFile);
+                        console.log("parsedData", parsedData);
+                        var parsedSheetData = parsedData[0].data;
+                        // iconv.skipDecodeWarning = true;
+                        var parsedLineData = [];
+                        for (var j = 0; j < parsedSheetData.length; j++) {
+                          if (
+                            parsedSheetData[j][0].includes("warn") ||
+                            parsedSheetData[j][0].includes("All")
+                          ) {
+                            console.log("当前" + j + "行有warn或者含有All");
+                          } else {
+                            console.log("全部数据");
+                            parsedLineData.push(parsedSheetData[j]);
+                          }
+                        }
+                        const outputArr = parsedLineData.map(function (item) {
+                          return {
+                            number: item[0],
+                            removeSuffixNumber: item[1],
+                            SMN1andSMN2: item[2],
+                            SMN1: item[2].split("|")[0],
+                            SMN2: item[2].split("|")[1],
+                          };
+                        });
+                        console.log("outputArr", outputArr);
+                        this.outputArr1 = outputArr;
+                      } else {
+                        // 生成画图文件路径
+                        const outputFigureFile =
+                          generateDataFolder +
+                          "." +
+                          outputFormat +
+                          ".figure.tsv";
+                        const figureFile = path.join(
+                          inputFile,
+                          generateDataFolder,
+                          outputFigureFile
+                        );
+                        this.outputDirectry = outputDirectry;
+                        var xlsx = window.require("node-xlsx");
+                        // 解析画图文件
+                        const parsedData1 = xlsx.parse(figureFile);
+                        var parsedSheetData1 = parsedData1[0].data;
+                        // iconv.skipDecodeWarning = true;
+                        var parsedLineData1 = [];
+                        for (var j = 1; j < parsedSheetData1.length; j++) {
+                          parsedLineData1.push(parsedSheetData1[j]);
+                        }
+                        const outputFigureArr = parsedLineData1.map(function (
+                          item
+                        ) {
+                          return {
+                            fileName: item[0],
+                            SMN1: item[1],
+                            SMN2: item[2],
+                            S06: item[3],
+                            S04: item[4],
+                            S07: item[5],
+                            S01: item[6],
+                            S05: item[7],
+                            S08: item[8],
+                            S02: item[9],
+                            S03: item[10],
+                            WARN: item[11],
+                          };
+                        });
+                        this.outputFigureArr1 = outputFigureArr;
+                      }
+                    }
+                  }
+                }
+              );
+            } else if (ntcName != "" && ladderName != "") {
+              exec(
+                exeFile +
+                  " -i " +
+                  file.path +
+                  " -e " +
+                  outputFormat +
+                  " -c " +
+                  stdName +
+                  " " +
+                  language +
+                  " -n " +
+                  ntcName +
+                  " -d " +
+                  ladderName +
+                  " " +
+                  fileTypeParameter,
+                (error, stdout, stderr) => {
+                  if (error || stderr) {
+                    const notice =
+                      "输入下机数据文件" + file.name + "处理有误！";
+                    log.error(
+                      "\n" +
+                        "当前输入下机数据文件" +
+                        file.name +
+                        "\n" +
+                        "处理有误！" +
+                        "\n" +
+                        stderr
                     );
-                    if (data.data.fileType == "summaryFileAndReportFile") {
-                      // 解析summary文件
+                    ElNotification({
+                      showClose: true,
+                      message: notice,
+                      type: "error",
+                      position: "top-right",
+                      duration: "0",
+                      offset: 60,
+                    });
+                    console.log("error:\n" + error);
+                    console.log("stderr:\n" + stderr);
+                  } else if (stdout) {
+                    const notice = "输入下机数据文件" + file.name + "处理完成";
+                    log.info(
+                      "\n" +
+                        "当前输入下机数据文件" +
+                        file.name +
+                        "\n" +
+                        "处理完成！"
+                    );
+                    ElNotification({
+                      showClose: true,
+                      message: notice,
+                      type: "success",
+                      position: "top-right",
+                      duration: "2000",
+                      offset: 60,
+                    });
+                    console.log("stdout:\n" + stdout);
+                    if (fileType !== "summaryFile") {
+                      this.changeTab();
+                      //处理生成的SummaryFile
+                      var inputFile = file.path.substring(
+                        0,
+                        file.path.lastIndexOf("\\") + 1
+                      );
+                      // 获取年月日
+                      var date = new Date();
+                      const year = date.getFullYear(); // 获取年份，例如：2023
+                      const month = date.getMonth() + 1; // 获取月份，注意月份从0开始，所以需要加1，例如：7
+                      const day = date.getDate(); // 获取日期，例如：12
+                      const formattedDate = `${year}_${month}_${day}`;
+                      // 去除文件后缀
+                      var inputFileNameWithOutSuffix = file.name.substring(
+                        0,
+                        file.name.lastIndexOf(".")
+                      );
+                      console.log("inputFile", inputFileNameWithOutSuffix);
+                      var generateDataFolder =
+                        inputFileNameWithOutSuffix + "." + formattedDate;
+                      var outputDirectry = path.join(
+                        inputFile,
+                        generateDataFolder
+                      );
+                      if (fileType == "summaryFileAndReportFile") {
+                        // 解析summary文件
+                        var outPutFileName =
+                          generateDataFolder +
+                          "." +
+                          outputFormat +
+                          ".Summary.tsv";
+                        const summaryFile = path.join(
+                          inputFile,
+                          generateDataFolder,
+                          outPutFileName
+                        );
+                        console.log("summaryFile", summaryFile);
+                        this.outputDirectry = outputDirectry;
+                        var xlsx = window.require("node-xlsx");
+                        // var tsvFile = fs.readFileSync(summaryFile, "utf8");
+                        const parsedData = xlsx.parse(summaryFile);
+                        console.log("parsedData", parsedData);
+                        var parsedSheetData = parsedData[0].data;
+                        // iconv.skipDecodeWarning = true;
+                        var parsedLineData = [];
+                        for (var j = 0; j < parsedSheetData.length; j++) {
+                          if (
+                            parsedSheetData[j][0].includes("warn") ||
+                            parsedSheetData[j][0].includes("All")
+                          ) {
+                            console.log("当前" + j + "行有warn或者含有All");
+                          } else {
+                            console.log("全部数据");
+                            parsedLineData.push(parsedSheetData[j]);
+                          }
+                        }
+                        const outputArr = parsedLineData.map(function (item) {
+                          return {
+                            number: item[0],
+                            removeSuffixNumber: item[1],
+                            SMN1andSMN2: item[2],
+                            SMN1: item[2].split("|")[0],
+                            SMN2: item[2].split("|")[1],
+                          };
+                        });
+                        console.log("outputArr", outputArr);
+                        this.outputArr1 = outputArr;
+                      } else {
+                        // 生成画图文件路径
+                        const outputFigureFile =
+                          generateDataFolder +
+                          "." +
+                          outputFormat +
+                          ".figure.tsv";
+                        const figureFile = path.join(
+                          inputFile,
+                          generateDataFolder,
+                          outputFigureFile
+                        );
+                        this.outputDirectry = outputDirectry;
+                        var xlsx = window.require("node-xlsx");
+                        // 解析画图文件
+                        const parsedData1 = xlsx.parse(figureFile);
+                        var parsedSheetData1 = parsedData1[0].data;
+                        // iconv.skipDecodeWarning = true;
+                        var parsedLineData1 = [];
+                        for (var j = 1; j < parsedSheetData1.length; j++) {
+                          parsedLineData1.push(parsedSheetData1[j]);
+                        }
+                        const outputFigureArr = parsedLineData1.map(function (
+                          item
+                        ) {
+                          return {
+                            fileName: item[0],
+                            SMN1: item[1],
+                            SMN2: item[2],
+                            S06: item[3],
+                            S04: item[4],
+                            S07: item[5],
+                            S01: item[6],
+                            S05: item[7],
+                            S08: item[8],
+                            S02: item[9],
+                            S03: item[10],
+                            WARN: item[11],
+                          };
+                        });
+                        this.outputFigureArr1 = outputFigureArr;
+                      }
+                    }
+                  }
+                }
+              );
+            } else if (ntcName == "" && ladderName != "") {
+              exec(
+                exeFile +
+                  " -i " +
+                  file.path +
+                  " -e " +
+                  outputFormat +
+                  " -c " +
+                  stdName +
+                  " " +
+                  peakStatus +
+                  " " +
+                  language +
+                  " -d " +
+                  ladderName +
+                  " " +
+                  fileTypeParameter,
+                (error, stdout, stderr) => {
+                  if (error || stderr) {
+                    const notice =
+                      "输入下机数据文件" + file.name + "处理有误！";
+                    log.error(
+                      "\n" +
+                        "当前输入下机数据文件" +
+                        file.name +
+                        "\n" +
+                        "处理有误！" +
+                        "\n" +
+                        stderr
+                    );
+                    ElNotification({
+                      showClose: true,
+                      message: notice,
+                      type: "error",
+                      position: "top-right",
+                      duration: "0",
+                      offset: 60,
+                    });
+                    console.log("error:\n" + error);
+                    console.log("stderr:\n" + stderr);
+                  } else if (stdout) {
+                    const notice = "输入下机数据文件" + file.name + "处理完成";
+                    log.info(
+                      "\n" +
+                        "当前输入下机数据文件" +
+                        file.name +
+                        "\n" +
+                        "处理完成！"
+                    );
+                    ElNotification({
+                      showClose: true,
+                      message: notice,
+                      type: "success",
+                      position: "top-right",
+                      duration: "2000",
+                      offset: 60,
+                    });
+                    console.log("stdout:\n" + stdout);
+                    if (fileType !== "summaryFile") {
+                      this.changeTab();
+                      //处理生成的SummaryFile
+                      var inputFile = file.path.substring(
+                        0,
+                        file.path.lastIndexOf("\\") + 1
+                      );
+                      // 获取年月日
+                      var date = new Date();
+                      const year = date.getFullYear(); // 获取年份，例如：2023
+                      const month = date.getMonth() + 1; // 获取月份，注意月份从0开始，所以需要加1，例如：7
+                      const day = date.getDate(); // 获取日期，例如：12
+                      const formattedDate = `${year}_${month}_${day}`;
+                      // 去除文件后缀
+                      var inputFileNameWithOutSuffix = file.name.substring(
+                        0,
+                        file.name.lastIndexOf(".")
+                      );
+                      console.log("inputFile", inputFileNameWithOutSuffix);
+                      var generateDataFolder =
+                        inputFileNameWithOutSuffix + "." + formattedDate;
+                      var outputDirectry = path.join(
+                        inputFile,
+                        generateDataFolder
+                      );
+                      if (fileType == "summaryFileAndReportFile") {
+                        // 解析summary文件
+                        var outPutFileName =
+                          generateDataFolder +
+                          "." +
+                          outputFormat +
+                          ".Summary.tsv";
+                        const summaryFile = path.join(
+                          inputFile,
+                          generateDataFolder,
+                          outPutFileName
+                        );
+                        console.log("summaryFile", summaryFile);
+                        this.outputDirectry = outputDirectry;
+                        var xlsx = window.require("node-xlsx");
+                        // var tsvFile = fs.readFileSync(summaryFile, "utf8");
+                        const parsedData = xlsx.parse(summaryFile);
+                        console.log("parsedData", parsedData);
+                        var parsedSheetData = parsedData[0].data;
+                        // iconv.skipDecodeWarning = true;
+                        var parsedLineData = [];
+                        for (var j = 0; j < parsedSheetData.length; j++) {
+                          if (
+                            parsedSheetData[j][0].includes("warn") ||
+                            parsedSheetData[j][0].includes("All")
+                          ) {
+                            console.log("当前" + j + "行有warn或者含有All");
+                          } else {
+                            console.log("全部数据");
+                            parsedLineData.push(parsedSheetData[j]);
+                          }
+                        }
+                        const outputArr = parsedLineData.map(function (item) {
+                          return {
+                            number: item[0],
+                            removeSuffixNumber: item[1],
+                            SMN1andSMN2: item[2],
+                            SMN1: item[2].split("|")[0],
+                            SMN2: item[2].split("|")[1],
+                          };
+                        });
+                        console.log("outputArr", outputArr);
+                        this.outputArr1 = outputArr;
+                      } else {
+                        // 生成画图文件路径
+                        const outputFigureFile =
+                          generateDataFolder +
+                          "." +
+                          outputFormat +
+                          ".figure.tsv";
+                        const figureFile = path.join(
+                          inputFile,
+                          generateDataFolder,
+                          outputFigureFile
+                        );
+                        this.outputDirectry = outputDirectry;
+                        var xlsx = window.require("node-xlsx");
+                        // 解析画图文件
+                        const parsedData1 = xlsx.parse(figureFile);
+                        var parsedSheetData1 = parsedData1[0].data;
+                        // iconv.skipDecodeWarning = true;
+                        var parsedLineData1 = [];
+                        for (var j = 1; j < parsedSheetData1.length; j++) {
+                          parsedLineData1.push(parsedSheetData1[j]);
+                        }
+                        const outputFigureArr = parsedLineData1.map(function (
+                          item
+                        ) {
+                          return {
+                            fileName: item[0],
+                            SMN1: item[1],
+                            SMN2: item[2],
+                            S06: item[3],
+                            S04: item[4],
+                            S07: item[5],
+                            S01: item[6],
+                            S05: item[7],
+                            S08: item[8],
+                            S02: item[9],
+                            S03: item[10],
+                            WARN: item[11],
+                          };
+                        });
+                        this.outputFigureArr1 = outputFigureArr;
+                      }
+                    }
+                  }
+                }
+              );
+            }
+          }
+        } else {
+          if (file.path) {
+            console.log("Request handle 'start' was called");
+            if (process.platform === "win32") {
+              exeFile = windowNewUrl;
+            } else if (process.platform === "linux") {
+              exeFile = linuxNewUrl;
+            }
+            if (ntcName == "" && ladderName == "") {
+              exec(
+                exeFile +
+                  " -i " +
+                  file.path +
+                  " -e " +
+                  outputFormat +
+                  " -c " +
+                  stdName +
+                  " " +
+                  language +
+                  " " +
+                  fileTypeParameter,
+                (error, stdout, stderr) => {
+                  if (error || stderr) {
+                    const notice =
+                      "输入下机数据文件" + file.name + "处理有误！";
+                    log.error(
+                      "\n" +
+                        "当前输入下机数据文件" +
+                        file.name +
+                        "\n" +
+                        "处理有误！" +
+                        "\n" +
+                        stderr
+                    );
+                    ElNotification({
+                      showClose: true,
+                      message: notice,
+                      type: "error",
+                      position: "top-right",
+                      duration: "0",
+                      offset: 60,
+                    });
+                    console.log("error:\n" + error);
+                    console.log("stderr:\n" + stderr);
+                  } else if (stdout) {
+                    const notice = "输入下机数据文件" + file.name + "处理完成";
+                    log.info(
+                      "\n" +
+                        "当前输入下机数据文件" +
+                        file.name +
+                        "\n" +
+                        "处理完成！"
+                    );
+                    ElNotification({
+                      showClose: true,
+                      message: notice,
+                      type: "success",
+                      position: "top-right",
+                      duration: "2000",
+                      offset: 60,
+                    });
+                    console.log("stdout:\n" + stdout);
+                    if (fileType !== "summaryFile") {
+                      this.changeTab();
+                      //处理生成的SummaryFile
+                      var inputFile = file.path.substring(
+                        0,
+                        file.path.lastIndexOf("\\") + 1
+                      );
+                      // 获取年月日
+                      var date = new Date();
+                      const year = date.getFullYear(); // 获取年份，例如：2023
+                      const month = date.getMonth() + 1; // 获取月份，注意月份从0开始，所以需要加1，例如：7
+                      const day = date.getDate(); // 获取日期，例如：12
+                      const formattedDate = `${year}-${month}-${day}`;
+                      // 去除文件后缀
+                      var inputFileNameWithOutSuffix = file.name.substring(
+                        0,
+                        file.name.lastIndexOf(".")
+                      );
+                      console.log("inputFile", inputFileNameWithOutSuffix);
+                      var generateDataFolder =
+                        inputFileNameWithOutSuffix + "." + formattedDate;
                       var outPutFileName =
                         generateDataFolder +
                         "." +
-                        data.data.outputFormat +
+                        outputFormat +
                         ".Summary.tsv";
                       const summaryFile = path.join(
                         inputFile,
@@ -693,6 +1387,11 @@ export default {
                         outPutFileName
                       );
                       console.log("summaryFile", summaryFile);
+                      var outputDirectry = path.join(
+                        inputFile,
+                        generateDataFolder
+                      );
+                      console.log("outputDirectry", outputDirectry);
                       this.outputDirectry = outputDirectry;
                       var xlsx = window.require("node-xlsx");
                       // var tsvFile = fs.readFileSync(summaryFile, "utf8");
@@ -723,190 +1422,394 @@ export default {
                       });
                       console.log("outputArr", outputArr);
                       this.outputArr1 = outputArr;
-                    } else {
-                      // 生成画图文件路径
-                      const outputFigureFile =
+                    }
+                  }
+                }
+              );
+            } else if (ntcName != "" && ladderName == "") {
+              exec(
+                exeFile +
+                  " -i " +
+                  file.path +
+                  " -e " +
+                  outputFormat +
+                  " -c " +
+                  stdName +
+                  " " +
+                  language +
+                  " -n " +
+                  ntcName +
+                  " " +
+                  fileTypeParameter,
+                (error, stdout, stderr) => {
+                  if (error || stderr) {
+                    const notice =
+                      "输入下机数据文件" + file.name + "处理有误！";
+                    log.error(
+                      "\n" +
+                        "当前输入下机数据文件" +
+                        file.name +
+                        "\n" +
+                        "处理有误！" +
+                        "\n" +
+                        stderr
+                    );
+                    ElNotification({
+                      showClose: true,
+                      message: notice,
+                      type: "error",
+                      position: "top-right",
+                      duration: "0",
+                      offset: 60,
+                    });
+                    console.log("error:\n" + error);
+                    console.log("stderr:\n" + stderr);
+                  } else if (stdout) {
+                    const notice = "输入下机数据文件" + file.name + "处理完成";
+                    log.info(
+                      "\n" +
+                        "当前输入下机数据文件" +
+                        file.name +
+                        "\n" +
+                        "处理完成！"
+                    );
+                    ElNotification({
+                      showClose: true,
+                      message: notice,
+                      type: "success",
+                      position: "top-right",
+                      duration: "2000",
+                      offset: 60,
+                    });
+                    console.log("stdout:\n" + stdout);
+                    if (fileType !== "summaryFile") {
+                      this.changeTab();
+                      //处理生成的SummaryFile
+                      var inputFile = file.path.substring(
+                        0,
+                        file.path.lastIndexOf("\\") + 1
+                      );
+                      // 获取年月日
+                      var date = new Date();
+                      const year = date.getFullYear(); // 获取年份，例如：2023
+                      const month = date.getMonth() + 1; // 获取月份，注意月份从0开始，所以需要加1，例如：7
+                      const day = date.getDate(); // 获取日期，例如：12
+                      const formattedDate = `${year}-${month}-${day}`;
+                      // 去除文件后缀
+                      var inputFileNameWithOutSuffix = file.name.substring(
+                        0,
+                        file.name.lastIndexOf(".")
+                      );
+                      console.log("inputFile", inputFileNameWithOutSuffix);
+                      var generateDataFolder =
+                        inputFileNameWithOutSuffix + "." + formattedDate;
+                      var outPutFileName =
                         generateDataFolder +
                         "." +
-                        data.data.outputFormat +
-                        ".figure.tsv";
-                      const figureFile = path.join(
+                        outputFormat +
+                        ".Summary.tsv";
+                      const summaryFile = path.join(
                         inputFile,
                         generateDataFolder,
-                        outputFigureFile
+                        outPutFileName
                       );
+                      console.log("summaryFile", summaryFile);
+                      var outputDirectry = path.join(
+                        inputFile,
+                        generateDataFolder
+                      );
+                      console.log("outputDirectry", outputDirectry);
                       this.outputDirectry = outputDirectry;
                       var xlsx = window.require("node-xlsx");
-                      // 解析画图文件
-                      const parsedData1 = xlsx.parse(figureFile);
-                      var parsedSheetData1 = parsedData1[0].data;
+                      // var tsvFile = fs.readFileSync(summaryFile, "utf8");
+                      const parsedData = xlsx.parse(summaryFile);
+                      console.log("parsedData", parsedData);
+                      var parsedSheetData = parsedData[0].data;
                       // iconv.skipDecodeWarning = true;
-                      var parsedLineData1 = [];
-                      for (var j = 1; j < parsedSheetData1.length; j++) {
-                        parsedLineData1.push(parsedSheetData1[j]);
+                      var parsedLineData = [];
+                      for (var j = 0; j < parsedSheetData.length; j++) {
+                        if (
+                          parsedSheetData[j][0].includes("warn") ||
+                          parsedSheetData[j][0].includes("All")
+                        ) {
+                          console.log("当前" + j + "行有warn或者含有All");
+                        } else {
+                          console.log("全部数据");
+                          parsedLineData.push(parsedSheetData[j]);
+                        }
                       }
-                      const outputFigureArr = parsedLineData1.map(function (
-                        item
-                      ) {
+                      const outputArr = parsedLineData.map(function (item) {
                         return {
-                          fileName: item[0],
-                          SMN1: item[1],
-                          SMN2: item[2],
-                          S06: item[3],
-                          S04: item[4],
-                          S07: item[5],
-                          S01: item[6],
-                          S05: item[7],
-                          S08: item[8],
-                          S02: item[9],
-                          S03: item[10],
-                          WARN: item[11],
+                          number: item[0],
+                          removeSuffixNumber: item[1],
+                          SMN1andSMN2: item[2],
+                          SMN1: item[2].split("|")[0],
+                          SMN2: item[2].split("|")[1],
                         };
                       });
-                      this.outputFigureArr1 = outputFigureArr;
+                      console.log("outputArr", outputArr);
+                      this.outputArr1 = outputArr;
                     }
                   }
                 }
-              }
-            );
-          }
-        } else {
-          if (file.path) {
-            console.log("Request handle 'start' was called");
-            if (process.platform === "win32") {
-              exeFile = windowNewUrl;
-            } else if (process.platform === "linux") {
-              exeFile = linuxNewUrl;
-            }
-            exec(
-              exeFile +
-                " -i " +
-                file.path +
-                " -e " +
-                data.data.outputFormat +
-                " -c " +
-                data.data.stdName +
-                " " +
-                data.data.peakStatus +
-                " " +
-                data.data.language +
-                " " +
-                data.data.ntcName +
-                " " +
-                data.data.ladderName +
-                " " +
-                data.data.fileTypeParameter,
-              (error, stdout, stderr) => {
-                if (error || stderr) {
-                  const notice = "输入下机数据文件" + file.name + "处理有误！";
-                  log.error(
-                    "\n" +
-                      "当前输入下机数据文件" +
-                      file.name +
+              );
+            } else if (ntcName == "" && ladderName != "") {
+              exec(
+                exeFile +
+                  " -i " +
+                  file.path +
+                  " -e " +
+                  outputFormat +
+                  " -c " +
+                  stdName +
+                  " " +
+                  language +
+                  " -d " +
+                  ladderName +
+                  " " +
+                  fileTypeParameter,
+                (error, stdout, stderr) => {
+                  if (error || stderr) {
+                    const notice =
+                      "输入下机数据文件" + file.name + "处理有误！";
+                    log.error(
                       "\n" +
-                      "处理有误！" +
-                      "\n" +
-                      stderr
-                  );
-                  ElNotification({
-                    showClose: true,
-                    message: notice,
-                    type: "error",
-                    position: "top-right",
-                    duration: "0",
-                    offset: 60,
-                  });
-                  console.log("error:\n" + error);
-                  console.log("stderr:\n" + stderr);
-                } else if (stdout) {
-                  const notice = "输入下机数据文件" + file.name + "处理完成";
-                  log.info(
-                    "\n" +
-                      "当前输入下机数据文件" +
-                      file.name +
-                      "\n" +
-                      "处理完成！"
-                  );
-                  ElNotification({
-                    showClose: true,
-                    message: notice,
-                    type: "success",
-                    position: "top-right",
-                    duration: "2000",
-                    offset: 60,
-                  });
-                  console.log("stdout:\n" + stdout);
-                  if (data.data.fileType !== "summaryFile") {
-                    this.changeTab();
-                    //处理生成的SummaryFile
-                    var inputFile = file.path.substring(
-                      0,
-                      file.path.lastIndexOf("\\") + 1
+                        "当前输入下机数据文件" +
+                        file.name +
+                        "\n" +
+                        "处理有误！" +
+                        "\n" +
+                        stderr
                     );
-                    // 获取年月日
-                    var date = new Date();
-                    const year = date.getFullYear(); // 获取年份，例如：2023
-                    const month = date.getMonth() + 1; // 获取月份，注意月份从0开始，所以需要加1，例如：7
-                    const day = date.getDate(); // 获取日期，例如：12
-                    const formattedDate = `${year}-${month}-${day}`;
-                    // 去除文件后缀
-                    var inputFileNameWithOutSuffix = file.name.substring(
-                      0,
-                      file.name.lastIndexOf(".")
-                    );
-                    console.log("inputFile", inputFileNameWithOutSuffix);
-                    var generateDataFolder =
-                      inputFileNameWithOutSuffix + "." + formattedDate;
-                    var outPutFileName =
-                      generateDataFolder +
-                      "." +
-                      data.data.outputFormat +
-                      ".Summary.tsv";
-                    const summaryFile = path.join(
-                      inputFile,
-                      generateDataFolder,
-                      outPutFileName
-                    );
-                    console.log("summaryFile", summaryFile);
-                    var outputDirectry = path.join(
-                      inputFile,
-                      generateDataFolder
-                    );
-                    console.log("outputDirectry", outputDirectry);
-                    this.outputDirectry = outputDirectry;
-                    var xlsx = window.require("node-xlsx");
-                    // var tsvFile = fs.readFileSync(summaryFile, "utf8");
-                    const parsedData = xlsx.parse(summaryFile);
-                    console.log("parsedData", parsedData);
-                    var parsedSheetData = parsedData[0].data;
-                    // iconv.skipDecodeWarning = true;
-                    var parsedLineData = [];
-                    for (var j = 0; j < parsedSheetData.length; j++) {
-                      if (
-                        parsedSheetData[j][0].includes("warn") ||
-                        parsedSheetData[j][0].includes("All")
-                      ) {
-                        console.log("当前" + j + "行有warn或者含有All");
-                      } else {
-                        console.log("全部数据");
-                        parsedLineData.push(parsedSheetData[j]);
-                      }
-                    }
-                    const outputArr = parsedLineData.map(function (item) {
-                      return {
-                        number: item[0],
-                        removeSuffixNumber: item[1],
-                        SMN1andSMN2: item[2],
-                        SMN1: item[2].split("|")[0],
-                        SMN2: item[2].split("|")[1],
-                      };
+                    ElNotification({
+                      showClose: true,
+                      message: notice,
+                      type: "error",
+                      position: "top-right",
+                      duration: "0",
+                      offset: 60,
                     });
-                    console.log("outputArr", outputArr);
-                    this.outputArr1 = outputArr;
+                    console.log("error:\n" + error);
+                    console.log("stderr:\n" + stderr);
+                  } else if (stdout) {
+                    const notice = "输入下机数据文件" + file.name + "处理完成";
+                    log.info(
+                      "\n" +
+                        "当前输入下机数据文件" +
+                        file.name +
+                        "\n" +
+                        "处理完成！"
+                    );
+                    ElNotification({
+                      showClose: true,
+                      message: notice,
+                      type: "success",
+                      position: "top-right",
+                      duration: "2000",
+                      offset: 60,
+                    });
+                    console.log("stdout:\n" + stdout);
+                    if (fileType !== "summaryFile") {
+                      this.changeTab();
+                      //处理生成的SummaryFile
+                      var inputFile = file.path.substring(
+                        0,
+                        file.path.lastIndexOf("\\") + 1
+                      );
+                      // 获取年月日
+                      var date = new Date();
+                      const year = date.getFullYear(); // 获取年份，例如：2023
+                      const month = date.getMonth() + 1; // 获取月份，注意月份从0开始，所以需要加1，例如：7
+                      const day = date.getDate(); // 获取日期，例如：12
+                      const formattedDate = `${year}-${month}-${day}`;
+                      // 去除文件后缀
+                      var inputFileNameWithOutSuffix = file.name.substring(
+                        0,
+                        file.name.lastIndexOf(".")
+                      );
+                      console.log("inputFile", inputFileNameWithOutSuffix);
+                      var generateDataFolder =
+                        inputFileNameWithOutSuffix + "." + formattedDate;
+                      var outPutFileName =
+                        generateDataFolder +
+                        "." +
+                        outputFormat +
+                        ".Summary.tsv";
+                      const summaryFile = path.join(
+                        inputFile,
+                        generateDataFolder,
+                        outPutFileName
+                      );
+                      console.log("summaryFile", summaryFile);
+                      var outputDirectry = path.join(
+                        inputFile,
+                        generateDataFolder
+                      );
+                      console.log("outputDirectry", outputDirectry);
+                      this.outputDirectry = outputDirectry;
+                      var xlsx = window.require("node-xlsx");
+                      // var tsvFile = fs.readFileSync(summaryFile, "utf8");
+                      const parsedData = xlsx.parse(summaryFile);
+                      console.log("parsedData", parsedData);
+                      var parsedSheetData = parsedData[0].data;
+                      // iconv.skipDecodeWarning = true;
+                      var parsedLineData = [];
+                      for (var j = 0; j < parsedSheetData.length; j++) {
+                        if (
+                          parsedSheetData[j][0].includes("warn") ||
+                          parsedSheetData[j][0].includes("All")
+                        ) {
+                          console.log("当前" + j + "行有warn或者含有All");
+                        } else {
+                          console.log("全部数据");
+                          parsedLineData.push(parsedSheetData[j]);
+                        }
+                      }
+                      const outputArr = parsedLineData.map(function (item) {
+                        return {
+                          number: item[0],
+                          removeSuffixNumber: item[1],
+                          SMN1andSMN2: item[2],
+                          SMN1: item[2].split("|")[0],
+                          SMN2: item[2].split("|")[1],
+                        };
+                      });
+                      console.log("outputArr", outputArr);
+                      this.outputArr1 = outputArr;
+                    }
                   }
                 }
-              }
-            );
+              );
+            } else if (ntcName != "" && ladderName != "") {
+              exec(
+                exeFile +
+                  " -i " +
+                  file.path +
+                  " -e " +
+                  outputFormat +
+                  " -c " +
+                  stdName +
+                  " " +
+                  language +
+                  " -n " +
+                  ntcName +
+                  " -d " +
+                  ladderName +
+                  " " +
+                  fileTypeParameter,
+                (error, stdout, stderr) => {
+                  if (error || stderr) {
+                    const notice =
+                      "输入下机数据文件" + file.name + "处理有误！";
+                    log.error(
+                      "\n" +
+                        "当前输入下机数据文件" +
+                        file.name +
+                        "\n" +
+                        "处理有误！" +
+                        "\n" +
+                        stderr
+                    );
+                    ElNotification({
+                      showClose: true,
+                      message: notice,
+                      type: "error",
+                      position: "top-right",
+                      duration: "0",
+                      offset: 60,
+                    });
+                    console.log("error:\n" + error);
+                    console.log("stderr:\n" + stderr);
+                  } else if (stdout) {
+                    const notice = "输入下机数据文件" + file.name + "处理完成";
+                    log.info(
+                      "\n" +
+                        "当前输入下机数据文件" +
+                        file.name +
+                        "\n" +
+                        "处理完成！"
+                    );
+                    ElNotification({
+                      showClose: true,
+                      message: notice,
+                      type: "success",
+                      position: "top-right",
+                      duration: "2000",
+                      offset: 60,
+                    });
+                    console.log("stdout:\n" + stdout);
+                    if (fileType !== "summaryFile") {
+                      this.changeTab();
+                      //处理生成的SummaryFile
+                      var inputFile = file.path.substring(
+                        0,
+                        file.path.lastIndexOf("\\") + 1
+                      );
+                      // 获取年月日
+                      var date = new Date();
+                      const year = date.getFullYear(); // 获取年份，例如：2023
+                      const month = date.getMonth() + 1; // 获取月份，注意月份从0开始，所以需要加1，例如：7
+                      const day = date.getDate(); // 获取日期，例如：12
+                      const formattedDate = `${year}-${month}-${day}`;
+                      // 去除文件后缀
+                      var inputFileNameWithOutSuffix = file.name.substring(
+                        0,
+                        file.name.lastIndexOf(".")
+                      );
+                      console.log("inputFile", inputFileNameWithOutSuffix);
+                      var generateDataFolder =
+                        inputFileNameWithOutSuffix + "." + formattedDate;
+                      var outPutFileName =
+                        generateDataFolder +
+                        "." +
+                        outputFormat +
+                        ".Summary.tsv";
+                      const summaryFile = path.join(
+                        inputFile,
+                        generateDataFolder,
+                        outPutFileName
+                      );
+                      console.log("summaryFile", summaryFile);
+                      var outputDirectry = path.join(
+                        inputFile,
+                        generateDataFolder
+                      );
+                      console.log("outputDirectry", outputDirectry);
+                      this.outputDirectry = outputDirectry;
+                      var xlsx = window.require("node-xlsx");
+                      // var tsvFile = fs.readFileSync(summaryFile, "utf8");
+                      const parsedData = xlsx.parse(summaryFile);
+                      console.log("parsedData", parsedData);
+                      var parsedSheetData = parsedData[0].data;
+                      // iconv.skipDecodeWarning = true;
+                      var parsedLineData = [];
+                      for (var j = 0; j < parsedSheetData.length; j++) {
+                        if (
+                          parsedSheetData[j][0].includes("warn") ||
+                          parsedSheetData[j][0].includes("All")
+                        ) {
+                          console.log("当前" + j + "行有warn或者含有All");
+                        } else {
+                          console.log("全部数据");
+                          parsedLineData.push(parsedSheetData[j]);
+                        }
+                      }
+                      const outputArr = parsedLineData.map(function (item) {
+                        return {
+                          number: item[0],
+                          removeSuffixNumber: item[1],
+                          SMN1andSMN2: item[2],
+                          SMN1: item[2].split("|")[0],
+                          SMN2: item[2].split("|")[1],
+                        };
+                      });
+                      console.log("outputArr", outputArr);
+                      this.outputArr1 = outputArr;
+                    }
+                  }
+                }
+              );
+            }
           }
         }
       });
@@ -957,8 +1860,8 @@ export default {
       var htmlPathAndName = [];
       var pdfPathAndName = [];
       var content = [];
-      var content1 =[];
-      var content2 =[];
+      var content1 = [];
+      var content2 = [];
       // var docx = [];
       // var header1 = [];
       // var header2=  [];
@@ -1171,7 +2074,7 @@ export default {
                 defaultBox3 = correctBox;
                 var defaultBox6 = `font-weight:bold`;
               }
-              content[index] =`<!DOCTYPE html>
+              content[index] = `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -1529,8 +2432,8 @@ export default {
     </div>
 </body>
 ${pictureScript}
-</html>`
-content1[index] = `<!DOCTYPE html>
+</html>`;
+              content1[index] = `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -1870,7 +2773,7 @@ content1[index] = `<!DOCTYPE html>
     </div>
 </body>
 ${pictureScript}
-</html>`
+</html>`;
               if (data1.data.selectReport == "default") {
                 content2[index] = content[index];
               } else {
@@ -1950,7 +2853,10 @@ ${pictureScript}
                       .then((data) => {
                         fs.writeFile(pdfPathAndName[index], data, (error) => {
                           if (error) throw error;
-                          var pdfnotice = `Wrote `+pdfPathAndName.length+ ` PDF successfully`;
+                          var pdfnotice =
+                            `Wrote ` +
+                            pdfPathAndName.length +
+                            ` PDF successfully`;
                           if (index == pdfPathAndName.length - 1) {
                             //  mdui.snackbar({
                             //      message: pdfnotice,
@@ -1961,20 +2867,28 @@ ${pictureScript}
                             //         //  }
                             //      }
                             //  })
-                            setTimeout(()=>{
-                              if(sampleFileNamePath.indexOf("#")!=-1||sampleFileNamePath.indexOf("&")!=-1||sampleFileNamePath.indexOf("+")!=-1||sampleFileNamePath.indexOf("=")!=-1||sampleFileNamePath.indexOf("?")!=-1||sampleFileNamePath.indexOf(" ")!=-1){
-                              console.log("测试测试")
-                              ElNotification({
-                                message:"检测到您上传的文件或路径中存在特殊字符串或空格！请及时修改！否者会导致无法生成PDF报告的图片信息！",
-                                type:"warning",
-                                showClose: true,
-                                position:"top-right",
-                                duration: "0",
-                                offset: 60,
-                              })
-                            }
-                            },1000)
-                            
+                            setTimeout(() => {
+                              if (
+                                sampleFileNamePath.indexOf("#") != -1 ||
+                                sampleFileNamePath.indexOf("&") != -1 ||
+                                sampleFileNamePath.indexOf("+") != -1 ||
+                                sampleFileNamePath.indexOf("=") != -1 ||
+                                sampleFileNamePath.indexOf("?") != -1 ||
+                                sampleFileNamePath.indexOf(" ") != -1
+                              ) {
+                                console.log("测试测试");
+                                ElNotification({
+                                  message:
+                                    "检测到您上传的文件或路径中存在特殊字符串或空格！请及时修改！否者会导致无法生成PDF报告的图片信息！",
+                                  type: "warning",
+                                  showClose: true,
+                                  position: "top-right",
+                                  duration: "0",
+                                  offset: 60,
+                                });
+                              }
+                            }, 1000);
+
                             ElNotification({
                               message: pdfnotice,
                               type: "success",
@@ -3743,7 +4657,7 @@ ${pictureScript}
 </body>
 ${pictureScript}
 </html>`;
-content1[index] = `<!DOCTYPE html>
+              content1[index] = `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -4084,9 +4998,9 @@ content1[index] = `<!DOCTYPE html>
 </body>
 ${pictureScript}
 </html>`;
-              if(data1.data.selectReport =="default"){
-                content2[index] =content[index];
-              }else if(data1.data.selectReport =="other"){
+              if (data1.data.selectReport == "default") {
+                content2[index] = content[index];
+              } else if (data1.data.selectReport == "other") {
                 content2[index] = content1[index];
               }
               console.log("content2[index]", content2[index]);
@@ -4162,7 +5076,10 @@ ${pictureScript}
                       .then((data) => {
                         fs.writeFile(pdfPathAndName[index], data, (error) => {
                           if (error) throw error;
-                           var pdfnotice = `Wrote `+pdfPathAndName.length+ ` PDF successfully`;
+                          var pdfnotice =
+                            `Wrote ` +
+                            pdfPathAndName.length +
+                            ` PDF successfully`;
                           if (index == pdfPathAndName.length - 1) {
                             //  mdui.snackbar({
                             //      message: pdfnotice,
@@ -4173,18 +5090,26 @@ ${pictureScript}
                             //         //  }
                             //      }
                             //  })
-                            setTimeout(()=>{
-                              if(sampleFileNamePath.indexOf("#")!=-1||sampleFileNamePath.indexOf("&")!=-1||sampleFileNamePath.indexOf("+")!=-1||sampleFileNamePath.indexOf("=")!=-1||sampleFileNamePath.indexOf("?")!=-1||sampleFileNamePath.indexOf(" ")!=-1){
-                              ElNotification({
-                                message:"检测到您上传的文件或路径中存在特殊字符串或空格！请及时修改！否者会导致无法生成PDF报告的图片信息！",
-                                type:"warning",
-                                showClose: true,
-                                position:"top-right",
-                                duration: "0",
-                                offset: 60,
-                              })
-                            }
-                            },1000)
+                            setTimeout(() => {
+                              if (
+                                sampleFileNamePath.indexOf("#") != -1 ||
+                                sampleFileNamePath.indexOf("&") != -1 ||
+                                sampleFileNamePath.indexOf("+") != -1 ||
+                                sampleFileNamePath.indexOf("=") != -1 ||
+                                sampleFileNamePath.indexOf("?") != -1 ||
+                                sampleFileNamePath.indexOf(" ") != -1
+                              ) {
+                                ElNotification({
+                                  message:
+                                    "检测到您上传的文件或路径中存在特殊字符串或空格！请及时修改！否者会导致无法生成PDF报告的图片信息！",
+                                  type: "warning",
+                                  showClose: true,
+                                  position: "top-right",
+                                  duration: "0",
+                                  offset: 60,
+                                });
+                              }
+                            }, 1000);
                             ElNotification({
                               message: pdfnotice,
                               type: "success",
