@@ -147,6 +147,24 @@
               </el-col>
             </el-row>
             <el-row class="fileSetting">
+              <el-col :span="24" class="leftText">
+                <span class="radio-label">类型：</span>
+                <el-radio-group
+                  v-model="radio2"
+                  @change="switchFileType"
+                  size="large"
+                >
+                  <el-radio-button label="summaryFile" >结果文件</el-radio-button>
+                  <el-radio-button label="summaryFileAndReportFile"
+                    >结果文件和报告</el-radio-button
+                  >
+                  <el-radio-button label="summaryFileAndReportPictureFile" 
+                    >结果文件和含图片报告</el-radio-button
+                  >
+                </el-radio-group>
+              </el-col>
+            </el-row>
+            <el-row class="fileSetting">
               <el-col :span="8">
                 <el-button
                   type="primary"
@@ -261,7 +279,7 @@
                   @change="switchReceiveStatus2"
                 ></el-switch>
               </el-col> -->
-              <el-col :span="8" class="leftText">
+              <el-col :span="16" class="leftText">
                 <span style="radio-label">格式：</span>
                 <el-radio-group
                   v-model="radio1"
@@ -270,26 +288,6 @@
                 >
                   <el-radio-button label="GBK"></el-radio-button>
                   <el-radio-button label="UTF-8"></el-radio-button>
-                </el-radio-group>
-              </el-col>
-            </el-row>
-            <el-row class="fileSetting">
-              <el-col :span="24" class="leftText">
-                <span class="radio-label">种类：</span>
-                <el-radio-group
-                  v-model="radio2"
-                  @change="switchFileType"
-                  size="large"
-                >
-                  <el-radio-button label="summaryFile"
-                    >结果文件</el-radio-button
-                  >
-                  <el-radio-button label="summaryFileAndReportFile"
-                    >结果文件和报告</el-radio-button
-                  >
-                  <el-radio-button label="summaryFileAndReportPictureFile"
-                    >结果文件和含图片报告</el-radio-button
-                  >
                 </el-radio-group>
               </el-col>
             </el-row>
