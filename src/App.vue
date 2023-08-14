@@ -390,7 +390,7 @@ export default {
         fileTypeParameter: "",
         selectReport: "default",
         peakStatus: "",
-        language:"",
+        language: "",
       },
       options: [
         { label: "默认报告模板", value: "default" },
@@ -414,12 +414,29 @@ export default {
     // 下载样本数据窗口方法
     download() {
       var path = require("path");
-      var downloadFile = path.join(
-        process.cwd(),
-        "/resources/SMNFilerSampleData.xlsx"
-      );
-      var win = window.require("@electron/remote").getCurrentWindow();
-      win.webContents.downloadURL(downloadFile);
+      if (process.platform === "darwin") {
+        var downloadFile = path.join(
+          process.cwd(),
+          "/Applications/SMNFiler.app/Contents/Resources/SMNFilerSampleData.xlsx"
+        );
+        var win = window.require("@electron/remote").getCurrentWindow();
+        win.webContents.downloadURL("file:///" + downloadFile);
+      } else if (process.platform === "win32") {
+        var downloadFile = path.join(
+          process.cwd(),
+          "/resources/SMNFilerSampleData.xlsx"
+        );
+        var win = window.require("@electron/remote").getCurrentWindow();
+        win.webContents.downloadURL(downloadFile);
+      } else if (process.platform === "linux") {
+        var downloadFile = path.join(
+          process.cwd(),
+          "/resources/SMNFilerSampleData.xlsx"
+        );
+        var win = window.require("@electron/remote").getCurrentWindow();
+        win.webContents.downloadURL(downloadFile);
+      }
+
       console.log("downloadFile", downloadFile);
     },
     // 下拉单选框值变化方法
@@ -666,10 +683,20 @@ export default {
                     if (fileType !== "summaryFile") {
                       this.changeTab();
                       //处理生成的SummaryFile
-                      var inputFile = file.path.substring(
-                        0,
-                        file.path.lastIndexOf("\\") + 1
-                      );
+                      if (process.platform === "darwin") {
+                        var inputFile = path.dirname(file.path);
+                      } else if (process.platform === "win32") {
+                        var inputFile = file.path.substring(
+                          0,
+                          file.path.lastIndexOf("\\") + 1
+                        );
+                      } else if (process.platform === "linux") {
+                        var inputFile = file.path.substring(
+                          0,
+                          file.path.lastIndexOf("\\") + 1
+                        );
+                      }
+
                       // 获取年月日
                       var date = new Date();
                       const year = date.getFullYear(); // 获取年份，例如：2023
@@ -836,10 +863,20 @@ export default {
                     if (fileType !== "summaryFile") {
                       this.changeTab();
                       //处理生成的SummaryFile
-                      var inputFile = file.path.substring(
-                        0,
-                        file.path.lastIndexOf("\\") + 1
-                      );
+                      if (process.platform === "darwin") {
+                        var inputFile = path.dirname(file.path);
+                      } else if (process.platform === "win32") {
+                        var inputFile = file.path.substring(
+                          0,
+                          file.path.lastIndexOf("\\") + 1
+                        );
+                      } else if (process.platform === "linux") {
+                        var inputFile = file.path.substring(
+                          0,
+                          file.path.lastIndexOf("\\") + 1
+                        );
+                      }
+
                       // 获取年月日
                       var date = new Date();
                       const year = date.getFullYear(); // 获取年份，例如：2023
@@ -1008,10 +1045,19 @@ export default {
                     if (fileType !== "summaryFile") {
                       this.changeTab();
                       //处理生成的SummaryFile
-                      var inputFile = file.path.substring(
-                        0,
-                        file.path.lastIndexOf("\\") + 1
-                      );
+                      if (process.platform === "darwin") {
+                        var inputFile = path.dirname(file.path);
+                      } else if (process.platform === "win32") {
+                        var inputFile = file.path.substring(
+                          0,
+                          file.path.lastIndexOf("\\") + 1
+                        );
+                      } else if (process.platform === "linux") {
+                        var inputFile = file.path.substring(
+                          0,
+                          file.path.lastIndexOf("\\") + 1
+                        );
+                      }
                       // 获取年月日
                       var date = new Date();
                       const year = date.getFullYear(); // 获取年份，例如：2023
@@ -1180,10 +1226,19 @@ export default {
                     if (fileType !== "summaryFile") {
                       this.changeTab();
                       //处理生成的SummaryFile
-                      var inputFile = file.path.substring(
-                        0,
-                        file.path.lastIndexOf("\\") + 1
-                      );
+                      if (process.platform === "darwin") {
+                        var inputFile = path.dirname(file.path);
+                      } else if (process.platform === "win32") {
+                        var inputFile = file.path.substring(
+                          0,
+                          file.path.lastIndexOf("\\") + 1
+                        );
+                      } else if (process.platform === "linux") {
+                        var inputFile = file.path.substring(
+                          0,
+                          file.path.lastIndexOf("\\") + 1
+                        );
+                      }
                       // 获取年月日
                       var date = new Date();
                       const year = date.getFullYear(); // 获取年份，例如：2023
@@ -1358,10 +1413,19 @@ export default {
                     if (fileType !== "summaryFile") {
                       this.changeTab();
                       //处理生成的SummaryFile
-                      var inputFile = file.path.substring(
-                        0,
-                        file.path.lastIndexOf("\\") + 1
-                      );
+                      if (process.platform === "darwin") {
+                        var inputFile = path.dirname(file.path);
+                      } else if (process.platform === "win32") {
+                        var inputFile = file.path.substring(
+                          0,
+                          file.path.lastIndexOf("\\") + 1
+                        );
+                      } else if (process.platform === "linux") {
+                        var inputFile = file.path.substring(
+                          0,
+                          file.path.lastIndexOf("\\") + 1
+                        );
+                      }
                       // 获取年月日
                       var date = new Date();
                       const year = date.getFullYear(); // 获取年份，例如：2023
@@ -1485,10 +1549,19 @@ export default {
                     if (fileType !== "summaryFile") {
                       this.changeTab();
                       //处理生成的SummaryFile
-                      var inputFile = file.path.substring(
-                        0,
-                        file.path.lastIndexOf("\\") + 1
-                      );
+                      if (process.platform === "darwin") {
+                        var inputFile = path.dirname(file.path);
+                      } else if (process.platform === "win32") {
+                        var inputFile = file.path.substring(
+                          0,
+                          file.path.lastIndexOf("\\") + 1
+                        );
+                      } else if (process.platform === "linux") {
+                        var inputFile = file.path.substring(
+                          0,
+                          file.path.lastIndexOf("\\") + 1
+                        );
+                      }
                       // 获取年月日
                       var date = new Date();
                       const year = date.getFullYear(); // 获取年份，例如：2023
@@ -1612,10 +1685,19 @@ export default {
                     if (fileType !== "summaryFile") {
                       this.changeTab();
                       //处理生成的SummaryFile
-                      var inputFile = file.path.substring(
-                        0,
-                        file.path.lastIndexOf("\\") + 1
-                      );
+                      if (process.platform === "darwin") {
+                        var inputFile = path.dirname(file.path);
+                      } else if (process.platform === "win32") {
+                        var inputFile = file.path.substring(
+                          0,
+                          file.path.lastIndexOf("\\") + 1
+                        );
+                      } else if (process.platform === "linux") {
+                        var inputFile = file.path.substring(
+                          0,
+                          file.path.lastIndexOf("\\") + 1
+                        );
+                      }
                       // 获取年月日
                       var date = new Date();
                       const year = date.getFullYear(); // 获取年份，例如：2023
@@ -1741,10 +1823,19 @@ export default {
                     if (fileType !== "summaryFile") {
                       this.changeTab();
                       //处理生成的SummaryFile
-                      var inputFile = file.path.substring(
-                        0,
-                        file.path.lastIndexOf("\\") + 1
-                      );
+                      if (process.platform === "darwin") {
+                        var inputFile = path.dirname(file.path);
+                      } else if (process.platform === "win32") {
+                        var inputFile = file.path.substring(
+                          0,
+                          file.path.lastIndexOf("\\") + 1
+                        );
+                      } else if (process.platform === "linux") {
+                        var inputFile = file.path.substring(
+                          0,
+                          file.path.lastIndexOf("\\") + 1
+                        );
+                      }
                       // 获取年月日
                       var date = new Date();
                       const year = date.getFullYear(); // 获取年份，例如：2023
@@ -5301,8 +5392,27 @@ ${pictureScript}
             });
           } else {
             console.log("文件存在");
-            const { shell } = window.require("electron");
-            shell.openExternal(path.join(convertedLogFilepath, logFilename));
+            if (process.platform === "darwin") {
+              const { shell } = window.require("electron");
+              const openFile = (filePath) => {
+                shell
+                  .openPath(filePath)
+                  .then(() => {
+                    console.log("文件已成功打开");
+                  })
+                  .catch((error) => {
+                    console.error("打开文件时出错:", error);
+                  });
+              };
+              openFile(path.join(convertedLogFilepath, logFilename));
+              // shell.openExternal(path.join(convertedLogFilepath, logFilename));
+            } else if (process.platform === "win32") {
+              const { shell } = window.require("electron");
+              shell.openExternal(path.join(convertedLogFilepath, logFilename));
+            } else if (process.platform === "linux") {
+              const { shell } = window.require("electron");
+              shell.openExternal(path.join(convertedLogFilepath, logFilename));
+            }
           }
         }
       );
