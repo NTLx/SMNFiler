@@ -167,6 +167,47 @@
               </el-col>
             </el-row>
             <el-row class="fileSetting">
+              <el-col :span="8" class="leftText">
+                <span style="radio-label">格式：</span>
+                <el-radio-group
+                  v-model="radio1"
+                  @change="switchFileFormat"
+                  size="large"
+                >
+                  <el-radio-button label="UTF-8"></el-radio-button>
+                  <el-radio-button label="GBK"></el-radio-button>
+                </el-radio-group>
+              </el-col>
+              <el-col :span="8">
+                <el-switch
+                  v-model="value1"
+                  size="large"
+                  inline-prompt
+                  active-text="结果文件为中文"
+                  active-value="-l"
+                  inactive-value=" "
+                  inactive-text="结果文件为中文"
+                  @change="switchReceiveStatus1"
+                ></el-switch>
+              </el-col>
+              <!-- <el-col :span="8">
+                <el-switch
+                  v-model="value2"
+                  size="large"
+                  inline-prompt
+                  active-text="峰面积"
+                  active-value="-a"
+                  inactive-value=" "
+                  style="
+                    --el-switch-oncolor: #13ce66;
+                    --el-switch-off-color: #ff4949;
+                  "
+                  inactive-text="峰高"
+                  @change="switchReceiveStatus2"
+                ></el-switch>
+              </el-col> -->
+            </el-row>
+            <el-row class="fileSetting">
               <el-col :span="8">
                 <el-button
                   type="primary"
@@ -251,47 +292,6 @@
                   </template>
                 </el-dialog>
               </el-col>
-            </el-row>
-            <el-row class="fileSetting">
-              <el-col :span="8" class="leftText">
-                <span style="radio-label">格式：</span>
-                <el-radio-group
-                  v-model="radio1"
-                  @change="switchFileFormat"
-                  size="large"
-                >
-                  <el-radio-button label="GBK"></el-radio-button>
-                  <el-radio-button label="UTF-8"></el-radio-button>
-                </el-radio-group>
-              </el-col>
-              <el-col :span="8">
-                <el-switch
-                  v-model="value1"
-                  size="large"
-                  inline-prompt
-                  active-text="结果文件为中文"
-                  active-value="-l"
-                  inactive-value=" "
-                  inactive-text="结果文件为中文"
-                  @change="switchReceiveStatus1"
-                ></el-switch>
-              </el-col>
-              <!-- <el-col :span="8">
-                <el-switch
-                  v-model="value2"
-                  size="large"
-                  inline-prompt
-                  active-text="峰面积"
-                  active-value="-a"
-                  inactive-value=" "
-                  style="
-                    --el-switch-oncolor: #13ce66;
-                    --el-switch-off-color: #ff4949;
-                  "
-                  inactive-text="峰高"
-                  @change="switchReceiveStatus2"
-                ></el-switch>
-              </el-col> -->
             </el-row>
             <el-row>
               <el-col :span="24">
