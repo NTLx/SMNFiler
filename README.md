@@ -50,7 +50,7 @@ You may press the orange button `帮助` to check manual, it will simply open a 
 
 ### Download sample template file
 
-Press the blue button `下载样本信息文件` to download  sample tempplate file.
+Press the blue button `下载样本信息文件` to download sample template file.
 
 ### Upload
 

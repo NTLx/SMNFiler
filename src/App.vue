@@ -143,7 +143,7 @@
           <div class="settingPostion">
             <el-row>
               <el-col :span="24">
-                <el-divider content-position="left"> 结果文件设置 </el-divider>
+                <el-divider content-position="left"> 输出文件设置 </el-divider>
               </el-col>
             </el-row>
             <el-row class="fileSetting">
