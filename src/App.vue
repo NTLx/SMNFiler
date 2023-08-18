@@ -409,7 +409,7 @@ export default {
     // 添加帮助跳转方法
     help() {
       const { shell } = window.require("electron");
-      shell.openExternal("https://github.com/NTLx/SMNFiler");
+      shell.openExternal("https://alidocs.dingtalk.com/i/p/b6Vz6P44NlKnYmZ9/docs/20eMKjyp81xLM6k7SarGeNMMJxAZB1Gv?rnd=0.4691405771029653");
     },
     // 下载样本数据窗口方法
     download() {
