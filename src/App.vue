@@ -42,6 +42,14 @@
                   <div class="el-upload__tip">
                     文件名当中不能含有空格、特殊符号、中文
                   </div>
+                  <!-- <el-descriptions title="" direction="vertical" :column="3" :size="size" border>
+                    <el-descriptions-item label="标准品样本名" align="center">{{ sampleName?sampleName:"/" }}</el-descriptions-item>
+                    <el-descriptions-item label="NTC 检测样本名" align="center">{{ ntcSampleName?ntcSampleName:"/" }}</el-descriptions-item>
+                    <el-descriptions-item label="Ladder 检测样本名" align="center">{{ ladderSampleName?ladderSampleName:"/" }}</el-descriptions-item>
+                  </el-descriptions> -->
+                </template>
+                <template #file>
+                   <el-text size="large">GeneMapper下机输入文件：{{ fileList1[0].name }}</el-text>
                 </template>
               </el-upload>
             </div>
@@ -167,6 +175,46 @@
               </el-col>
             </el-row>
             <el-row class="fileSetting">
+              <el-col :span="12">
+                <el-input
+                  v-model="ntcSampleName"
+                  placeholder="NTC检测样本名" 
+                >
+                  <template #append>
+                    <el-button type="primary" class="custom-button" @click="saveNTCSampleName"
+                      >应用NTC检测样本名</el-button
+                    >
+                  </template>
+                </el-input>
+              </el-col>
+              <el-col :span="1"></el-col>
+              <el-col :span="11">
+                <el-input
+                  v-model="sampleName"
+                  placeholder="样本名默认为STD"
+                >
+                  <template #append>
+                    <el-button type="primary" @click="saveSampleName" class="custom-button"
+                      >应用标准品样本名</el-button
+                    >
+                  </template>
+                </el-input>
+              </el-col>
+            </el-row>
+            <el-row class="fileSetting">
+              <el-col :span="12">
+                <el-input
+                  v-model="ladderSampleName"
+                  placeholder="Ladder检测样本名"
+                >
+                  <template #append>
+                    <el-button type="primary" @click="saveLadderSampleName" class="custom-button"
+                      >应用Ladder检测样本名</el-button
+                    >
+                  </template>
+                </el-input>
+              </el-col>
+              <el-col :span="1"></el-col>
               <!-- <el-col :span="8" class="leftText">
                 <span style="radio-label">格式：</span>
                 <el-radio-group
@@ -178,7 +226,7 @@
                   <el-radio-button label="GBK"></el-radio-button>
                 </el-radio-group>
               </el-col> -->
-              <el-col :span="8">
+              <el-col :span="11">
                 <el-switch
                   v-model="value1"
                   size="large"
@@ -206,92 +254,6 @@
                   @change="switchReceiveStatus2"
                 ></el-switch>
               </el-col> -->
-            </el-row>
-            <el-row class="fileSetting">
-              <el-col :span="8">
-                <el-button
-                  type="primary"
-                  @click="customSampleName = true"
-                  size="large"
-                >
-                  自定义STD
-                </el-button>
-                <el-dialog
-                  v-model="customSampleName"
-                  title="请输入标准品样本名"
-                >
-                  <el-input
-                    v-model="sampleName"
-                    placeholder="请输入标准品样本名"
-                  ></el-input>
-                  <template #footer>
-                    <span class="dialog-footer">
-                      <el-button @click="customSampleName = false" size="large">
-                        取消
-                      </el-button>
-                      <el-button type="primary" @click="saveSampleName">
-                        确认
-                      </el-button>
-                    </span>
-                  </template>
-                </el-dialog>
-              </el-col>
-              <el-col :span="8">
-                <el-button
-                  type="primary"
-                  @click="customNTCSampleName = true"
-                  size="large"
-                >
-                  自定义NTC检测
-                </el-button>
-                <el-dialog
-                  v-model="customNTCSampleName"
-                  title="请输入进行NTC检测的样本名"
-                >
-                  <el-input
-                    v-model="ntcSampleName"
-                    placeholder="请输入进行NTC检测的样本名"
-                  ></el-input>
-                  <template #footer>
-                    <span class="dialog-footer">
-                      <el-button @click="customNTCSampleName = false">
-                        取消
-                      </el-button>
-                      <el-button type="primary" @click="saveNTCSampleName">
-                        确认
-                      </el-button>
-                    </span>
-                  </template>
-                </el-dialog>
-              </el-col>
-              <el-col :span="8">
-                <el-button
-                  type="primary"
-                  @click="customLadderSampleName = true"
-                  size="large"
-                >
-                  自定义Ladder检测
-                </el-button>
-                <el-dialog
-                  v-model="customLadderSampleName"
-                  title="请输入进行Ladder检测的样本名"
-                >
-                  <el-input
-                    v-model="ladderSampleName"
-                    placeholder="请输入进行Ladder检测的样本名"
-                  ></el-input>
-                  <template #footer>
-                    <span class="dialog-footer">
-                      <el-button @click="customLadderSampleName = false">
-                        取消
-                      </el-button>
-                      <el-button type="primary" @click="saveLadderSampleName">
-                        确认
-                      </el-button>
-                    </span>
-                  </template>
-                </el-dialog>
-              </el-col>
             </el-row>
             <el-row>
               <el-col :span="24">
