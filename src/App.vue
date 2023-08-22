@@ -344,7 +344,7 @@ export default {
       ntcSampleName: "",
       ladderSampleName: "",
       uploadParams: {
-        outputFormat: "GBK",
+        outputFormat: this.outputFormat(),
         stdName: "STD",
         ntcName: "",
         ladderName: "",
@@ -360,7 +360,6 @@ export default {
       ],
       value1: " ",
       value2: " ",
-      radio1: "UTF-8",
       radio2: "summaryFile",
       value3: 0,
       value4: 0,
@@ -368,6 +367,16 @@ export default {
     };
   },
   methods: {
+    // 根据不同操作系统设置默认值
+    outputFormat(){
+      if(process.platform == "darwin"){
+        return "UTF-8"
+      }else if(process.platform == "win32"){
+        return "GBK"
+      }else if(process.platform =="linux"){
+        return "UTF-8"
+      }
+    },
     // 添加帮助跳转方法
     help() {
       const { shell } = window.require("electron");
@@ -581,7 +590,7 @@ export default {
         this.uploadParams.language == "";
       } else if (process.platform === "win32") {
         this.uploadParams.outputFormat = "GBK";
-        this.uploadParams.language == "-l";
+        this.uploadParams.language == "";
       } else if (process.platform === "linux") {
         this.uploadParams.outputFormat = "UTF-8";
         this.uploadParams.language == "";
