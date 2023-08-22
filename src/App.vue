@@ -167,7 +167,7 @@
               </el-col>
             </el-row>
             <el-row class="fileSetting">
-              <el-col :span="8" class="leftText">
+              <!-- <el-col :span="8" class="leftText">
                 <span style="radio-label">格式：</span>
                 <el-radio-group
                   v-model="radio1"
@@ -177,7 +177,7 @@
                   <el-radio-button label="UTF-8"></el-radio-button>
                   <el-radio-button label="GBK"></el-radio-button>
                 </el-radio-group>
-              </el-col>
+              </el-col> -->
               <el-col :span="8">
                 <el-switch
                   v-model="value1"
@@ -378,11 +378,11 @@ export default {
       customSampleName: false,
       customNTCSampleName: false,
       customLadderSampleName: false,
-      sampleName: "",
+      sampleName: "STD",
       ntcSampleName: "",
       ladderSampleName: "",
       uploadParams: {
-        outputFormat: "UTF-8",
+        outputFormat: "GBK",
         stdName: "STD",
         ntcName: "",
         ladderName: "",
@@ -409,7 +409,9 @@ export default {
     // 添加帮助跳转方法
     help() {
       const { shell } = window.require("electron");
-      shell.openExternal("https://alidocs.dingtalk.com/i/p/b6Vz6P44NlKnYmZ9/docs/20eMKjyp81xLM6k7SarGeNMMJxAZB1Gv?rnd=0.4691405771029653");
+      shell.openExternal(
+        "https://alidocs.dingtalk.com/i/p/b6Vz6P44NlKnYmZ9/docs/20eMKjyp81xLM6k7SarGeNMMJxAZB1Gv?rnd=0.4691405771029653"
+      );
     },
     // 下载样本数据窗口方法
     download() {
@@ -612,6 +614,16 @@ export default {
         process.cwd(),
         "/resources/analysis_miss.exe"
       );
+      if (process.platform === "darwin") {
+        this.uploadParams.outputFormat = "UTF-8";
+        this.uploadParams.language == "";
+      } else if (process.platform === "win32") {
+        this.uploadParams.outputFormat = "GBK";
+        this.uploadParams.language == "-l";
+      } else if (process.platform === "linux") {
+        this.uploadParams.outputFormat = "UTF-8";
+        this.uploadParams.language == "";
+      }
       fs.readFile(file.path, function (err, data) {
         if (err) {
           return console.error(err);
@@ -5262,19 +5274,43 @@ ${pictureScript}
     saveSampleName() {
       var sampleName = this.sampleName;
       this.uploadParams.stdName = sampleName;
-      this.customSampleName = false;
+      ElNotification({
+        message: "当前标准品样本名：" + sampleName,
+        type: "info",
+        showClose: true,
+        position: "top-right",
+        duration: "2000",
+        offset: 60,
+      });
+      // this.customSampleName = false;
     },
     // 保存NTC检测样本名
     saveNTCSampleName() {
       var ntcSampleName = this.ntcSampleName;
       this.uploadParams.ntcName = ntcSampleName;
-      this.customNTCSampleName = false;
+      ElNotification({
+        message: "当前NTC检测样本名：" + ntcSampleName,
+        type: "info",
+        showClose: true,
+        position: "top-right",
+        duration: "2000",
+        offset: 60,
+      });
+      // this.customNTCSampleName = false;
     },
     // 保存Ladder检测样本名
     saveLadderSampleName() {
       var ladderSampleName = this.ladderSampleName;
       this.uploadParams.ladderName = ladderSampleName;
-      this.customLadderSampleName = false;
+      ElNotification({
+        message: "当前Ladder检测样本名：" + ladderSampleName,
+        type: "info",
+        showClose: true,
+        position: "top-right",
+        duration: "2000",
+        offset: 60,
+      });
+      // this.customLadderSampleName = false;
     },
     //设置输出结果文件为中文
     switchReceiveStatus1(val) {
@@ -5491,5 +5527,9 @@ i.el-icon.el-icon--upload {
 .leftText {
   display: flex;
   align-items: center;
+}
+.el-input-group__append .custom-button {
+  background-color: #409EFF !important;
+  color:white !important;
 }
 </style>
