@@ -369,13 +369,13 @@ export default {
   methods: {
     // 根据不同操作系统设置默认值
     outputFormat(){
-      if(process.platform == "darwin"){
-        return "UTF-8"
-      }else if(process.platform == "win32"){
-        return "GBK"
-      }else if(process.platform =="linux"){
-        return "UTF-8"
+      const platformEncodingMap = {
+        darwin:'UTF-8',
+        win32:'GBK',
+        linux:'UTF-8'
       }
+      const platform = process.platform
+      return platformEncodingMap[platform] || "UTF-8"
     },
     // 添加帮助跳转方法
     help() {
