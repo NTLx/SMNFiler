@@ -565,8 +565,47 @@ export default {
       console.log("字体文件状态", data.data.fontStatus);
       console.log("生成html文件", data.data.htmlStatus);
       this.tableData = "";
+      // 创建 Date 对象并传入时间戳
+      var date = new Date();
+
+      // 使用 Date 对象的方法获取日期和时间信息
+      var year = date.getFullYear(); // 年份
+      var month = date.getMonth() + 1; // 月份（注意月份从 0 开始，所以要加 1）
+      var day = date.getDate(); // 日期
+      var hours = date.getHours(); // 小时
+      var minutes = date.getMinutes(); // 分钟
+      var seconds = date.getSeconds(); // 秒
       var file = data.file;
       var path = require("path");
+      // 格式化日期和时间
+      var formattedDateTime = `${year}_${month}_${day}_${hours}_${minutes}_${seconds}`;
+      if (process.platform === "darwin") {
+        var inputFile = path.dirname(file.path);
+      } else if (process.platform === "win32") {
+        var inputFile = file.path.substring(
+          0,
+          file.path.lastIndexOf("\\") + 1
+        );
+      } else if (process.platform === "linux") {
+        var inputFile = file.path.substring(
+          0,
+          file.path.lastIndexOf("\\") + 1
+        );
+      }
+
+      var inputFileNameWithOutSuffix = file.name.substring(
+        0,
+        file.name.lastIndexOf(".")
+      );
+      console.log("inputFileNameWithOutSuffix", inputFileNameWithOutSuffix);
+      var generateDataFolder =
+        inputFileNameWithOutSuffix + "." + formattedDateTime;
+      var outputDirectry = path.join(
+        inputFile,
+        generateDataFolder
+      );
+      console.log("outputDirectry",outputDirectry)
+      
       var log = window.require("electron-log");
       log.transports.console.level = "silly";
       var app = window.require("@electron/remote").app;
@@ -621,7 +660,8 @@ export default {
                   " " +
                   language +
                   " " +
-                  fileTypeParameter,
+                  fileTypeParameter +
+                  " -o "+ outputDirectry,
                 (error, stdout, stderr) => {
                   if (error || stderr) {
                     const notice =
@@ -665,43 +705,11 @@ export default {
                     console.log("stdout:\n" + stdout);
                     if (fileType !== "summaryFile") {
                       this.changeTab();
-                      //处理生成的SummaryFile
-                      if (process.platform === "darwin") {
-                        var inputFile = path.dirname(file.path);
-                      } else if (process.platform === "win32") {
-                        var inputFile = file.path.substring(
-                          0,
-                          file.path.lastIndexOf("\\") + 1
-                        );
-                      } else if (process.platform === "linux") {
-                        var inputFile = file.path.substring(
-                          0,
-                          file.path.lastIndexOf("\\") + 1
-                        );
-                      }
-
-                      // 获取年月日
-                      var date = new Date();
-                      const year = date.getFullYear(); // 获取年份，例如：2023
-                      const month = date.getMonth() + 1; // 获取月份，注意月份从0开始，所以需要加1，例如：7
-                      const day = date.getDate(); // 获取日期，例如：12
-                      const formattedDate = `${year}_${month}_${day}`;
                       // 去除文件后缀
-                      var inputFileNameWithOutSuffix = file.name.substring(
-                        0,
-                        file.name.lastIndexOf(".")
-                      );
-                      console.log("inputFile", inputFileNameWithOutSuffix);
-                      var generateDataFolder =
-                        inputFileNameWithOutSuffix + "." + formattedDate;
-                      var outputDirectry = path.join(
-                        inputFile,
-                        generateDataFolder
-                      );
                       if (fileType == "summaryFileAndReportFile") {
                         // 解析summary文件
                         var outPutFileName =
-                          generateDataFolder +
+                          inputFileNameWithOutSuffix +
                           "." +
                           outputFormat +
                           ".Summary.tsv";
@@ -744,7 +752,7 @@ export default {
                       } else {
                         // 生成画图文件路径
                         const outputFigureFile =
-                          generateDataFolder +
+                          inputFileNameWithOutSuffix +
                           "." +
                           outputFormat +
                           ".figure.tsv";
@@ -801,7 +809,8 @@ export default {
                   " -n " +
                   ntcName +
                   " " +
-                  fileTypeParameter,
+                  fileTypeParameter +
+                  " -o "+ outputDirectry,
                 (error, stdout, stderr) => {
                   if (error || stderr) {
                     const notice =
@@ -845,43 +854,10 @@ export default {
                     console.log("stdout:\n" + stdout);
                     if (fileType !== "summaryFile") {
                       this.changeTab();
-                      //处理生成的SummaryFile
-                      if (process.platform === "darwin") {
-                        var inputFile = path.dirname(file.path);
-                      } else if (process.platform === "win32") {
-                        var inputFile = file.path.substring(
-                          0,
-                          file.path.lastIndexOf("\\") + 1
-                        );
-                      } else if (process.platform === "linux") {
-                        var inputFile = file.path.substring(
-                          0,
-                          file.path.lastIndexOf("\\") + 1
-                        );
-                      }
-
-                      // 获取年月日
-                      var date = new Date();
-                      const year = date.getFullYear(); // 获取年份，例如：2023
-                      const month = date.getMonth() + 1; // 获取月份，注意月份从0开始，所以需要加1，例如：7
-                      const day = date.getDate(); // 获取日期，例如：12
-                      const formattedDate = `${year}_${month}_${day}`;
-                      // 去除文件后缀
-                      var inputFileNameWithOutSuffix = file.name.substring(
-                        0,
-                        file.name.lastIndexOf(".")
-                      );
-                      console.log("inputFile", inputFileNameWithOutSuffix);
-                      var generateDataFolder =
-                        inputFileNameWithOutSuffix + "." + formattedDate;
-                      var outputDirectry = path.join(
-                        inputFile,
-                        generateDataFolder
-                      );
                       if (fileType == "summaryFileAndReportFile") {
                         // 解析summary文件
                         var outPutFileName =
-                          generateDataFolder +
+                          inputFileNameWithOutSuffix +
                           "." +
                           outputFormat +
                           ".Summary.tsv";
@@ -924,7 +900,7 @@ export default {
                       } else {
                         // 生成画图文件路径
                         const outputFigureFile =
-                          generateDataFolder +
+                          inputFileNameWithOutSuffix +
                           "." +
                           outputFormat +
                           ".figure.tsv";
@@ -983,7 +959,8 @@ export default {
                   " -d " +
                   ladderName +
                   " " +
-                  fileTypeParameter,
+                  fileTypeParameter +
+                  " -o "+ outputDirectry,
                 (error, stdout, stderr) => {
                   if (error || stderr) {
                     const notice =
@@ -1027,42 +1004,10 @@ export default {
                     console.log("stdout:\n" + stdout);
                     if (fileType !== "summaryFile") {
                       this.changeTab();
-                      //处理生成的SummaryFile
-                      if (process.platform === "darwin") {
-                        var inputFile = path.dirname(file.path);
-                      } else if (process.platform === "win32") {
-                        var inputFile = file.path.substring(
-                          0,
-                          file.path.lastIndexOf("\\") + 1
-                        );
-                      } else if (process.platform === "linux") {
-                        var inputFile = file.path.substring(
-                          0,
-                          file.path.lastIndexOf("\\") + 1
-                        );
-                      }
-                      // 获取年月日
-                      var date = new Date();
-                      const year = date.getFullYear(); // 获取年份，例如：2023
-                      const month = date.getMonth() + 1; // 获取月份，注意月份从0开始，所以需要加1，例如：7
-                      const day = date.getDate(); // 获取日期，例如：12
-                      const formattedDate = `${year}_${month}_${day}`;
-                      // 去除文件后缀
-                      var inputFileNameWithOutSuffix = file.name.substring(
-                        0,
-                        file.name.lastIndexOf(".")
-                      );
-                      console.log("inputFile", inputFileNameWithOutSuffix);
-                      var generateDataFolder =
-                        inputFileNameWithOutSuffix + "." + formattedDate;
-                      var outputDirectry = path.join(
-                        inputFile,
-                        generateDataFolder
-                      );
                       if (fileType == "summaryFileAndReportFile") {
                         // 解析summary文件
                         var outPutFileName =
-                          generateDataFolder +
+                          inputFileNameWithOutSuffix +
                           "." +
                           outputFormat +
                           ".Summary.tsv";
@@ -1105,7 +1050,7 @@ export default {
                       } else {
                         // 生成画图文件路径
                         const outputFigureFile =
-                          generateDataFolder +
+                          inputFileNameWithOutSuffix +
                           "." +
                           outputFormat +
                           ".figure.tsv";
@@ -1164,7 +1109,8 @@ export default {
                   " -d " +
                   ladderName +
                   " " +
-                  fileTypeParameter,
+                  fileTypeParameter+
+                  " -o "+ outputDirectry,
                 (error, stdout, stderr) => {
                   if (error || stderr) {
                     const notice =
@@ -1208,42 +1154,10 @@ export default {
                     console.log("stdout:\n" + stdout);
                     if (fileType !== "summaryFile") {
                       this.changeTab();
-                      //处理生成的SummaryFile
-                      if (process.platform === "darwin") {
-                        var inputFile = path.dirname(file.path);
-                      } else if (process.platform === "win32") {
-                        var inputFile = file.path.substring(
-                          0,
-                          file.path.lastIndexOf("\\") + 1
-                        );
-                      } else if (process.platform === "linux") {
-                        var inputFile = file.path.substring(
-                          0,
-                          file.path.lastIndexOf("\\") + 1
-                        );
-                      }
-                      // 获取年月日
-                      var date = new Date();
-                      const year = date.getFullYear(); // 获取年份，例如：2023
-                      const month = date.getMonth() + 1; // 获取月份，注意月份从0开始，所以需要加1，例如：7
-                      const day = date.getDate(); // 获取日期，例如：12
-                      const formattedDate = `${year}_${month}_${day}`;
-                      // 去除文件后缀
-                      var inputFileNameWithOutSuffix = file.name.substring(
-                        0,
-                        file.name.lastIndexOf(".")
-                      );
-                      console.log("inputFile", inputFileNameWithOutSuffix);
-                      var generateDataFolder =
-                        inputFileNameWithOutSuffix + "." + formattedDate;
-                      var outputDirectry = path.join(
-                        inputFile,
-                        generateDataFolder
-                      );
                       if (fileType == "summaryFileAndReportFile") {
                         // 解析summary文件
                         var outPutFileName =
-                          generateDataFolder +
+                          inputFileNameWithOutSuffix +
                           "." +
                           outputFormat +
                           ".Summary.tsv";
@@ -1286,7 +1200,7 @@ export default {
                       } else {
                         // 生成画图文件路径
                         const outputFigureFile =
-                          generateDataFolder +
+                          inputFileNameWithOutSuffix +
                           "." +
                           outputFormat +
                           ".figure.tsv";
@@ -1351,7 +1265,8 @@ export default {
                   " " +
                   language +
                   " " +
-                  fileTypeParameter,
+                  fileTypeParameter+
+                  " -o "+ outputDirectry,
                 (error, stdout, stderr) => {
                   if (error || stderr) {
                     const notice =
@@ -1396,35 +1311,8 @@ export default {
                     if (fileType !== "summaryFile") {
                       this.changeTab();
                       //处理生成的SummaryFile
-                      if (process.platform === "darwin") {
-                        var inputFile = path.dirname(file.path);
-                      } else if (process.platform === "win32") {
-                        var inputFile = file.path.substring(
-                          0,
-                          file.path.lastIndexOf("\\") + 1
-                        );
-                      } else if (process.platform === "linux") {
-                        var inputFile = file.path.substring(
-                          0,
-                          file.path.lastIndexOf("\\") + 1
-                        );
-                      }
-                      // 获取年月日
-                      var date = new Date();
-                      const year = date.getFullYear(); // 获取年份，例如：2023
-                      const month = date.getMonth() + 1; // 获取月份，注意月份从0开始，所以需要加1，例如：7
-                      const day = date.getDate(); // 获取日期，例如：12
-                      const formattedDate = `${year}-${month}-${day}`;
-                      // 去除文件后缀
-                      var inputFileNameWithOutSuffix = file.name.substring(
-                        0,
-                        file.name.lastIndexOf(".")
-                      );
-                      console.log("inputFile", inputFileNameWithOutSuffix);
-                      var generateDataFolder =
-                        inputFileNameWithOutSuffix + "." + formattedDate;
                       var outPutFileName =
-                        generateDataFolder +
+                        inputFileNameWithOutSuffix +
                         "." +
                         outputFormat +
                         ".Summary.tsv";
@@ -1434,10 +1322,6 @@ export default {
                         outPutFileName
                       );
                       console.log("summaryFile", summaryFile);
-                      var outputDirectry = path.join(
-                        inputFile,
-                        generateDataFolder
-                      );
                       console.log("outputDirectry", outputDirectry);
                       this.outputDirectry = outputDirectry;
                       var xlsx = window.require("node-xlsx");
@@ -1487,7 +1371,8 @@ export default {
                   " -n " +
                   ntcName +
                   " " +
-                  fileTypeParameter,
+                  fileTypeParameter+
+                  " -o "+ outputDirectry,
                 (error, stdout, stderr) => {
                   if (error || stderr) {
                     const notice =
@@ -1531,36 +1416,8 @@ export default {
                     console.log("stdout:\n" + stdout);
                     if (fileType !== "summaryFile") {
                       this.changeTab();
-                      //处理生成的SummaryFile
-                      if (process.platform === "darwin") {
-                        var inputFile = path.dirname(file.path);
-                      } else if (process.platform === "win32") {
-                        var inputFile = file.path.substring(
-                          0,
-                          file.path.lastIndexOf("\\") + 1
-                        );
-                      } else if (process.platform === "linux") {
-                        var inputFile = file.path.substring(
-                          0,
-                          file.path.lastIndexOf("\\") + 1
-                        );
-                      }
-                      // 获取年月日
-                      var date = new Date();
-                      const year = date.getFullYear(); // 获取年份，例如：2023
-                      const month = date.getMonth() + 1; // 获取月份，注意月份从0开始，所以需要加1，例如：7
-                      const day = date.getDate(); // 获取日期，例如：12
-                      const formattedDate = `${year}-${month}-${day}`;
-                      // 去除文件后缀
-                      var inputFileNameWithOutSuffix = file.name.substring(
-                        0,
-                        file.name.lastIndexOf(".")
-                      );
-                      console.log("inputFile", inputFileNameWithOutSuffix);
-                      var generateDataFolder =
-                        inputFileNameWithOutSuffix + "." + formattedDate;
                       var outPutFileName =
-                        generateDataFolder +
+                        inputFileNameWithOutSuffix +
                         "." +
                         outputFormat +
                         ".Summary.tsv";
@@ -1570,10 +1427,6 @@ export default {
                         outPutFileName
                       );
                       console.log("summaryFile", summaryFile);
-                      var outputDirectry = path.join(
-                        inputFile,
-                        generateDataFolder
-                      );
                       console.log("outputDirectry", outputDirectry);
                       this.outputDirectry = outputDirectry;
                       var xlsx = window.require("node-xlsx");
@@ -1623,7 +1476,8 @@ export default {
                   " -d " +
                   ladderName +
                   " " +
-                  fileTypeParameter,
+                  fileTypeParameter+
+                  " -o "+ outputDirectry,
                 (error, stdout, stderr) => {
                   if (error || stderr) {
                     const notice =
@@ -1667,36 +1521,8 @@ export default {
                     console.log("stdout:\n" + stdout);
                     if (fileType !== "summaryFile") {
                       this.changeTab();
-                      //处理生成的SummaryFile
-                      if (process.platform === "darwin") {
-                        var inputFile = path.dirname(file.path);
-                      } else if (process.platform === "win32") {
-                        var inputFile = file.path.substring(
-                          0,
-                          file.path.lastIndexOf("\\") + 1
-                        );
-                      } else if (process.platform === "linux") {
-                        var inputFile = file.path.substring(
-                          0,
-                          file.path.lastIndexOf("\\") + 1
-                        );
-                      }
-                      // 获取年月日
-                      var date = new Date();
-                      const year = date.getFullYear(); // 获取年份，例如：2023
-                      const month = date.getMonth() + 1; // 获取月份，注意月份从0开始，所以需要加1，例如：7
-                      const day = date.getDate(); // 获取日期，例如：12
-                      const formattedDate = `${year}-${month}-${day}`;
-                      // 去除文件后缀
-                      var inputFileNameWithOutSuffix = file.name.substring(
-                        0,
-                        file.name.lastIndexOf(".")
-                      );
-                      console.log("inputFile", inputFileNameWithOutSuffix);
-                      var generateDataFolder =
-                        inputFileNameWithOutSuffix + "." + formattedDate;
                       var outPutFileName =
-                        generateDataFolder +
+                        inputFileNameWithOutSuffix +
                         "." +
                         outputFormat +
                         ".Summary.tsv";
@@ -1706,10 +1532,6 @@ export default {
                         outPutFileName
                       );
                       console.log("summaryFile", summaryFile);
-                      var outputDirectry = path.join(
-                        inputFile,
-                        generateDataFolder
-                      );
                       console.log("outputDirectry", outputDirectry);
                       this.outputDirectry = outputDirectry;
                       var xlsx = window.require("node-xlsx");
@@ -1761,7 +1583,8 @@ export default {
                   " -d " +
                   ladderName +
                   " " +
-                  fileTypeParameter,
+                  fileTypeParameter+
+                  " -o "+ outputDirectry,
                 (error, stdout, stderr) => {
                   if (error || stderr) {
                     const notice =
@@ -1805,36 +1628,8 @@ export default {
                     console.log("stdout:\n" + stdout);
                     if (fileType !== "summaryFile") {
                       this.changeTab();
-                      //处理生成的SummaryFile
-                      if (process.platform === "darwin") {
-                        var inputFile = path.dirname(file.path);
-                      } else if (process.platform === "win32") {
-                        var inputFile = file.path.substring(
-                          0,
-                          file.path.lastIndexOf("\\") + 1
-                        );
-                      } else if (process.platform === "linux") {
-                        var inputFile = file.path.substring(
-                          0,
-                          file.path.lastIndexOf("\\") + 1
-                        );
-                      }
-                      // 获取年月日
-                      var date = new Date();
-                      const year = date.getFullYear(); // 获取年份，例如：2023
-                      const month = date.getMonth() + 1; // 获取月份，注意月份从0开始，所以需要加1，例如：7
-                      const day = date.getDate(); // 获取日期，例如：12
-                      const formattedDate = `${year}-${month}-${day}`;
-                      // 去除文件后缀
-                      var inputFileNameWithOutSuffix = file.name.substring(
-                        0,
-                        file.name.lastIndexOf(".")
-                      );
-                      console.log("inputFile", inputFileNameWithOutSuffix);
-                      var generateDataFolder =
-                        inputFileNameWithOutSuffix + "." + formattedDate;
                       var outPutFileName =
-                        generateDataFolder +
+                        inputFileNameWithOutSuffix +
                         "." +
                         outputFormat +
                         ".Summary.tsv";
@@ -1844,10 +1639,6 @@ export default {
                         outPutFileName
                       );
                       console.log("summaryFile", summaryFile);
-                      var outputDirectry = path.join(
-                        inputFile,
-                        generateDataFolder
-                      );
                       console.log("outputDirectry", outputDirectry);
                       this.outputDirectry = outputDirectry;
                       var xlsx = window.require("node-xlsx");
@@ -2853,8 +2644,6 @@ ${pictureScript}
               } else {
                 content2[index] = content1[index];
               }
-
-              console.log("content2[index]", content2[index]);
               var fs = window.require("fs");
               fs.writeFile(
                 htmlPathAndName[index],
@@ -5077,7 +4866,6 @@ ${pictureScript}
               } else if (data1.data.selectReport == "other") {
                 content2[index] = content1[index];
               }
-              console.log("content2[index]", content2[index]);
               var fs = window.require("fs");
               fs.writeFile(
                 htmlPathAndName[index],
