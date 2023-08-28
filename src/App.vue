@@ -381,7 +381,7 @@ export default {
     help() {
       const { shell } = window.require("electron");
       shell.openExternal(
-        "https://alidocs.dingtalk.com/i/p/O1pMzNRlRQ0zBnePb6Vz64d8RP2K1mZ9"
+        "https://alidocs.dingtalk.com/i/p/b6Vz6P44NlKnYmZ9/docs/20eMKjyp81xLM6k7SarGeNMMJxAZB1Gv"
       );
     },
     // 下载样本数据窗口方法
