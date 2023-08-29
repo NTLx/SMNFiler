@@ -220,17 +220,6 @@
                 </el-input>
               </el-col>
               <el-col :span="1"></el-col>
-              <!-- <el-col :span="8" class="leftText">
-                <span style="radio-label">格式：</span>
-                <el-radio-group
-                  v-model="radio1"
-                  @change="switchFileFormat"
-                  size="large"
-                >
-                  <el-radio-button label="UTF-8"></el-radio-button>
-                  <el-radio-button label="GBK"></el-radio-button>
-                </el-radio-group>
-              </el-col> -->
               <el-col :span="11">
                 <el-switch
                   v-model="value1"
@@ -4630,29 +4619,11 @@ ${pictureScript}
     //设置输出结果文件为中文
     switchReceiveStatus1(val) {
       this.uploadParams.language = val;
-      if (this.uploadParams.language == "-l") {
-        console.log("设置中文");
-        this.radio1 = "GBK";
-        // this.uploadParams.outputFormat=="GBK"
-      } else {
-        this.radio1 = "UTF-8";
-        // this.uploadParams.outputFormat=="UTF-8"
-      }
     },
     //峰面积
     // switchReceiveStatus2(val) {
     //   this.uploadParams.peakStatus = val;
     // },
-    //文件格式转换GBK，UTF-8
-    switchFileFormat(val) {
-      console.log("输出文件格式", val);
-      this.uploadParams.outputFormat = val;
-      if (val == "GBK") {
-        this.value1 = "-l";
-      } else {
-        this.value1 = " ";
-      }
-    },
     //切换输出文件种类
     switchFileType(val) {
       if (val == "summaryFileAndReportFile") {
