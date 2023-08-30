@@ -18,7 +18,7 @@ Suitable for Mac OS X (x64 platform) and Windows.
 
 `Portable` package can run without installation.
 
-[Download Portable for win](https://github.com/NTLx/SMNFiler/releases/download/v0.6.0/SMNFiler.v0.6.0.Win_Portable.exe)
+[Download Portable for win](https://github.com/NTLx/SMNFiler/releases/download/v0.7.0/SMNFiler.v0.7.0.Win_Portable.exe)
 
 > [Download mirror](http://cloud.cubicise.com:10081/s/8GRKCowfwqoLji8) for China user.
 
@@ -40,7 +40,7 @@ Move app to `Application` :
 
 Drag file(s) to process region (means `文件处理区`), or just click this region to select a file.
 
-> input file format: only support `txt` and `csv`
+> input file format: only support `txt` and `csv`.
 
 By default, the output will be splited according to sample names, and the result file(s) will be output to the dir where the input file comes from.
 
@@ -56,24 +56,25 @@ Press the blue button `下载样本信息文件` to download sample template fil
 
 ![uploadWindow](https://cdn.jsdelivr.net/gh/Letmeouted/PCPicture/Snipaste_2023-08-15_10-18-32.png)
 
-If you select the option `结果文件和报告` or `结果文件和含图片报告` in the output file category in the settings, the `设置` tab will automatically jump to the `GeneMapper下机数据上传` tab.The `样本信息数据上传` tab will be displayed after uploading the GeneMapper data file.Click the upload button to upload the sample information file, and then the report file can be output normally (the report file will be automatically generated in the folder of the result file, and the folder will be automatically generated according to the file name to store the report file). When the output includes a figure report file, the figure is drawn from a data file ending in .figure.tsv,the generated report file with pictures will be generated in the folder where the result file is located.
+>The default setting type is `结果文件`.
+
+>If you select the option `结果文件和报告` or `结果文件和含图片报告` in the output file category in the settings, the `设置` tab will automatically jump to the `GeneMapper下机数据上传` tab.The `样本信息数据上传` tab will be displayed after uploading the GeneMapper data file.Click the upload button to upload the sample information file, and then the report file can be output normally (the report file will be automatically generated in the folder of the result file, and the folder will be automatically generated according to the file name to store the report file). When the output includes a figure report file, the figure is drawn from a data file ending in .figure.tsv,the generated report file with pictures will be generated in the folder where the result file is located.
 
 ### Settings
 
 Several settings was offered in `设置面板` , defaut settings should be like this:
 
-![each sample output](https://cdn.jsdelivr.net/gh/Letmeouted/PCPicture/Snipaste_2023-08-15_10-17-28.png)
+![each sample output](https://cdn.jsdelivr.net/gh/Letmeouted/PCPicture/Snipaste_2023-08-30_08-49-02.png)
 
+The default output file format is "GBK" in the windows environment.
 
-By default, the output result will be English,the default encode was set to `UTF-8`.If you need Chinese,you can turn on the `结果文件为中文` switch button，then the encode was set to `GBK`.
+By default, the output result will be English, If you need Chinese,you can turn on the `结果文件为中文` switch button.
 
 The custom standard sample name in the default output result file is `STD`.If you need to customize the standard sample name, please click `自定义STD` button  to customize.
 
 The custom NCT test sample name in the default output result file is null.If you need to customize the NTC test sample name, please click `自定义NTC检测` button  to customize.
 
 The custom Ladder test sample name in the default output result file is null.If you need to customize the Ladder test sample name, please click `自定义Ladder检测` button  to customize.
-
-
 
 The default output file type only includes result files. If you want to output report files, please select the `输出结果文件和报告` option. If you want to output a report file (with pictures), please select the `输出结果文件和含图片报告` option.
 
@@ -85,7 +86,7 @@ Users can set specific settings for the font of the generated report file and th
 
 ## Log
 
-The log panel is as shown
+The log panel is as shown.
 
 ![log](https://cdn.jsdelivr.net/gh/Letmeouted/PCPicture/Snipaste_2023-08-15_10-23-20.png)
 
