@@ -178,26 +178,28 @@
             </el-row>
             <el-row class="fileSetting">
               <el-col :span="12">
-                <el-input v-model="ntcSampleName" placeholder="NTC检测样本名">
+                <el-input v-model="ntcSampleName" placeholder="NTC检测样本名" size="large">
                   <template #append>
                     <el-button
                       type="primary"
                       class="custom-button"
                       @click="saveNTCSampleName"
-                      >应用NTC检测样本名</el-button
+                      size="large"
+                      >应用</el-button
                     >
                   </template>
                 </el-input>
               </el-col>
               <el-col :span="1"></el-col>
               <el-col :span="11">
-                <el-input v-model="sampleName" placeholder="样本名默认为STD">
+                <el-input v-model="sampleName" placeholder="样本名默认为STD" size="large">
                   <template #append>
                     <el-button
                       type="primary"
                       @click="saveSampleName"
                       class="custom-button"
-                      >应用标准品样本名</el-button
+                      size="large"
+                      >应用</el-button
                     >
                   </template>
                 </el-input>
@@ -208,13 +210,15 @@
                 <el-input
                   v-model="ladderSampleName"
                   placeholder="Ladder检测样本名"
+                  size="large"
                 >
                   <template #append>
                     <el-button
                       type="primary"
                       @click="saveLadderSampleName"
                       class="custom-button"
-                      >应用Ladder检测样本名</el-button
+                      size="large"
+                      >应用</el-button
                     >
                   </template>
                 </el-input>
