@@ -69,16 +69,23 @@
                     >帮助</a
                   ></el-button
                 > -->
-                <el-button type="warning" @click="help"
-                  ><el-icon><QuestionFilled /></el-icon>帮助</el-button
-                >
+                <el-tooltip class="box-item" content="跳转至帮助文档" effect="light">
+                  <el-button type="warning" @click="help" size="large"
+                  ><el-icon><QuestionFilled /></el-icon>帮助</el-button>
+                </el-tooltip>
               </div>
             </el-col>
             <el-col :span="12"
               ><div class="downloadButton">
-                <el-button type="primary" @click="download">
-                  <el-icon><Download /></el-icon>下载样本信息模版
+                <el-tooltip
+                  class="box-item"
+                  content="下载样本信息模版文件"
+                  effect="light"
+                >
+                  <el-button type="primary" @click="download" size="large">
+                  <el-icon><Download /></el-icon>模版
                 </el-button>
+                </el-tooltip>
               </div>
             </el-col>
           </el-row>
@@ -104,9 +111,11 @@
             }"
             :before-upload="beforeSampleInformationUpload"
           >
-            <el-button type="primary" class="uploadSampleData"
-              >上传样本信息数据</el-button
+          <el-tooltip class="box-item" content="上传样本信息文件" effect="light" placement="right">
+            <el-button type="primary" class="uploadSampleData" size="large"
+              ><el-icon><Upload /></el-icon>上传</el-button
             >
+          </el-tooltip>
             <template #tip>
               <div class="el-upload__tip">
                 样本信息数据文件后缀格式必须为xlsx/xls
