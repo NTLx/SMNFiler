@@ -12,7 +12,7 @@
           name="first"
           v-if="showUploadGen"
         >
-          <div id="holder" class="holder" style="height: 519px">
+          <div id="holder" class="holder" style="height: 505px">
             <div>
               <el-upload
                 class="upload-demo"
@@ -330,7 +330,7 @@
 
 <script>
 /* eslint-disable */
-import { ElNotification } from "element-plus";
+import { ElNotification,ElLoading } from "element-plus";
 export default {
   data() {
     return {
@@ -484,7 +484,7 @@ export default {
           message: formatMessage,
           type: "error",
           position: "top-right",
-          duration: "0",
+          duration: "2000",
           offset: 60,
         });
         return false;
@@ -502,7 +502,7 @@ export default {
           message: formatMessage,
           type: "error",
           position: "top-right",
-          duration: "0",
+          duration: "2000",
           offset: 60,
         });
         return false;
@@ -556,6 +556,12 @@ export default {
     // 处理Genemapper下机数据调用可执行文件方法
     httpRequest(data) {
       console.log("自定义标准品样本名", data.data.stdName);
+      var loading = ElLoading.service({
+        lock: true,
+        text: "上传处理中",
+        background: "rgba(0, 0, 0, 0.7)",
+      });
+      console.log("loading",loading)
       var stdName = data.data.stdName;
       var language = data.data.language;
       var peakStatus = data.data.peakStatus;
@@ -656,6 +662,7 @@ export default {
               outputDirectry,
             (error, stdout, stderr) => {
               if (error || stderr) {
+                loading.close();
                 const notice = "输入下机数据文件" + file.name + "处理有误！";
                 log.error(
                   "\n" +
@@ -671,12 +678,13 @@ export default {
                   message: notice,
                   type: "error",
                   position: "top-right",
-                  duration: "0",
+                  duration: "2000",
                   offset: 60,
                 });
                 console.log("error:\n" + error);
                 console.log("stderr:\n" + stderr);
               } else if (stdout) {
+               loading.close();
                 const notice = "输入下机数据文件" + file.name + "处理完成";
                 log.info(
                   "\n" +
@@ -805,6 +813,7 @@ export default {
               outputDirectry,
             (error, stdout, stderr) => {
               if (error || stderr) {
+                loading.close();
                 const notice = "输入下机数据文件" + file.name + "处理有误！";
                 log.error(
                   "\n" +
@@ -820,12 +829,13 @@ export default {
                   message: notice,
                   type: "error",
                   position: "top-right",
-                  duration: "0",
+                  duration: "2000",
                   offset: 60,
                 });
                 console.log("error:\n" + error);
                 console.log("stderr:\n" + stderr);
               } else if (stdout) {
+                loading.close();
                 const notice = "输入下机数据文件" + file.name + "处理完成";
                 log.info(
                   "\n" +
@@ -955,6 +965,7 @@ export default {
               outputDirectry,
             (error, stdout, stderr) => {
               if (error || stderr) {
+                loading.close();
                 const notice = "输入下机数据文件" + file.name + "处理有误！";
                 log.error(
                   "\n" +
@@ -970,12 +981,13 @@ export default {
                   message: notice,
                   type: "error",
                   position: "top-right",
-                  duration: "0",
+                  duration: "2000",
                   offset: 60,
                 });
                 console.log("error:\n" + error);
                 console.log("stderr:\n" + stderr);
               } else if (stdout) {
+                loading.close();
                 const notice = "输入下机数据文件" + file.name + "处理完成";
                 log.info(
                   "\n" +
@@ -1105,6 +1117,7 @@ export default {
               outputDirectry,
             (error, stdout, stderr) => {
               if (error || stderr) {
+                loading.close();
                 const notice = "输入下机数据文件" + file.name + "处理有误！";
                 log.error(
                   "\n" +
@@ -1120,12 +1133,13 @@ export default {
                   message: notice,
                   type: "error",
                   position: "top-right",
-                  duration: "0",
+                  duration: "2000",
                   offset: 60,
                 });
                 console.log("error:\n" + error);
                 console.log("stderr:\n" + stderr);
               } else if (stdout) {
+                loading.close();
                 const notice = "输入下机数据文件" + file.name + "处理完成";
                 log.info(
                   "\n" +
@@ -1240,6 +1254,11 @@ export default {
     // 处理样本信息数据文件并生成报告
     httpRequest1(data1) {
       console.log("处理样本data1", data1);
+      var loading = ElLoading.service({
+        lock: true,
+        text: "上传处理中",
+        background: "rgba(0, 0, 0, 0.7)",
+      });
       var file = data1.file;
       console.log("file", file);
       var path = require("path");
@@ -2217,7 +2236,7 @@ ${pictureScript}
                         type: "error",
                         showClose: true,
                         position: "top-right",
-                        duration: "0",
+                        duration: "2000",
                         offset: 60,
                       });
                     }
@@ -2242,6 +2261,7 @@ ${pictureScript}
                         duration: "2000",
                         offset: 60,
                       });
+
                     }
                   }, 1000);
                   log.info(
@@ -2273,21 +2293,16 @@ ${pictureScript}
                       .printToPDF({})
                       .then((data) => {
                         fs.writeFile(pdfPathAndName[index], data, (error) => {
-                          if (error) throw error;
+                          if (error) {
+                            loading.close();
+                            throw error
+                          };
+                          loading.close();
                           var pdfnotice =
                             `Wrote ` +
                             pdfPathAndName.length +
                             ` PDF successfully`;
                           if (index == pdfPathAndName.length - 1) {
-                            //  mdui.snackbar({
-                            //      message: pdfnotice,
-                            //      onClosed: function () {
-                            //          console.log(file_path1[0])
-                            //         //  if (file_path1[0].indexOf('#') != -1 || file_path1[0].indexOf('&') != -1 || file_path1[0].indexOf('+') != -1 || file_path1[0].indexOf('=') != -1 || file_path1[0].indexOf('?') != -1 || file_path1[0].indexOf(' ') != -1) {
-                            //         //      mdui.alert('检测到您上传的文件或路径中存在特殊字符串或空格！请及时修改！否者会导致无法生成PDF报告的图片信息！');
-                            //         //  }
-                            //      }
-                            //  })
                             setTimeout(() => {
                               if (
                                 sampleFileNamePath.indexOf("#") != -1 ||
@@ -2304,7 +2319,7 @@ ${pictureScript}
                                   type: "warning",
                                   showClose: true,
                                   position: "top-right",
-                                  duration: "0",
+                                  duration: "2000",
                                   offset: 60,
                                 });
                               }
@@ -2349,7 +2364,7 @@ ${pictureScript}
                             type: "error",
                             showClose: true,
                             position: "top-right",
-                            duration: "0",
+                            duration: "2000",
                             offset: 60,
                           });
                         }
@@ -4439,7 +4454,7 @@ ${pictureScript}
                         type: "error",
                         showClose: true,
                         position: "top-right",
-                        duration: "0",
+                        duration: "2000",
                         offset: 60,
                       });
                     }
@@ -4525,7 +4540,7 @@ ${pictureScript}
                                   type: "warning",
                                   showClose: true,
                                   position: "top-right",
-                                  duration: "0",
+                                  duration: "2000",
                                   offset: 60,
                                 });
                               }
@@ -4569,7 +4584,7 @@ ${pictureScript}
                             type: "error",
                             showClose: true,
                             position: "top-right",
-                            duration: "0",
+                            duration: "2000",
                             offset: 60,
                           });
                         }
@@ -4586,6 +4601,16 @@ ${pictureScript}
           });
         });
       }
+    },
+    // 运行脚本后错误系统通知
+    errorNotification(fileName){
+      var path = require("path");
+      var pic = path.join(process.cwd(),"/resources/app256x256.png");
+      const options = {
+        icon:pic,
+        body: "当前处理输入文件："+fileName+"有误！\n具体详情请查看日志文件。"
+      }
+      const notification = new Notification("SMNFiler Error", options);
     },
     // 保存自定义样本名
     saveSampleName() {
@@ -4722,7 +4747,7 @@ ${pictureScript}
               type: "error",
               showClose: true,
               position: "top-right",
-              duration: "0",
+              duration: "2000",
               offset: 60,
             });
           } else {
@@ -4786,7 +4811,6 @@ ${pictureScript}
 .upload-demo .el-upload__tip {
   font-size: 15px;
   color: #708090;
-  margin-top: 0px;
 }
 .upload-demo1 {
   text-align: left;
