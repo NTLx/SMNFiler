@@ -4845,7 +4845,7 @@ a.help {
   font-size: 16px !important;
 }
 i.el-icon.el-icon--upload {
-  margin-top: 100px;
+  margin-top: 125px;
 }
 .leftText {
   display: flex;
