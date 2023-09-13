@@ -122,7 +122,7 @@
               </div>
             </template>
           </el-upload>
-          <el-table :data="tableData" style="width: 100%">
+          <el-table :data="tableData" style="width: 100%" height="480px">
             <el-table-column type="expand">
               <template #default="props">
                 <div m="18">
@@ -143,19 +143,19 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column prop="number" label="序号"></el-table-column>
-            <el-table-column prop="name" label="姓名"></el-table-column>
-            <el-table-column prop="sex" label="性别"></el-table-column>
+            <el-table-column prop="number" label="序号" align="center"></el-table-column>
+            <el-table-column prop="name" label="姓名" align="center"></el-table-column>
+            <el-table-column prop="sex" label="性别" align="center"></el-table-column>
             <el-table-column
               prop="medicalHistory"
-              label="简要病史"
+              label="简要病史" align="center"
             ></el-table-column>
             <el-table-column
               prop="sampleType"
-              label="样本类型"
+              label="样本类型" align="center"
             ></el-table-column>
-            <el-table-column prop="smn1" label="SMN1外显子7"></el-table-column>
-            <el-table-column prop="smn2" label="SMN2外显子7"></el-table-column>
+            <el-table-column prop="smn1" label="SMN1外显子7" align="center"></el-table-column>
+            <el-table-column prop="smn2" label="SMN2外显子7" align="center"></el-table-column>
           </el-table>
         </el-tab-pane>
         <el-tab-pane label="设置" name="third" class="setting">
