@@ -69,9 +69,14 @@
                     >帮助</a
                   ></el-button
                 > -->
-                <el-tooltip class="box-item" content="跳转至帮助文档" effect="light">
+                <el-tooltip
+                  class="box-item"
+                  content="跳转至帮助文档"
+                  effect="light"
+                >
                   <el-button type="warning" @click="help" size="large"
-                  ><el-icon><QuestionFilled /></el-icon>帮助</el-button>
+                    ><el-icon><QuestionFilled /></el-icon>帮助</el-button
+                  >
                 </el-tooltip>
               </div>
             </el-col>
@@ -83,8 +88,8 @@
                   effect="light"
                 >
                   <el-button type="primary" @click="download" size="large">
-                  <el-icon><Download /></el-icon>模版
-                </el-button>
+                    <el-icon><Download /></el-icon>模版
+                  </el-button>
                 </el-tooltip>
               </div>
             </el-col>
@@ -111,11 +116,16 @@
             }"
             :before-upload="beforeSampleInformationUpload"
           >
-          <el-tooltip class="box-item" content="上传样本信息文件" effect="light" placement="right">
-            <el-button type="primary" class="uploadSampleData" size="large"
-              ><el-icon><Upload /></el-icon>上传</el-button
+            <el-tooltip
+              class="box-item"
+              content="上传样本信息文件"
+              effect="light"
+              placement="right"
             >
-          </el-tooltip>
+              <el-button type="primary" class="uploadSampleData" size="large"
+                ><el-icon><Upload /></el-icon>上传</el-button
+              >
+            </el-tooltip>
             <template #tip>
               <div class="el-upload__tip">
                 样本信息数据文件后缀格式必须为xlsx/xls
@@ -143,19 +153,41 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column prop="number" label="序号" align="center"></el-table-column>
-            <el-table-column prop="name" label="姓名" align="center"></el-table-column>
-            <el-table-column prop="sex" label="性别" align="center"></el-table-column>
+            <el-table-column
+              prop="number"
+              label="序号"
+              align="center"
+            ></el-table-column>
+            <el-table-column
+              prop="name"
+              label="姓名"
+              align="center"
+            ></el-table-column>
+            <el-table-column
+              prop="sex"
+              label="性别"
+              align="center"
+            ></el-table-column>
             <el-table-column
               prop="medicalHistory"
-              label="简要病史" align="center"
+              label="简要病史"
+              align="center"
             ></el-table-column>
             <el-table-column
               prop="sampleType"
-              label="样本类型" align="center"
+              label="样本类型"
+              align="center"
             ></el-table-column>
-            <el-table-column prop="smn1" label="SMN1外显子7" align="center"></el-table-column>
-            <el-table-column prop="smn2" label="SMN2外显子7" align="center"></el-table-column>
+            <el-table-column
+              prop="smn1"
+              label="SMN1外显子7"
+              align="center"
+            ></el-table-column>
+            <el-table-column
+              prop="smn2"
+              label="SMN2外显子7"
+              align="center"
+            ></el-table-column>
           </el-table>
         </el-tab-pane>
         <el-tab-pane label="设置" name="third" class="setting">
@@ -187,7 +219,11 @@
             </el-row>
             <el-row class="fileSetting">
               <el-col :span="12">
-                <el-input v-model="ntcSampleName" placeholder="NTC检测样本名" size="large">
+                <el-input
+                  v-model="ntcSampleName"
+                  placeholder="NTC检测样本名"
+                  size="large"
+                >
                   <template #append>
                     <el-button
                       type="primary"
@@ -201,7 +237,11 @@
               </el-col>
               <el-col :span="1"></el-col>
               <el-col :span="11">
-                <el-input v-model="sampleName" placeholder="样本名默认为STD" size="large">
+                <el-input
+                  v-model="sampleName"
+                  placeholder="样本名默认为STD"
+                  size="large"
+                >
                   <template #append>
                     <el-button
                       type="primary"
@@ -330,7 +370,7 @@
 
 <script>
 /* eslint-disable */
-import { ElNotification,ElLoading } from "element-plus";
+import { ElNotification, ElLoading } from "element-plus";
 export default {
   data() {
     return {
@@ -561,7 +601,7 @@ export default {
         text: "上传处理中",
         background: "rgba(0, 0, 0, 0.7)",
       });
-      console.log("loading",loading)
+      console.log("loading", loading);
       var stdName = data.data.stdName;
       var language = data.data.language;
       var peakStatus = data.data.peakStatus;
@@ -684,7 +724,7 @@ export default {
                 console.log("error:\n" + error);
                 console.log("stderr:\n" + stderr);
               } else if (stdout) {
-               loading.close();
+                loading.close();
                 const notice = "输入下机数据文件" + file.name + "处理完成";
                 log.info(
                   "\n" +
@@ -2216,11 +2256,8 @@ ${pictureScript}
 </body>
 ${pictureScript}
 </html>`;
-              if (data1.data.selectReport == "default") {
-                content2[index] = content[index];
-              } else {
-                content2[index] = content1[index];
-              }
+              
+              content2[index] = (data1.data.selectReport =="default")?content[index]:content1[index]
               var fs = window.require("fs");
               fs.writeFile(
                 htmlPathAndName[index],
@@ -2229,7 +2266,6 @@ ${pictureScript}
                   if (err) {
                     var notice =
                       "[WARNING] 输入文件 " + sampleFileName + " 处理有误";
-
                     if (index == htmlPathAndName.length - 1) {
                       ElNotification({
                         message: notice,
@@ -2261,7 +2297,6 @@ ${pictureScript}
                         duration: "2000",
                         offset: 60,
                       });
-
                     }
                   }, 1000);
                   log.info(
@@ -2295,8 +2330,8 @@ ${pictureScript}
                         fs.writeFile(pdfPathAndName[index], data, (error) => {
                           if (error) {
                             loading.close();
-                            throw error
-                          };
+                            throw error;
+                          }
                           loading.close();
                           var pdfnotice =
                             `Wrote ` +
@@ -4434,11 +4469,7 @@ ${pictureScript}
 </body>
 ${pictureScript}
 </html>`;
-              if (data1.data.selectReport == "default") {
-                content2[index] = content[index];
-              } else if (data1.data.selectReport == "other") {
-                content2[index] = content1[index];
-              }
+             content2[index] = (data1.data.selectReport =="default")?content[index]:content1[index]
               var fs = window.require("fs");
               fs.writeFile(
                 htmlPathAndName[index],
@@ -4510,21 +4541,14 @@ ${pictureScript}
                       .printToPDF({})
                       .then((data) => {
                         fs.writeFile(pdfPathAndName[index], data, (error) => {
-                          if (error) throw error;
+                          if (error) throw error
+                          loading.close();
                           var pdfnotice =
                             `Wrote ` +
                             pdfPathAndName.length +
                             ` PDF successfully`;
+
                           if (index == pdfPathAndName.length - 1) {
-                            //  mdui.snackbar({
-                            //      message: pdfnotice,
-                            //      onClosed: function () {
-                            //          console.log(file_path1[0])
-                            //         //  if (file_path1[0].indexOf('#') != -1 || file_path1[0].indexOf('&') != -1 || file_path1[0].indexOf('+') != -1 || file_path1[0].indexOf('=') != -1 || file_path1[0].indexOf('?') != -1 || file_path1[0].indexOf(' ') != -1) {
-                            //         //      mdui.alert('检测到您上传的文件或路径中存在特殊字符串或空格！请及时修改！否者会导致无法生成PDF报告的图片信息！');
-                            //         //  }
-                            //      }
-                            //  })
                             setTimeout(() => {
                               if (
                                 sampleFileNamePath.indexOf("#") != -1 ||
@@ -4571,6 +4595,7 @@ ${pictureScript}
                                 );
                                 return;
                               }
+                              loading.close();
                               console.log("HTML File successfully deleted");
                             });
                           }
@@ -4588,6 +4613,7 @@ ${pictureScript}
                             offset: 60,
                           });
                         }
+                        loading.close();
                         log.error(
                           `Failed to write PDF ${pdfPathAndName[index]}`,
                           error
@@ -4603,13 +4629,14 @@ ${pictureScript}
       }
     },
     // 运行脚本后错误系统通知
-    errorNotification(fileName){
+    errorNotification(fileName) {
       var path = require("path");
-      var pic = path.join(process.cwd(),"/resources/app256x256.png");
+      var pic = path.join(process.cwd(), "/resources/app256x256.png");
       const options = {
-        icon:pic,
-        body: "当前处理输入文件："+fileName+"有误！\n具体详情请查看日志文件。"
-      }
+        icon: pic,
+        body:
+          "当前处理输入文件：" + fileName + "有误！\n具体详情请查看日志文件。",
+      };
       const notification = new Notification("SMNFiler Error", options);
     },
     // 保存自定义样本名
