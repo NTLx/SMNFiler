@@ -132,7 +132,7 @@
               </div>
             </template>
           </el-upload>
-          <el-table :data="tableData" style="width: 100%" id="mytable">
+          <el-table :data="tableData" style="width: 100%" id="myTable">
             <el-table-column type="expand">
               <template #default="props">
                 <div m="18">
@@ -430,6 +430,25 @@ export default {
         document.documentElement.clientWidth ||
         document.body.clientWidth
       );
+    },
+    //调节表格高度
+    adjustTableHeight() {
+      var table = document.getElementById("myTable");
+      var windowHeight = this.getWindowHeight();
+      var windowWidth = this.getWindowWidth();
+      if (table == null) {
+        console.log("nothing");
+        console.log("windowHeight", windowHeight);
+        console.log("windowWidth", windowWidth);
+      } else {
+        console.log("windowHeight", windowHeight);
+        console.log("windowWidth", windowWidth);
+        // console.log("table.offsetTop", table.offsetTop);
+        var tableHeight = windowHeight - table.offsetTop - 100;
+        table.style.height = tableHeight + "px";
+        var tableWidth = windowWidth - 20;
+        table.style.width = tableWidth + "px";
+      }
     },
     // 根据不同操作系统设置默认值
     outputFormat() {
@@ -1468,6 +1487,7 @@ export default {
         var outputFile = this.outputArr1;
         var outputDirectry = this.outputDirectry;
         console.log("outputDirectry", outputDirectry);
+        this.adjustTableHeight();
         this.lastOutput = [];
         for (var k = 0; k < outputFile.length; k++) {
           this.lastOutput.push({
@@ -2433,6 +2453,7 @@ ${pictureScript}
           });
         });
       } else if (data1.data.fileType == "summaryFileAndReportPictureFile") {
+        this.adjustTableHeight();
         console.log("结果和含图片的报告文件");
         var figureFile = this.outputFigureArr1;
         var outputDirectry = this.outputDirectry;
@@ -4821,6 +4842,9 @@ ${pictureScript}
         }
       );
     },
+  },
+  mounted() {
+    window.addEventListener("resize", this.adjustTableHeight);
   },
 };
 </script>
