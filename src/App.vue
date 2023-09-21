@@ -132,7 +132,7 @@
               </div>
             </template>
           </el-upload>
-          <el-table :data="tableData" style="width: 100%" height="480px">
+          <el-table :data="tableData" style="width: 100%" id="mytable">
             <el-table-column type="expand">
               <template #default="props">
                 <div m="18">
@@ -157,6 +157,7 @@
               prop="number"
               label="序号"
               align="center"
+              fixed
             ></el-table-column>
             <el-table-column
               prop="name"
@@ -414,6 +415,22 @@ export default {
     };
   },
   methods: {
+    // 获取浏览器窗口高度
+    getWindowHeight() {
+      return (
+        window.innerHeight ||
+        document.documentElement.clientHeight ||
+        document.body.clientHeight
+      );
+    },
+    // 获取浏览器窗口宽度
+    getWindowWidth() {
+      return (
+        window.innerWidth ||
+        document.documentElement.clientWidth ||
+        document.body.clientWidth
+      );
+    },
     // 根据不同操作系统设置默认值
     outputFormat() {
       const platformEncodingMap = {
