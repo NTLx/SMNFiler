@@ -2528,7 +2528,6 @@ export default {
                               duration: "2000",
                               offset: 60,
                             });
-                            loading.close();
                           }
                           log.info(
                             "\n" +
@@ -2547,7 +2546,10 @@ export default {
                                 );
                                 return;
                               }
-                              console.log("HTML File successfully deleted");
+                              if(index == pdfPathAndName.length - 1){
+                                loading.close();
+                                console.log("HTML File successfully deleted");
+                              }
                             });
                           }
                           window_to_PDF1[index].close();
@@ -4742,7 +4744,6 @@ export default {
                               duration: "2000",
                               offset: 60,
                             });
-                            loading.close();
                           }
                           log.info(
                             "\n" +
@@ -4752,6 +4753,8 @@ export default {
                               "成功生成PDF文件：" +
                               pdfName[index]
                           );
+
+                          // loading.close();
                           if (data1.data.htmlStatus == 0) {
                             fs.unlink(htmlPathAndName[index], function (err) {
                               if (err) {
@@ -4761,8 +4764,11 @@ export default {
                                 );
                                 return;
                               }
-                              loading.close();
-                              console.log("HTML File successfully deleted");
+                              if(index == pdfPathAndName.length - 1){
+                                loading.close()
+                                console.log("HTML File successfully deleted");
+                              }
+                              
                             });
                           }
                           window_to_PDF1[index].close();
