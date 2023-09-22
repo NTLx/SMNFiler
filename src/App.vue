@@ -1380,108 +1380,228 @@ export default {
       var content = [];
       var content1 = [];
       var content2 = [];
+      var number = [];
+      var customerName = [];
+      var sex = [];
+      var clinicNumber = [];
+      var hospitalNumber = [];
+      var phone = [];
+      var inspectionDepartment = [];
+      var inspectionDoctor = [];
+      var medicalHistory = [];
+      var samplingDate = [];
+      var inspectionDate = [];
+      var reportDate = [];
+      var inspectionEntity = [];
+      var sampleType = [];
+      var inspector = [];
+      var checker = [];
+      var smn1 = [];
+      var smn2 = [];
+      var conclude = [];
       // var docx = [];
       // var header1 = [];
       // var header2=  [];
       // var footer2= [];
-      for (var j = 1; j < sampleSheetsData.length; j++) {
+      for (var j = 0; j < sampleSheetsData.length; j++) {
         sampleLineData.push(sampleSheetsData[j]);
         console.log("sampleLineData", sampleLineData);
       }
       console.log("sampleLineData1", sampleLineData);
-      const objArr = sampleLineData.map((item) => {
-        //采样日期调用日期格式转换方法
-        console.log("采样日期", item[9]);
-        var newSamplingDate = this.formatDate2(item[9]);
-        //检验日期调用日期格式转换方法
-        console.log("检验日期", item[10]);
-        var newInspectionDate = this.formatDate2(item[10]);
-        //报告日期调用日期格式转换方法
-        console.log("报告日期", item[11]);
-        var newReportDate = this.formatDate2(item[11]);
-        // 格式转换
+      for (var n = 1; n < sampleLineData.length; n++) {
+        for (var m = 0; m < sampleLineData[0].length; m++) {
+          if (sampleLineData[0][m] == "序号") {
+            number.push(sampleLineData[n][m]);
+          } else if (sampleLineData[0][m] == "姓名") {
+            customerName.push(sampleLineData[n][m]);
+          } else if (sampleLineData[0][m] == "性别") {
+            sex.push(sampleLineData[n][m]);
+          } else if (sampleLineData[0][m] == "门诊号") {
+            clinicNumber.push(sampleLineData[n][m]);
+          } else if (sampleLineData[0][m] == "住院号") {
+            hospitalNumber.push(sampleLineData[n][m]);
+          } else if (sampleLineData[0][m] == "手机号") {
+            phone.push(sampleLineData[n][m]);
+          } else if (sampleLineData[0][m] == "送检科室") {
+            inspectionDepartment.push(sampleLineData[n][m]);
+          } else if (sampleLineData[0][m] == "送检医生") {
+            inspectionDoctor.push(sampleLineData[n][m]);
+          } else if (sampleLineData[0][m] == "简要病史") {
+            medicalHistory.push(sampleLineData[n][m]);
+          } else if (sampleLineData[0][m] == "采样日期") {
+            samplingDate.push(this.formatDate2(sampleLineData[n][m]));
+          } else if (sampleLineData[0][m] == "检验日期") {
+            inspectionDate.push(this.formatDate2(sampleLineData[n][m]));
+          } else if (sampleLineData[0][m] == "报告日期") {
+            reportDate.push(this.formatDate2(sampleLineData[n][m]));
+          } else if (sampleLineData[0][m] == "检验单位") {
+            inspectionEntity.push(sampleLineData[n][m]);
+          } else if (sampleLineData[0][m] == "样本类型") {
+            sampleType.push(sampleLineData[n][m]);
+          } else if (sampleLineData[0][m] == "检验者") {
+            inspector.push(sampleLineData[n][m]);
+          } else if (sampleLineData[0][m] == "审核者") {
+            checker.push(sampleLineData[n][m]);
+          } else if (sampleLineData[0][m] == "SMN1外显子7") {
+            smn1.push(sampleLineData[n][m]);
+          } else if (sampleLineData[0][m] == "SMN2外显子7") {
+            smn2.push(sampleLineData[n][m]);
+          } else if (sampleLineData[0][m] == "检验结论") {
+            conclude.push(sampleLineData[n][m]);
+          }
+        }
+      }
+      console.log("number", number);
+      const objArr = {
+        number: number,
+        customerName: customerName,
+        sex: sex,
+        clinicNumber: clinicNumber,
+        hospitalNumber: hospitalNumber,
+        phone: phone,
+        inspectionDepartment: inspectionDepartment,
+        inspectionDoctor: inspectionDoctor,
+        medicalHistory: medicalHistory,
+        samplingDate: samplingDate,
+        inspectionDate: inspectionDate,
+        reportDate: reportDate,
+        inspectionEntity: inspectionEntity,
+        sampleType: sampleType,
+        inspector: inspector,
+        checker: checker,
+        smn1: smn1,
+        smn2: smn2,
+        conclude: conclude,
+      };
+      //
+      console.log("objArr", objArr);
+
+      var objArr1 = objArr.customerName.map(function (name, index) {
         var leftSlash = "/";
-        if (item[0] == " " || item[0] == undefined) {
-          item[0] = leftSlash;
+        if (objArr.number[index] == " " || objArr.number[index] == undefined) {
+          objArr.number[index] = leftSlash;
         }
-        if (item[1] == " " || item[1] == undefined) {
-          item[1] = leftSlash;
+        if (
+          objArr.customerName[index] == " " ||
+          objArr.customerName[index] == undefined
+        ) {
+          objArr.customerName[index] = leftSlash;
         }
-        if (item[2] == " " || item[2] == undefined) {
-          item[2] = leftSlash;
+        if (objArr.sex[index] == " " || objArr.sex[index] == undefined) {
+          objArr.sex[index] = leftSlash;
         }
-        if (item[3] == " " || item[3] == undefined) {
-          item[3] = leftSlash;
+        if (
+          objArr.clinicNumber[index] == " " ||
+          objArr.clinicNumber[index] == undefined
+        ) {
+          objArr.clinicNumber[index] = leftSlash;
         }
-        if (item[4] == " " || item[4] == undefined) {
-          item[4] = leftSlash;
+        if (
+          objArr.hospitalNumber[index] == " " ||
+          objArr.hospitalNumber[index] == undefined
+        ) {
+          objArr.hospitalNumber[index] = leftSlash;
         }
-        if (item[5] == " " || item[5] == undefined) {
-          item[5] = leftSlash;
+        if (objArr.phone[index] == " " || objArr.phone[index] == undefined) {
+          objArr.phone[index] = leftSlash;
         }
-        if (item[6] == " " || item[6] == undefined) {
-          item[6] = leftSlash;
+        if (
+          objArr.inspectionDepartment[index] == " " ||
+          objArr.inspectionDepartment[index] == undefined
+        ) {
+          objArr.inspectionDepartment[index] = leftSlash;
         }
-        if (item[7] == " " || item[7] == undefined) {
-          item[7] = leftSlash;
+        if (
+          objArr.inspectionDoctor[index] == " " ||
+          objArr.inspectionDoctor[index] == undefined
+        ) {
+          objArr.inspectionDoctor[index] = leftSlash;
         }
-        if (item[8] == " " || item[8] == undefined) {
-          item[8] = leftSlash;
+        if (
+          objArr.medicalHistory[index] == " " ||
+          objArr.medicalHistory[index] == undefined
+        ) {
+          objArr.medicalHistory[index] = leftSlash;
         }
-        if (item[9] == " " || item[9] == undefined) {
-          item[9] = leftSlash;
+        if (
+          objArr.samplingDate[index] == " " ||
+          objArr.samplingDate[index] == undefined
+        ) {
+          objArr.samplingDate[index] = leftSlash;
         }
-        if (item[10] == " " || item[10] == undefined) {
-          item[10] = leftSlash;
+        if (
+          objArr.inspectionDate[index] == " " ||
+          objArr.inspectionDate[index] == undefined
+        ) {
+          objArr.inspectionDate[index] = leftSlash;
         }
-        if (item[11] == " " || item[11] == undefined) {
-          item[11] = leftSlash;
+        if (
+          objArr.reportDate[index] == " " ||
+          objArr.reportDate[index] == undefined
+        ) {
+          objArr.reportDate[index] = leftSlash;
         }
-        if (item[12] == " " || item[12] == undefined || item[12] == "/") {
-          item[12] = " ";
+        if (
+          objArr.inspectionEntity[index] == " " ||
+          objArr.inspectionEntity[index] == undefined ||
+          objArr.inspectionEntity[index] == "/"
+        ) {
+          objArr.inspectionEntity[index] = " ";
         }
-        if (item[13] == " " || item[13] == undefined) {
-          item[13] = leftSlash;
+        if (
+          objArr.sampleType[index] == " " ||
+          objArr.sampleType[index] == undefined
+        ) {
+          objArr.sampleType[index] = leftSlash;
         }
-        if (item[14] == " " || item[14] == undefined) {
-          item[14] = leftSlash;
+        if (
+          objArr.inspector[index] == " " ||
+          objArr.inspector[index] == undefined
+        ) {
+          objArr.inspector[index] = leftSlash;
         }
-        if (item[15] == " " || item[15] == undefined) {
-          item[15] = leftSlash;
+        if (
+          objArr.checker[index] == " " ||
+          objArr.checker[index] == undefined
+        ) {
+          objArr.checker[index] = leftSlash;
         }
-        if (item[16] == " " || item[16] == undefined) {
-          item[16] = leftSlash;
+        if (
+          objArr.conclude[index] == " " ||
+          objArr.conclude[index] == undefined
+        ) {
+          objArr.conclude[index] = leftSlash;
         }
-        if (item[17] == " " || item[17] == undefined) {
-          item[17] = leftSlash;
+        if (objArr.smn1[index] == " " || objArr.smn1[index] == undefined) {
+          objArr.smn1[index] = leftSlash;
         }
-        if (item[18] == " " || item[18] == undefined) {
-          item[18] = leftSlash;
+        if (objArr.smn2[index] == " " || objArr.smn2[index] == undefined) {
+          objArr.smn2[index] = leftSlash;
         }
         return {
-          number: item[0],
-          name: item[1],
-          sex: item[2],
-          clinicNumber: item[3],
-          hospitalNumber: item[4],
-          phone: item[5],
-          inspectionDepartment: item[6],
-          inspectionDoctor: item[7],
-          medicalHistory: item[8],
-          samplingDate: newSamplingDate,
-          inspectionDate: newInspectionDate,
-          reportDate: newReportDate,
-          inspectionEntity: item[12],
-          sampleType: item[13],
-          inspector: item[14],
-          checker: item[15],
-          smn1: item[16],
-          smn2: item[17],
-          conclude: item[18],
+          name: name,
+          number: objArr.number[index],
+          sex: objArr.sex[index],
+          clinicNumber: objArr.clinicNumber[index],
+          hospitalNumber: objArr.hospitalNumber[index],
+          phone: objArr.phone[index],
+          inspectionDepartment: objArr.inspectionDepartment[index],
+          inspectionDoctor: objArr.inspectionDoctor[index],
+          medicalHistory: objArr.medicalHistory[index],
+          samplingDate: objArr.samplingDate[index],
+          inspectionDate: objArr.inspectionDate[index],
+          reportDate: objArr.reportDate[index],
+          inspectionEntity: objArr.inspectionEntity[index],
+          sampleType: objArr.sampleType[index],
+          inspector: objArr.inspector[index],
+          checker: objArr.checker[index],
+          smn1: objArr.smn1[index],
+          smn2: objArr.smn2[index],
+          conclude: objArr.conclude[index],
         };
       });
-      console.log("objArr", objArr);
-      this.tableData = objArr;
+      console.log("objArr1", objArr1);
+      this.tableData = objArr1;
       if (data1.data.fileType == "summaryFileAndReportFile") {
         console.log("结果和报告文件");
         var outputFile = this.outputArr1;
@@ -1499,18 +1619,18 @@ export default {
           });
         }
         var lastOutput1 = this.lastOutput;
-        objArr.forEach(function (item, index) {
+        objArr1.forEach(function (item, index) {
           lastOutput1.forEach(function (item, index1) {
-            if (objArr[index].number == lastOutput1[index1].number) {
+            if (objArr1[index].number == lastOutput1[index1].number) {
               htmlName[index] =
-                objArr[index].name +
+                objArr1[index].name +
                 "_" +
-                objArr[index].inspectionEntity +
+                objArr1[index].inspectionEntity +
                 ".html";
               pdfName[index] =
-                objArr[index].name +
+                objArr1[index].name +
                 "_" +
-                objArr[index].inspectionEntity +
+                objArr1[index].inspectionEntity +
                 ".pdf";
               newFolderName[index] = outputDirectry;
               htmlPathAndName[index] = path.join(
@@ -1522,13 +1642,13 @@ export default {
                 pdfName[index]
               );
               console.log("pdfPathAndName", pdfPathAndName);
-              if (objArr[index].smn1 >= 2) {
+              if (objArr1[index].smn1 >= 2) {
                 var reportResult = "未检出目标基因拷贝数异常";
                 var recommend = "无";
-              } else if (objArr[index].smn1 == 1) {
+              } else if (objArr1[index].smn1 == 1) {
                 reportResult = "SMN1基因外显子7杂合型缺失";
                 recommend = "遗传咨询";
-              } else if (objArr[index].smn1 == 0) {
+              } else if (objArr1[index].smn1 == 0) {
                 reportResult = "SMN1基因外显子7纯合型缺失";
                 recommend = "遗传咨询";
               }
@@ -1546,10 +1666,10 @@ export default {
                 console.log(changeFont1);
                 var changeFont2 = "url(" + changeFont1 + ")";
                 var currentFont = `@font-face{
-                            font-family:"MiSans-Normal";
-                            src:${changeFont2};
-                            font-display:swap;
-                        }`;
+                                  font-family:"MiSans-Normal";
+                                  src:${changeFont2};
+                                  font-display:swap;
+                              }`;
                 var lineSpacing = `line-height:23px`;
                 var beforeStage = `text-indent:-12.85pt`;
                 var fontSetting = 'font-family:"MiSans-Normal"';
@@ -1562,21 +1682,21 @@ export default {
                 console.log(defaultFont1);
                 var defaultFont2 = "url(" + defaultFont1 + ")";
                 currentFont = `@font-face{
-                                font-family:"simsun";
-                                src:${defaultFont2};
-                                font-display:swap;
-                            }`;
+                                      font-family:"simsun";
+                                      src:${defaultFont2};
+                                      font-display:swap;
+                                  }`;
                 lineSpacing = `line-height:24px`;
                 beforeStage = `text-indent:-16.85pt`;
                 fontSetting = 'font-family:"simsun"';
               }
               // 添加 svg 方框图片替换 input 输入框
               var correctBox = `<svg t="1654332410780" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2963" width="16" height="16" style="vertical-align: middle;">
-                            <path d="M832 128H192a64 64 0 0 0-64 64v640a64 64 0 0 0 64 64h640a64 64 0 0 0 64-64V192a64 64 0 0 0-64-64z m-93.71 270.86L466.76 670.4a32 32 0 0 1-45.26 0L285.71 534.6A32 32 0 0 1 331 489.33L444.14 602.5 693 353.61a32 32 0 0 1 45.26 45.25z" p-id="2964" ></path>
-                   </svg>`;
+                                  <path d="M832 128H192a64 64 0 0 0-64 64v640a64 64 0 0 0 64 64h640a64 64 0 0 0 64-64V192a64 64 0 0 0-64-64z m-93.71 270.86L466.76 670.4a32 32 0 0 1-45.26 0L285.71 534.6A32 32 0 0 1 331 489.33L444.14 602.5 693 353.61a32 32 0 0 1 45.26 45.25z" p-id="2964" ></path>
+                         </svg>`;
               var blankBox = `<svg t="1654332611254" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3878" width="16" height="16" style="vertical-align: middle;">
-                       <path d="M774 200c27.6 0 50 22.4 50 50v524c0 27.6-22.4 50-50 50H250c-27.6 0-50-22.4-50-50V250c0-27.6 22.4-50 50-50h524m0-72H250c-16.4 0-32.4 3.2-47.5 9.6-14.5 6.1-27.6 14.9-38.8 26.1-11.2 11.2-20 24.2-26.1 38.8-6.4 15.1-9.6 31.1-9.6 47.5v524c0 16.4 3.2 32.4 9.6 47.5 6.1 14.5 14.9 27.6 26.1 38.8 11.2 11.2 24.2 20 38.8 26.1 15.1 6.4 31.1 9.6 47.5 9.6h524c16.4 0 32.4-3.2 47.5-9.6 14.5-6.1 27.6-14.9 38.8-26.1 11.2-11.2 20-24.2 26.1-38.8 6.4-15.1 9.6-31.1 9.6-47.5V250c0-16.4-3.2-32.4-9.6-47.5-6.1-14.5-14.9-27.6-26.1-38.8-11.2-11.2-24.2-20-38.8-26.1-15.1-6.4-31.1-9.6-47.5-9.6z" p-id="3879"></path>
-                   </svg>`;
+                             <path d="M774 200c27.6 0 50 22.4 50 50v524c0 27.6-22.4 50-50 50H250c-27.6 0-50-22.4-50-50V250c0-27.6 22.4-50 50-50h524m0-72H250c-16.4 0-32.4 3.2-47.5 9.6-14.5 6.1-27.6 14.9-38.8 26.1-11.2 11.2-20 24.2-26.1 38.8-6.4 15.1-9.6 31.1-9.6 47.5v524c0 16.4 3.2 32.4 9.6 47.5 6.1 14.5 14.9 27.6 26.1 38.8 11.2 11.2 24.2 20 38.8 26.1 15.1 6.4 31.1 9.6 47.5 9.6h524c16.4 0 32.4-3.2 47.5-9.6 14.5-6.1 27.6-14.9 38.8-26.1 11.2-11.2 20-24.2 26.1-38.8 6.4-15.1 9.6-31.1 9.6-47.5V250c0-16.4-3.2-32.4-9.6-47.5-6.1-14.5-14.9-27.6-26.1-38.8-11.2-11.2-24.2-20-38.8-26.1-15.1-6.4-31.1-9.6-47.5-9.6z" p-id="3879"></path>
+                         </svg>`;
               if (reportResult == "未检出目标基因拷贝数异常") {
                 var defaultBox1 = correctBox;
                 var defaultBox2 = blankBox;
@@ -1594,707 +1714,710 @@ export default {
                 var defaultBox6 = `font-weight:bold`;
               }
               content[index] = `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>G030Report</title>
-    <!-- 引入 echarts.js -->
-    <script src='${echartsPath}'><\/script>
-    <style>
-        /* Style Definitions */
-        p.MsoNormal,
-        li.MsoNormal,
-        div.MsoNormal {
-            margin: 0cm;
-            text-align: justify;
-            text-justify: inter-ideograph;
-            font-size: 10.5pt;
-            /* font-family: Simsun; */
-        }
+      <html lang="en">
+      <head>
+          <meta charset="UTF-8">
+          <meta http-equiv="X-UA-Compatible" content="IE=edge">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>G030Report</title>
+          <!-- 引入 echarts.js -->
+          <script src='${echartsPath}'><\/script>
+          <style>
+              /* Style Definitions */
+              p.MsoNormal,
+              li.MsoNormal,
+              div.MsoNormal {
+                  margin: 0cm;
+                  text-align: justify;
+                  text-justify: inter-ideograph;
+                  font-size: 10.5pt;
+                  /* font-family: Simsun; */
+              }
 
-        p.MsoListParagraph,
-        li.MsoListParagraph,
-        div.MsoListParagraph {
-            margin: 0cm;
-            text-align: justify;
-            text-justify: inter-ideograph;
-            /*text-indent: 21.0pt;*/
-            font-size: 10.5pt;
-            /* font-family: Simsun; */
-        }
+              p.MsoListParagraph,
+              li.MsoListParagraph,
+              div.MsoListParagraph {
+                  margin: 0cm;
+                  text-align: justify;
+                  text-justify: inter-ideograph;
+                  /*text-indent: 21.0pt;*/
+                  font-size: 10.5pt;
+                  /* font-family: Simsun; */
+              }
 
-        .MsoChpDefault {
-            /* font-family: Simsun; */
-        }
+              .MsoChpDefault {
+                  /* font-family: Simsun; */
+              }
 
-        td {
-            height: 40px;
-        }
+              td {
+                  height: 40px;
+              }
 
-        /* Page Definitions */
-        @page WordSection1 {
-            size: 595.3pt 841.9pt;
-            margin: 42.45pt 90.0pt 49.525pt 90.0pt;
-            layout-grid: 15.6pt;
-        }
-        ${currentFont}
-        body{
-            ${fontSetting}
-        }
-        div.WordSection1 {
-            page: WordSection1;
-        }
-        
-        /* List Definitions */
-        ol {
-            margin-bottom: 0cm;
-        }
+              /* Page Definitions */
+              @page WordSection1 {
+                  size: 595.3pt 841.9pt;
+                  margin: 42.45pt 90.0pt 49.525pt 90.0pt;
+                  layout-grid: 15.6pt;
+              }
+              ${currentFont}
+              body{
+                  ${fontSetting}
+              }
+              div.WordSection1 {
+                  page: WordSection1;
+              }
 
-        ul {
-            margin-bottom: 0cm;
-        }
+              /* List Definitions */
+              ol {
+                  margin-bottom: 0cm;
+              }
 
-        .checkbox:checked::after {
-            background: #000;
-        }
-        .page-header,
-        .page-header-space {
-            height: 20px;
-            font-size: 8.5px;
-        }
+              ul {
+                  margin-bottom: 0cm;
+              }
 
-        .page-footer,
-        .page-footer-space {
-            height: auto;
-            text-align: center;
-            font-size: 8.5px;
-        }
+              .checkbox:checked::after {
+                  background: #000;
+              }
+              .page-header,
+              .page-header-space {
+                  height: 20px;
+                  font-size: 8.5px;
+              }
 
-        .page-footer {
-            position: fixed;
-            bottom: 0mm;
-            /* width: 100%; */
-            /* border-top: 1px solid black; */
-            /* for demo */
-            /* background: yellow; */
-            /* for demo */
-        }
+              .page-footer,
+              .page-footer-space {
+                  height: auto;
+                  text-align: center;
+                  font-size: 8.5px;
+              }
 
-        .page-header {
-            position: fixed;
-            top: 0mm;
-            width: 100%;
-            /*  border-bottom: 1px solid black;  for demo */
-            /* background: yellow; */
-            /* for demo */
-        }
+              .page-footer {
+                  position: fixed;
+                  bottom: 0mm;
+                  /* width: 100%; */
+                  /* border-top: 1px solid black; */
+                  /* for demo */
+                  /* background: yellow; */
+                  /* for demo */
+              }
 
-        /* 文字阴影宋体打印加粗解决方案 */
-        .fontBolder {
-            text-shadow: 0.15pt 0px 0px black, 0.25pt 0px 0px black, 0.35pt 0px 0px black, -0.25pt 0px 0px black, 0px 0.25pt 0px black, 0px -0.25pt 0px black;
-        }
+              .page-header {
+                  position: fixed;
+                  top: 0mm;
+                  width: 100%;
+                  /*  border-bottom: 1px solid black;  for demo */
+                  /* background: yellow; */
+                  /* for demo */
+              }
 
-        @media print {
-            body {
-                margin: 0;
-            }
-        }
-        #mainContent{
-            border: 1px solid windowtext;
-        }
-        /* table tr td{ border-top:1px solid windowtext; } table{ border:1px solid windowtext; border-top-width:0px; }  */
-        /* table{ border-collapse:collapse; } table tr{ border:1px solid windowtext; }  */
-    </style>
-</head>
-<body lang=ZH-CN style='word-wrap:break-word;text-justify-trim:punctuation;text-align: center;'>
+              /* 文字阴影宋体打印加粗解决方案 */
+              .fontBolder {
+                  text-shadow: 0.15pt 0px 0px black, 0.25pt 0px 0px black, 0.35pt 0px 0px black, -0.25pt 0px 0px black, 0px 0.25pt 0px black, 0px -0.25pt 0px black;
+              }
 
-    <div class=WordSection1 style='layout-grid:15.6pt;margin-top: 30px;'>
-        <table cellspacing=0 cellpadding=0 width=556
-            style='width:416.7pt;border-collapse:collapse;border:none;margin: auto;text-align: center'>
-            <tr>
-                <td class="page-header" style="text-align: left;width: 416.7pt;border-bottom: solid windowtext 1pt;">
-                    ${objArr[index].inspectionEntity}
-                    <!-- <hr style="width:416.7pt"> -->
-                </td>
+              @media print {
+                  body {
+                      margin: 0;
+                  }
+              }
+              #mainContent{
+                  border: 1px solid windowtext;
+              }
+              /* table tr td{ border-top:1px solid windowtext; } table{ border:1px solid windowtext; border-top-width:0px; }  */
+              /* table{ border-collapse:collapse; } table tr{ border:1px solid windowtext; }  */
+          </style>
+      </head>
+      <body lang=ZH-CN style='word-wrap:break-word;text-justify-trim:punctuation;text-align: center;'>
 
-            </tr>
-        </table>
-        <table cellspacing=0 cellpadding=0 width=556
-            style='width:416.7pt;border-collapse:collapse;margin: auto;text-align: center'>
-            <tr>
-                <td class="page-footer" style="width:416.7pt;text-align: right">
-                    检验结果仅对送检样本负责
-                </td>
-            </tr>
+          <div class=WordSection1 style='layout-grid:15.6pt;margin-top: 30px;'>
+              <table cellspacing=0 cellpadding=0 width=556
+                  style='width:416.7pt;border-collapse:collapse;border:none;margin: auto;text-align: center'>
+                  <tr>
+                      <td class="page-header" style="text-align: left;width: 416.7pt;border-bottom: solid windowtext 1pt;">
+                          ${objArr1[index].inspectionEntity}
+                          <!-- <hr style="width:416.7pt"> -->
+                      </td>
 
-        </table>
-        <p class=MsoNormal align=center style='text-align:center;layout-grid-mode:char;margin: 35px 0 35px 0'><b><span
-                    lang=utf-8 style='font-size:14.0pt;'>运动神经元存活基因拷贝数检验报告单</b></p>
+                  </tr>
+              </table>
+              <table cellspacing=0 cellpadding=0 width=556
+                  style='width:416.7pt;border-collapse:collapse;margin: auto;text-align: center'>
+                  <tr>
+                      <td class="page-footer" style="width:416.7pt;text-align: right">
+                          检验结果仅对送检样本负责
+                      </td>
+                  </tr>
 
-        <table class=MsoTableGrid border=1 cellspacing=0 cellpadding=0 width=556 id="mainContent"
-            style='width:416.7pt;margin: auto;border-collapse:collapse;'>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>门诊号</b></p>
-                </td>
-                <td width=183 colspan=7 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].clinicNumber}</span>
-                    </p>
-                </td>
-                <td width=73  colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center'><b>住院号</b></p>
-                </td>
-                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].hospitalNumber}</span>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt'>
-                    <p class=MsoNormal style='text-align:center'><b>姓名</b></p>
-                </td>
-                <td width=113 colspan=3 style='width:85.0pt;padding:0cm 5.4pt 0cm 5.4pt'>
-                    <p class=MsoNormal align=left style="text-align: left;">
-                        <span>
-                            ${objArr[index].name}
-                        </span>
-                    </p>
-                </td>
-                <td width=76 style='width:2.0cm;padding:0cm 5.4pt 0cm 5.4pt'>
-                    <p class=MsoNormal align=center style='text-align:center'><b>性别</b></p>
-                </td>
-                <td width=113  colspan=3 style='width:3.0cm;padding:0cm 5.4pt 0cm 5.4pt'>
-                    <p class=MsoNormal align=left style='text-align:left'><span>${objArr[index].sex}</span></p>
-                </td>
-                <td width=73 colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt'>
-                    <p class=MsoNormal align=center style='text-align:center'><b>手机号</b></p>
-                </td>
-                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt'>
-                    <p class=MsoNormal align=left style='text-align:left'><span>${objArr[index].phone}</span></p>
-                </td>
-            </tr>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>送检科室</b></p>
-                </td>
-                <td width=339 colspan=7 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].inspectionDepartment}</span>
-                    </p>
-                </td>
-                <td width=73  colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;white-space: nowrap;'><b>送检医生</b></p>
-                </td>
-                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].inspectionDoctor}</span>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>样本类型</b></p>
-                </td>
-                <td width=183 colspan=7 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].sampleType}</span>
-                    </p>
-                </td>
-                <td width=73  colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;white-space: nowrap;'><b>采样日期</b></p>
-                </td>
-                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].samplingDate}</span>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>简要病史</b></p>
-                </td>
-                <td width=339 colspan=12 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].medicalHistory}</span>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>检验方法</b></p>
-                </td>
-                <td width=339 colspan=12 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:center'>
-                        <span >荧光&thinsp;PCR-毛细管电泳法</span>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>目标基因</b></p>
-                </td>
-                <td width=339 colspan=6 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:center'>
-                        <span><i>SMN1</i>&thinsp;外显子&thinsp;7</span>
-                    </p>
-                </td>
-                <td width=73  colspan=6 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center'>
-                        <span><i>SMN2</i>&thinsp;外显子&thinsp;7</span>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>检验结果</b></p>
-                </td>
-                <td width=339 colspan=6 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:center'>
-                        <span>${objArr[index].smn1}</span>
-                    </p>
-                </td>
-                <td width=73  colspan=6 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center'>
-                        <span>${objArr[index].smn2}</span>
-                    </p>
-                </td>
-            </tr>
-            ${pictureHtml}
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>检验结论</b></p>
-                </td>
-                <td width=183 colspan=12 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        ${defaultBox1}
-                    <span style="vertical-align: middle;${defaultBox4}" >未检出目标基因拷贝数异常</span>
-                    </p>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        ${defaultBox2}
-                    <span style="vertical-align: middle;${defaultBox5}" ><i>SMN1&thinsp;</i>基因外显子&thinsp;7&thinsp;杂合型缺失</span>
-                    </p>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        ${defaultBox3}
-                    <span style="vertical-align: middle;${defaultBox6}" ><i>SMN1&thinsp;</i>基因外显子&thinsp;7&thinsp;纯合型缺失</span>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td width=73  style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center'><b>建议</b></p>
-                </td>
-                <td width=110 colspan=12 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center'>
-                        <span>${recommend}</span>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td width=556 colspan=13 style='width:416.7pt;padding:0cm 5.4pt 0cm 5.4pt'>
-                    <p class='MsoNormal' align=center style='text-align:center'><span><b>结果解释</b></span></p>
-                </td>
-            </tr>
-            <tr>
-                <td width=556 colspan=13 valign=middle style='width:416.7pt;
-  padding:0cm 5.4pt 0cm 5.4pt'>
-                    <p class=MsoListParagraph align=justify style='margin-left:23.25pt;${beforeStage};${lineSpacing};'>
-                        1. 本次检验仅用于<i>&thinsp;SMN1&thinsp;</i>中最常见的外显子&thinsp;7&thinsp;缺失型携带者的检验，并未覆盖<i>&thinsp;SMN1&thinsp;</i>基因的罕见点突变检测。因此，当检测结果排除受检者为<i>&thinsp;SMN1&thinsp;</i>第&thinsp;7&thinsp;外显子缺失型携带者时，并不能排除受检者是否携带有<i>&thinsp;SMN1&thinsp;</i>基因的罕见点突变。
-                    </p>
-                    ${pagingTable}
-                    <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >2. 当检出<i>&thinsp;SMN1&thinsp;</i>第&thinsp;7&thinsp;外显子为&thinsp;2&thinsp;拷贝时，并不能直接判断&thinsp;2&thinsp;个拷贝的<i>&thinsp;SMN1&thinsp;</i>在染色体上的排布方式，即不能判断出是否为“&thinsp;2+0&thinsp;”携带者型。当怀疑待检样本存在“&thinsp;2+0&thinsp;”时，建议其配偶进行<i>&thinsp;SMN1&thinsp;</i>基因检测。</p>
-                    <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >3. 受检者进行过骨髓移植、细胞治疗或接受输血，可能会影响血样检测结果的准确性。</p>
-                    <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >4. 该方法检测<i>&thinsp;SMN1&thinsp;</i>基因第&thinsp;7&thinsp;外显子拷贝数时，将以受检者基因组中保守的管家基因为内参。内参基因罕见的突变可能会影响到检测结果的准确性。</p>
-                    <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >5. 检验<i>&thinsp;SMN2&thinsp;</i>基因拷贝数通常仅用于对患者临床预后的评估。正常人群中<i>&thinsp;SMN2&thinsp;</i>基因本身就存在拷贝数变异，可能为&thinsp;0、1、2&thinsp;或以上。</p>
-                    ${pagingEnd}
-            </tr>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>检验日期</b></p>
-                </td>
-                <td width=339 colspan=9 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].inspectionDate}</span>
-                    </p>
-                </td>
-                <td width=73  colspan=2 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;white-space: nowrap;'><b>报告日期</b></p>
-                </td>
-                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                  <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].reportDate}</span>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>检验者</b></p>
-                </td>
-                <td width=339 colspan=9 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].inspector}</span>
-                    </p>
-                </td>
-                <td width=73  colspan=2 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center'><b>审核者</b></p>
-                </td>
-                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].checker}</span>
-                    </p>
-                </td>
-            </tr>
-        </table>
-    </div>
-</body>
-${pictureScript}
-</html>`;
+              </table>
+              <p class=MsoNormal align=center style='text-align:center;layout-grid-mode:char;margin: 35px 0 35px 0'><b><span
+                          lang=utf-8 style='font-size:14.0pt;'>运动神经元存活基因拷贝数检验报告单</b></p>
+
+              <table class=MsoTableGrid border=1 cellspacing=0 cellpadding=0 width=556 id="mainContent"
+                  style='width:416.7pt;margin: auto;border-collapse:collapse;'>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>门诊号</b></p>
+                      </td>
+                      <td width=183 colspan=7 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].clinicNumber}</span>
+                          </p>
+                      </td>
+                      <td width=73  colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center'><b>住院号</b></p>
+                      </td>
+                      <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].hospitalNumber}</span>
+                          </p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                          <p class=MsoNormal style='text-align:center'><b>姓名</b></p>
+                      </td>
+                      <td width=113 colspan=3 style='width:85.0pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                          <p class=MsoNormal align=left style="text-align: left;">
+                              <span>
+                                  ${objArr1[index].name}
+                              </span>
+                          </p>
+                      </td>
+                      <td width=76 style='width:2.0cm;padding:0cm 5.4pt 0cm 5.4pt'>
+                          <p class=MsoNormal align=center style='text-align:center'><b>性别</b></p>
+                      </td>
+                      <td width=113  colspan=3 style='width:3.0cm;padding:0cm 5.4pt 0cm 5.4pt'>
+                          <p class=MsoNormal align=left style='text-align:left'><span>${objArr1[index].sex}</span></p>
+                      </td>
+                      <td width=73 colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                          <p class=MsoNormal align=center style='text-align:center'><b>手机号</b></p>
+                      </td>
+                      <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                          <p class=MsoNormal align=left style='text-align:left'><span>${objArr1[index].phone}</span></p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>送检科室</b></p>
+                      </td>
+                      <td width=339 colspan=7 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].inspectionDepartment}</span>
+                          </p>
+                      </td>
+                      <td width=73  colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;white-space: nowrap;'><b>送检医生</b></p>
+                      </td>
+                      <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].inspectionDoctor}</span>
+                          </p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>样本类型</b></p>
+                      </td>
+                      <td width=183 colspan=7 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].sampleType}</span>
+                          </p>
+                      </td>
+                      <td width=73  colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;white-space: nowrap;'><b>采样日期</b></p>
+                      </td>
+                      <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].samplingDate}</span>
+                          </p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>简要病史</b></p>
+                      </td>
+                      <td width=339 colspan=12 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].medicalHistory}</span>
+                          </p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>检验方法</b></p>
+                      </td>
+                      <td width=339 colspan=12 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:center'>
+                              <span >荧光&thinsp;PCR-毛细管电泳法</span>
+                          </p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>目标基因</b></p>
+                      </td>
+                      <td width=339 colspan=6 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:center'>
+                              <span><i>SMN1</i>&thinsp;外显子&thinsp;7</span>
+                          </p>
+                      </td>
+                      <td width=73  colspan=6 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center'>
+                              <span><i>SMN2</i>&thinsp;外显子&thinsp;7</span>
+                          </p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>检验结果</b></p>
+                      </td>
+                      <td width=339 colspan=6 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:center'>
+                              <span>${objArr1[index].smn1}</span>
+                          </p>
+                      </td>
+                      <td width=73  colspan=6 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center'>
+                              <span>${objArr1[index].smn2}</span>
+                          </p>
+                      </td>
+                  </tr>
+                  ${pictureHtml}
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>检验结论</b></p>
+                      </td>
+                      <td width=183 colspan=12 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              ${defaultBox1}
+                          <span style="vertical-align: middle;${defaultBox4}" >未检出目标基因拷贝数异常</span>
+                          </p>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              ${defaultBox2}
+                          <span style="vertical-align: middle;${defaultBox5}" ><i>SMN1&thinsp;</i>基因外显子&thinsp;7&thinsp;杂合型缺失</span>
+                          </p>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              ${defaultBox3}
+                          <span style="vertical-align: middle;${defaultBox6}" ><i>SMN1&thinsp;</i>基因外显子&thinsp;7&thinsp;纯合型缺失</span>
+                          </p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=73  style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center'><b>建议</b></p>
+                      </td>
+                      <td width=110 colspan=12 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center'>
+                              <span>${recommend}</span>
+                          </p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=556 colspan=13 style='width:416.7pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                          <p class='MsoNormal' align=center style='text-align:center'><span><b>结果解释</b></span></p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=556 colspan=13 valign=middle style='width:416.7pt;
+        padding:0cm 5.4pt 0cm 5.4pt'>
+                          <p class=MsoListParagraph align=justify style='margin-left:23.25pt;${beforeStage};${lineSpacing};'>
+                              1. 本次检验仅用于<i>&thinsp;SMN1&thinsp;</i>中最常见的外显子&thinsp;7&thinsp;缺失型携带者的检验，并未覆盖<i>&thinsp;SMN1&thinsp;</i>基因的罕见点突变检测。因此，当检测结果排除受检者为<i>&thinsp;SMN1&thinsp;</i>第&thinsp;7&thinsp;外显子缺失型携带者时，并不能排除受检者是否携带有<i>&thinsp;SMN1&thinsp;</i>基因的罕见点突变。
+                          </p>
+                          ${pagingTable}
+                          <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >2. 当检出<i>&thinsp;SMN1&thinsp;</i>第&thinsp;7&thinsp;外显子为&thinsp;2&thinsp;拷贝时，并不能直接判断&thinsp;2&thinsp;个拷贝的<i>&thinsp;SMN1&thinsp;</i>在染色体上的排布方式，即不能判断出是否为“&thinsp;2+0&thinsp;”携带者型。当怀疑待检样本存在“&thinsp;2+0&thinsp;”时，建议其配偶进行<i>&thinsp;SMN1&thinsp;</i>基因检测。</p>
+                          <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >3. 受检者进行过骨髓移植、细胞治疗或接受输血，可能会影响血样检测结果的准确性。</p>
+                          <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >4. 该方法检测<i>&thinsp;SMN1&thinsp;</i>基因第&thinsp;7&thinsp;外显子拷贝数时，将以受检者基因组中保守的管家基因为内参。内参基因罕见的突变可能会影响到检测结果的准确性。</p>
+                          <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >5. 检验<i>&thinsp;SMN2&thinsp;</i>基因拷贝数通常仅用于对患者临床预后的评估。正常人群中<i>&thinsp;SMN2&thinsp;</i>基因本身就存在拷贝数变异，可能为&thinsp;0、1、2&thinsp;或以上。</p>
+                          ${pagingEnd}
+                  </tr>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>检验日期</b></p>
+                      </td>
+                      <td width=339 colspan=9 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].inspectionDate}</span>
+                          </p>
+                      </td>
+                      <td width=73  colspan=2 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;white-space: nowrap;'><b>报告日期</b></p>
+                      </td>
+                      <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                        <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].reportDate}</span>
+                          </p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>检验者</b></p>
+                      </td>
+                      <td width=339 colspan=9 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].inspector}</span>
+                          </p>
+                      </td>
+                      <td width=73  colspan=2 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center'><b>审核者</b></p>
+                      </td>
+                      <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].checker}</span>
+                          </p>
+                      </td>
+                  </tr>
+              </table>
+          </div>
+      </body>
+      ${pictureScript}
+      </html>`;
               content1[index] = `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>G030Report</title>
-    <!-- 引入 echarts.js -->
-    <script src='${echartsPath}'><\/script>
-    <style>
-        /* Style Definitions */
-        p.MsoNormal,
-        li.MsoNormal,
-        div.MsoNormal {
-            margin: 0cm;
-            text-align: justify;
-            text-justify: inter-ideograph;
-            font-size: 10.5pt;
-            /* font-family: Simsun; */
-        }
+      <html lang="en">
+      <head>
+          <meta charset="UTF-8">
+          <meta http-equiv="X-UA-Compatible" content="IE=edge">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>G030Report</title>
+          <!-- 引入 echarts.js -->
+          <script src='${echartsPath}'><\/script>
+          <style>
+              /* Style Definitions */
+              p.MsoNormal,
+              li.MsoNormal,
+              div.MsoNormal {
+                  margin: 0cm;
+                  text-align: justify;
+                  text-justify: inter-ideograph;
+                  font-size: 10.5pt;
+                  /* font-family: Simsun; */
+              }
 
-        p.MsoListParagraph,
-        li.MsoListParagraph,
-        div.MsoListParagraph {
-            margin: 0cm;
-            text-align: justify;
-            text-justify: inter-ideograph;
-            /*text-indent: 21.0pt;*/
-            font-size: 10.5pt;
-            /* font-family: Simsun; */
-        }
+              p.MsoListParagraph,
+              li.MsoListParagraph,
+              div.MsoListParagraph {
+                  margin: 0cm;
+                  text-align: justify;
+                  text-justify: inter-ideograph;
+                  /*text-indent: 21.0pt;*/
+                  font-size: 10.5pt;
+                  /* font-family: Simsun; */
+              }
 
-        .MsoChpDefault {
-            /* font-family: Simsun; */
-        }
+              .MsoChpDefault {
+                  /* font-family: Simsun; */
+              }
 
-        td {
-            height: 40px;
-        }
+              td {
+                  height: 40px;
+              }
 
-        /* Page Definitions */
-        @page WordSection1 {
-            size: 595.3pt 841.9pt;
-            margin: 42.45pt 90.0pt 49.525pt 90.0pt;
-            layout-grid: 15.6pt;
-        }
-        ${currentFont}
-        body{
-            ${fontSetting}
-        }
-        div.WordSection1 {
-            page: WordSection1;
-        }
-        
-        /* List Definitions */
-        ol {
-            margin-bottom: 0cm;
-        }
+              /* Page Definitions */
+              @page WordSection1 {
+                  size: 595.3pt 841.9pt;
+                  margin: 42.45pt 90.0pt 49.525pt 90.0pt;
+                  layout-grid: 15.6pt;
+              }
+              ${currentFont}
+              body{
+                  ${fontSetting}
+              }
+              div.WordSection1 {
+                  page: WordSection1;
+              }
 
-        ul {
-            margin-bottom: 0cm;
-        }
+              /* List Definitions */
+              ol {
+                  margin-bottom: 0cm;
+              }
 
-        .checkbox:checked::after {
-            background: #000;
-        }
-        .page-header,
-        .page-header-space {
-            height: 20px;
-            font-size: 8.5px;
-        }
+              ul {
+                  margin-bottom: 0cm;
+              }
 
-        .page-footer,
-        .page-footer-space {
-            height: auto;
-            text-align: center;
-            font-size: 8.5px;
-        }
+              .checkbox:checked::after {
+                  background: #000;
+              }
+              .page-header,
+              .page-header-space {
+                  height: 20px;
+                  font-size: 8.5px;
+              }
 
-        .page-footer {
-            position: fixed;
-            bottom: 0mm;
-            /* width: 100%; */
-            /* border-top: 1px solid black; */
-            /* for demo */
-            /* background: yellow; */
-            /* for demo */
-        }
+              .page-footer,
+              .page-footer-space {
+                  height: auto;
+                  text-align: center;
+                  font-size: 8.5px;
+              }
 
-        .page-header {
-            position: fixed;
-            top: 0mm;
-            width: 100%;
-            /*  border-bottom: 1px solid black;  for demo */
-            /* background: yellow; */
-            /* for demo */
-        }
+              .page-footer {
+                  position: fixed;
+                  bottom: 0mm;
+                  /* width: 100%; */
+                  /* border-top: 1px solid black; */
+                  /* for demo */
+                  /* background: yellow; */
+                  /* for demo */
+              }
 
-        /* 文字阴影宋体打印加粗解决方案 */
-        .fontBolder {
-            text-shadow: 0.15pt 0px 0px black, 0.25pt 0px 0px black, 0.35pt 0px 0px black, -0.25pt 0px 0px black, 0px 0.25pt 0px black, 0px -0.25pt 0px black;
-        }
+              .page-header {
+                  position: fixed;
+                  top: 0mm;
+                  width: 100%;
+                  /*  border-bottom: 1px solid black;  for demo */
+                  /* background: yellow; */
+                  /* for demo */
+              }
 
-        @media print {
-            body {
-                margin: 0;
-            }
-        }
-        #mainContent{
-            border: 1px solid windowtext;
-        }
-        /* table tr td{ border-top:1px solid windowtext; } table{ border:1px solid windowtext; border-top-width:0px; }  */
-        /* table{ border-collapse:collapse; } table tr{ border:1px solid windowtext; }  */
-    </style>
-</head>
-<body lang=ZH-CN style='word-wrap:break-word;text-justify-trim:punctuation;text-align: center;'>
+              /* 文字阴影宋体打印加粗解决方案 */
+              .fontBolder {
+                  text-shadow: 0.15pt 0px 0px black, 0.25pt 0px 0px black, 0.35pt 0px 0px black, -0.25pt 0px 0px black, 0px 0.25pt 0px black, 0px -0.25pt 0px black;
+              }
 
-    <div class=WordSection1 style='layout-grid:15.6pt;margin-top: 30px;'>
-        <table cellspacing=0 cellpadding=0 width=556
-            style='width:416.7pt;border-collapse:collapse;border:none;margin: auto;text-align: center'>
-            <tr>
-                <td class="page-header" style="text-align: left;width: 416.7pt;border-bottom: solid windowtext 1pt;">
-                    ${objArr[index].inspectionEntity}
-                    <!-- <hr style="width:416.7pt"> -->
-                </td>
+              @media print {
+                  body {
+                      margin: 0;
+                  }
+              }
+              #mainContent{
+                  border: 1px solid windowtext;
+              }
+              /* table tr td{ border-top:1px solid windowtext; } table{ border:1px solid windowtext; border-top-width:0px; }  */
+              /* table{ border-collapse:collapse; } table tr{ border:1px solid windowtext; }  */
+          </style>
+      </head>
+      <body lang=ZH-CN style='word-wrap:break-word;text-justify-trim:punctuation;text-align: center;'>
 
-            </tr>
-        </table>
-        <table cellspacing=0 cellpadding=0 width=556
-            style='width:416.7pt;border-collapse:collapse;margin: auto;text-align: center'>
-            <tr>
-                <td class="page-footer" style="width:416.7pt;text-align: right">
-                    检验结果仅对送检样本负责
-                </td>
-            </tr>
+          <div class=WordSection1 style='layout-grid:15.6pt;margin-top: 30px;'>
+              <table cellspacing=0 cellpadding=0 width=556
+                  style='width:416.7pt;border-collapse:collapse;border:none;margin: auto;text-align: center'>
+                  <tr>
+                      <td class="page-header" style="text-align: left;width: 416.7pt;border-bottom: solid windowtext 1pt;">
+                          ${objArr1[index].inspectionEntity}
+                          <!-- <hr style="width:416.7pt"> -->
+                      </td>
 
-        </table>
-        <p class=MsoNormal align=center style='text-align:center;layout-grid-mode:char;margin: 35px 0 35px 0'><b><span
-                    lang=utf-8 style='font-size:14.0pt;'>运动神经元存活基因拷贝数检验报告单</b></p>
+                  </tr>
+              </table>
+              <table cellspacing=0 cellpadding=0 width=556
+                  style='width:416.7pt;border-collapse:collapse;margin: auto;text-align: center'>
+                  <tr>
+                      <td class="page-footer" style="width:416.7pt;text-align: right">
+                          检验结果仅对送检样本负责
+                      </td>
+                  </tr>
 
-        <table class=MsoTableGrid border=1 cellspacing=0 cellpadding=0 width=556 id="mainContent"
-            style='width:416.7pt;margin: auto;border-collapse:collapse;'>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>门诊号</b></p>
-                </td>
-                <td width=183 colspan=7 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].clinicNumber}</span>
-                    </p>
-                </td>
-                <td width=73  colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center'><b>住院号</b></p>
-                </td>
-                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].hospitalNumber}</span>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt'>
-                    <p class=MsoNormal style='text-align:center'><b>姓名</b></p>
-                </td>
-                <td width=113 colspan=3 style='width:85.0pt;padding:0cm 5.4pt 0cm 5.4pt'>
-                    <p class=MsoNormal align=left style="text-align: left;">
-                        <span>
-                            ${objArr[index].name}
-                        </span>
-                    </p>
-                </td>
-                <td width=76 style='width:2.0cm;padding:0cm 5.4pt 0cm 5.4pt'>
-                    <p class=MsoNormal align=center style='text-align:center'><b>性别</b></p>
-                </td>
-                <td width=113  colspan=3 style='width:3.0cm;padding:0cm 5.4pt 0cm 5.4pt'>
-                    <p class=MsoNormal align=left style='text-align:left'><span>${objArr[index].sex}</span></p>
-                </td>
-                <td width=73 colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt'>
-                    <p class=MsoNormal align=center style='text-align:center'><b>手机号</b></p>
-                </td>
-                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt'>
-                    <p class=MsoNormal align=left style='text-align:left'><span>${objArr[index].phone}</span></p>
-                </td>
-            </tr>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>送检科室</b></p>
-                </td>
-                <td width=339 colspan=7 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].inspectionDepartment}</span>
-                    </p>
-                </td>
-                <td width=73  colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;white-space: nowrap;'><b>送检医生</b></p>
-                </td>
-                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].inspectionDoctor}</span>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>样本类型</b></p>
-                </td>
-                <td width=183 colspan=7 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].sampleType}</span>
-                    </p>
-                </td>
-                <td width=73  colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;white-space: nowrap;'><b>采样日期</b></p>
-                </td>
-                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].samplingDate}</span>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>简要病史</b></p>
-                </td>
-                <td width=339 colspan=12 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].medicalHistory}</span>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>检验方法</b></p>
-                </td>
-                <td width=339 colspan=12 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:center'>
-                        <span >荧光&thinsp;PCR-毛细管电泳法</span>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>目标基因</b></p>
-                </td>
-                <td width=339 colspan=6 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:center'>
-                        <span><i>SMN1</i>&thinsp;外显子&thinsp;7</span>
-                    </p>
-                </td>
-                <td width=73  colspan=6 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center'>
-                        <span><i>SMN2</i>&thinsp;外显子&thinsp;7</span>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>检验结果</b></p>
-                </td>
-                <td width=339 colspan=6 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:center'>
-                        <span>${objArr[index].smn1}</span>
-                    </p>
-                </td>
-                <td width=73  colspan=6 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center'>
-                        <span>${objArr[index].smn2}</span>
-                    </p>
-                </td>
-            </tr>
-            ${pictureHtml}
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>检验结论</b></p>
-                </td>
-                <td width=183 colspan=12 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        ${defaultBox1}
-                    <span style="vertical-align: middle;${defaultBox4}" >未检出目标基因拷贝数异常</span>
-                    </p>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        ${defaultBox2}
-                    <span style="vertical-align: middle;${defaultBox5}" ><i>SMN1&thinsp;</i>基因外显子&thinsp;7&thinsp;杂合型缺失</span>
-                    </p>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        ${defaultBox3}
-                    <span style="vertical-align: middle;${defaultBox6}" ><i>SMN1&thinsp;</i>基因外显子&thinsp;7&thinsp;纯合型缺失</span>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td width=73  style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center'><b>建议</b></p>
-                </td>
-                <td width=110 colspan=12 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center'>
-                        <span>${recommend}</span>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td width=556 colspan=13 style='width:416.7pt;padding:0cm 5.4pt 0cm 5.4pt'>
-                    <p class='MsoNormal' align=center style='text-align:center'><span><b>结果解释</b></span></p>
-                </td>
-            </tr>
-            <tr>
-                <td width=556 colspan=13 valign=middle style='width:416.7pt;
-  padding:0cm 5.4pt 0cm 5.4pt'>
-                    <p class=MsoListParagraph align=justify style='margin-left:23.25pt;${beforeStage};${lineSpacing};'>
-                        1. 本次检验仅用于<i>&thinsp;SMN1&thinsp;</i>中最常见的外显子&thinsp;7&thinsp;缺失型携带者的检验，并未覆盖<i>&thinsp;SMN1&thinsp;</i>基因的罕见点突变检测。因此，当检测结果排除受检者为<i>&thinsp;SMN1&thinsp;</i>第&thinsp;7&thinsp;外显子缺失型携带者时，并不能排除受检者是否携带有<i>&thinsp;SMN1&thinsp;</i>基因的罕见点突变。
-                    </p>
-                    ${pagingTable}
-                    <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >2. 当检出<i>&thinsp;SMN1&thinsp;</i>第&thinsp;7&thinsp;外显子为&thinsp;2&thinsp;拷贝时，并不能直接判断&thinsp;2&thinsp;个拷贝的<i>&thinsp;SMN1&thinsp;</i>在染色体上的排布方式，即不能判断出是否为“&thinsp;2+0&thinsp;”携带者型。当怀疑待检样本存在“&thinsp;2+0&thinsp;”时，建议其配偶进行<i>&thinsp;SMN1&thinsp;</i>基因检测。</p>
-                    <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >3. 受检者进行过骨髓移植、细胞治疗或接受输血，可能会影响血样检测结果的准确性。</p>
-                    <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >4. 该方法检测<i>&thinsp;SMN1&thinsp;</i>基因第&thinsp;7&thinsp;外显子拷贝数时，将以受检者基因组中保守的管家基因为内参。内参基因罕见的突变可能会影响到检测结果的准确性。</p>
-                    <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >5. 检验<i>&thinsp;SMN2&thinsp;</i>基因拷贝数通常仅用于对患者临床预后的评估。正常人群中<i>&thinsp;SMN2&thinsp;</i>基因本身就存在拷贝数变异，可能为&thinsp;0、1、2&thinsp;或以上。</p>
-                    ${pagingEnd}
-            </tr>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>检验日期</b></p>
-                </td>
-                <td width=339 colspan=9 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].inspectionDate}</span>
-                    </p>
-                </td>
-                <td width=73  colspan=2 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;white-space: nowrap;'><b>报告日期</b></p>
-                </td>
-                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                  <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].reportDate}</span>
-                    </p>
-                </td>
-            </tr>
-        </table>
-    </div>
-</body>
-${pictureScript}
-</html>`;
-              
-              content2[index] = (data1.data.selectReport =="default")?content[index]:content1[index]
+              </table>
+              <p class=MsoNormal align=center style='text-align:center;layout-grid-mode:char;margin: 35px 0 35px 0'><b><span
+                          lang=utf-8 style='font-size:14.0pt;'>运动神经元存活基因拷贝数检验报告单</b></p>
+
+              <table class=MsoTableGrid border=1 cellspacing=0 cellpadding=0 width=556 id="mainContent"
+                  style='width:416.7pt;margin: auto;border-collapse:collapse;'>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>门诊号</b></p>
+                      </td>
+                      <td width=183 colspan=7 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].clinicNumber}</span>
+                          </p>
+                      </td>
+                      <td width=73  colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center'><b>住院号</b></p>
+                      </td>
+                      <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].hospitalNumber}</span>
+                          </p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                          <p class=MsoNormal style='text-align:center'><b>姓名</b></p>
+                      </td>
+                      <td width=113 colspan=3 style='width:85.0pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                          <p class=MsoNormal align=left style="text-align: left;">
+                              <span>
+                                  ${objArr1[index].name}
+                              </span>
+                          </p>
+                      </td>
+                      <td width=76 style='width:2.0cm;padding:0cm 5.4pt 0cm 5.4pt'>
+                          <p class=MsoNormal align=center style='text-align:center'><b>性别</b></p>
+                      </td>
+                      <td width=113  colspan=3 style='width:3.0cm;padding:0cm 5.4pt 0cm 5.4pt'>
+                          <p class=MsoNormal align=left style='text-align:left'><span>${objArr1[index].sex}</span></p>
+                      </td>
+                      <td width=73 colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                          <p class=MsoNormal align=center style='text-align:center'><b>手机号</b></p>
+                      </td>
+                      <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                          <p class=MsoNormal align=left style='text-align:left'><span>${objArr1[index].phone}</span></p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>送检科室</b></p>
+                      </td>
+                      <td width=339 colspan=7 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].inspectionDepartment}</span>
+                          </p>
+                      </td>
+                      <td width=73  colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;white-space: nowrap;'><b>送检医生</b></p>
+                      </td>
+                      <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].inspectionDoctor}</span>
+                          </p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>样本类型</b></p>
+                      </td>
+                      <td width=183 colspan=7 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].sampleType}</span>
+                          </p>
+                      </td>
+                      <td width=73  colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;white-space: nowrap;'><b>采样日期</b></p>
+                      </td>
+                      <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].samplingDate}</span>
+                          </p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>简要病史</b></p>
+                      </td>
+                      <td width=339 colspan=12 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].medicalHistory}</span>
+                          </p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>检验方法</b></p>
+                      </td>
+                      <td width=339 colspan=12 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:center'>
+                              <span >荧光&thinsp;PCR-毛细管电泳法</span>
+                          </p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>目标基因</b></p>
+                      </td>
+                      <td width=339 colspan=6 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:center'>
+                              <span><i>SMN1</i>&thinsp;外显子&thinsp;7</span>
+                          </p>
+                      </td>
+                      <td width=73  colspan=6 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center'>
+                              <span><i>SMN2</i>&thinsp;外显子&thinsp;7</span>
+                          </p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>检验结果</b></p>
+                      </td>
+                      <td width=339 colspan=6 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:center'>
+                              <span>${objArr1[index].smn1}</span>
+                          </p>
+                      </td>
+                      <td width=73  colspan=6 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center'>
+                              <span>${objArr1[index].smn2}</span>
+                          </p>
+                      </td>
+                  </tr>
+                  ${pictureHtml}
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>检验结论</b></p>
+                      </td>
+                      <td width=183 colspan=12 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              ${defaultBox1}
+                          <span style="vertical-align: middle;${defaultBox4}" >未检出目标基因拷贝数异常</span>
+                          </p>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              ${defaultBox2}
+                          <span style="vertical-align: middle;${defaultBox5}" ><i>SMN1&thinsp;</i>基因外显子&thinsp;7&thinsp;杂合型缺失</span>
+                          </p>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              ${defaultBox3}
+                          <span style="vertical-align: middle;${defaultBox6}" ><i>SMN1&thinsp;</i>基因外显子&thinsp;7&thinsp;纯合型缺失</span>
+                          </p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=73  style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center'><b>建议</b></p>
+                      </td>
+                      <td width=110 colspan=12 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center'>
+                              <span>${recommend}</span>
+                          </p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=556 colspan=13 style='width:416.7pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                          <p class='MsoNormal' align=center style='text-align:center'><span><b>结果解释</b></span></p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=556 colspan=13 valign=middle style='width:416.7pt;
+        padding:0cm 5.4pt 0cm 5.4pt'>
+                          <p class=MsoListParagraph align=justify style='margin-left:23.25pt;${beforeStage};${lineSpacing};'>
+                              1. 本次检验仅用于<i>&thinsp;SMN1&thinsp;</i>中最常见的外显子&thinsp;7&thinsp;缺失型携带者的检验，并未覆盖<i>&thinsp;SMN1&thinsp;</i>基因的罕见点突变检测。因此，当检测结果排除受检者为<i>&thinsp;SMN1&thinsp;</i>第&thinsp;7&thinsp;外显子缺失型携带者时，并不能排除受检者是否携带有<i>&thinsp;SMN1&thinsp;</i>基因的罕见点突变。
+                          </p>
+                          ${pagingTable}
+                          <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >2. 当检出<i>&thinsp;SMN1&thinsp;</i>第&thinsp;7&thinsp;外显子为&thinsp;2&thinsp;拷贝时，并不能直接判断&thinsp;2&thinsp;个拷贝的<i>&thinsp;SMN1&thinsp;</i>在染色体上的排布方式，即不能判断出是否为“&thinsp;2+0&thinsp;”携带者型。当怀疑待检样本存在“&thinsp;2+0&thinsp;”时，建议其配偶进行<i>&thinsp;SMN1&thinsp;</i>基因检测。</p>
+                          <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >3. 受检者进行过骨髓移植、细胞治疗或接受输血，可能会影响血样检测结果的准确性。</p>
+                          <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >4. 该方法检测<i>&thinsp;SMN1&thinsp;</i>基因第&thinsp;7&thinsp;外显子拷贝数时，将以受检者基因组中保守的管家基因为内参。内参基因罕见的突变可能会影响到检测结果的准确性。</p>
+                          <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >5. 检验<i>&thinsp;SMN2&thinsp;</i>基因拷贝数通常仅用于对患者临床预后的评估。正常人群中<i>&thinsp;SMN2&thinsp;</i>基因本身就存在拷贝数变异，可能为&thinsp;0、1、2&thinsp;或以上。</p>
+                          ${pagingEnd}
+                  </tr>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>检验日期</b></p>
+                      </td>
+                      <td width=339 colspan=9 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].inspectionDate}</span>
+                          </p>
+                      </td>
+                      <td width=73  colspan=2 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;white-space: nowrap;'><b>报告日期</b></p>
+                      </td>
+                      <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                        <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].reportDate}</span>
+                          </p>
+                      </td>
+                  </tr>
+              </table>
+          </div>
+      </body>
+      ${pictureScript}
+      </html>`;
+
+              content2[index] =
+                data1.data.selectReport == "default"
+                  ? content[index]
+                  : content1[index];
               var fs = window.require("fs");
               fs.writeFile(
                 htmlPathAndName[index],
@@ -2369,7 +2492,7 @@ ${pictureScript}
                             loading.close();
                             throw error;
                           }
-                          loading.close();
+
                           var pdfnotice =
                             `Wrote ` +
                             pdfPathAndName.length +
@@ -2405,6 +2528,7 @@ ${pictureScript}
                               duration: "2000",
                               offset: 60,
                             });
+                            loading.close();
                           }
                           log.info(
                             "\n" +
@@ -2476,18 +2600,18 @@ ${pictureScript}
           });
         }
         var figureFile2 = this.figureFile1;
-        objArr.forEach(function (item, index) {
+        objArr1.forEach(function (item, index) {
           figureFile2.forEach(function (item, index1) {
-            if (objArr[index].number == figureFile2[index1].fileName) {
+            if (objArr1[index].number == figureFile2[index1].fileName) {
               htmlName[index] =
-                objArr[index].name +
+                objArr1[index].name +
                 "_" +
-                objArr[index].inspectionEntity +
+                objArr1[index].inspectionEntity +
                 ".html";
               pdfName[index] =
-                objArr[index].name +
+                objArr1[index].name +
                 "_" +
-                objArr[index].inspectionEntity +
+                objArr1[index].inspectionEntity +
                 ".pdf";
               newFolderName[index] = outputDirectry;
               htmlPathAndName[index] = path.join(
@@ -2499,13 +2623,13 @@ ${pictureScript}
                 pdfName[index]
               );
               console.log("pdfPathAndName", pdfPathAndName);
-              if (objArr[index].smn1 >= 2) {
+              if (objArr1[index].smn1 >= 2) {
                 var reportResult = "未检出目标基因拷贝数异常";
                 var recommend = "无";
-              } else if (objArr[index].smn1 == 1) {
+              } else if (objArr1[index].smn1 == 1) {
                 reportResult = "SMN1基因外显子7杂合型缺失";
                 recommend = "遗传咨询";
-              } else if (objArr[index].smn1 == 0) {
+              } else if (objArr1[index].smn1 == 0) {
                 reportResult = "SMN1基因外显子7纯合型缺失";
                 recommend = "遗传咨询";
               }
@@ -2515,1242 +2639,1242 @@ ${pictureScript}
               );
               console.log("echartsPath", echartsPath);
               var pictureHtml = `<tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>检验结果图谱</b></p>
-                </td>
-                <td width=339 colspan=12 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                  <div id="main" style="height: 306px; width: 460px"></div>
-                </td>
-            </tr>`;
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>检验结果图谱</b></p>
+                      </td>
+                      <td width=339 colspan=12 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                        <div id="main" style="height: 306px; width: 460px"></div>
+                      </td>
+                  </tr>`;
               var pagingTable = ` </td>
-            </tr>
-        </table>
-        <table class=MsoTableGrid border=1 cellspacing=0 cellpadding=0 width=556
-                                                 style='width:416.7pt;border-collapse:collapse;border:none;margin: auto;'>
-            <tr>
-                <td width=556 colspan=13 valign=middle style='width:416.7pt;border:solid windowtext 1.0pt;border:none;padding:0cm 5.4pt 0cm 0pt'>
-                                                         <span style='font-size:10.5pt'>
-                                                            <br clear=all style='page-break-before:always'>
-                                                         </span>
-                                                     </td>
-            </tr>
-        </table>
-        <table class=MsoTableGrid border=1 cellspacing=0 cellpadding=0 width=556 id="mainContent"
-        style='width:416.7pt;margin: auto;border-collapse:collapse;margin-top:40px;'>
-            <tr>
-                <td width=556 colspan=13 valign=middle style='width:416.7pt;
-                padding:0cm 5.4pt 0cm 5.4pt'>`;
+                  </tr>
+              </table>
+              <table class=MsoTableGrid border=1 cellspacing=0 cellpadding=0 width=556
+                                                       style='width:416.7pt;border-collapse:collapse;border:none;margin: auto;'>
+                  <tr>
+                      <td width=556 colspan=13 valign=middle style='width:416.7pt;border:solid windowtext 1.0pt;border:none;padding:0cm 5.4pt 0cm 0pt'>
+                                                               <span style='font-size:10.5pt'>
+                                                                  <br clear=all style='page-break-before:always'>
+                                                               </span>
+                                                           </td>
+                  </tr>
+              </table>
+              <table class=MsoTableGrid border=1 cellspacing=0 cellpadding=0 width=556 id="mainContent"
+              style='width:416.7pt;margin: auto;border-collapse:collapse;margin-top:40px;'>
+                  <tr>
+                      <td width=556 colspan=13 valign=middle style='width:416.7pt;
+                      padding:0cm 5.4pt 0cm 5.4pt'>`;
               var pagingEnd = `</td>`;
               var pictureScript = `<script type="text/javascript">
-      /* 基于准备好的dom，初始化echarts实例*/
-      var lastData = ${figureFile2[index1].WARN};
-      if (lastData == false) {
-        var mainContent = document.getElementById("main");
-        var myChart = echarts.init(mainContent);
-        var SMN1 = "${figureFile2[index1].SMN1}";
-        var SMN2 = "${figureFile2[index1].SMN2}";
-        var S01 = "${figureFile2[index1].S01}";
-        var S02 = "${figureFile2[index1].S02}";
-        var S03 = "${figureFile2[index1].S03}";
-        var S04 = "${figureFile2[index1].S04}";
-        var S05 = "${figureFile2[index1].S05}";
-        var S06 = "${figureFile2[index1].S06}";
-        var S07 = "${figureFile2[index1].S07}";
-        var S08 = "${figureFile2[index1].S08}";
-        if (S01 == "1 2") {
-          var marker1Value1 = {
-            value: 1,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker1Value2 = {
-            value: 1,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        } else if (S01 == "1") {
-          var marker1Value1 = {
-            value: 2,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker1Value2 = {
-            value: 0,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        } else if (S01 == "2") {
-          var marker1Value1 = {
-            value: 0,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker1Value2 = {
-            value: 2,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        }
-        if (S02 == "1 2") {
-          var marker2Value1 = {
-            value: 1,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker2Value2 = {
-            value: 1,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        } else if (S02 == "1") {
-          var marker2Value1 = {
-            value: 2,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker2Value2 = {
-            value: 0,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        } else if (S02 == "2") {
-          var marker2Value1 = {
-            value: 0,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker2Value2 = {
-            value: 2,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        }
-        if (S03 == "1 2") {
-          var marker3Value1 = {
-            value: 1,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker3Value2 = {
-            value: 1,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        } else if (S03 == "1") {
-          var marker3Value1 = {
-            value: 2,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker3Value2 = {
-            value: 0,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        } else if (S03 == "2") {
-          var marker3Value1 = {
-            value: 0,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker3Value2 = {
-            value: 2,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        }
-        if (S04 == "1 2") {
-          var marker4Value1 = {
-            value: 1,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker4Value2 = {
-            value: 1,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-          var marker4Value3 = {
-            value: 0,
-            itemStyle: {
-              color: "#FFC0CB", /*粉色*/
-            },
-          };
-        } else if (S04 == "1") {
-          var marker4Value1 = {
-            value: 2,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker4Value2 = {
-            value: 0,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-          var marker4Value3 = {
-            value: 0,
-            itemStyle: {
-              color: "#FFC0CB", /*粉色*/
-            },
-          };
-        } else if (S04 == "2") {
-          var marker4Value1 = {
-            value: 0,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker4Value2 = {
-            value: 2,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-          var marker4Value3 = {
-            value: 0,
-            itemStyle: {
-              color: "#FFC0CB", /*粉色*/
-            },
-          };
-        } else if (S04 == "2 3") {
-          var marker4Value1 = {
-            value: 0,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker4Value2 = {
-            value: 1,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-          var marker4Value3 = {
-            value: 1,
-            itemStyle: {
-              color: "#FFC0CB", /*粉色*/
-            },
-          };
-        } else if (S04 == "1 3") {
-          var marker4Value1 = {
-            value: 1,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker4Value2 = {
-            value: 0,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-          var marker4Value3 = {
-            value: 1,
-            itemStyle: {
-              color: "#FFC0CB", /*粉色*/
-            },
-          };
-        } else if (S04 == "3") {
-          var marker4Value1 = {
-            value: 0,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker4Value2 = {
-            value: 0,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-          var marker4Value3 = {
-            value: 2,
-            itemStyle: {
-              color: "#FFC0CB", /*粉色*/
-            },
-          };
-        }
-        if (S05 == "1 2") {
-          var marker5Value1 = {
-            value: 1,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker5Value2 = {
-            value: 1,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        } else if (S05 == "1") {
-          var marker5Value1 = {
-            value: 2,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker5Value2 = {
-            value: 0,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        } else if (S05 == "2") {
-          var marker5Value1 = {
-            value: 0,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker5Value2 = {
-            value: 2,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        }
-        if (S06 == "1 2") {
-          var marker6Value1 = {
-            value: 1,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker6Value2 = {
-            value: 1,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        } else if (S06 == "1") {
-          var marker6Value1 = {
-            value: 2,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker6Value2 = {
-            value: 0,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        } else if (S06 == "2") {
-          var marker6Value1 = {
-            value: 0,
-            itemStyle: {
-              color: "#000088", /*黄色*/
-            },
-          };
-          var marker6Value2 = {
-            value: 2,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        }
-        if (S07 == "1 2") {
-          var marker7Value1 = {
-            value: 1,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker7Value2 = {
-            value: 1,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        } else if (S07 == "1") {
-          var marker7Value1 = {
-            value: 2,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker7Value2 = {
-            value: 0,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        } else if (S07 == "2") {
-          var marker7Value1 = {
-            value: 0,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker7Value2 = {
-            value: 2,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        }
-        if (S08 == "11 13") {
-          var marker8Value1 = {
-            value: 1,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker8Value2 = {
-            value: 1,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        } else if (S08 == "11") {
-          var marker8Value1 = {
-            value: 2,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker8Value2 = {
-            value: 0,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        } else if (S08 == "13") {
-          var marker8Value1 = {
-            value: 0,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker8Value2 = {
-            value: 2,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        } else {
-          var marker8Value1 = {
-            value: 0,
-            itemStyle: {
-              color: "#00FFFF", /*青色*/
-            },
-          };
-          var marker8Value2 = {
-            value: 2,
-            itemStyle: {
-              color: "#00FFFF", /*青色*/
-            },
-          };
-        }
-        if (SMN1 > 1) {
-          var SMN1Value1 = {
-            value: SMN1,
-            itemStyle: {
-              color: "#9955FF", /*淡紫色*/
-            },
-          };
-          var SMN1Value2 = {
-            value: 0,
-            itemStyle: {
-              color: "#FF8888", /*淡红色*/
-            },
-          };
-        } else {
-          var SMN1Value1 = {
-            value: 0,
-            itemStyle: {
-              color: "#9955FF", /*淡紫色*/
-            },
-          };
-          var SMN1Value2 = {
-            value: SMN1,
-            itemStyle: {
-              color: "#FF8888", /*淡红色*/
-            },
-          };
-        }
-        if (SMN2 >= 0) {
-          var SMN2Value1 = {
-            value: SMN2,
-            itemStyle: {
-              color: "#9955FF", //淡紫色
-            },
-          };
-          var SMN2Value2 = {
-            value: 0,
-            itemStyle: {
-              color: "#FF8888", //淡红色
-            },
-          };
-        } 
-        var option1 = {
-          color: ["#9955FF", "#FF8888","#000088", "#FFFF00", "#FFC0CB" ],
-          title: {
-            text: "",
-          },
-          animation : false,
-          aria: {
-            enabled: true,
-            decal: {
-              show: true,
-            },
-          },
-          tooltip: {
-            trigger: "axis",
-            axisPointer: {
-              type: "shadow",
-              label: {},
-            },
-          },
-          grid:{top:"24%"},
-          legend: {
-            data: [
-              
-              {
-                name: "SMN1>1,SMN2>=0",
-                icon: "rect",
+            /* 基于准备好的dom，初始化echarts实例*/
+            var lastData = ${figureFile2[index1].WARN};
+            if (lastData == false) {
+              var mainContent = document.getElementById("main");
+              var myChart = echarts.init(mainContent);
+              var SMN1 = "${figureFile2[index1].SMN1}";
+              var SMN2 = "${figureFile2[index1].SMN2}";
+              var S01 = "${figureFile2[index1].S01}";
+              var S02 = "${figureFile2[index1].S02}";
+              var S03 = "${figureFile2[index1].S03}";
+              var S04 = "${figureFile2[index1].S04}";
+              var S05 = "${figureFile2[index1].S05}";
+              var S06 = "${figureFile2[index1].S06}";
+              var S07 = "${figureFile2[index1].S07}";
+              var S08 = "${figureFile2[index1].S08}";
+              if (S01 == "1 2") {
+                var marker1Value1 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker1Value2 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              } else if (S01 == "1") {
+                var marker1Value1 = {
+                  value: 2,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker1Value2 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              } else if (S01 == "2") {
+                var marker1Value1 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker1Value2 = {
+                  value: 2,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              }
+              if (S02 == "1 2") {
+                var marker2Value1 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker2Value2 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              } else if (S02 == "1") {
+                var marker2Value1 = {
+                  value: 2,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker2Value2 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              } else if (S02 == "2") {
+                var marker2Value1 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker2Value2 = {
+                  value: 2,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              }
+              if (S03 == "1 2") {
+                var marker3Value1 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker3Value2 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              } else if (S03 == "1") {
+                var marker3Value1 = {
+                  value: 2,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker3Value2 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              } else if (S03 == "2") {
+                var marker3Value1 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker3Value2 = {
+                  value: 2,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              }
+              if (S04 == "1 2") {
+                var marker4Value1 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker4Value2 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+                var marker4Value3 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#FFC0CB", /*粉色*/
+                  },
+                };
+              } else if (S04 == "1") {
+                var marker4Value1 = {
+                  value: 2,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker4Value2 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+                var marker4Value3 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#FFC0CB", /*粉色*/
+                  },
+                };
+              } else if (S04 == "2") {
+                var marker4Value1 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker4Value2 = {
+                  value: 2,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+                var marker4Value3 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#FFC0CB", /*粉色*/
+                  },
+                };
+              } else if (S04 == "2 3") {
+                var marker4Value1 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker4Value2 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+                var marker4Value3 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#FFC0CB", /*粉色*/
+                  },
+                };
+              } else if (S04 == "1 3") {
+                var marker4Value1 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker4Value2 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+                var marker4Value3 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#FFC0CB", /*粉色*/
+                  },
+                };
+              } else if (S04 == "3") {
+                var marker4Value1 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker4Value2 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+                var marker4Value3 = {
+                  value: 2,
+                  itemStyle: {
+                    color: "#FFC0CB", /*粉色*/
+                  },
+                };
+              }
+              if (S05 == "1 2") {
+                var marker5Value1 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker5Value2 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              } else if (S05 == "1") {
+                var marker5Value1 = {
+                  value: 2,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker5Value2 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              } else if (S05 == "2") {
+                var marker5Value1 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker5Value2 = {
+                  value: 2,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              }
+              if (S06 == "1 2") {
+                var marker6Value1 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker6Value2 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              } else if (S06 == "1") {
+                var marker6Value1 = {
+                  value: 2,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker6Value2 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              } else if (S06 == "2") {
+                var marker6Value1 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#000088", /*黄色*/
+                  },
+                };
+                var marker6Value2 = {
+                  value: 2,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              }
+              if (S07 == "1 2") {
+                var marker7Value1 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker7Value2 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              } else if (S07 == "1") {
+                var marker7Value1 = {
+                  value: 2,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker7Value2 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              } else if (S07 == "2") {
+                var marker7Value1 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker7Value2 = {
+                  value: 2,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              }
+              if (S08 == "11 13") {
+                var marker8Value1 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker8Value2 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              } else if (S08 == "11") {
+                var marker8Value1 = {
+                  value: 2,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker8Value2 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              } else if (S08 == "13") {
+                var marker8Value1 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker8Value2 = {
+                  value: 2,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              } else {
+                var marker8Value1 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#00FFFF", /*青色*/
+                  },
+                };
+                var marker8Value2 = {
+                  value: 2,
+                  itemStyle: {
+                    color: "#00FFFF", /*青色*/
+                  },
+                };
+              }
+              if (SMN1 > 1) {
+                var SMN1Value1 = {
+                  value: SMN1,
+                  itemStyle: {
+                    color: "#9955FF", /*淡紫色*/
+                  },
+                };
+                var SMN1Value2 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#FF8888", /*淡红色*/
+                  },
+                };
+              } else {
+                var SMN1Value1 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#9955FF", /*淡紫色*/
+                  },
+                };
+                var SMN1Value2 = {
+                  value: SMN1,
+                  itemStyle: {
+                    color: "#FF8888", /*淡红色*/
+                  },
+                };
+              }
+              if (SMN2 >= 0) {
+                var SMN2Value1 = {
+                  value: SMN2,
+                  itemStyle: {
+                    color: "#9955FF", //淡紫色
+                  },
+                };
+                var SMN2Value2 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#FF8888", //淡红色
+                  },
+                };
+              }
+              var option1 = {
+                color: ["#9955FF", "#FF8888","#000088", "#FFFF00", "#FFC0CB" ],
+                title: {
+                  text: "",
+                },
+                animation : false,
+                aria: {
+                  enabled: true,
+                  decal: {
+                    show: true,
+                  },
+                },
+                tooltip: {
+                  trigger: "axis",
+                  axisPointer: {
+                    type: "shadow",
+                    label: {},
+                  },
+                },
+                grid:{top:"24%"},
+                legend: {
+                  data: [
 
-              },
-              {
-                name: "SMN1<=1",
-                icon: "rect",
-   
-              },
-              {
-                name: "等位基因1",
-                icon: "rect",
+                    {
+                      name: "SMN1>1,SMN2>=0",
+                      icon: "rect",
 
-              },
-              {
-                name: "等位基因2",
-                icon: "rect",
+                    },
+                    {
+                      name: "SMN1<=1",
+                      icon: "rect",
 
-              },
-              {
-                name: "等位基因3",
-                icon: "rect",
+                    },
+                    {
+                      name: "等位基因1",
+                      icon: "rect",
 
-              },
-            ],
-          },
-          xAxis: {
-            data: [
-              "SMN1",
-              "SMN2",
-              "S06",
-              "S04",
-              "S07",
-              "S01",
-              "S05",
-              "S08",
-              "S02",
-              "S03",
-            ],
-            axisLabel: { interval: 0 },
-          },
-          yAxis: [
-            {
-              type: "value",
-              name: "拷贝数",
-              position: "left",
-              alignTicks: true,
-              axisLine: {
-                show: true,
-              },
-              axisLabel: {
-                formatter: "{value}",
-              },
-              interval: 1,
-            },
+                    },
+                    {
+                      name: "等位基因2",
+                      icon: "rect",
 
-          ],
-          series: [
-          {
-              name: "SMN1>1,SMN2>=0",
-              type: "bar",
-              data: [SMN1Value1, SMN2Value1, 0, 0, 0, 0, 0, 0, 0, 0],
-              barGap: "0%",
-            },
-            {
-              name: "SMN1<=1",
-              type: "bar",
-              data: [SMN1Value2, SMN2Value2, 0, 0, 0, 0, 0, 0, 0, 0],
-              barGap: "0%",
+                    },
+                    {
+                      name: "等位基因3",
+                      icon: "rect",
 
-            },
-            {
-              name: "等位基因1",
-              type: "bar",
-              data: [
-                0,
-                0,
-                marker6Value1,
-                marker4Value1,
-                marker7Value1,
-                marker1Value1,
-                marker5Value1,
-                marker8Value1,
-                marker2Value1,
-                marker3Value1,
-              ],
-              barGap: "0%",
-          
-            },
-            {
-              name: "等位基因2",
-              type: "bar",
-              data: [
-                0,
-                0,
-                marker6Value2,
-                marker4Value2,
-                marker7Value2,
-                marker1Value2,
-                marker5Value2,
-                marker8Value2,
-                marker2Value2,
-                marker3Value2,
-              ],
-              barGap: "0%",
-            },
-            {
-              name: "等位基因3",
-              type: "bar",
-              data: [0, 0, 0, marker4Value3, 0, 0, 0, 0, 0, 0],
-              barGap: "0%",
-            },
-            
-          ],
-        };
-        myChart.setOption(option1);
-      } else {
-        var mainContent = document.getElementById("main");
-        var myChart = echarts.init(mainContent);
-        var SMN1 = "${figureFile2[index1].SMN1}";
-        var SMN2 = "${figureFile2[index1].SMN2}";
-        var S01 = "${figureFile2[index1].S01}";
-        var S02 = "${figureFile2[index1].S02}";
-        var S03 = "${figureFile2[index1].S03}";
-        var S04 = "${figureFile2[index1].S04}";
-        var S05 = "${figureFile2[index1].S05}";
-        var S06 = "${figureFile2[index1].S06}";
-        var S07 = "${figureFile2[index1].S07}";
-        var S08 = "${figureFile2[index1].S08}";
-        if (S01 == "1 2") {
-          var marker1Value1 = {
-            value: 1,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker1Value2 = {
-            value: 1,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        } else if (S01 == "1") {
-          var marker1Value1 = {
-            value: 2,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker1Value2 = {
-            value: 0,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        } else if (S01 == "2") {
-          var marker1Value1 = {
-            value: 0,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker1Value2 = {
-            value: 2,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        }
-        if (S02 == "1 2") {
-          var marker2Value1 = {
-            value: 1,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker2Value2 = {
-            value: 1,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        } else if (S02 == "1") {
-          var marker2Value1 = {
-            value: 2,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker2Value2 = {
-            value: 0,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        } else if (S02 == "2") {
-          var marker2Value1 = {
-            value: 0,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker2Value2 = {
-            value: 2,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        }
-        if (S03 == "1 2") {
-          var marker3Value1 = {
-            value: 1,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker3Value2 = {
-            value: 1,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        } else if (S03 == "1") {
-          var marker3Value1 = {
-            value: 2,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker3Value2 = {
-            value: 0,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        } else if (S03 == "2") {
-          var marker3Value1 = {
-            value: 0,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker3Value2 = {
-            value: 2,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        }
-        if (S04 == "1 2") {
-          var marker4Value1 = {
-            value: 1,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker4Value2 = {
-            value: 1,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-          var marker4Value3 = {
-            value: 0,
-            itemStyle: {
-              color: "#FFC0CB", /*粉色*/
-            },
-          };
-        } else if (S04 == "1") {
-          var marker4Value1 = {
-            value: 2,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker4Value2 = {
-            value: 0,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-          var marker4Value3 = {
-            value: 0,
-            itemStyle: {
-              color: "#FFC0CB", /*粉色*/
-            },
-          };
-        } else if (S04 == "2") {
-          var marker4Value1 = {
-            value: 0,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker4Value2 = {
-            value: 2,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-          var marker4Value3 = {
-            value: 0,
-            itemStyle: {
-              color: "#FFC0CB", /*粉色*/
-            },
-          };
-        } else if (S04 == "2 3") {
-          var marker4Value1 = {
-            value: 0,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker4Value2 = {
-            value: 1,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-          var marker4Value3 = {
-            value: 1,
-            itemStyle: {
-              color: "#FFC0CB", /*粉色*/
-            },
-          };
-        } else if (S04 == "1 3") {
-          var marker4Value1 = {
-            value: 1,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker4Value2 = {
-            value: 0,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-          var marker4Value3 = {
-            value: 1,
-            itemStyle: {
-              color: "#FFC0CB", /*粉色*/
-            },
-          };
-        } else if (S04 == "3") {
-          var marker4Value1 = {
-            value: 0,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker4Value2 = {
-            value: 0,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-          var marker4Value3 = {
-            value: 2,
-            itemStyle: {
-              color: "#FFC0CB", /*粉色*/
-            },
-          };
-        }
-        if (S05 == "1 2") {
-          var marker5Value1 = {
-            value: 1,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker5Value2 = {
-            value: 1,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        } else if (S05 == "1") {
-          var marker5Value1 = {
-            value: 2,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker5Value2 = {
-            value: 0,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        } else if (S05 == "2") {
-          var marker5Value1 = {
-            value: 0,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker5Value2 = {
-            value: 2,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        }
-        if (S06 == "1 2") {
-          var marker6Value1 = {
-            value: 1,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker6Value2 = {
-            value: 1,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        } else if (S06 == "1") {
-          var marker6Value1 = {
-            value: 2,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker6Value2 = {
-            value: 0,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        } else if (S06 == "2") {
-          var marker6Value1 = {
-            value: 0,
-            itemStyle: {
-              color: "#000088", /*黄色*/
-            },
-          };
-          var marker6Value2 = {
-            value: 2,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        }
-        if (S07 == "1 2") {
-          var marker7Value1 = {
-            value: 1,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker7Value2 = {
-            value: 1,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        } else if (S07 == "1") {
-          var marker7Value1 = {
-            value: 2,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker7Value2 = {
-            value: 0,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        } else if (S07 == "2") {
-          var marker7Value1 = {
-            value: 0,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker7Value2 = {
-            value: 2,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        }
-        if (S08 == "11 13") {
-          var marker8Value1 = {
-            value: 1,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker8Value2 = {
-            value: 1,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        } else if (S08 == "11") {
-          var marker8Value1 = {
-            value: 2,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker8Value2 = {
-            value: 0,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        } else if (S08 == "13") {
-          var marker8Value1 = {
-            value: 0,
-            itemStyle: {
-              color: "#000088", /*深蓝色*/
-            },
-          };
-          var marker8Value2 = {
-            value: 2,
-            itemStyle: {
-              color: "#FFFF00", /*黄色*/
-            },
-          };
-        } else {
-          var marker8Value1 = {
-            value: 0,
-            itemStyle: {
-              color: "#00FFFF", /*青色*/
-            },
-          };
-          var marker8Value2 = {
-            value: 2,
-            itemStyle: {
-              color: "#00FFFF", /*青色*/
-            },
-          };
-        }
-        if (SMN1 > 1) {
-          var SMN1Value1 = {
-            value: SMN1,
-            itemStyle: {
-              color: "#9955FF", /*淡紫色*/
-            },
-          };
-          var SMN1Value2 = {
-            value: 0,
-            itemStyle: {
-              color: "#FF8888", /*淡红色*/
-            },
-          };
-        } else {
-          var SMN1Value1 = {
-            value: 0,
-            itemStyle: {
-              color: "#9955FF", /*淡紫色*/
-            },
-          };
-          var SMN1Value2 = {
-            value: SMN1,
-            itemStyle: {
-              color: "#FF8888", /*淡红色*/
-            },
-          };
-        }
-        if (SMN2 >= 0) {
-          var SMN2Value1 = {
-            value: SMN2,
-            itemStyle: {
-              color: "#9955FF", //淡紫色
-            },
-          };
-          var SMN2Value2 = {
-            value: 0,
-            itemStyle: {
-              color: "#FF8888", //淡红色
-            },
-          };
-        }
-        var option1 = {
-          color: ["#9955FF", "#FF8888","#000088", "#FFFF00", "#FFC0CB" ],
-          title: {
-            text: "",
-          },
-          animation : false,
-          aria: {
-            enabled: true,
-            decal: {
-              show: true,
-            },
-          },
-          tooltip: {
-            trigger: "axis",
-            axisPointer: {
-              type: "shadow",
-              label: {},
-            },
-          },
-          grid:{top:"24%"},
-          legend: {
-            data: [
-              
-              {
-                name: "SMN1>1,SMN2>=0",
-                icon: "rect",
-              },
-              {
-                name: "SMN1<=1",
-                icon: "rect",
-                
-              },
-              {
-                name: "等位基因1",
-                icon: "rect",
-                
-              },
-              {
-                name: "等位基因2",
-                icon: "rect",
-                
-              },
-              {
-                name: "等位基因3",
-                icon: "rect",
-                
-              },
-            ],
-          },
-          xAxis: {
-            data: [
-              "SMN1",
-              "SMN2",
-              "S06",
-              "S04",
-              "S07",
-              "S01",
-              "S05",
-              "S08",
-              "S02",
-              "S03",
-            ],
-            axisLabel: { interval: 0 },
-          },
-          yAxis: [
-            {
-              type: "value",
-              name: "拷贝数",
-              position: "left",
-              alignTicks: true,
-              axisLine: {
-                show: true,
-              },
-              axisLabel: {
-                formatter: "{value}",
-              },
-              interval: 1,
-            },
+                    },
+                  ],
+                },
+                xAxis: {
+                  data: [
+                    "SMN1",
+                    "SMN2",
+                    "S06",
+                    "S04",
+                    "S07",
+                    "S01",
+                    "S05",
+                    "S08",
+                    "S02",
+                    "S03",
+                  ],
+                  axisLabel: { interval: 0 },
+                },
+                yAxis: [
+                  {
+                    type: "value",
+                    name: "拷贝数",
+                    position: "left",
+                    alignTicks: true,
+                    axisLine: {
+                      show: true,
+                    },
+                    axisLabel: {
+                      formatter: "{value}",
+                    },
+                    interval: 1,
+                  },
 
-          ],
-          series: [
-          {
-              name: "SMN1>1,SMN2>=0",
-              type: "bar",
-              data: [SMN1Value1, SMN2Value1, 0, 0, 0, 0, 0, 0, 0, 0],
-              barGap: "0%",
-            },
-            {
-              name: "SMN1<=1",
-              type: "bar",
-              data: [SMN1Value2, SMN2Value2, 0, 0, 0, 0, 0, 0, 0, 0],
-              barGap: "0%",
+                ],
+                series: [
+                {
+                    name: "SMN1>1,SMN2>=0",
+                    type: "bar",
+                    data: [SMN1Value1, SMN2Value1, 0, 0, 0, 0, 0, 0, 0, 0],
+                    barGap: "0%",
+                  },
+                  {
+                    name: "SMN1<=1",
+                    type: "bar",
+                    data: [SMN1Value2, SMN2Value2, 0, 0, 0, 0, 0, 0, 0, 0],
+                    barGap: "0%",
 
-            },
-            {
-              name: "等位基因1",
-              type: "bar",
-              data: [
-                0,
-                0,
-                marker6Value1,
-                marker4Value1,
-                marker7Value1,
-                marker1Value1,
-                marker5Value1,
-                marker8Value1,
-                marker2Value1,
-                marker3Value1,
-              ],
-              barGap: "0%",
-            },
-            {
-              name: "等位基因2",
-              type: "bar",
-              data: [
-                0,
-                0,
-                marker6Value2,
-                marker4Value2,
-                marker7Value2,
-                marker1Value2,
-                marker5Value2,
-                marker8Value2,
-                marker2Value2,
-                marker3Value2,
-              ],
-              barGap: "0%",
-            },
-            {
-              name: "等位基因3",
-              type: "bar",
-              data: [0, 0, 0, marker4Value3, 0, 0, 0, 0, 0, 0],
-              barGap: "0%",
-             
-            },
-            
-          ],
-        };
+                  },
+                  {
+                    name: "等位基因1",
+                    type: "bar",
+                    data: [
+                      0,
+                      0,
+                      marker6Value1,
+                      marker4Value1,
+                      marker7Value1,
+                      marker1Value1,
+                      marker5Value1,
+                      marker8Value1,
+                      marker2Value1,
+                      marker3Value1,
+                    ],
+                    barGap: "0%",
 
-        /* 使用刚指定的配置项和数据显示图表*/
-        myChart.setOption(option1);
-      }
-    <\/script>`;
+                  },
+                  {
+                    name: "等位基因2",
+                    type: "bar",
+                    data: [
+                      0,
+                      0,
+                      marker6Value2,
+                      marker4Value2,
+                      marker7Value2,
+                      marker1Value2,
+                      marker5Value2,
+                      marker8Value2,
+                      marker2Value2,
+                      marker3Value2,
+                    ],
+                    barGap: "0%",
+                  },
+                  {
+                    name: "等位基因3",
+                    type: "bar",
+                    data: [0, 0, 0, marker4Value3, 0, 0, 0, 0, 0, 0],
+                    barGap: "0%",
+                  },
+
+                ],
+              };
+              myChart.setOption(option1);
+            } else {
+              var mainContent = document.getElementById("main");
+              var myChart = echarts.init(mainContent);
+              var SMN1 = "${figureFile2[index1].SMN1}";
+              var SMN2 = "${figureFile2[index1].SMN2}";
+              var S01 = "${figureFile2[index1].S01}";
+              var S02 = "${figureFile2[index1].S02}";
+              var S03 = "${figureFile2[index1].S03}";
+              var S04 = "${figureFile2[index1].S04}";
+              var S05 = "${figureFile2[index1].S05}";
+              var S06 = "${figureFile2[index1].S06}";
+              var S07 = "${figureFile2[index1].S07}";
+              var S08 = "${figureFile2[index1].S08}";
+              if (S01 == "1 2") {
+                var marker1Value1 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker1Value2 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              } else if (S01 == "1") {
+                var marker1Value1 = {
+                  value: 2,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker1Value2 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              } else if (S01 == "2") {
+                var marker1Value1 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker1Value2 = {
+                  value: 2,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              }
+              if (S02 == "1 2") {
+                var marker2Value1 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker2Value2 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              } else if (S02 == "1") {
+                var marker2Value1 = {
+                  value: 2,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker2Value2 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              } else if (S02 == "2") {
+                var marker2Value1 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker2Value2 = {
+                  value: 2,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              }
+              if (S03 == "1 2") {
+                var marker3Value1 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker3Value2 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              } else if (S03 == "1") {
+                var marker3Value1 = {
+                  value: 2,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker3Value2 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              } else if (S03 == "2") {
+                var marker3Value1 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker3Value2 = {
+                  value: 2,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              }
+              if (S04 == "1 2") {
+                var marker4Value1 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker4Value2 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+                var marker4Value3 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#FFC0CB", /*粉色*/
+                  },
+                };
+              } else if (S04 == "1") {
+                var marker4Value1 = {
+                  value: 2,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker4Value2 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+                var marker4Value3 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#FFC0CB", /*粉色*/
+                  },
+                };
+              } else if (S04 == "2") {
+                var marker4Value1 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker4Value2 = {
+                  value: 2,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+                var marker4Value3 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#FFC0CB", /*粉色*/
+                  },
+                };
+              } else if (S04 == "2 3") {
+                var marker4Value1 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker4Value2 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+                var marker4Value3 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#FFC0CB", /*粉色*/
+                  },
+                };
+              } else if (S04 == "1 3") {
+                var marker4Value1 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker4Value2 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+                var marker4Value3 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#FFC0CB", /*粉色*/
+                  },
+                };
+              } else if (S04 == "3") {
+                var marker4Value1 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker4Value2 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+                var marker4Value3 = {
+                  value: 2,
+                  itemStyle: {
+                    color: "#FFC0CB", /*粉色*/
+                  },
+                };
+              }
+              if (S05 == "1 2") {
+                var marker5Value1 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker5Value2 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              } else if (S05 == "1") {
+                var marker5Value1 = {
+                  value: 2,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker5Value2 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              } else if (S05 == "2") {
+                var marker5Value1 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker5Value2 = {
+                  value: 2,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              }
+              if (S06 == "1 2") {
+                var marker6Value1 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker6Value2 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              } else if (S06 == "1") {
+                var marker6Value1 = {
+                  value: 2,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker6Value2 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              } else if (S06 == "2") {
+                var marker6Value1 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#000088", /*黄色*/
+                  },
+                };
+                var marker6Value2 = {
+                  value: 2,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              }
+              if (S07 == "1 2") {
+                var marker7Value1 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker7Value2 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              } else if (S07 == "1") {
+                var marker7Value1 = {
+                  value: 2,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker7Value2 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              } else if (S07 == "2") {
+                var marker7Value1 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker7Value2 = {
+                  value: 2,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              }
+              if (S08 == "11 13") {
+                var marker8Value1 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker8Value2 = {
+                  value: 1,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              } else if (S08 == "11") {
+                var marker8Value1 = {
+                  value: 2,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker8Value2 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              } else if (S08 == "13") {
+                var marker8Value1 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#000088", /*深蓝色*/
+                  },
+                };
+                var marker8Value2 = {
+                  value: 2,
+                  itemStyle: {
+                    color: "#FFFF00", /*黄色*/
+                  },
+                };
+              } else {
+                var marker8Value1 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#00FFFF", /*青色*/
+                  },
+                };
+                var marker8Value2 = {
+                  value: 2,
+                  itemStyle: {
+                    color: "#00FFFF", /*青色*/
+                  },
+                };
+              }
+              if (SMN1 > 1) {
+                var SMN1Value1 = {
+                  value: SMN1,
+                  itemStyle: {
+                    color: "#9955FF", /*淡紫色*/
+                  },
+                };
+                var SMN1Value2 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#FF8888", /*淡红色*/
+                  },
+                };
+              } else {
+                var SMN1Value1 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#9955FF", /*淡紫色*/
+                  },
+                };
+                var SMN1Value2 = {
+                  value: SMN1,
+                  itemStyle: {
+                    color: "#FF8888", /*淡红色*/
+                  },
+                };
+              }
+              if (SMN2 >= 0) {
+                var SMN2Value1 = {
+                  value: SMN2,
+                  itemStyle: {
+                    color: "#9955FF", //淡紫色
+                  },
+                };
+                var SMN2Value2 = {
+                  value: 0,
+                  itemStyle: {
+                    color: "#FF8888", //淡红色
+                  },
+                };
+              }
+              var option1 = {
+                color: ["#9955FF", "#FF8888","#000088", "#FFFF00", "#FFC0CB" ],
+                title: {
+                  text: "",
+                },
+                animation : false,
+                aria: {
+                  enabled: true,
+                  decal: {
+                    show: true,
+                  },
+                },
+                tooltip: {
+                  trigger: "axis",
+                  axisPointer: {
+                    type: "shadow",
+                    label: {},
+                  },
+                },
+                grid:{top:"24%"},
+                legend: {
+                  data: [
+
+                    {
+                      name: "SMN1>1,SMN2>=0",
+                      icon: "rect",
+                    },
+                    {
+                      name: "SMN1<=1",
+                      icon: "rect",
+
+                    },
+                    {
+                      name: "等位基因1",
+                      icon: "rect",
+
+                    },
+                    {
+                      name: "等位基因2",
+                      icon: "rect",
+
+                    },
+                    {
+                      name: "等位基因3",
+                      icon: "rect",
+
+                    },
+                  ],
+                },
+                xAxis: {
+                  data: [
+                    "SMN1",
+                    "SMN2",
+                    "S06",
+                    "S04",
+                    "S07",
+                    "S01",
+                    "S05",
+                    "S08",
+                    "S02",
+                    "S03",
+                  ],
+                  axisLabel: { interval: 0 },
+                },
+                yAxis: [
+                  {
+                    type: "value",
+                    name: "拷贝数",
+                    position: "left",
+                    alignTicks: true,
+                    axisLine: {
+                      show: true,
+                    },
+                    axisLabel: {
+                      formatter: "{value}",
+                    },
+                    interval: 1,
+                  },
+
+                ],
+                series: [
+                {
+                    name: "SMN1>1,SMN2>=0",
+                    type: "bar",
+                    data: [SMN1Value1, SMN2Value1, 0, 0, 0, 0, 0, 0, 0, 0],
+                    barGap: "0%",
+                  },
+                  {
+                    name: "SMN1<=1",
+                    type: "bar",
+                    data: [SMN1Value2, SMN2Value2, 0, 0, 0, 0, 0, 0, 0, 0],
+                    barGap: "0%",
+
+                  },
+                  {
+                    name: "等位基因1",
+                    type: "bar",
+                    data: [
+                      0,
+                      0,
+                      marker6Value1,
+                      marker4Value1,
+                      marker7Value1,
+                      marker1Value1,
+                      marker5Value1,
+                      marker8Value1,
+                      marker2Value1,
+                      marker3Value1,
+                    ],
+                    barGap: "0%",
+                  },
+                  {
+                    name: "等位基因2",
+                    type: "bar",
+                    data: [
+                      0,
+                      0,
+                      marker6Value2,
+                      marker4Value2,
+                      marker7Value2,
+                      marker1Value2,
+                      marker5Value2,
+                      marker8Value2,
+                      marker2Value2,
+                      marker3Value2,
+                    ],
+                    barGap: "0%",
+                  },
+                  {
+                    name: "等位基因3",
+                    type: "bar",
+                    data: [0, 0, 0, marker4Value3, 0, 0, 0, 0, 0, 0],
+                    barGap: "0%",
+
+                  },
+
+                ],
+              };
+
+              /* 使用刚指定的配置项和数据显示图表*/
+              myChart.setOption(option1);
+            }
+          <\/script>`;
               if (data1.data.fontStatus == 1) {
                 var changeFont = path.join(
                   process.cwd(),
@@ -3760,10 +3884,10 @@ ${pictureScript}
                 console.log(changeFont1);
                 var changeFont2 = "url(" + changeFont1 + ")";
                 var currentFont = `@font-face{
-                            font-family:"MiSans-Normal";
-                            src:${changeFont2};
-                            font-display:swap;
-                        }`;
+                                  font-family:"MiSans-Normal";
+                                  src:${changeFont2};
+                                  font-display:swap;
+                              }`;
                 var lineSpacing = `line-height:23px`;
                 var beforeStage = `text-indent:-12.85pt`;
                 var fontSetting = 'font-family:"MiSans-Normal"';
@@ -3776,21 +3900,21 @@ ${pictureScript}
                 console.log(defaultFont1);
                 var defaultFont2 = "url(" + defaultFont1 + ")";
                 currentFont = `@font-face{
-                                font-family:"simsun";
-                                src:${defaultFont2};
-                                font-display:swap;
-                            }`;
+                                      font-family:"simsun";
+                                      src:${defaultFont2};
+                                      font-display:swap;
+                                  }`;
                 lineSpacing = `line-height:24px`;
                 beforeStage = `text-indent:-16.85pt`;
                 fontSetting = 'font-family:"simsun"';
               }
               // 添加 svg 方框图片替换 input 输入框
               var correctBox = `<svg t="1654332410780" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2963" width="16" height="16" style="vertical-align: middle;">
-                            <path d="M832 128H192a64 64 0 0 0-64 64v640a64 64 0 0 0 64 64h640a64 64 0 0 0 64-64V192a64 64 0 0 0-64-64z m-93.71 270.86L466.76 670.4a32 32 0 0 1-45.26 0L285.71 534.6A32 32 0 0 1 331 489.33L444.14 602.5 693 353.61a32 32 0 0 1 45.26 45.25z" p-id="2964" ></path>
-                   </svg>`;
+                                  <path d="M832 128H192a64 64 0 0 0-64 64v640a64 64 0 0 0 64 64h640a64 64 0 0 0 64-64V192a64 64 0 0 0-64-64z m-93.71 270.86L466.76 670.4a32 32 0 0 1-45.26 0L285.71 534.6A32 32 0 0 1 331 489.33L444.14 602.5 693 353.61a32 32 0 0 1 45.26 45.25z" p-id="2964" ></path>
+                         </svg>`;
               var blankBox = `<svg t="1654332611254" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3878" width="16" height="16" style="vertical-align: middle;">
-                       <path d="M774 200c27.6 0 50 22.4 50 50v524c0 27.6-22.4 50-50 50H250c-27.6 0-50-22.4-50-50V250c0-27.6 22.4-50 50-50h524m0-72H250c-16.4 0-32.4 3.2-47.5 9.6-14.5 6.1-27.6 14.9-38.8 26.1-11.2 11.2-20 24.2-26.1 38.8-6.4 15.1-9.6 31.1-9.6 47.5v524c0 16.4 3.2 32.4 9.6 47.5 6.1 14.5 14.9 27.6 26.1 38.8 11.2 11.2 24.2 20 38.8 26.1 15.1 6.4 31.1 9.6 47.5 9.6h524c16.4 0 32.4-3.2 47.5-9.6 14.5-6.1 27.6-14.9 38.8-26.1 11.2-11.2 20-24.2 26.1-38.8 6.4-15.1 9.6-31.1 9.6-47.5V250c0-16.4-3.2-32.4-9.6-47.5-6.1-14.5-14.9-27.6-26.1-38.8-11.2-11.2-24.2-20-38.8-26.1-15.1-6.4-31.1-9.6-47.5-9.6z" p-id="3879"></path>
-                   </svg>`;
+                             <path d="M774 200c27.6 0 50 22.4 50 50v524c0 27.6-22.4 50-50 50H250c-27.6 0-50-22.4-50-50V250c0-27.6 22.4-50 50-50h524m0-72H250c-16.4 0-32.4 3.2-47.5 9.6-14.5 6.1-27.6 14.9-38.8 26.1-11.2 11.2-20 24.2-26.1 38.8-6.4 15.1-9.6 31.1-9.6 47.5v524c0 16.4 3.2 32.4 9.6 47.5 6.1 14.5 14.9 27.6 26.1 38.8 11.2 11.2 24.2 20 38.8 26.1 15.1 6.4 31.1 9.6 47.5 9.6h524c16.4 0 32.4-3.2 47.5-9.6 14.5-6.1 27.6-14.9 38.8-26.1 11.2-11.2 20-24.2 26.1-38.8 6.4-15.1 9.6-31.1 9.6-47.5V250c0-16.4-3.2-32.4-9.6-47.5-6.1-14.5-14.9-27.6-26.1-38.8-11.2-11.2-24.2-20-38.8-26.1-15.1-6.4-31.1-9.6-47.5-9.6z" p-id="3879"></path>
+                         </svg>`;
               if (reportResult == "未检出目标基因拷贝数异常") {
                 var defaultBox1 = correctBox;
                 var defaultBox2 = blankBox;
@@ -3808,706 +3932,709 @@ ${pictureScript}
                 var defaultBox6 = `font-weight:bold`;
               }
               content[index] = `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>G030Report</title>
-    <!-- 引入 echarts.js -->
-    <script src='${echartsPath}'><\/script>
-    <style>
-        /* Style Definitions */
-        p.MsoNormal,
-        li.MsoNormal,
-        div.MsoNormal {
-            margin: 0cm;
-            text-align: justify;
-            text-justify: inter-ideograph;
-            font-size: 10.5pt;
-            /* font-family: Simsun; */
-        }
+      <html lang="en">
+      <head>
+          <meta charset="UTF-8">
+          <meta http-equiv="X-UA-Compatible" content="IE=edge">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>G030Report</title>
+          <!-- 引入 echarts.js -->
+          <script src='${echartsPath}'><\/script>
+          <style>
+              /* Style Definitions */
+              p.MsoNormal,
+              li.MsoNormal,
+              div.MsoNormal {
+                  margin: 0cm;
+                  text-align: justify;
+                  text-justify: inter-ideograph;
+                  font-size: 10.5pt;
+                  /* font-family: Simsun; */
+              }
 
-        p.MsoListParagraph,
-        li.MsoListParagraph,
-        div.MsoListParagraph {
-            margin: 0cm;
-            text-align: justify;
-            text-justify: inter-ideograph;
-            /*text-indent: 21.0pt;*/
-            font-size: 10.5pt;
-            /* font-family: Simsun; */
-        }
+              p.MsoListParagraph,
+              li.MsoListParagraph,
+              div.MsoListParagraph {
+                  margin: 0cm;
+                  text-align: justify;
+                  text-justify: inter-ideograph;
+                  /*text-indent: 21.0pt;*/
+                  font-size: 10.5pt;
+                  /* font-family: Simsun; */
+              }
 
-        .MsoChpDefault {
-            /* font-family: Simsun; */
-        }
+              .MsoChpDefault {
+                  /* font-family: Simsun; */
+              }
 
-        td {
-            height: 40px;
-        }
+              td {
+                  height: 40px;
+              }
 
-        /* Page Definitions */
-        @page WordSection1 {
-            size: 595.3pt 841.9pt;
-            margin: 42.45pt 90.0pt 49.525pt 90.0pt;
-            layout-grid: 15.6pt;
-        }
-        ${currentFont}
-        body{
-            ${fontSetting}
-        }
-        div.WordSection1 {
-            page: WordSection1;
-        }
-        
-        /* List Definitions */
-        ol {
-            margin-bottom: 0cm;
-        }
+              /* Page Definitions */
+              @page WordSection1 {
+                  size: 595.3pt 841.9pt;
+                  margin: 42.45pt 90.0pt 49.525pt 90.0pt;
+                  layout-grid: 15.6pt;
+              }
+              ${currentFont}
+              body{
+                  ${fontSetting}
+              }
+              div.WordSection1 {
+                  page: WordSection1;
+              }
 
-        ul {
-            margin-bottom: 0cm;
-        }
+              /* List Definitions */
+              ol {
+                  margin-bottom: 0cm;
+              }
 
-        .checkbox:checked::after {
-            background: #000;
-        }
-        .page-header,
-        .page-header-space {
-            height: 20px;
-            font-size: 8.5px;
-        }
+              ul {
+                  margin-bottom: 0cm;
+              }
 
-        .page-footer,
-        .page-footer-space {
-            height: auto;
-            text-align: center;
-            font-size: 8.5px;
-        }
+              .checkbox:checked::after {
+                  background: #000;
+              }
+              .page-header,
+              .page-header-space {
+                  height: 20px;
+                  font-size: 8.5px;
+              }
 
-        .page-footer {
-            position: fixed;
-            bottom: 0mm;
-            /* width: 100%; */
-            /* border-top: 1px solid black; */
-            /* for demo */
-            /* background: yellow; */
-            /* for demo */
-        }
+              .page-footer,
+              .page-footer-space {
+                  height: auto;
+                  text-align: center;
+                  font-size: 8.5px;
+              }
 
-        .page-header {
-            position: fixed;
-            top: 0mm;
-            width: 100%;
-            /*  border-bottom: 1px solid black;  for demo */
-            /* background: yellow; */
-            /* for demo */
-        }
+              .page-footer {
+                  position: fixed;
+                  bottom: 0mm;
+                  /* width: 100%; */
+                  /* border-top: 1px solid black; */
+                  /* for demo */
+                  /* background: yellow; */
+                  /* for demo */
+              }
 
-        /* 文字阴影宋体打印加粗解决方案 */
-        .fontBolder {
-            text-shadow: 0.15pt 0px 0px black, 0.25pt 0px 0px black, 0.35pt 0px 0px black, -0.25pt 0px 0px black, 0px 0.25pt 0px black, 0px -0.25pt 0px black;
-        }
+              .page-header {
+                  position: fixed;
+                  top: 0mm;
+                  width: 100%;
+                  /*  border-bottom: 1px solid black;  for demo */
+                  /* background: yellow; */
+                  /* for demo */
+              }
 
-        @media print {
-            body {
-                margin: 0;
-            }
-        }
-        #mainContent{
-            border: 1px solid windowtext;
-        }
-        /* table tr td{ border-top:1px solid windowtext; } table{ border:1px solid windowtext; border-top-width:0px; }  */
-        /* table{ border-collapse:collapse; } table tr{ border:1px solid windowtext; }  */
-    </style>
-</head>
-<body lang=ZH-CN style='word-wrap:break-word;text-justify-trim:punctuation;text-align: center;'>
+              /* 文字阴影宋体打印加粗解决方案 */
+              .fontBolder {
+                  text-shadow: 0.15pt 0px 0px black, 0.25pt 0px 0px black, 0.35pt 0px 0px black, -0.25pt 0px 0px black, 0px 0.25pt 0px black, 0px -0.25pt 0px black;
+              }
 
-    <div class=WordSection1 style='layout-grid:15.6pt;margin-top: 30px;'>
-        <table cellspacing=0 cellpadding=0 width=556
-            style='width:416.7pt;border-collapse:collapse;border:none;margin: auto;text-align: center'>
-            <tr>
-                <td class="page-header" style="text-align: left;width: 416.7pt;border-bottom: solid windowtext 1pt;">
-                    ${objArr[index].inspectionEntity}
-                    <!-- <hr style="width:416.7pt"> -->
-                </td>
+              @media print {
+                  body {
+                      margin: 0;
+                  }
+              }
+              #mainContent{
+                  border: 1px solid windowtext;
+              }
+              /* table tr td{ border-top:1px solid windowtext; } table{ border:1px solid windowtext; border-top-width:0px; }  */
+              /* table{ border-collapse:collapse; } table tr{ border:1px solid windowtext; }  */
+          </style>
+      </head>
+      <body lang=ZH-CN style='word-wrap:break-word;text-justify-trim:punctuation;text-align: center;'>
 
-            </tr>
-        </table>
-        <table cellspacing=0 cellpadding=0 width=556
-            style='width:416.7pt;border-collapse:collapse;margin: auto;text-align: center'>
-            <tr>
-                <td class="page-footer" style="width:416.7pt;text-align: right">
-                    检验结果仅对送检样本负责
-                </td>
-            </tr>
+          <div class=WordSection1 style='layout-grid:15.6pt;margin-top: 30px;'>
+              <table cellspacing=0 cellpadding=0 width=556
+                  style='width:416.7pt;border-collapse:collapse;border:none;margin: auto;text-align: center'>
+                  <tr>
+                      <td class="page-header" style="text-align: left;width: 416.7pt;border-bottom: solid windowtext 1pt;">
+                          ${objArr1[index].inspectionEntity}
+                          <!-- <hr style="width:416.7pt"> -->
+                      </td>
 
-        </table>
-        <p class=MsoNormal align=center style='text-align:center;layout-grid-mode:char;margin: 35px 0 35px 0'><b><span
-                    lang=utf-8 style='font-size:14.0pt;'>运动神经元存活基因拷贝数检验报告单</b></p>
+                  </tr>
+              </table>
+              <table cellspacing=0 cellpadding=0 width=556
+                  style='width:416.7pt;border-collapse:collapse;margin: auto;text-align: center'>
+                  <tr>
+                      <td class="page-footer" style="width:416.7pt;text-align: right">
+                          检验结果仅对送检样本负责
+                      </td>
+                  </tr>
 
-        <table class=MsoTableGrid border=1 cellspacing=0 cellpadding=0 width=556 id="mainContent"
-            style='width:416.7pt;margin: auto;border-collapse:collapse;'>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>门诊号</b></p>
-                </td>
-                <td width=183 colspan=7 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].clinicNumber}</span>
-                    </p>
-                </td>
-                <td width=73  colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center'><b>住院号</b></p>
-                </td>
-                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].hospitalNumber}</span>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt'>
-                    <p class=MsoNormal style='text-align:center'><b>姓名</b></p>
-                </td>
-                <td width=113 colspan=3 style='width:85.0pt;padding:0cm 5.4pt 0cm 5.4pt'>
-                    <p class=MsoNormal align=left style="text-align: left;">
-                        <span>
-                            ${objArr[index].name}
-                        </span>
-                    </p>
-                </td>
-                <td width=76 style='width:2.0cm;padding:0cm 5.4pt 0cm 5.4pt'>
-                    <p class=MsoNormal align=center style='text-align:center'><b>性别</b></p>
-                </td>
-                <td width=113  colspan=3 style='width:3.0cm;padding:0cm 5.4pt 0cm 5.4pt'>
-                    <p class=MsoNormal align=left style='text-align:left'><span>${objArr[index].sex}</span></p>
-                </td>
-                <td width=73 colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt'>
-                    <p class=MsoNormal align=center style='text-align:center'><b>手机号</b></p>
-                </td>
-                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt'>
-                    <p class=MsoNormal align=left style='text-align:left'><span>${objArr[index].phone}</span></p>
-                </td>
-            </tr>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>送检科室</b></p>
-                </td>
-                <td width=339 colspan=7 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].inspectionDepartment}</span>
-                    </p>
-                </td>
-                <td width=73  colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;white-space: nowrap;'><b>送检医生</b></p>
-                </td>
-                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].inspectionDoctor}</span>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>样本类型</b></p>
-                </td>
-                <td width=183 colspan=7 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].sampleType}</span>
-                    </p>
-                </td>
-                <td width=73  colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;white-space: nowrap;'><b>采样日期</b></p>
-                </td>
-                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].samplingDate}</span>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>简要病史</b></p>
-                </td>
-                <td width=339 colspan=12 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].medicalHistory}</span>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>检验方法</b></p>
-                </td>
-                <td width=339 colspan=12 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:center'>
-                        <span >荧光&thinsp;PCR-毛细管电泳法</span>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>目标基因</b></p>
-                </td>
-                <td width=339 colspan=6 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:center'>
-                        <span><i>SMN1</i>&thinsp;外显子&thinsp;7</span>
-                    </p>
-                </td>
-                <td width=73  colspan=6 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center'>
-                        <span><i>SMN2</i>&thinsp;外显子&thinsp;7</span>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>检验结果</b></p>
-                </td>
-                <td width=339 colspan=6 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:center'>
-                        <span>${objArr[index].smn1}</span>
-                    </p>
-                </td>
-                <td width=73  colspan=6 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center'>
-                        <span>${objArr[index].smn2}</span>
-                    </p>
-                </td>
-            </tr>
-            ${pictureHtml}
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>检验结论</b></p>
-                </td>
-                <td width=183 colspan=12 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        ${defaultBox1}
-                    <span style="vertical-align: middle;${defaultBox4}" >未检出目标基因拷贝数异常</span>
-                    </p>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        ${defaultBox2}
-                    <span style="vertical-align: middle;${defaultBox5}" ><i>SMN1&thinsp;</i>基因外显子&thinsp;7&thinsp;杂合型缺失</span>
-                    </p>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        ${defaultBox3}
-                    <span style="vertical-align: middle;${defaultBox6}" ><i>SMN1&thinsp;</i>基因外显子&thinsp;7&thinsp;纯合型缺失</span>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td width=73  style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center'><b>建议</b></p>
-                </td>
-                <td width=110 colspan=12 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center'>
-                        <span>${recommend}</span>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td width=556 colspan=13 style='width:416.7pt;padding:0cm 5.4pt 0cm 5.4pt'>
-                    <p class='MsoNormal' align=center style='text-align:center'><span><b>结果解释</b></span></p>
-                </td>
-            </tr>
-            <tr>
-                <td width=556 colspan=13 valign=middle style='width:416.7pt;
-  padding:0cm 5.4pt 0cm 5.4pt'>
-                    <p class=MsoListParagraph align=justify style='margin-left:23.25pt;${beforeStage};${lineSpacing};'>
-                        1. 本次检验仅用于<i>&thinsp;SMN1&thinsp;</i>中最常见的外显子&thinsp;7&thinsp;缺失型携带者的检验，并未覆盖<i>&thinsp;SMN1&thinsp;</i>基因的罕见点突变检测。因此，当检测结果排除受检者为<i>&thinsp;SMN1&thinsp;</i>第&thinsp;7&thinsp;外显子缺失型携带者时，并不能排除受检者是否携带有<i>&thinsp;SMN1&thinsp;</i>基因的罕见点突变。
-                    </p>
-                    ${pagingTable}
-                    <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >2. 当检出<i>&thinsp;SMN1&thinsp;</i>第&thinsp;7&thinsp;外显子为&thinsp;2&thinsp;拷贝时，并不能直接判断&thinsp;2&thinsp;个拷贝的<i>&thinsp;SMN1&thinsp;</i>在染色体上的排布方式，即不能判断出是否为“&thinsp;2+0&thinsp;”携带者型。当怀疑待检样本存在“&thinsp;2+0&thinsp;”时，建议其配偶进行<i>&thinsp;SMN1&thinsp;</i>基因检测。</p>
-                    <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >3. 受检者进行过骨髓移植、细胞治疗或接受输血，可能会影响血样检测结果的准确性。</p>
-                    <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >4. 该方法检测<i>&thinsp;SMN1&thinsp;</i>基因第&thinsp;7&thinsp;外显子拷贝数时，将以受检者基因组中保守的管家基因为内参。内参基因罕见的突变可能会影响到检测结果的准确性。</p>
-                    <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >5. 检验<i>&thinsp;SMN2&thinsp;</i>基因拷贝数通常仅用于对患者临床预后的评估。正常人群中<i>&thinsp;SMN2&thinsp;</i>基因本身就存在拷贝数变异，可能为&thinsp;0、1、2&thinsp;或以上。</p>
-                    ${pagingEnd}
-            </tr>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>检验日期</b></p>
-                </td>
-                <td width=339 colspan=9 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].inspectionDate}</span>
-                    </p>
-                </td>
-                <td width=73  colspan=2 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;white-space: nowrap;'><b>报告日期</b></p>
-                </td>
-                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                  <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].reportDate}</span>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>检验者</b></p>
-                </td>
-                <td width=339 colspan=9 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].inspector}</span>
-                    </p>
-                </td>
-                <td width=73  colspan=2 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center'><b>审核者</b></p>
-                </td>
-                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].checker}</span>
-                    </p>
-                </td>
-            </tr>
-        </table>
-    </div>
-</body>
-${pictureScript}
-</html>`;
+              </table>
+              <p class=MsoNormal align=center style='text-align:center;layout-grid-mode:char;margin: 35px 0 35px 0'><b><span
+                          lang=utf-8 style='font-size:14.0pt;'>运动神经元存活基因拷贝数检验报告单</b></p>
+
+              <table class=MsoTableGrid border=1 cellspacing=0 cellpadding=0 width=556 id="mainContent"
+                  style='width:416.7pt;margin: auto;border-collapse:collapse;'>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>门诊号</b></p>
+                      </td>
+                      <td width=183 colspan=7 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].clinicNumber}</span>
+                          </p>
+                      </td>
+                      <td width=73  colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center'><b>住院号</b></p>
+                      </td>
+                      <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].hospitalNumber}</span>
+                          </p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                          <p class=MsoNormal style='text-align:center'><b>姓名</b></p>
+                      </td>
+                      <td width=113 colspan=3 style='width:85.0pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                          <p class=MsoNormal align=left style="text-align: left;">
+                              <span>
+                                  ${objArr1[index].name}
+                              </span>
+                          </p>
+                      </td>
+                      <td width=76 style='width:2.0cm;padding:0cm 5.4pt 0cm 5.4pt'>
+                          <p class=MsoNormal align=center style='text-align:center'><b>性别</b></p>
+                      </td>
+                      <td width=113  colspan=3 style='width:3.0cm;padding:0cm 5.4pt 0cm 5.4pt'>
+                          <p class=MsoNormal align=left style='text-align:left'><span>${objArr1[index].sex}</span></p>
+                      </td>
+                      <td width=73 colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                          <p class=MsoNormal align=center style='text-align:center'><b>手机号</b></p>
+                      </td>
+                      <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                          <p class=MsoNormal align=left style='text-align:left'><span>${objArr1[index].phone}</span></p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>送检科室</b></p>
+                      </td>
+                      <td width=339 colspan=7 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].inspectionDepartment}</span>
+                          </p>
+                      </td>
+                      <td width=73  colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;white-space: nowrap;'><b>送检医生</b></p>
+                      </td>
+                      <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].inspectionDoctor}</span>
+                          </p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>样本类型</b></p>
+                      </td>
+                      <td width=183 colspan=7 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].sampleType}</span>
+                          </p>
+                      </td>
+                      <td width=73  colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;white-space: nowrap;'><b>采样日期</b></p>
+                      </td>
+                      <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].samplingDate}</span>
+                          </p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>简要病史</b></p>
+                      </td>
+                      <td width=339 colspan=12 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].medicalHistory}</span>
+                          </p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>检验方法</b></p>
+                      </td>
+                      <td width=339 colspan=12 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:center'>
+                              <span >荧光&thinsp;PCR-毛细管电泳法</span>
+                          </p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>目标基因</b></p>
+                      </td>
+                      <td width=339 colspan=6 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:center'>
+                              <span><i>SMN1</i>&thinsp;外显子&thinsp;7</span>
+                          </p>
+                      </td>
+                      <td width=73  colspan=6 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center'>
+                              <span><i>SMN2</i>&thinsp;外显子&thinsp;7</span>
+                          </p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>检验结果</b></p>
+                      </td>
+                      <td width=339 colspan=6 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:center'>
+                              <span>${objArr1[index].smn1}</span>
+                          </p>
+                      </td>
+                      <td width=73  colspan=6 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center'>
+                              <span>${objArr1[index].smn2}</span>
+                          </p>
+                      </td>
+                  </tr>
+                  ${pictureHtml}
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>检验结论</b></p>
+                      </td>
+                      <td width=183 colspan=12 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              ${defaultBox1}
+                          <span style="vertical-align: middle;${defaultBox4}" >未检出目标基因拷贝数异常</span>
+                          </p>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              ${defaultBox2}
+                          <span style="vertical-align: middle;${defaultBox5}" ><i>SMN1&thinsp;</i>基因外显子&thinsp;7&thinsp;杂合型缺失</span>
+                          </p>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              ${defaultBox3}
+                          <span style="vertical-align: middle;${defaultBox6}" ><i>SMN1&thinsp;</i>基因外显子&thinsp;7&thinsp;纯合型缺失</span>
+                          </p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=73  style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center'><b>建议</b></p>
+                      </td>
+                      <td width=110 colspan=12 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center'>
+                              <span>${recommend}</span>
+                          </p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=556 colspan=13 style='width:416.7pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                          <p class='MsoNormal' align=center style='text-align:center'><span><b>结果解释</b></span></p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=556 colspan=13 valign=middle style='width:416.7pt;
+        padding:0cm 5.4pt 0cm 5.4pt'>
+                          <p class=MsoListParagraph align=justify style='margin-left:23.25pt;${beforeStage};${lineSpacing};'>
+                              1. 本次检验仅用于<i>&thinsp;SMN1&thinsp;</i>中最常见的外显子&thinsp;7&thinsp;缺失型携带者的检验，并未覆盖<i>&thinsp;SMN1&thinsp;</i>基因的罕见点突变检测。因此，当检测结果排除受检者为<i>&thinsp;SMN1&thinsp;</i>第&thinsp;7&thinsp;外显子缺失型携带者时，并不能排除受检者是否携带有<i>&thinsp;SMN1&thinsp;</i>基因的罕见点突变。
+                          </p>
+                          ${pagingTable}
+                          <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >2. 当检出<i>&thinsp;SMN1&thinsp;</i>第&thinsp;7&thinsp;外显子为&thinsp;2&thinsp;拷贝时，并不能直接判断&thinsp;2&thinsp;个拷贝的<i>&thinsp;SMN1&thinsp;</i>在染色体上的排布方式，即不能判断出是否为“&thinsp;2+0&thinsp;”携带者型。当怀疑待检样本存在“&thinsp;2+0&thinsp;”时，建议其配偶进行<i>&thinsp;SMN1&thinsp;</i>基因检测。</p>
+                          <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >3. 受检者进行过骨髓移植、细胞治疗或接受输血，可能会影响血样检测结果的准确性。</p>
+                          <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >4. 该方法检测<i>&thinsp;SMN1&thinsp;</i>基因第&thinsp;7&thinsp;外显子拷贝数时，将以受检者基因组中保守的管家基因为内参。内参基因罕见的突变可能会影响到检测结果的准确性。</p>
+                          <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >5. 检验<i>&thinsp;SMN2&thinsp;</i>基因拷贝数通常仅用于对患者临床预后的评估。正常人群中<i>&thinsp;SMN2&thinsp;</i>基因本身就存在拷贝数变异，可能为&thinsp;0、1、2&thinsp;或以上。</p>
+                          ${pagingEnd}
+                  </tr>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>检验日期</b></p>
+                      </td>
+                      <td width=339 colspan=9 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].inspectionDate}</span>
+                          </p>
+                      </td>
+                      <td width=73  colspan=2 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;white-space: nowrap;'><b>报告日期</b></p>
+                      </td>
+                      <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                        <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].reportDate}</span>
+                          </p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>检验者</b></p>
+                      </td>
+                      <td width=339 colspan=9 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].inspector}</span>
+                          </p>
+                      </td>
+                      <td width=73  colspan=2 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center'><b>审核者</b></p>
+                      </td>
+                      <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].checker}</span>
+                          </p>
+                      </td>
+                  </tr>
+              </table>
+          </div>
+      </body>
+      ${pictureScript}
+      </html>`;
               content1[index] = `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>G030Report</title>
-    <!-- 引入 echarts.js -->
-    <script src='${echartsPath}'><\/script>
-    <style>
-        /* Style Definitions */
-        p.MsoNormal,
-        li.MsoNormal,
-        div.MsoNormal {
-            margin: 0cm;
-            text-align: justify;
-            text-justify: inter-ideograph;
-            font-size: 10.5pt;
-            /* font-family: Simsun; */
-        }
+      <html lang="en">
+      <head>
+          <meta charset="UTF-8">
+          <meta http-equiv="X-UA-Compatible" content="IE=edge">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>G030Report</title>
+          <!-- 引入 echarts.js -->
+          <script src='${echartsPath}'><\/script>
+          <style>
+              /* Style Definitions */
+              p.MsoNormal,
+              li.MsoNormal,
+              div.MsoNormal {
+                  margin: 0cm;
+                  text-align: justify;
+                  text-justify: inter-ideograph;
+                  font-size: 10.5pt;
+                  /* font-family: Simsun; */
+              }
 
-        p.MsoListParagraph,
-        li.MsoListParagraph,
-        div.MsoListParagraph {
-            margin: 0cm;
-            text-align: justify;
-            text-justify: inter-ideograph;
-            /*text-indent: 21.0pt;*/
-            font-size: 10.5pt;
-            /* font-family: Simsun; */
-        }
+              p.MsoListParagraph,
+              li.MsoListParagraph,
+              div.MsoListParagraph {
+                  margin: 0cm;
+                  text-align: justify;
+                  text-justify: inter-ideograph;
+                  /*text-indent: 21.0pt;*/
+                  font-size: 10.5pt;
+                  /* font-family: Simsun; */
+              }
 
-        .MsoChpDefault {
-            /* font-family: Simsun; */
-        }
+              .MsoChpDefault {
+                  /* font-family: Simsun; */
+              }
 
-        td {
-            height: 40px;
-        }
+              td {
+                  height: 40px;
+              }
 
-        /* Page Definitions */
-        @page WordSection1 {
-            size: 595.3pt 841.9pt;
-            margin: 42.45pt 90.0pt 49.525pt 90.0pt;
-            layout-grid: 15.6pt;
-        }
-        ${currentFont}
-        body{
-            ${fontSetting}
-        }
-        div.WordSection1 {
-            page: WordSection1;
-        }
-        
-        /* List Definitions */
-        ol {
-            margin-bottom: 0cm;
-        }
+              /* Page Definitions */
+              @page WordSection1 {
+                  size: 595.3pt 841.9pt;
+                  margin: 42.45pt 90.0pt 49.525pt 90.0pt;
+                  layout-grid: 15.6pt;
+              }
+              ${currentFont}
+              body{
+                  ${fontSetting}
+              }
+              div.WordSection1 {
+                  page: WordSection1;
+              }
 
-        ul {
-            margin-bottom: 0cm;
-        }
+              /* List Definitions */
+              ol {
+                  margin-bottom: 0cm;
+              }
 
-        .checkbox:checked::after {
-            background: #000;
-        }
-        .page-header,
-        .page-header-space {
-            height: 20px;
-            font-size: 8.5px;
-        }
+              ul {
+                  margin-bottom: 0cm;
+              }
 
-        .page-footer,
-        .page-footer-space {
-            height: auto;
-            text-align: center;
-            font-size: 8.5px;
-        }
+              .checkbox:checked::after {
+                  background: #000;
+              }
+              .page-header,
+              .page-header-space {
+                  height: 20px;
+                  font-size: 8.5px;
+              }
 
-        .page-footer {
-            position: fixed;
-            bottom: 0mm;
-            /* width: 100%; */
-            /* border-top: 1px solid black; */
-            /* for demo */
-            /* background: yellow; */
-            /* for demo */
-        }
+              .page-footer,
+              .page-footer-space {
+                  height: auto;
+                  text-align: center;
+                  font-size: 8.5px;
+              }
 
-        .page-header {
-            position: fixed;
-            top: 0mm;
-            width: 100%;
-            /*  border-bottom: 1px solid black;  for demo */
-            /* background: yellow; */
-            /* for demo */
-        }
+              .page-footer {
+                  position: fixed;
+                  bottom: 0mm;
+                  /* width: 100%; */
+                  /* border-top: 1px solid black; */
+                  /* for demo */
+                  /* background: yellow; */
+                  /* for demo */
+              }
 
-        /* 文字阴影宋体打印加粗解决方案 */
-        .fontBolder {
-            text-shadow: 0.15pt 0px 0px black, 0.25pt 0px 0px black, 0.35pt 0px 0px black, -0.25pt 0px 0px black, 0px 0.25pt 0px black, 0px -0.25pt 0px black;
-        }
+              .page-header {
+                  position: fixed;
+                  top: 0mm;
+                  width: 100%;
+                  /*  border-bottom: 1px solid black;  for demo */
+                  /* background: yellow; */
+                  /* for demo */
+              }
 
-        @media print {
-            body {
-                margin: 0;
-            }
-        }
-        #mainContent{
-            border: 1px solid windowtext;
-        }
-        /* table tr td{ border-top:1px solid windowtext; } table{ border:1px solid windowtext; border-top-width:0px; }  */
-        /* table{ border-collapse:collapse; } table tr{ border:1px solid windowtext; }  */
-    </style>
-</head>
-<body lang=ZH-CN style='word-wrap:break-word;text-justify-trim:punctuation;text-align: center;'>
+              /* 文字阴影宋体打印加粗解决方案 */
+              .fontBolder {
+                  text-shadow: 0.15pt 0px 0px black, 0.25pt 0px 0px black, 0.35pt 0px 0px black, -0.25pt 0px 0px black, 0px 0.25pt 0px black, 0px -0.25pt 0px black;
+              }
 
-    <div class=WordSection1 style='layout-grid:15.6pt;margin-top: 30px;'>
-        <table cellspacing=0 cellpadding=0 width=556
-            style='width:416.7pt;border-collapse:collapse;border:none;margin: auto;text-align: center'>
-            <tr>
-                <td class="page-header" style="text-align: left;width: 416.7pt;border-bottom: solid windowtext 1pt;">
-                    ${objArr[index].inspectionEntity}
-                    <!-- <hr style="width:416.7pt"> -->
-                </td>
+              @media print {
+                  body {
+                      margin: 0;
+                  }
+              }
+              #mainContent{
+                  border: 1px solid windowtext;
+              }
+              /* table tr td{ border-top:1px solid windowtext; } table{ border:1px solid windowtext; border-top-width:0px; }  */
+              /* table{ border-collapse:collapse; } table tr{ border:1px solid windowtext; }  */
+          </style>
+      </head>
+      <body lang=ZH-CN style='word-wrap:break-word;text-justify-trim:punctuation;text-align: center;'>
 
-            </tr>
-        </table>
-        <table cellspacing=0 cellpadding=0 width=556
-            style='width:416.7pt;border-collapse:collapse;margin: auto;text-align: center'>
-            <tr>
-                <td class="page-footer" style="width:416.7pt;text-align: right">
-                    检验结果仅对送检样本负责
-                </td>
-            </tr>
+          <div class=WordSection1 style='layout-grid:15.6pt;margin-top: 30px;'>
+              <table cellspacing=0 cellpadding=0 width=556
+                  style='width:416.7pt;border-collapse:collapse;border:none;margin: auto;text-align: center'>
+                  <tr>
+                      <td class="page-header" style="text-align: left;width: 416.7pt;border-bottom: solid windowtext 1pt;">
+                          ${objArr1[index].inspectionEntity}
+                          <!-- <hr style="width:416.7pt"> -->
+                      </td>
 
-        </table>
-        <p class=MsoNormal align=center style='text-align:center;layout-grid-mode:char;margin: 35px 0 35px 0'><b><span
-                    lang=utf-8 style='font-size:14.0pt;'>运动神经元存活基因拷贝数检验报告单</b></p>
+                  </tr>
+              </table>
+              <table cellspacing=0 cellpadding=0 width=556
+                  style='width:416.7pt;border-collapse:collapse;margin: auto;text-align: center'>
+                  <tr>
+                      <td class="page-footer" style="width:416.7pt;text-align: right">
+                          检验结果仅对送检样本负责
+                      </td>
+                  </tr>
 
-        <table class=MsoTableGrid border=1 cellspacing=0 cellpadding=0 width=556 id="mainContent"
-            style='width:416.7pt;margin: auto;border-collapse:collapse;'>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>门诊号</b></p>
-                </td>
-                <td width=183 colspan=7 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].clinicNumber}</span>
-                    </p>
-                </td>
-                <td width=73  colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center'><b>住院号</b></p>
-                </td>
-                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].hospitalNumber}</span>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt'>
-                    <p class=MsoNormal style='text-align:center'><b>姓名</b></p>
-                </td>
-                <td width=113 colspan=3 style='width:85.0pt;padding:0cm 5.4pt 0cm 5.4pt'>
-                    <p class=MsoNormal align=left style="text-align: left;">
-                        <span>
-                            ${objArr[index].name}
-                        </span>
-                    </p>
-                </td>
-                <td width=76 style='width:2.0cm;padding:0cm 5.4pt 0cm 5.4pt'>
-                    <p class=MsoNormal align=center style='text-align:center'><b>性别</b></p>
-                </td>
-                <td width=113  colspan=3 style='width:3.0cm;padding:0cm 5.4pt 0cm 5.4pt'>
-                    <p class=MsoNormal align=left style='text-align:left'><span>${objArr[index].sex}</span></p>
-                </td>
-                <td width=73 colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt'>
-                    <p class=MsoNormal align=center style='text-align:center'><b>手机号</b></p>
-                </td>
-                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt'>
-                    <p class=MsoNormal align=left style='text-align:left'><span>${objArr[index].phone}</span></p>
-                </td>
-            </tr>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>送检科室</b></p>
-                </td>
-                <td width=339 colspan=7 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].inspectionDepartment}</span>
-                    </p>
-                </td>
-                <td width=73  colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;white-space: nowrap;'><b>送检医生</b></p>
-                </td>
-                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].inspectionDoctor}</span>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>样本类型</b></p>
-                </td>
-                <td width=183 colspan=7 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].sampleType}</span>
-                    </p>
-                </td>
-                <td width=73  colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;white-space: nowrap;'><b>采样日期</b></p>
-                </td>
-                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].samplingDate}</span>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>简要病史</b></p>
-                </td>
-                <td width=339 colspan=12 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].medicalHistory}</span>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>检验方法</b></p>
-                </td>
-                <td width=339 colspan=12 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:center'>
-                        <span >荧光&thinsp;PCR-毛细管电泳法</span>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>目标基因</b></p>
-                </td>
-                <td width=339 colspan=6 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:center'>
-                        <span><i>SMN1</i>&thinsp;外显子&thinsp;7</span>
-                    </p>
-                </td>
-                <td width=73  colspan=6 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center'>
-                        <span><i>SMN2</i>&thinsp;外显子&thinsp;7</span>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>检验结果</b></p>
-                </td>
-                <td width=339 colspan=6 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:center'>
-                        <span>${objArr[index].smn1}</span>
-                    </p>
-                </td>
-                <td width=73  colspan=6 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center'>
-                        <span>${objArr[index].smn2}</span>
-                    </p>
-                </td>
-            </tr>
-            ${pictureHtml}
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>检验结论</b></p>
-                </td>
-                <td width=183 colspan=12 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        ${defaultBox1}
-                    <span style="vertical-align: middle;${defaultBox4}" >未检出目标基因拷贝数异常</span>
-                    </p>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        ${defaultBox2}
-                    <span style="vertical-align: middle;${defaultBox5}" ><i>SMN1&thinsp;</i>基因外显子&thinsp;7&thinsp;杂合型缺失</span>
-                    </p>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        ${defaultBox3}
-                    <span style="vertical-align: middle;${defaultBox6}" ><i>SMN1&thinsp;</i>基因外显子&thinsp;7&thinsp;纯合型缺失</span>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td width=73  style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center'><b>建议</b></p>
-                </td>
-                <td width=110 colspan=12 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center'>
-                        <span>${recommend}</span>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td width=556 colspan=13 style='width:416.7pt;padding:0cm 5.4pt 0cm 5.4pt'>
-                    <p class='MsoNormal' align=center style='text-align:center'><span><b>结果解释</b></span></p>
-                </td>
-            </tr>
-            <tr>
-                <td width=556 colspan=13 valign=middle style='width:416.7pt;
-  padding:0cm 5.4pt 0cm 5.4pt'>
-                    <p class=MsoListParagraph align=justify style='margin-left:23.25pt;${beforeStage};${lineSpacing};'>
-                        1. 本次检验仅用于<i>&thinsp;SMN1&thinsp;</i>中最常见的外显子&thinsp;7&thinsp;缺失型携带者的检验，并未覆盖<i>&thinsp;SMN1&thinsp;</i>基因的罕见点突变检测。因此，当检测结果排除受检者为<i>&thinsp;SMN1&thinsp;</i>第&thinsp;7&thinsp;外显子缺失型携带者时，并不能排除受检者是否携带有<i>&thinsp;SMN1&thinsp;</i>基因的罕见点突变。
-                    </p>
-                    ${pagingTable}
-                    <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >2. 当检出<i>&thinsp;SMN1&thinsp;</i>第&thinsp;7&thinsp;外显子为&thinsp;2&thinsp;拷贝时，并不能直接判断&thinsp;2&thinsp;个拷贝的<i>&thinsp;SMN1&thinsp;</i>在染色体上的排布方式，即不能判断出是否为“&thinsp;2+0&thinsp;”携带者型。当怀疑待检样本存在“&thinsp;2+0&thinsp;”时，建议其配偶进行<i>&thinsp;SMN1&thinsp;</i>基因检测。</p>
-                    <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >3. 受检者进行过骨髓移植、细胞治疗或接受输血，可能会影响血样检测结果的准确性。</p>
-                    <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >4. 该方法检测<i>&thinsp;SMN1&thinsp;</i>基因第&thinsp;7&thinsp;外显子拷贝数时，将以受检者基因组中保守的管家基因为内参。内参基因罕见的突变可能会影响到检测结果的准确性。</p>
-                    <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >5. 检验<i>&thinsp;SMN2&thinsp;</i>基因拷贝数通常仅用于对患者临床预后的评估。正常人群中<i>&thinsp;SMN2&thinsp;</i>基因本身就存在拷贝数变异，可能为&thinsp;0、1、2&thinsp;或以上。</p>
-                    ${pagingEnd}
-            </tr>
-            <tr>
-                <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;'><b>检验日期</b></p>
-                </td>
-                <td width=339 colspan=9 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].inspectionDate}</span>
-                    </p>
-                </td>
-                <td width=73  colspan=2 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                    <p class=MsoNormal align=center style='text-align:center;white-space: nowrap;'><b>报告日期</b></p>
-                </td>
-                <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
-                  <p class=MsoNormal align=left style='text-align:left'>
-                        <span>${objArr[index].reportDate}</span>
-                    </p>
-                </td>
-            </tr>
-        </table>
-    </div>
-</body>
-${pictureScript}
-</html>`;
-             content2[index] = (data1.data.selectReport =="default")?content[index]:content1[index]
+              </table>
+              <p class=MsoNormal align=center style='text-align:center;layout-grid-mode:char;margin: 35px 0 35px 0'><b><span
+                          lang=utf-8 style='font-size:14.0pt;'>运动神经元存活基因拷贝数检验报告单</b></p>
+
+              <table class=MsoTableGrid border=1 cellspacing=0 cellpadding=0 width=556 id="mainContent"
+                  style='width:416.7pt;margin: auto;border-collapse:collapse;'>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>门诊号</b></p>
+                      </td>
+                      <td width=183 colspan=7 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].clinicNumber}</span>
+                          </p>
+                      </td>
+                      <td width=73  colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center'><b>住院号</b></p>
+                      </td>
+                      <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].hospitalNumber}</span>
+                          </p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                          <p class=MsoNormal style='text-align:center'><b>姓名</b></p>
+                      </td>
+                      <td width=113 colspan=3 style='width:85.0pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                          <p class=MsoNormal align=left style="text-align: left;">
+                              <span>
+                                  ${objArr1[index].name}
+                              </span>
+                          </p>
+                      </td>
+                      <td width=76 style='width:2.0cm;padding:0cm 5.4pt 0cm 5.4pt'>
+                          <p class=MsoNormal align=center style='text-align:center'><b>性别</b></p>
+                      </td>
+                      <td width=113  colspan=3 style='width:3.0cm;padding:0cm 5.4pt 0cm 5.4pt'>
+                          <p class=MsoNormal align=left style='text-align:left'><span>${objArr1[index].sex}</span></p>
+                      </td>
+                      <td width=73 colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                          <p class=MsoNormal align=center style='text-align:center'><b>手机号</b></p>
+                      </td>
+                      <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                          <p class=MsoNormal align=left style='text-align:left'><span>${objArr1[index].phone}</span></p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>送检科室</b></p>
+                      </td>
+                      <td width=339 colspan=7 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].inspectionDepartment}</span>
+                          </p>
+                      </td>
+                      <td width=73  colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;white-space: nowrap;'><b>送检医生</b></p>
+                      </td>
+                      <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].inspectionDoctor}</span>
+                          </p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>样本类型</b></p>
+                      </td>
+                      <td width=183 colspan=7 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].sampleType}</span>
+                          </p>
+                      </td>
+                      <td width=73  colspan=4 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;white-space: nowrap;'><b>采样日期</b></p>
+                      </td>
+                      <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].samplingDate}</span>
+                          </p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>简要病史</b></p>
+                      </td>
+                      <td width=339 colspan=12 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].medicalHistory}</span>
+                          </p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>检验方法</b></p>
+                      </td>
+                      <td width=339 colspan=12 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:center'>
+                              <span >荧光&thinsp;PCR-毛细管电泳法</span>
+                          </p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>目标基因</b></p>
+                      </td>
+                      <td width=339 colspan=6 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:center'>
+                              <span><i>SMN1</i>&thinsp;外显子&thinsp;7</span>
+                          </p>
+                      </td>
+                      <td width=73  colspan=6 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center'>
+                              <span><i>SMN2</i>&thinsp;外显子&thinsp;7</span>
+                          </p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>检验结果</b></p>
+                      </td>
+                      <td width=339 colspan=6 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:center'>
+                              <span>${objArr1[index].smn1}</span>
+                          </p>
+                      </td>
+                      <td width=73  colspan=6 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center'>
+                              <span>${objArr1[index].smn2}</span>
+                          </p>
+                      </td>
+                  </tr>
+                  ${pictureHtml}
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>检验结论</b></p>
+                      </td>
+                      <td width=183 colspan=12 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              ${defaultBox1}
+                          <span style="vertical-align: middle;${defaultBox4}" >未检出目标基因拷贝数异常</span>
+                          </p>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              ${defaultBox2}
+                          <span style="vertical-align: middle;${defaultBox5}" ><i>SMN1&thinsp;</i>基因外显子&thinsp;7&thinsp;杂合型缺失</span>
+                          </p>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              ${defaultBox3}
+                          <span style="vertical-align: middle;${defaultBox6}" ><i>SMN1&thinsp;</i>基因外显子&thinsp;7&thinsp;纯合型缺失</span>
+                          </p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=73  style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center'><b>建议</b></p>
+                      </td>
+                      <td width=110 colspan=12 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center'>
+                              <span>${recommend}</span>
+                          </p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=556 colspan=13 style='width:416.7pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                          <p class='MsoNormal' align=center style='text-align:center'><span><b>结果解释</b></span></p>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width=556 colspan=13 valign=middle style='width:416.7pt;
+        padding:0cm 5.4pt 0cm 5.4pt'>
+                          <p class=MsoListParagraph align=justify style='margin-left:23.25pt;${beforeStage};${lineSpacing};'>
+                              1. 本次检验仅用于<i>&thinsp;SMN1&thinsp;</i>中最常见的外显子&thinsp;7&thinsp;缺失型携带者的检验，并未覆盖<i>&thinsp;SMN1&thinsp;</i>基因的罕见点突变检测。因此，当检测结果排除受检者为<i>&thinsp;SMN1&thinsp;</i>第&thinsp;7&thinsp;外显子缺失型携带者时，并不能排除受检者是否携带有<i>&thinsp;SMN1&thinsp;</i>基因的罕见点突变。
+                          </p>
+                          ${pagingTable}
+                          <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >2. 当检出<i>&thinsp;SMN1&thinsp;</i>第&thinsp;7&thinsp;外显子为&thinsp;2&thinsp;拷贝时，并不能直接判断&thinsp;2&thinsp;个拷贝的<i>&thinsp;SMN1&thinsp;</i>在染色体上的排布方式，即不能判断出是否为“&thinsp;2+0&thinsp;”携带者型。当怀疑待检样本存在“&thinsp;2+0&thinsp;”时，建议其配偶进行<i>&thinsp;SMN1&thinsp;</i>基因检测。</p>
+                          <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >3. 受检者进行过骨髓移植、细胞治疗或接受输血，可能会影响血样检测结果的准确性。</p>
+                          <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >4. 该方法检测<i>&thinsp;SMN1&thinsp;</i>基因第&thinsp;7&thinsp;外显子拷贝数时，将以受检者基因组中保守的管家基因为内参。内参基因罕见的突变可能会影响到检测结果的准确性。</p>
+                          <p class=MsoListParagraph align=center style='margin-left:23.25pt;${beforeStage};${lineSpacing}' >5. 检验<i>&thinsp;SMN2&thinsp;</i>基因拷贝数通常仅用于对患者临床预后的评估。正常人群中<i>&thinsp;SMN2&thinsp;</i>基因本身就存在拷贝数变异，可能为&thinsp;0、1、2&thinsp;或以上。</p>
+                          ${pagingEnd}
+                  </tr>
+                  <tr>
+                      <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;'><b>检验日期</b></p>
+                      </td>
+                      <td width=339 colspan=9 style='width:167.5pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].inspectionDate}</span>
+                          </p>
+                      </td>
+                      <td width=73  colspan=2 style='width:54.4pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                          <p class=MsoNormal align=center style='text-align:center;white-space: nowrap;'><b>报告日期</b></p>
+                      </td>
+                      <td width=110 style='width:82.35pt;padding:0cm 5.4pt 0cm 5.4pt;'>
+                        <p class=MsoNormal align=left style='text-align:left'>
+                              <span>${objArr1[index].reportDate}</span>
+                          </p>
+                      </td>
+                  </tr>
+              </table>
+          </div>
+      </body>
+      ${pictureScript}
+      </html>`;
+              content2[index] =
+                data1.data.selectReport == "default"
+                  ? content[index]
+                  : content1[index];
               var fs = window.require("fs");
               fs.writeFile(
                 htmlPathAndName[index],
@@ -4579,8 +4706,8 @@ ${pictureScript}
                       .printToPDF({})
                       .then((data) => {
                         fs.writeFile(pdfPathAndName[index], data, (error) => {
-                          if (error) throw error
-                          loading.close();
+                          if (error) throw error;
+
                           var pdfnotice =
                             `Wrote ` +
                             pdfPathAndName.length +
@@ -4615,6 +4742,7 @@ ${pictureScript}
                               duration: "2000",
                               offset: 60,
                             });
+                            loading.close();
                           }
                           log.info(
                             "\n" +
