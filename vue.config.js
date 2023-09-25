@@ -51,6 +51,10 @@ module.exports = defineConfig({
           {
             from:"./src/assets/SMNFilerSampleData.xlsx",
             to:"./SMNFilerSampleData.xlsx"
+          },
+          {
+            from:"./src/assets/app256x256.png",
+            to:"./app256x256.png"
           }
         ],
         dmg: {
