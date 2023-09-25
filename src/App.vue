@@ -518,34 +518,49 @@ export default {
     //点击切换tabs栏方法
     handleClick(tab, event) {
       console.log(tab.props.label, event);
-      if (tab.props.label == "GeneMapper下机数据上传") {
-        ElNotification({
-          message: "GeneMapper下机数据上传",
-          type: "info",
-          showClose: true,
-          position: "top-right",
-          duration: "2000",
-          offset: 60,
-        });
-      } else if (tab.props.label == "样本信息数据上传") {
-        ElNotification({
-          message: "样本信息数据上传",
-          type: "info",
-          showClose: true,
-          position: "top-right",
-          duration: "2000",
-          offset: 60,
-        });
-      } else if (tab.props.label == "设置") {
-        ElNotification({
-          message: "设置",
-          type: "info",
-          showClose: true,
-          position: "top-right",
-          duration: "2000",
-          offset: 60,
-        });
+      var label = tab.props.label;
+      if (label == "GeneMapper下机数据上传") {
+        this.showInfoNotification(label);
+      } else if (label == "样本信息数据上传") {
+        this.showInfoNotification(label);
+      } else if (label == "设置") {
+        this.showInfoNotification(label);
       }
+    },
+    // info消息通知
+    showInfoNotification(message) {
+      console.log("info", message);
+      ElNotification({
+        message: message,
+        type: "info",
+        showClose: true,
+        position: "top-right",
+        duration: "2000",
+        offset: 60,
+      });
+    },
+    // error消息通知
+    showErrorNotification(message) {
+      ElNotification({
+        message: message,
+        type: "error",
+        showClose: true,
+        position: "top-right",
+        duration: "2000",
+        offset: 60,
+      });
+    },
+    // success消息通知
+    showSuccessNotification(message) {
+      console.log("info", message);
+      ElNotification({
+        message: message,
+        type: "success",
+        showClose: true,
+        position: "top-right",
+        duration: "2000",
+        offset: 60,
+      });
     },
     // 上传Genemapper下机数据文件之前文件格式校验方法
     beforeAvatarUpload(file, fileList1) {
@@ -555,14 +570,7 @@ export default {
       if (extensionList.indexOf(extension) < 0) {
         const formatMessage =
           "很抱歉，您选择的文件格式不符合要求，请重新选择文件！";
-        ElNotification({
-          showClose: true,
-          message: formatMessage,
-          type: "error",
-          position: "top-right",
-          duration: "2000",
-          offset: 60,
-        });
+        this.showErrorNotification(formatMessage);
         return false;
       }
     },
@@ -573,14 +581,7 @@ export default {
       if (extensionList1.indexOf(extension1) < 0) {
         const formatMessage =
           "很抱歉，您选择的文件格式不符合要求，请重新选择文件！";
-        ElNotification({
-          showClose: true,
-          message: formatMessage,
-          type: "error",
-          position: "top-right",
-          duration: "2000",
-          offset: 60,
-        });
+        this.showErrorNotification(formatMessage);
         return false;
       }
     },
@@ -739,6 +740,12 @@ export default {
             (error, stdout, stderr) => {
               if (error || stderr) {
                 loading.close();
+                this.errorNotification(
+                  file.name,
+                  "当前处理输入文件：" +
+                    file.name +
+                    "有误！\n具体详情请查看日志文件。"
+                );
                 const notice = "输入下机数据文件" + file.name + "处理有误！";
                 log.error(
                   "\n" +
@@ -749,14 +756,7 @@ export default {
                     "\n" +
                     stderr
                 );
-                ElNotification({
-                  showClose: true,
-                  message: notice,
-                  type: "error",
-                  position: "top-right",
-                  duration: "2000",
-                  offset: 60,
-                });
+                this.showErrorNotification(notice);
                 console.log("error:\n" + error);
                 console.log("stderr:\n" + stderr);
               } else if (stdout) {
@@ -769,14 +769,7 @@ export default {
                     "\n" +
                     "处理完成！"
                 );
-                ElNotification({
-                  showClose: true,
-                  message: notice,
-                  type: "success",
-                  position: "top-right",
-                  duration: "2000",
-                  offset: 60,
-                });
+                this.showSuccessNotification(notice);
                 console.log("stdout:\n" + stdout);
                 if (fileType !== "summaryFile") {
                   this.changeTab();
@@ -890,6 +883,12 @@ export default {
             (error, stdout, stderr) => {
               if (error || stderr) {
                 loading.close();
+                this.errorNotification(
+                  file.name,
+                  "当前处理输入文件：" +
+                    file.name +
+                    "有误！\n具体详情请查看日志文件。"
+                );
                 const notice = "输入下机数据文件" + file.name + "处理有误！";
                 log.error(
                   "\n" +
@@ -900,14 +899,7 @@ export default {
                     "\n" +
                     stderr
                 );
-                ElNotification({
-                  showClose: true,
-                  message: notice,
-                  type: "error",
-                  position: "top-right",
-                  duration: "2000",
-                  offset: 60,
-                });
+                this.showErrorNotification(notice);
                 console.log("error:\n" + error);
                 console.log("stderr:\n" + stderr);
               } else if (stdout) {
@@ -920,14 +912,7 @@ export default {
                     "\n" +
                     "处理完成！"
                 );
-                ElNotification({
-                  showClose: true,
-                  message: notice,
-                  type: "success",
-                  position: "top-right",
-                  duration: "2000",
-                  offset: 60,
-                });
+                this.showSuccessNotification(notice);
                 console.log("stdout:\n" + stdout);
                 if (fileType !== "summaryFile") {
                   this.changeTab();
@@ -1042,6 +1027,12 @@ export default {
             (error, stdout, stderr) => {
               if (error || stderr) {
                 loading.close();
+                this.errorNotification(
+                  file.name,
+                  "当前处理输入文件：" +
+                    file.name +
+                    "有误！\n具体详情请查看日志文件。"
+                );
                 const notice = "输入下机数据文件" + file.name + "处理有误！";
                 log.error(
                   "\n" +
@@ -1052,14 +1043,7 @@ export default {
                     "\n" +
                     stderr
                 );
-                ElNotification({
-                  showClose: true,
-                  message: notice,
-                  type: "error",
-                  position: "top-right",
-                  duration: "2000",
-                  offset: 60,
-                });
+                this.showErrorNotification(notice);
                 console.log("error:\n" + error);
                 console.log("stderr:\n" + stderr);
               } else if (stdout) {
@@ -1072,14 +1056,7 @@ export default {
                     "\n" +
                     "处理完成！"
                 );
-                ElNotification({
-                  showClose: true,
-                  message: notice,
-                  type: "success",
-                  position: "top-right",
-                  duration: "2000",
-                  offset: 60,
-                });
+                this.showSuccessNotification(notice);
                 console.log("stdout:\n" + stdout);
                 if (fileType !== "summaryFile") {
                   this.changeTab();
@@ -1194,6 +1171,12 @@ export default {
             (error, stdout, stderr) => {
               if (error || stderr) {
                 loading.close();
+                this.errorNotification(
+                  file.name,
+                  "当前处理输入文件：" +
+                    file.name +
+                    "有误！\n具体详情请查看日志文件。"
+                );
                 const notice = "输入下机数据文件" + file.name + "处理有误！";
                 log.error(
                   "\n" +
@@ -1204,14 +1187,7 @@ export default {
                     "\n" +
                     stderr
                 );
-                ElNotification({
-                  showClose: true,
-                  message: notice,
-                  type: "error",
-                  position: "top-right",
-                  duration: "2000",
-                  offset: 60,
-                });
+                this.showErrorNotification(notice);
                 console.log("error:\n" + error);
                 console.log("stderr:\n" + stderr);
               } else if (stdout) {
@@ -1224,14 +1200,7 @@ export default {
                     "\n" +
                     "处理完成！"
                 );
-                ElNotification({
-                  showClose: true,
-                  message: notice,
-                  type: "success",
-                  position: "top-right",
-                  duration: "2000",
-                  offset: 60,
-                });
+                this.showSuccessNotification(notice);
                 console.log("stdout:\n" + stdout);
                 if (fileType !== "summaryFile") {
                   this.changeTab();
@@ -2425,16 +2394,9 @@ export default {
                 function (err) {
                   if (err) {
                     var notice =
-                      "[WARNING] 输入文件 " + sampleFileName + " 处理有误";
+                      "输入文件 " + sampleFileName + " 处理有误";
                     if (index == htmlPathAndName.length - 1) {
-                      ElNotification({
-                        message: notice,
-                        type: "error",
-                        showClose: true,
-                        position: "top-right",
-                        duration: "2000",
-                        offset: 60,
-                      });
+                      this.showErrorNotification(notice);
                     }
                     log.error(
                       "\n" +
@@ -2449,14 +2411,7 @@ export default {
                   console.log("File is created successfully.");
                   setTimeout(() => {
                     if (index == htmlPathAndName.length - 1) {
-                      ElNotification({
-                        message: notice,
-                        type: "success",
-                        showClose: true,
-                        position: "top-right",
-                        duration: "2000",
-                        offset: 60,
-                      });
+                      this.showSuccessNotification(notice);
                     }
                   }, 1000);
                   log.info(
@@ -2519,15 +2474,7 @@ export default {
                                 });
                               }
                             }, 1000);
-
-                            ElNotification({
-                              message: pdfnotice,
-                              type: "success",
-                              showClose: true,
-                              position: "top-right",
-                              duration: "2000",
-                              offset: 60,
-                            });
+                            this.showSuccessNotification(pdfnotice);
                           }
                           log.info(
                             "\n" +
@@ -2546,7 +2493,7 @@ export default {
                                 );
                                 return;
                               }
-                              if(index == pdfPathAndName.length - 1){
+                              if (index == pdfPathAndName.length - 1) {
                                 loading.close();
                                 console.log("HTML File successfully deleted");
                               }
@@ -2557,14 +2504,7 @@ export default {
                       })
                       .catch((error) => {
                         if (index == pdfPathAndName.length - 1) {
-                          ElNotification({
-                            message: error,
-                            type: "error",
-                            showClose: true,
-                            position: "top-right",
-                            duration: "2000",
-                            offset: 60,
-                          });
+                          this.showErrorNotification(error);
                         }
                         log.error(
                           `Failed to write PDF ${pdfPathAndName[index]}`,
@@ -4644,17 +4584,10 @@ export default {
                 function (err) {
                   if (err) {
                     var notice =
-                      "[WARNING] 输入文件 " + sampleFileName + " 处理有误";
+                      "输入文件 " + sampleFileName + " 处理有误";
 
                     if (index == htmlPathAndName.length - 1) {
-                      ElNotification({
-                        message: notice,
-                        type: "error",
-                        showClose: true,
-                        position: "top-right",
-                        duration: "2000",
-                        offset: 60,
-                      });
+                      this.showErrorNotification(notice);
                     }
                     log.error(
                       "\n" +
@@ -4669,14 +4602,7 @@ export default {
                   console.log("File is created successfully.");
                   setTimeout(() => {
                     if (index == htmlPathAndName.length - 1) {
-                      ElNotification({
-                        message: notice,
-                        type: "success",
-                        showClose: true,
-                        position: "top-right",
-                        duration: "2000",
-                        offset: 60,
-                      });
+                      this.showSuccessNotification(notice);
                     }
                   }, 1000);
                   log.info(
@@ -4736,14 +4662,7 @@ export default {
                                 });
                               }
                             }, 1000);
-                            ElNotification({
-                              message: pdfnotice,
-                              type: "success",
-                              showClose: true,
-                              position: "top-right",
-                              duration: "2000",
-                              offset: 60,
-                            });
+                            this.showSuccessNotification(pdfnotice);
                           }
                           log.info(
                             "\n" +
@@ -4764,11 +4683,10 @@ export default {
                                 );
                                 return;
                               }
-                              if(index == pdfPathAndName.length - 1){
-                                loading.close()
+                              if (index == pdfPathAndName.length - 1) {
+                                loading.close();
                                 console.log("HTML File successfully deleted");
                               }
-                              
                             });
                           }
                           window_to_PDF1[index].close();
@@ -4776,14 +4694,7 @@ export default {
                       })
                       .catch((error) => {
                         if (index == pdfPathAndName.length - 1) {
-                          ElNotification({
-                            message: error,
-                            type: "error",
-                            showClose: true,
-                            position: "top-right",
-                            duration: "2000",
-                            offset: 60,
-                          });
+                          this.showErrorNotification(error);
                         }
                         loading.close();
                         log.error(
@@ -4801,13 +4712,21 @@ export default {
       }
     },
     // 运行脚本后错误系统通知
-    errorNotification(fileName) {
+    errorNotification(fileName, body) {
       var path = require("path");
+      // var app = window.require("@electron/remote").app;
+      // var nativeImage = window.require("electron");
       var pic = path.join(process.cwd(), "/resources/app256x256.png");
+      // var iconPath = path.join(__dirname, "../app256x256.png");
+      // var iconImage = nativeImage.createFromPath(iconPath);
+      // app.whenReady().then(() => {
+      //   app.setAppUserModelId("com.electron.SMNFiler"); // 设置应用程序的唯一标识符（Windows 平台需要）
+      //   app.setAboutPanelOptions({ iconPath: iconPath }); // 设置关于面板的图标（macOS 平台需要）
+      // });
+      // console.log("iconPath", iconPath);
       const options = {
         icon: pic,
-        body:
-          "当前处理输入文件：" + fileName + "有误！\n具体详情请查看日志文件。",
+        body: body,
       };
       const notification = new Notification("SMNFiler Error", options);
     },
@@ -4941,14 +4860,9 @@ export default {
         (err) => {
           if (err) {
             console.log("文件不存在");
-            ElNotification({
-              message: "由于您还未进行任何数据分析操作，因此暂时无日志生成！",
-              type: "error",
-              showClose: true,
-              position: "top-right",
-              duration: "2000",
-              offset: 60,
-            });
+            this.showErrorNotification(
+              "由于您还未进行任何数据分析操作，因此暂时无日志生成！"
+            );
           } else {
             console.log("文件存在");
             if (process.platform === "darwin") {
