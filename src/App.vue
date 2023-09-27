@@ -552,7 +552,7 @@ export default {
     },
     // success消息通知
     showSuccessNotification(message) {
-      console.log("info", message);
+      console.log("success消息", message);
       ElNotification({
         message: message,
         type: "success",
@@ -1442,7 +1442,6 @@ export default {
         smn2: smn2,
         conclude: conclude,
       };
-      //
       console.log("objArr", objArr);
 
       var objArr1 = objArr.customerName.map(function (name, index) {
@@ -1570,119 +1569,142 @@ export default {
         };
       });
       console.log("objArr1", objArr1);
-      this.tableData = objArr1;
-      if (data1.data.fileType == "summaryFileAndReportFile") {
-        console.log("结果和报告文件");
-        var outputFile = this.outputArr1;
-        var outputDirectry = this.outputDirectry;
-        console.log("outputDirectry", outputDirectry);
-        this.adjustTableHeight();
-        this.lastOutput = [];
-        for (var k = 0; k < outputFile.length; k++) {
-          this.lastOutput.push({
-            number: outputFile[k].number,
-            removeSuffixNumber: outputFile[k].removeSuffixNumber,
-            SMN1andSMN2: outputFile[k].SMN1andSMN2,
-            SMN1: outputFile[k].SMN1,
-            SMN2: outputFile[k].SMN2,
-          });
-        }
-        var lastOutput1 = this.lastOutput;
-        objArr1.forEach(function (item, index) {
-          lastOutput1.forEach(function (item, index1) {
-            if (objArr1[index].number == lastOutput1[index1].number) {
-              htmlName[index] =
-                objArr1[index].name +
-                "_" +
-                objArr1[index].inspectionEntity +
-                ".html";
-              pdfName[index] =
-                objArr1[index].name +
-                "_" +
-                objArr1[index].inspectionEntity +
-                ".pdf";
-              newFolderName[index] = outputDirectry;
-              htmlPathAndName[index] = path.join(
-                newFolderName[index],
-                htmlName[index]
-              );
-              pdfPathAndName[index] = path.join(
-                newFolderName[index],
-                pdfName[index]
-              );
-              console.log("pdfPathAndName", pdfPathAndName);
-              if (objArr1[index].smn1 >= 2) {
-                var reportResult = "未检出目标基因拷贝数异常";
-                var recommend = "无";
-              } else if (objArr1[index].smn1 == 1) {
-                reportResult = "SMN1基因外显子7杂合型缺失";
-                recommend = "遗传咨询";
-              } else if (objArr1[index].smn1 == 0) {
-                reportResult = "SMN1基因外显子7纯合型缺失";
-                recommend = "遗传咨询";
-              }
-              var pictureHtml = "";
-              var pagingTable = "";
-              var pagingEnd = "";
-              var pictureScript = "";
-              var echartsPath = "";
-              if (data1.data.fontStatus == 1) {
-                var changeFont = path.join(
-                  process.cwd(),
-                  "/resources/MiSans-Normal.ttf"
+      if (objArr.length == 0) {
+        var nullNotice =
+          "样本信息表中数据暂无数据,请重新上传有数据的样本信息表!";
+        ElNotification({
+          message: nullNotice,
+          type: "error",
+          showClose: true,
+          position: "top-right",
+          duration: "2000",
+          offset: 60,
+        });
+        log.error("\n" + nullNotice);
+        this.nullDataNotification(
+          sampleFileName,
+          "当前处理输入文件：" +
+            SampleFileName +
+            "有误！" +
+            "\n" +
+            "样本信息表数据为空，请记得添加样本信息数据！"
+        );
+        loading.close();
+      } else {
+        this.tableData = objArr1;
+        if (data1.data.fileType == "summaryFileAndReportFile") {
+          console.log("结果和报告文件");
+          var outputFile = this.outputArr1;
+          var outputDirectry = this.outputDirectry;
+          console.log("outputDirectry", outputDirectry);
+          this.adjustTableHeight();
+          this.lastOutput = [];
+          for (var k = 0; k < outputFile.length; k++) {
+            this.lastOutput.push({
+              number: outputFile[k].number,
+              removeSuffixNumber: outputFile[k].removeSuffixNumber,
+              SMN1andSMN2: outputFile[k].SMN1andSMN2,
+              SMN1: outputFile[k].SMN1,
+              SMN2: outputFile[k].SMN2,
+            });
+          }
+          var lastOutput1 = this.lastOutput;
+          var that = this
+          objArr1.forEach(function (item, index) {
+            lastOutput1.forEach(function (item, index1) {
+              if (objArr1[index].number == lastOutput1[index1].number) {
+                htmlName[index] =
+                  objArr1[index].name +
+                  "_" +
+                  objArr1[index].inspectionEntity +
+                  ".html";
+                pdfName[index] =
+                  objArr1[index].name +
+                  "_" +
+                  objArr1[index].inspectionEntity +
+                  ".pdf";
+                newFolderName[index] = outputDirectry;
+                htmlPathAndName[index] = path.join(
+                  newFolderName[index],
+                  htmlName[index]
                 );
-                var changeFont1 = changeFont.replace(/\\/g, "/");
-                console.log(changeFont1);
-                var changeFont2 = "url(" + changeFont1 + ")";
-                var currentFont = `@font-face{
+                pdfPathAndName[index] = path.join(
+                  newFolderName[index],
+                  pdfName[index]
+                );
+                console.log("pdfPathAndName", pdfPathAndName);
+                if (objArr1[index].smn1 >= 2) {
+                  var reportResult = "未检出目标基因拷贝数异常";
+                  var recommend = "无";
+                } else if (objArr1[index].smn1 == 1) {
+                  reportResult = "SMN1基因外显子7杂合型缺失";
+                  recommend = "遗传咨询";
+                } else if (objArr1[index].smn1 == 0) {
+                  reportResult = "SMN1基因外显子7纯合型缺失";
+                  recommend = "遗传咨询";
+                }
+                var pictureHtml = "";
+                var pagingTable = "";
+                var pagingEnd = "";
+                var pictureScript = "";
+                var echartsPath = "";
+                if (data1.data.fontStatus == 1) {
+                  var changeFont = path.join(
+                    process.cwd(),
+                    "/resources/MiSans-Normal.ttf"
+                  );
+                  var changeFont1 = changeFont.replace(/\\/g, "/");
+                  console.log(changeFont1);
+                  var changeFont2 = "url(" + changeFont1 + ")";
+                  var currentFont = `@font-face{
                                   font-family:"MiSans-Normal";
                                   src:${changeFont2};
                                   font-display:swap;
                               }`;
-                var lineSpacing = `line-height:23px`;
-                var beforeStage = `text-indent:-12.85pt`;
-                var fontSetting = 'font-family:"MiSans-Normal"';
-              } else {
-                var defaultFont = path.join(
-                  process.cwd(),
-                  "/resources/simsun.ttc"
-                );
-                var defaultFont1 = defaultFont.replace(/\\/g, "/");
-                console.log(defaultFont1);
-                var defaultFont2 = "url(" + defaultFont1 + ")";
-                currentFont = `@font-face{
+                  var lineSpacing = `line-height:23px`;
+                  var beforeStage = `text-indent:-12.85pt`;
+                  var fontSetting = 'font-family:"MiSans-Normal"';
+                } else {
+                  var defaultFont = path.join(
+                    process.cwd(),
+                    "/resources/simsun.ttc"
+                  );
+                  var defaultFont1 = defaultFont.replace(/\\/g, "/");
+                  console.log(defaultFont1);
+                  var defaultFont2 = "url(" + defaultFont1 + ")";
+                  currentFont = `@font-face{
                                       font-family:"simsun";
                                       src:${defaultFont2};
                                       font-display:swap;
                                   }`;
-                lineSpacing = `line-height:24px`;
-                beforeStage = `text-indent:-16.85pt`;
-                fontSetting = 'font-family:"simsun"';
-              }
-              // 添加 svg 方框图片替换 input 输入框
-              var correctBox = `<svg t="1654332410780" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2963" width="16" height="16" style="vertical-align: middle;">
+                  lineSpacing = `line-height:24px`;
+                  beforeStage = `text-indent:-16.85pt`;
+                  fontSetting = 'font-family:"simsun"';
+                }
+                // 添加 svg 方框图片替换 input 输入框
+                var correctBox = `<svg t="1654332410780" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2963" width="16" height="16" style="vertical-align: middle;">
                                   <path d="M832 128H192a64 64 0 0 0-64 64v640a64 64 0 0 0 64 64h640a64 64 0 0 0 64-64V192a64 64 0 0 0-64-64z m-93.71 270.86L466.76 670.4a32 32 0 0 1-45.26 0L285.71 534.6A32 32 0 0 1 331 489.33L444.14 602.5 693 353.61a32 32 0 0 1 45.26 45.25z" p-id="2964" ></path>
                          </svg>`;
-              var blankBox = `<svg t="1654332611254" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3878" width="16" height="16" style="vertical-align: middle;">
+                var blankBox = `<svg t="1654332611254" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3878" width="16" height="16" style="vertical-align: middle;">
                              <path d="M774 200c27.6 0 50 22.4 50 50v524c0 27.6-22.4 50-50 50H250c-27.6 0-50-22.4-50-50V250c0-27.6 22.4-50 50-50h524m0-72H250c-16.4 0-32.4 3.2-47.5 9.6-14.5 6.1-27.6 14.9-38.8 26.1-11.2 11.2-20 24.2-26.1 38.8-6.4 15.1-9.6 31.1-9.6 47.5v524c0 16.4 3.2 32.4 9.6 47.5 6.1 14.5 14.9 27.6 26.1 38.8 11.2 11.2 24.2 20 38.8 26.1 15.1 6.4 31.1 9.6 47.5 9.6h524c16.4 0 32.4-3.2 47.5-9.6 14.5-6.1 27.6-14.9 38.8-26.1 11.2-11.2 20-24.2 26.1-38.8 6.4-15.1 9.6-31.1 9.6-47.5V250c0-16.4-3.2-32.4-9.6-47.5-6.1-14.5-14.9-27.6-26.1-38.8-11.2-11.2-24.2-20-38.8-26.1-15.1-6.4-31.1-9.6-47.5-9.6z" p-id="3879"></path>
                          </svg>`;
-              if (reportResult == "未检出目标基因拷贝数异常") {
-                var defaultBox1 = correctBox;
-                var defaultBox2 = blankBox;
-                var defaultBox3 = blankBox;
-                var defaultBox4 = `font-weight:bold`;
-              } else if (reportResult == "SMN1基因外显子7杂合型缺失") {
-                defaultBox1 = blankBox;
-                defaultBox2 = correctBox;
-                defaultBox3 = blankBox;
-                var defaultBox5 = `font-weight:bold`;
-              } else {
-                defaultBox1 = blankBox;
-                defaultBox2 = blankBox;
-                defaultBox3 = correctBox;
-                var defaultBox6 = `font-weight:bold`;
-              }
-              content[index] = `<!DOCTYPE html>
+                if (reportResult == "未检出目标基因拷贝数异常") {
+                  var defaultBox1 = correctBox;
+                  var defaultBox2 = blankBox;
+                  var defaultBox3 = blankBox;
+                  var defaultBox4 = `font-weight:bold`;
+                } else if (reportResult == "SMN1基因外显子7杂合型缺失") {
+                  defaultBox1 = blankBox;
+                  defaultBox2 = correctBox;
+                  defaultBox3 = blankBox;
+                  var defaultBox5 = `font-weight:bold`;
+                } else {
+                  defaultBox1 = blankBox;
+                  defaultBox2 = blankBox;
+                  defaultBox3 = correctBox;
+                  var defaultBox6 = `font-weight:bold`;
+                }
+                content[index] = `<!DOCTYPE html>
       <html lang="en">
       <head>
           <meta charset="UTF-8">
@@ -2041,7 +2063,7 @@ export default {
       </body>
       ${pictureScript}
       </html>`;
-              content1[index] = `<!DOCTYPE html>
+                content1[index] = `<!DOCTYPE html>
       <html lang="en">
       <head>
           <meta charset="UTF-8">
@@ -2383,204 +2405,205 @@ export default {
       ${pictureScript}
       </html>`;
 
-              content2[index] =
-                data1.data.selectReport == "default"
-                  ? content[index]
-                  : content1[index];
-              var fs = window.require("fs");
-              fs.writeFile(
-                htmlPathAndName[index],
-                content2[index],
-                function (err) {
-                  if (err) {
-                    var notice =
-                      "输入文件 " + sampleFileName + " 处理有误";
-                    if (index == htmlPathAndName.length - 1) {
-                      this.showErrorNotification(notice);
+                content2[index] =
+                  data1.data.selectReport == "default"
+                    ? content[index]
+                    : content1[index];
+                var fs = window.require("fs");
+                fs.writeFile(
+                  htmlPathAndName[index],
+                  content2[index],
+                  function (err) {
+                    if (err) {
+                      var notice = "输入文件 " + sampleFileName + " 处理有误";
+                      if (index == htmlPathAndName.length - 1) {
+                        that.showErrorNotification(notice);
+                      }
+                      log.error(
+                        "\n" +
+                          "当前处理文件名为：" +
+                          sampleFileName +
+                          "\n错误提示：\n" +
+                          err
+                      );
+                      throw err;
                     }
-                    log.error(
+                    var notice = "输入文件 " + sampleFileName + " 处理完成";
+                    console.log("File is created successfully.");
+                    setTimeout(() => {
+                      if (index == htmlPathAndName.length - 1) {
+                        console.log("that2",that)
+                        that.showSuccessNotification(notice)
+                      }
+                    }, 1000);
+                    log.info(
                       "\n" +
                         "当前处理文件名为：" +
                         sampleFileName +
-                        "\n错误提示：\n" +
-                        err
+                        "\n" +
+                        "成功生成HTML文件：" +
+                        htmlName[index]
                     );
-                    throw err;
-                  }
-                  var notice = "输入文件 " + sampleFileName + " 处理完成";
-                  console.log("File is created successfully.");
-                  setTimeout(() => {
-                    if (index == htmlPathAndName.length - 1) {
-                      this.showSuccessNotification(notice);
-                    }
-                  }, 1000);
-                  log.info(
-                    "\n" +
-                      "当前处理文件名为：" +
-                      sampleFileName +
-                      "\n" +
-                      "成功生成HTML文件：" +
-                      htmlName[index]
-                  );
-                }
-              );
-              var window_to_PDF1 = [];
-
-              // Html File change to PDF File method
-              function afterWrite() {
-                console.log("ceshi");
-                var { BrowserWindow } = window.require("@electron/remote");
-
-                window_to_PDF1[index] = new BrowserWindow({ show: false }); //to just open the browser in background
-                window_to_PDF1[index].loadURL(
-                  `file://${htmlPathAndName[index].replace(/\\/g, "/")}`
-                ); //give the file link you want to display
-                window_to_PDF1[index].webContents.on(
-                  "did-finish-load",
-                  function () {
-                    console.log("ceshi111");
-                    window_to_PDF1[index].webContents
-                      .printToPDF({})
-                      .then((data) => {
-                        fs.writeFile(pdfPathAndName[index], data, (error) => {
-                          if (error) {
-                            loading.close();
-                            throw error;
-                          }
-
-                          var pdfnotice =
-                            `Wrote ` +
-                            pdfPathAndName.length +
-                            ` PDF successfully`;
-                          if (index == pdfPathAndName.length - 1) {
-                            setTimeout(() => {
-                              if (
-                                sampleFileNamePath.indexOf("#") != -1 ||
-                                sampleFileNamePath.indexOf("&") != -1 ||
-                                sampleFileNamePath.indexOf("+") != -1 ||
-                                sampleFileNamePath.indexOf("=") != -1 ||
-                                sampleFileNamePath.indexOf("?") != -1 ||
-                                sampleFileNamePath.indexOf(" ") != -1
-                              ) {
-                                console.log("测试测试");
-                                ElNotification({
-                                  message:
-                                    "检测到您上传的文件或路径中存在特殊字符串或空格！请及时修改！否者会导致无法生成PDF报告的图片信息！",
-                                  type: "warning",
-                                  showClose: true,
-                                  position: "top-right",
-                                  duration: "2000",
-                                  offset: 60,
-                                });
-                              }
-                            }, 1000);
-                            this.showSuccessNotification(pdfnotice);
-                          }
-                          log.info(
-                            "\n" +
-                              "当前处理文件名为：" +
-                              htmlName[index] +
-                              "\n" +
-                              "成功生成PDF文件：" +
-                              pdfName[index]
-                          );
-                          if (data1.data.htmlStatus == 0) {
-                            fs.unlink(htmlPathAndName[index], function (err) {
-                              if (err) {
-                                console.log(
-                                  "An error ocurred updating the file" +
-                                    err.message
-                                );
-                                return;
-                              }
-                              if (index == pdfPathAndName.length - 1) {
-                                loading.close();
-                                console.log("HTML File successfully deleted");
-                              }
-                            });
-                          }
-                          window_to_PDF1[index].close();
-                        });
-                      })
-                      .catch((error) => {
-                        if (index == pdfPathAndName.length - 1) {
-                          this.showErrorNotification(error);
-                        }
-                        log.error(
-                          `Failed to write PDF ${pdfPathAndName[index]}`,
-                          error
-                        );
-                      });
                   }
                 );
+                var window_to_PDF1 = [];
+
+                // Html File change to PDF File method
+                function afterWrite() {
+                  console.log("ceshi");
+                  var { BrowserWindow } = window.require("@electron/remote");
+
+                  window_to_PDF1[index] = new BrowserWindow({ show: false }); //to just open the browser in background
+                  window_to_PDF1[index].loadURL(
+                    `file://${htmlPathAndName[index].replace(/\\/g, "/")}`
+                  ); //give the file link you want to display
+                  window_to_PDF1[index].webContents.on(
+                    "did-finish-load",
+                    function () {
+                      console.log("ceshi111");
+                      window_to_PDF1[index].webContents
+                        .printToPDF({})
+                        .then((data) => {
+                          fs.writeFile(pdfPathAndName[index], data, (error) => {
+                            if (error) {
+                              loading.close();
+                              throw error;
+                            }
+
+                            var pdfnotice =
+                              `Wrote ` +
+                              pdfPathAndName.length +
+                              ` PDF successfully`;
+                            if (index == pdfPathAndName.length - 1) {
+                              setTimeout(() => {
+                                if (
+                                  sampleFileNamePath.indexOf("#") != -1 ||
+                                  sampleFileNamePath.indexOf("&") != -1 ||
+                                  sampleFileNamePath.indexOf("+") != -1 ||
+                                  sampleFileNamePath.indexOf("=") != -1 ||
+                                  sampleFileNamePath.indexOf("?") != -1 ||
+                                  sampleFileNamePath.indexOf(" ") != -1
+                                ) {
+                                  console.log("测试测试");
+                                  ElNotification({
+                                    message:
+                                      "检测到您上传的文件或路径中存在特殊字符串或空格！请及时修改！否者会导致无法生成PDF报告的图片信息！",
+                                    type: "warning",
+                                    showClose: true,
+                                    position: "top-right",
+                                    duration: "2000",
+                                    offset: 60,
+                                  });
+                                }
+                              }, 1000);
+                              console.log("that",that);
+                              that.showSuccessNotification(pdfnotice)
+                            }
+                            log.info(
+                              "\n" +
+                                "当前处理文件名为：" +
+                                htmlName[index] +
+                                "\n" +
+                                "成功生成PDF文件：" +
+                                pdfName[index]
+                            );
+                            if (data1.data.htmlStatus == 0) {
+                              fs.unlink(htmlPathAndName[index], function (err) {
+                                if (err) {
+                                  console.log(
+                                    "An error ocurred updating the file" +
+                                      err.message
+                                  );
+                                  return;
+                                }
+                                if (index == pdfPathAndName.length - 1) {
+                                  loading.close();
+                                  console.log("HTML File successfully deleted");
+                                }
+                              });
+                            }
+                            window_to_PDF1[index].close();
+                          });
+                        })
+                        .catch((error) => {
+                          if (index == pdfPathAndName.length - 1) {
+                            that.showErrorNotification(error);
+                          }
+                          log.error(
+                            `Failed to write PDF ${pdfPathAndName[index]}`,
+                            error
+                          );
+                        });
+                    }
+                  );
+                }
+                setTimeout(afterWrite, 1000);
               }
-              setTimeout(afterWrite, 1000);
-            }
+            });
           });
-        });
-      } else if (data1.data.fileType == "summaryFileAndReportPictureFile") {
-        this.adjustTableHeight();
-        console.log("结果和含图片的报告文件");
-        var figureFile = this.outputFigureArr1;
-        var outputDirectry = this.outputDirectry;
-        console.log("outputDirectry", outputDirectry);
-        this.figureFile1 = [];
-        for (var k = 0; k < figureFile.length; k++) {
-          this.figureFile1.push({
-            fileName: figureFile[k].fileName,
-            SMN1: figureFile[k].SMN1,
-            SMN2: figureFile[k].SMN2,
-            S06: figureFile[k].S06,
-            S04: figureFile[k].S04,
-            S07: figureFile[k].S07,
-            S01: figureFile[k].S01,
-            S05: figureFile[k].S05,
-            S08: figureFile[k].S08,
-            S02: figureFile[k].S02,
-            S03: figureFile[k].S03,
-            WARN: figureFile[k].WARN,
-          });
-        }
-        var figureFile2 = this.figureFile1;
-        objArr1.forEach(function (item, index) {
-          figureFile2.forEach(function (item, index1) {
-            if (objArr1[index].number == figureFile2[index1].fileName) {
-              htmlName[index] =
-                objArr1[index].name +
-                "_" +
-                objArr1[index].inspectionEntity +
-                ".html";
-              pdfName[index] =
-                objArr1[index].name +
-                "_" +
-                objArr1[index].inspectionEntity +
-                ".pdf";
-              newFolderName[index] = outputDirectry;
-              htmlPathAndName[index] = path.join(
-                newFolderName[index],
-                htmlName[index]
-              );
-              pdfPathAndName[index] = path.join(
-                newFolderName[index],
-                pdfName[index]
-              );
-              console.log("pdfPathAndName", pdfPathAndName);
-              if (objArr1[index].smn1 >= 2) {
-                var reportResult = "未检出目标基因拷贝数异常";
-                var recommend = "无";
-              } else if (objArr1[index].smn1 == 1) {
-                reportResult = "SMN1基因外显子7杂合型缺失";
-                recommend = "遗传咨询";
-              } else if (objArr1[index].smn1 == 0) {
-                reportResult = "SMN1基因外显子7纯合型缺失";
-                recommend = "遗传咨询";
-              }
-              var echartsPath = path.join(
-                process.cwd(),
-                "/resources/echarts.js"
-              );
-              console.log("echartsPath", echartsPath);
-              var pictureHtml = `<tr>
+        } else if (data1.data.fileType == "summaryFileAndReportPictureFile") {
+          this.adjustTableHeight();
+          console.log("结果和含图片的报告文件");
+          var figureFile = this.outputFigureArr1;
+          var outputDirectry = this.outputDirectry;
+          console.log("outputDirectry", outputDirectry);
+          this.figureFile1 = [];
+          for (var k = 0; k < figureFile.length; k++) {
+            this.figureFile1.push({
+              fileName: figureFile[k].fileName,
+              SMN1: figureFile[k].SMN1,
+              SMN2: figureFile[k].SMN2,
+              S06: figureFile[k].S06,
+              S04: figureFile[k].S04,
+              S07: figureFile[k].S07,
+              S01: figureFile[k].S01,
+              S05: figureFile[k].S05,
+              S08: figureFile[k].S08,
+              S02: figureFile[k].S02,
+              S03: figureFile[k].S03,
+              WARN: figureFile[k].WARN,
+            });
+          }
+          var figureFile2 = this.figureFile1;
+          objArr1.forEach(function (item, index) {
+            figureFile2.forEach(function (item, index1) {
+              if (objArr1[index].number == figureFile2[index1].fileName) {
+                htmlName[index] =
+                  objArr1[index].name +
+                  "_" +
+                  objArr1[index].inspectionEntity +
+                  ".html";
+                pdfName[index] =
+                  objArr1[index].name +
+                  "_" +
+                  objArr1[index].inspectionEntity +
+                  ".pdf";
+                newFolderName[index] = outputDirectry;
+                htmlPathAndName[index] = path.join(
+                  newFolderName[index],
+                  htmlName[index]
+                );
+                pdfPathAndName[index] = path.join(
+                  newFolderName[index],
+                  pdfName[index]
+                );
+                console.log("pdfPathAndName", pdfPathAndName);
+                if (objArr1[index].smn1 >= 2) {
+                  var reportResult = "未检出目标基因拷贝数异常";
+                  var recommend = "无";
+                } else if (objArr1[index].smn1 == 1) {
+                  reportResult = "SMN1基因外显子7杂合型缺失";
+                  recommend = "遗传咨询";
+                } else if (objArr1[index].smn1 == 0) {
+                  reportResult = "SMN1基因外显子7纯合型缺失";
+                  recommend = "遗传咨询";
+                }
+                var echartsPath = path.join(
+                  process.cwd(),
+                  "/resources/echarts.js"
+                );
+                console.log("echartsPath", echartsPath);
+                var pictureHtml = `<tr>
                       <td width=71 style='width:53.2pt;padding:0cm 5.4pt 0cm 5.4pt;'>
                           <p class=MsoNormal align=center style='text-align:center;'><b>检验结果图谱</b></p>
                       </td>
@@ -2588,7 +2611,7 @@ export default {
                         <div id="main" style="height: 306px; width: 460px"></div>
                       </td>
                   </tr>`;
-              var pagingTable = ` </td>
+                var pagingTable = ` </td>
                   </tr>
               </table>
               <table class=MsoTableGrid border=1 cellspacing=0 cellpadding=0 width=556
@@ -2606,8 +2629,8 @@ export default {
                   <tr>
                       <td width=556 colspan=13 valign=middle style='width:416.7pt;
                       padding:0cm 5.4pt 0cm 5.4pt'>`;
-              var pagingEnd = `</td>`;
-              var pictureScript = `<script type="text/javascript">
+                var pagingEnd = `</td>`;
+                var pictureScript = `<script type="text/javascript">
             /* 基于准备好的dom，初始化echarts实例*/
             var lastData = ${figureFile2[index1].WARN};
             if (lastData == false) {
@@ -3817,63 +3840,63 @@ export default {
               myChart.setOption(option1);
             }
           <\/script>`;
-              if (data1.data.fontStatus == 1) {
-                var changeFont = path.join(
-                  process.cwd(),
-                  "/resources/MiSans-Normal.ttf"
-                );
-                var changeFont1 = changeFont.replace(/\\/g, "/");
-                console.log(changeFont1);
-                var changeFont2 = "url(" + changeFont1 + ")";
-                var currentFont = `@font-face{
+                if (data1.data.fontStatus == 1) {
+                  var changeFont = path.join(
+                    process.cwd(),
+                    "/resources/MiSans-Normal.ttf"
+                  );
+                  var changeFont1 = changeFont.replace(/\\/g, "/");
+                  console.log(changeFont1);
+                  var changeFont2 = "url(" + changeFont1 + ")";
+                  var currentFont = `@font-face{
                                   font-family:"MiSans-Normal";
                                   src:${changeFont2};
                                   font-display:swap;
                               }`;
-                var lineSpacing = `line-height:23px`;
-                var beforeStage = `text-indent:-12.85pt`;
-                var fontSetting = 'font-family:"MiSans-Normal"';
-              } else {
-                var defaultFont = path.join(
-                  process.cwd(),
-                  "/resources/simsun.ttc"
-                );
-                var defaultFont1 = defaultFont.replace(/\\/g, "/");
-                console.log(defaultFont1);
-                var defaultFont2 = "url(" + defaultFont1 + ")";
-                currentFont = `@font-face{
+                  var lineSpacing = `line-height:23px`;
+                  var beforeStage = `text-indent:-12.85pt`;
+                  var fontSetting = 'font-family:"MiSans-Normal"';
+                } else {
+                  var defaultFont = path.join(
+                    process.cwd(),
+                    "/resources/simsun.ttc"
+                  );
+                  var defaultFont1 = defaultFont.replace(/\\/g, "/");
+                  console.log(defaultFont1);
+                  var defaultFont2 = "url(" + defaultFont1 + ")";
+                  currentFont = `@font-face{
                                       font-family:"simsun";
                                       src:${defaultFont2};
                                       font-display:swap;
                                   }`;
-                lineSpacing = `line-height:24px`;
-                beforeStage = `text-indent:-16.85pt`;
-                fontSetting = 'font-family:"simsun"';
-              }
-              // 添加 svg 方框图片替换 input 输入框
-              var correctBox = `<svg t="1654332410780" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2963" width="16" height="16" style="vertical-align: middle;">
+                  lineSpacing = `line-height:24px`;
+                  beforeStage = `text-indent:-16.85pt`;
+                  fontSetting = 'font-family:"simsun"';
+                }
+                // 添加 svg 方框图片替换 input 输入框
+                var correctBox = `<svg t="1654332410780" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2963" width="16" height="16" style="vertical-align: middle;">
                                   <path d="M832 128H192a64 64 0 0 0-64 64v640a64 64 0 0 0 64 64h640a64 64 0 0 0 64-64V192a64 64 0 0 0-64-64z m-93.71 270.86L466.76 670.4a32 32 0 0 1-45.26 0L285.71 534.6A32 32 0 0 1 331 489.33L444.14 602.5 693 353.61a32 32 0 0 1 45.26 45.25z" p-id="2964" ></path>
                          </svg>`;
-              var blankBox = `<svg t="1654332611254" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3878" width="16" height="16" style="vertical-align: middle;">
+                var blankBox = `<svg t="1654332611254" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3878" width="16" height="16" style="vertical-align: middle;">
                              <path d="M774 200c27.6 0 50 22.4 50 50v524c0 27.6-22.4 50-50 50H250c-27.6 0-50-22.4-50-50V250c0-27.6 22.4-50 50-50h524m0-72H250c-16.4 0-32.4 3.2-47.5 9.6-14.5 6.1-27.6 14.9-38.8 26.1-11.2 11.2-20 24.2-26.1 38.8-6.4 15.1-9.6 31.1-9.6 47.5v524c0 16.4 3.2 32.4 9.6 47.5 6.1 14.5 14.9 27.6 26.1 38.8 11.2 11.2 24.2 20 38.8 26.1 15.1 6.4 31.1 9.6 47.5 9.6h524c16.4 0 32.4-3.2 47.5-9.6 14.5-6.1 27.6-14.9 38.8-26.1 11.2-11.2 20-24.2 26.1-38.8 6.4-15.1 9.6-31.1 9.6-47.5V250c0-16.4-3.2-32.4-9.6-47.5-6.1-14.5-14.9-27.6-26.1-38.8-11.2-11.2-24.2-20-38.8-26.1-15.1-6.4-31.1-9.6-47.5-9.6z" p-id="3879"></path>
                          </svg>`;
-              if (reportResult == "未检出目标基因拷贝数异常") {
-                var defaultBox1 = correctBox;
-                var defaultBox2 = blankBox;
-                var defaultBox3 = blankBox;
-                var defaultBox4 = `font-weight:bold`;
-              } else if (reportResult == "SMN1基因外显子7杂合型缺失") {
-                defaultBox1 = blankBox;
-                defaultBox2 = correctBox;
-                defaultBox3 = blankBox;
-                var defaultBox5 = `font-weight:bold`;
-              } else {
-                defaultBox1 = blankBox;
-                defaultBox2 = blankBox;
-                defaultBox3 = correctBox;
-                var defaultBox6 = `font-weight:bold`;
-              }
-              content[index] = `<!DOCTYPE html>
+                if (reportResult == "未检出目标基因拷贝数异常") {
+                  var defaultBox1 = correctBox;
+                  var defaultBox2 = blankBox;
+                  var defaultBox3 = blankBox;
+                  var defaultBox4 = `font-weight:bold`;
+                } else if (reportResult == "SMN1基因外显子7杂合型缺失") {
+                  defaultBox1 = blankBox;
+                  defaultBox2 = correctBox;
+                  defaultBox3 = blankBox;
+                  var defaultBox5 = `font-weight:bold`;
+                } else {
+                  defaultBox1 = blankBox;
+                  defaultBox2 = blankBox;
+                  defaultBox3 = correctBox;
+                  var defaultBox6 = `font-weight:bold`;
+                }
+                content[index] = `<!DOCTYPE html>
       <html lang="en">
       <head>
           <meta charset="UTF-8">
@@ -4232,7 +4255,7 @@ export default {
       </body>
       ${pictureScript}
       </html>`;
-              content1[index] = `<!DOCTYPE html>
+                content1[index] = `<!DOCTYPE html>
       <html lang="en">
       <head>
           <meta charset="UTF-8">
@@ -4573,142 +4596,142 @@ export default {
       </body>
       ${pictureScript}
       </html>`;
-              content2[index] =
-                data1.data.selectReport == "default"
-                  ? content[index]
-                  : content1[index];
-              var fs = window.require("fs");
-              fs.writeFile(
-                htmlPathAndName[index],
-                content2[index],
-                function (err) {
-                  if (err) {
-                    var notice =
-                      "输入文件 " + sampleFileName + " 处理有误";
+                content2[index] =
+                  data1.data.selectReport == "default"
+                    ? content[index]
+                    : content1[index];
+                var fs = window.require("fs");
+                fs.writeFile(
+                  htmlPathAndName[index],
+                  content2[index],
+                  function (err) {
+                    if (err) {
+                      var notice = "输入文件 " + sampleFileName + " 处理有误";
 
-                    if (index == htmlPathAndName.length - 1) {
-                      this.showErrorNotification(notice);
+                      if (index == htmlPathAndName.length - 1) {
+                        this.showErrorNotification(notice);
+                      }
+                      log.error(
+                        "\n" +
+                          "当前处理文件名为：" +
+                          sampleFileName +
+                          "\n错误提示：\n" +
+                          err
+                      );
+                      throw err;
                     }
-                    log.error(
+                    var notice = "输入文件 " + sampleFileName + " 处理完成";
+                    console.log("File is created successfully.");
+                    setTimeout(() => {
+                      if (index == htmlPathAndName.length - 1) {
+                       that.showSuccessNotification(notice)
+                      }
+                    }, 1000);
+                    log.info(
                       "\n" +
                         "当前处理文件名为：" +
                         sampleFileName +
-                        "\n错误提示：\n" +
-                        err
+                        "\n" +
+                        "成功生成HTML文件：" +
+                        htmlName[index]
                     );
-                    throw err;
-                  }
-                  var notice = "输入文件 " + sampleFileName + " 处理完成";
-                  console.log("File is created successfully.");
-                  setTimeout(() => {
-                    if (index == htmlPathAndName.length - 1) {
-                      this.showSuccessNotification(notice);
-                    }
-                  }, 1000);
-                  log.info(
-                    "\n" +
-                      "当前处理文件名为：" +
-                      sampleFileName +
-                      "\n" +
-                      "成功生成HTML文件：" +
-                      htmlName[index]
-                  );
-                }
-              );
-              var window_to_PDF1 = [];
-
-              // Html File change to PDF File method
-              function afterWrite() {
-                console.log("ceshi");
-                var { BrowserWindow } = window.require("@electron/remote");
-
-                window_to_PDF1[index] = new BrowserWindow({ show: false }); //to just open the browser in background
-                window_to_PDF1[index].loadURL(
-                  `file://${htmlPathAndName[index].replace(/\\/g, "/")}`
-                ); //give the file link you want to display
-                window_to_PDF1[index].webContents.on(
-                  "did-finish-load",
-                  function () {
-                    console.log("ceshi111");
-                    window_to_PDF1[index].webContents
-                      .printToPDF({})
-                      .then((data) => {
-                        fs.writeFile(pdfPathAndName[index], data, (error) => {
-                          if (error) throw error;
-
-                          var pdfnotice =
-                            `Wrote ` +
-                            pdfPathAndName.length +
-                            ` PDF successfully`;
-
-                          if (index == pdfPathAndName.length - 1) {
-                            setTimeout(() => {
-                              if (
-                                sampleFileNamePath.indexOf("#") != -1 ||
-                                sampleFileNamePath.indexOf("&") != -1 ||
-                                sampleFileNamePath.indexOf("+") != -1 ||
-                                sampleFileNamePath.indexOf("=") != -1 ||
-                                sampleFileNamePath.indexOf("?") != -1 ||
-                                sampleFileNamePath.indexOf(" ") != -1
-                              ) {
-                                ElNotification({
-                                  message:
-                                    "检测到您上传的文件或路径中存在特殊字符串或空格！请及时修改！否者会导致无法生成PDF报告的图片信息！",
-                                  type: "warning",
-                                  showClose: true,
-                                  position: "top-right",
-                                  duration: "2000",
-                                  offset: 60,
-                                });
-                              }
-                            }, 1000);
-                            this.showSuccessNotification(pdfnotice);
-                          }
-                          log.info(
-                            "\n" +
-                              "当前处理文件名为：" +
-                              htmlName[index] +
-                              "\n" +
-                              "成功生成PDF文件：" +
-                              pdfName[index]
-                          );
-
-                          // loading.close();
-                          if (data1.data.htmlStatus == 0) {
-                            fs.unlink(htmlPathAndName[index], function (err) {
-                              if (err) {
-                                console.log(
-                                  "An error ocurred updating the file" +
-                                    err.message
-                                );
-                                return;
-                              }
-                              if (index == pdfPathAndName.length - 1) {
-                                loading.close();
-                                console.log("HTML File successfully deleted");
-                              }
-                            });
-                          }
-                          window_to_PDF1[index].close();
-                        });
-                      })
-                      .catch((error) => {
-                        if (index == pdfPathAndName.length - 1) {
-                          this.showErrorNotification(error);
-                        }
-                        loading.close();
-                        log.error(
-                          `Failed to write PDF ${pdfPathAndName[index]}`,
-                          error
-                        );
-                      });
                   }
                 );
+                var window_to_PDF1 = [];
+
+                // Html File change to PDF File method
+                function afterWrite() {
+                  console.log("ceshi");
+                  var { BrowserWindow } = window.require("@electron/remote");
+
+                  window_to_PDF1[index] = new BrowserWindow({ show: false }); //to just open the browser in background
+                  window_to_PDF1[index].loadURL(
+                    `file://${htmlPathAndName[index].replace(/\\/g, "/")}`
+                  ); //give the file link you want to display
+                  window_to_PDF1[index].webContents.on(
+                    "did-finish-load",
+                    function () {
+                      console.log("ceshi111");
+                      window_to_PDF1[index].webContents
+                        .printToPDF({})
+                        .then((data) => {
+                          fs.writeFile(pdfPathAndName[index], data, (error) => {
+                            if (error) throw error;
+
+                            var pdfnotice =
+                              `Wrote ` +
+                              pdfPathAndName.length +
+                              ` PDF successfully`;
+
+                            if (index == pdfPathAndName.length - 1) {
+                              setTimeout(() => {
+                                if (
+                                  sampleFileNamePath.indexOf("#") != -1 ||
+                                  sampleFileNamePath.indexOf("&") != -1 ||
+                                  sampleFileNamePath.indexOf("+") != -1 ||
+                                  sampleFileNamePath.indexOf("=") != -1 ||
+                                  sampleFileNamePath.indexOf("?") != -1 ||
+                                  sampleFileNamePath.indexOf(" ") != -1
+                                ) {
+                                  ElNotification({
+                                    message:
+                                      "检测到您上传的文件或路径中存在特殊字符串或空格！请及时修改！否者会导致无法生成PDF报告的图片信息！",
+                                    type: "warning",
+                                    showClose: true,
+                                    position: "top-right",
+                                    duration: "2000",
+                                    offset: 60,
+                                  });
+                                }
+                              }, 1000);
+                              that.showSuccessNotification(pdfnotice)
+                            }
+                            log.info(
+                              "\n" +
+                                "当前处理文件名为：" +
+                                htmlName[index] +
+                                "\n" +
+                                "成功生成PDF文件：" +
+                                pdfName[index]
+                            );
+
+                            // loading.close();
+                            if (data1.data.htmlStatus == 0) {
+                              fs.unlink(htmlPathAndName[index], function (err) {
+                                if (err) {
+                                  console.log(
+                                    "An error ocurred updating the file" +
+                                      err.message
+                                  );
+                                  return;
+                                }
+                                if (index == pdfPathAndName.length - 1) {
+                                  loading.close();
+                                  console.log("HTML File successfully deleted");
+                                }
+                              });
+                            }
+                            window_to_PDF1[index].close();
+                          });
+                        })
+                        .catch((error) => {
+                          if (index == pdfPathAndName.length - 1) {
+                            that.showErrorNotification(error);
+                          }
+                          loading.close();
+                          log.error(
+                            `Failed to write PDF ${pdfPathAndName[index]}`,
+                            error
+                          );
+                        });
+                    }
+                  );
+                }
+                setTimeout(afterWrite, 1000);
               }
-              setTimeout(afterWrite, 1000);
-            }
+            });
           });
-        });
+        }
       }
     },
     // 运行脚本后错误系统通知
@@ -4724,6 +4747,15 @@ export default {
       //   app.setAboutPanelOptions({ iconPath: iconPath }); // 设置关于面板的图标（macOS 平台需要）
       // });
       // console.log("iconPath", iconPath);
+      const options = {
+        icon: pic,
+        body: body,
+      };
+      const notification = new Notification("SMNFiler Error", options);
+    },
+    nullDataNotification(fileName, body) {
+      var path = require("path");
+      var pic = path.join(process.cwd(), "/resources/app256x256.png");
       const options = {
         icon: pic,
         body: body,
