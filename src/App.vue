@@ -529,7 +529,6 @@ export default {
     },
     // info消息通知
     showInfoNotification(message) {
-      console.log("info", message);
       ElNotification({
         message: message,
         type: "info",
@@ -552,7 +551,6 @@ export default {
     },
     // success消息通知
     showSuccessNotification(message) {
-      console.log("success消息", message);
       ElNotification({
         message: message,
         type: "success",
@@ -561,6 +559,17 @@ export default {
         duration: "2000",
         offset: 60,
       });
+    },
+    // warning 消息通知
+    showWarningNotification(message) {
+      ElNotification({
+        message: message,
+        type: "warning",
+        showClose: true,
+        position: "top-right",
+        duration: "2000",
+        offset: 60
+      })
     },
     // 上传Genemapper下机数据文件之前文件格式校验方法
     beforeAvatarUpload(file, fileList1) {
@@ -2484,16 +2493,8 @@ export default {
                                   sampleFileNamePath.indexOf("?") != -1 ||
                                   sampleFileNamePath.indexOf(" ") != -1
                                 ) {
-                                  console.log("测试测试");
-                                  ElNotification({
-                                    message:
-                                      "检测到您上传的文件或路径中存在特殊字符串或空格！请及时修改！否者会导致无法生成PDF报告的图片信息！",
-                                    type: "warning",
-                                    showClose: true,
-                                    position: "top-right",
-                                    duration: "2000",
-                                    offset: 60,
-                                  });
+                                  var warningNotice = "检测到您上传的文件或路径中存在特殊字符串或空格！请及时修改！否者会导致无法生成PDF报告的图片信息！"
+                                  that.showWarningNotification(warningNotice)
                                 }
                               }, 1000);
                               console.log("that",that);
@@ -4673,15 +4674,8 @@ export default {
                                   sampleFileNamePath.indexOf("?") != -1 ||
                                   sampleFileNamePath.indexOf(" ") != -1
                                 ) {
-                                  ElNotification({
-                                    message:
-                                      "检测到您上传的文件或路径中存在特殊字符串或空格！请及时修改！否者会导致无法生成PDF报告的图片信息！",
-                                    type: "warning",
-                                    showClose: true,
-                                    position: "top-right",
-                                    duration: "2000",
-                                    offset: 60,
-                                  });
+                                 var warningNotice = "检测到您上传的文件或路径中存在特殊字符串或空格！请及时修改！否者会导致无法生成PDF报告的图片信息！"
+                                 that.showWarningNotification(warningNotice)
                                 }
                               }, 1000);
                               that.showSuccessNotification(pdfnotice)
@@ -4737,16 +4731,7 @@ export default {
     // 运行脚本后错误系统通知
     errorNotification(fileName, body) {
       var path = require("path");
-      // var app = window.require("@electron/remote").app;
-      // var nativeImage = window.require("electron");
       var pic = path.join(process.cwd(), "/resources/app256x256.png");
-      // var iconPath = path.join(__dirname, "../app256x256.png");
-      // var iconImage = nativeImage.createFromPath(iconPath);
-      // app.whenReady().then(() => {
-      //   app.setAppUserModelId("com.electron.SMNFiler"); // 设置应用程序的唯一标识符（Windows 平台需要）
-      //   app.setAboutPanelOptions({ iconPath: iconPath }); // 设置关于面板的图标（macOS 平台需要）
-      // });
-      // console.log("iconPath", iconPath);
       const options = {
         icon: pic,
         body: body,
