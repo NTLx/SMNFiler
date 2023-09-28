@@ -192,34 +192,48 @@
           </el-table>
         </el-tab-pane>
         <el-tab-pane label="设置" name="third" class="setting">
-          <div class="settingPostion">
-            <el-row>
+          <div class="container">
+            <el-row class="row-container">
               <el-col :span="24">
                 <el-divider content-position="left"> 输出文件设置 </el-divider>
               </el-col>
-            </el-row>
-            <el-row class="fileSetting">
-              <el-col :span="24" class="leftText">
-                <span class="radio-label">类型：</span>
-                <el-radio-group
-                  v-model="radio2"
-                  @change="switchFileType"
-                  size="large"
-                >
-                  <el-radio-button label="summaryFile"
-                    >结果文件</el-radio-button
-                  >
-                  <el-radio-button label="summaryFileAndReportFile"
-                    >结果文件和报告</el-radio-button
-                  >
-                  <el-radio-button label="summaryFileAndReportPictureFile"
-                    >结果文件和含图片报告</el-radio-button
-                  >
-                </el-radio-group>
-              </el-col>
-            </el-row>
-            <el-row class="fileSetting">
+              <!-- </el-row>
+            <el-row class="fileSetting"> -->
               <el-col :span="12">
+                <div class="spanPosition">
+                  <span>类型：</span>
+                  <el-radio-group
+                    v-model="radio2"
+                    @change="switchFileType"
+                    size="large"
+                  >
+                    <el-radio-button label="summaryFile"
+                      >结果文件</el-radio-button
+                    >
+                    <el-radio-button label="summaryFileAndReportFile"
+                      >结果文件和报告</el-radio-button
+                    >
+                    <el-radio-button label="summaryFileAndReportPictureFile"
+                      >结果文件和含图片报告</el-radio-button
+                    >
+                  </el-radio-group>
+                </div>
+              </el-col>
+              <el-col :span="12">
+                <el-switch
+                  v-model="value1"
+                  class="ml-2"
+                  size="large"
+                  inline-prompt
+                  active-text="结果文件为中文"
+                  active-value="-l"
+                  inactive-value=" "
+                  inactive-text="结果文件为中文"
+                  @change="switchReceiveStatus1"
+                ></el-switch>
+              </el-col>
+              <el-col :span="2"></el-col>
+               <el-col :span="9">
                 <el-input
                   v-model="ntcSampleName"
                   placeholder="NTC检测样本名"
@@ -236,8 +250,8 @@
                   </template>
                 </el-input>
               </el-col>
-              <el-col :span="1"></el-col>
-              <el-col :span="11">
+              <el-col :span="2"></el-col>
+              <el-col :span="9">
                 <el-input
                   v-model="sampleName"
                   placeholder="样本名默认为STD"
@@ -254,9 +268,9 @@
                   </template>
                 </el-input>
               </el-col>
-            </el-row>
-            <el-row class="fileSetting">
-              <el-col :span="12">
+              <el-col :span="2"></el-col>
+              <el-col :span="2"></el-col>
+               <el-col :span="9">
                 <el-input
                   v-model="ladderSampleName"
                   placeholder="Ladder检测样本名"
@@ -273,19 +287,10 @@
                   </template>
                 </el-input>
               </el-col>
-              <el-col :span="1"></el-col>
-              <el-col :span="11">
-                <el-switch
-                  v-model="value1"
-                  size="large"
-                  inline-prompt
-                  active-text="结果文件为中文"
-                  active-value="-l"
-                  inactive-value=" "
-                  inactive-text="结果文件为中文"
-                  @change="switchReceiveStatus1"
-                ></el-switch>
-              </el-col>
+               <el-col :span="2"></el-col>
+               <el-col :span="9"></el-col>
+               <el-col :span="2"></el-col>
+            </el-row>
               <!-- <el-col :span="8">
                 <el-switch
                   v-model="value2"
@@ -302,60 +307,59 @@
                   @change="switchReceiveStatus2"
                 ></el-switch>
               </el-col> -->
-            </el-row>
-            <el-row>
+            
+            <el-row class="row-container">
               <el-col :span="24">
                 <el-divider content-position="left">报告文件设置</el-divider>
               </el-col>
+            <!-- <el-row class="fileSetting">  -->
+                <el-col :span="8">
+                  <el-select
+                    v-model="value5"
+                    size="large"
+                    @change="handleSelectChange"
+                  >
+                    <el-option
+                      v-for="item in options"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+                    />
+                  </el-select>
+                </el-col>
+                <el-col :span="8">
+                  <el-switch
+                    v-model="value3"
+                    size="large"
+                    inline-prompt
+                    active-text="生成 HTML 文件"
+                    active-value="1"
+                    inactive-value="0"
+                    inactive-text="生成 HTML 文件"
+                    @change="switchReceiveStatus3"
+                  >
+                  </el-switch>
+                </el-col>
+                <el-col :span="8">
+                  <el-switch
+                    v-model="value4"
+                    size="large"
+                    inline-prompt
+                    active-text="MiSans 字体"
+                    active-value="1"
+                    inactive-value="0"
+                    inactive-text="MiSans 字体"
+                    @change="switchReceiveStatus4"
+                  >
+                  </el-switch>
+                </el-col>
             </el-row>
-            <el-row class="fileSetting">
-              <el-col :span="8">
-                <el-select
-                  v-model="value5"
-                  size="large"
-                  @change="handleSelectChange"
-                >
-                  <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  />
-                </el-select>
-              </el-col>
-              <el-col :span="8">
-                <el-switch
-                  v-model="value3"
-                  size="large"
-                  inline-prompt
-                  active-text="生成 HTML 文件"
-                  active-value="1"
-                  inactive-value="0"
-                  inactive-text="生成 HTML 文件"
-                  @change="switchReceiveStatus3"
-                >
-                </el-switch>
-              </el-col>
-              <el-col :span="8">
-                <el-switch
-                  v-model="value4"
-                  size="large"
-                  inline-prompt
-                  active-text="MiSans 字体"
-                  active-value="1"
-                  inactive-value="0"
-                  inactive-text="MiSans 字体"
-                  @change="switchReceiveStatus4"
-                >
-                </el-switch>
-              </el-col>
-            </el-row>
-            <el-row>
+            <el-row class="row-container">
               <el-col :span="24">
                 <el-divider content-position="left">日志</el-divider>
               </el-col>
-            </el-row>
-            <el-row class="fileSetting">
+              <!-- </el-row>
+            <el-row class="fileSetting"> -->
               <el-col :span="24">
                 <el-button @click="openLogFile" type="primary" size="large">
                   打开日志文件
@@ -568,8 +572,8 @@ export default {
         showClose: true,
         position: "top-right",
         duration: "2000",
-        offset: 60
-      })
+        offset: 60,
+      });
     },
     // 上传Genemapper下机数据文件之前文件格式校验方法
     beforeAvatarUpload(file, fileList1) {
@@ -1618,7 +1622,7 @@ export default {
             });
           }
           var lastOutput1 = this.lastOutput;
-          var that = this
+          var that = this;
           objArr1.forEach(function (item, index) {
             lastOutput1.forEach(function (item, index1) {
               if (objArr1[index].number == lastOutput1[index1].number) {
@@ -2441,8 +2445,8 @@ export default {
                     console.log("File is created successfully.");
                     setTimeout(() => {
                       if (index == htmlPathAndName.length - 1) {
-                        console.log("that2",that)
-                        that.showSuccessNotification(notice)
+                        console.log("that2", that);
+                        that.showSuccessNotification(notice);
                       }
                     }, 1000);
                     log.info(
@@ -2493,12 +2497,13 @@ export default {
                                   sampleFileNamePath.indexOf("?") != -1 ||
                                   sampleFileNamePath.indexOf(" ") != -1
                                 ) {
-                                  var warningNotice = "检测到您上传的文件或路径中存在特殊字符串或空格！请及时修改！否者会导致无法生成PDF报告的图片信息！"
-                                  that.showWarningNotification(warningNotice)
+                                  var warningNotice =
+                                    "检测到您上传的文件或路径中存在特殊字符串或空格！请及时修改！否者会导致无法生成PDF报告的图片信息！";
+                                  that.showWarningNotification(warningNotice);
                                 }
                               }, 1000);
-                              console.log("that",that);
-                              that.showSuccessNotification(pdfnotice)
+                              console.log("that", that);
+                              that.showSuccessNotification(pdfnotice);
                             }
                             log.info(
                               "\n" +
@@ -4625,7 +4630,7 @@ export default {
                     console.log("File is created successfully.");
                     setTimeout(() => {
                       if (index == htmlPathAndName.length - 1) {
-                       that.showSuccessNotification(notice)
+                        that.showSuccessNotification(notice);
                       }
                     }, 1000);
                     log.info(
@@ -4674,11 +4679,12 @@ export default {
                                   sampleFileNamePath.indexOf("?") != -1 ||
                                   sampleFileNamePath.indexOf(" ") != -1
                                 ) {
-                                 var warningNotice = "检测到您上传的文件或路径中存在特殊字符串或空格！请及时修改！否者会导致无法生成PDF报告的图片信息！"
-                                 that.showWarningNotification(warningNotice)
+                                  var warningNotice =
+                                    "检测到您上传的文件或路径中存在特殊字符串或空格！请及时修改！否者会导致无法生成PDF报告的图片信息！";
+                                  that.showWarningNotification(warningNotice);
                                 }
                               }, 1000);
-                              that.showSuccessNotification(pdfnotice)
+                              that.showSuccessNotification(pdfnotice);
                             }
                             log.info(
                               "\n" +
@@ -4963,16 +4969,13 @@ a.help {
 .setting {
   position: relative;
 }
-/* .settingPosition {
-  margin-top: 20%;
-} */
 .grid-content {
   border-radius: 4px;
   text-align: left;
 }
-.fileSetting {
+/* .fileSetting {
   margin: 30px 0;
-}
+} */
 
 .el-divider__text {
   font-size: 16px !important;
@@ -4987,5 +4990,27 @@ i.el-icon.el-icon--upload {
 .el-input-group__append .custom-button {
   background-color: #409eff !important;
   color: white !important;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  height: calc(90vh-20px);
+}
+.marginLeftRight {
+  margin: 0 45px;
+}
+.spanPosition {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.row-container {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+}
+.el-col-9{
+  margin-top: 24px;
 }
 </style>
