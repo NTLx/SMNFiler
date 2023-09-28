@@ -228,6 +228,10 @@
                   active-text="结果文件为中文"
                   active-value="-l"
                   inactive-value=" "
+                  style="
+                    --el-switch-on-color: #13ce66;
+                    --el-switch-off-color: #ff4949;
+                  "
                   inactive-text="结果文件为中文"
                   @change="switchReceiveStatus1"
                 ></el-switch>
@@ -335,6 +339,10 @@
                     active-text="生成 HTML 文件"
                     active-value="1"
                     inactive-value="0"
+                    style="
+                    --el-switch-on-color: #13ce66;
+                    --el-switch-off-color: #ff4949;
+                  "
                     inactive-text="生成 HTML 文件"
                     @change="switchReceiveStatus3"
                   >
@@ -348,6 +356,10 @@
                     active-text="MiSans 字体"
                     active-value="1"
                     inactive-value="0"
+                    style="
+                    --el-switch-on-color: #13ce66;
+                    --el-switch-off-color: #ff4949;
+                  "
                     inactive-text="MiSans 字体"
                     @change="switchReceiveStatus4"
                   >
