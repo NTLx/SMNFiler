@@ -1600,14 +1600,7 @@ export default {
       if (objArr.length == 0) {
         var nullNotice =
           "样本信息表中数据暂无数据,请重新上传有数据的样本信息表!";
-        ElNotification({
-          message: nullNotice,
-          type: "error",
-          showClose: true,
-          position: "top-right",
-          duration: "2000",
-          offset: 60,
-        });
+        this.showErrorNotification(nullNotice)
         log.error("\n" + nullNotice);
         this.errorNotification(
           sampleFileName,
@@ -4763,42 +4756,24 @@ export default {
     saveSampleName() {
       var sampleName = this.sampleName;
       this.uploadParams.stdName = sampleName;
-      ElNotification({
-        message: "当前标准品样本名：" + sampleName,
-        type: "info",
-        showClose: true,
-        position: "top-right",
-        duration: "2000",
-        offset: 60,
-      });
+      var saveSampleName = "当前标准品样本名：" + sampleName
+      this.showInfoNotification(saveSampleName)
       // this.customSampleName = false;
     },
     // 保存NTC检测样本名
     saveNTCSampleName() {
       var ntcSampleName = this.ntcSampleName;
       this.uploadParams.ntcName = ntcSampleName;
-      ElNotification({
-        message: "当前NTC检测样本名：" + ntcSampleName,
-        type: "info",
-        showClose: true,
-        position: "top-right",
-        duration: "2000",
-        offset: 60,
-      });
+      var saveNTCSampleName = "当前NTC检测样本名：" + ntcSampleName
+      this.showInfoNotification(saveNTCSampleName)
       // this.customNTCSampleName = false;
     },
     // 保存Ladder检测样本名
     saveLadderSampleName() {
       var ladderSampleName = this.ladderSampleName;
       this.uploadParams.ladderName = ladderSampleName;
-      ElNotification({
-        message: "当前Ladder检测样本名：" + ladderSampleName,
-        type: "info",
-        showClose: true,
-        position: "top-right",
-        duration: "2000",
-        offset: 60,
-      });
+      var saveLadderSampleName = "当前Ladder检测样本名：" + ladderSampleName
+      this.showInfoNotification(saveLadderSampleName)      
       // this.customLadderSampleName = false;
     },
     //设置输出结果文件为中文
@@ -4837,30 +4812,18 @@ export default {
     // 切换为样本信息上传窗口
     changeTab() {
       this.activeName = "second";
+      var sampleMessage = "样本信息数据上传";
       setTimeout(() => {
-        ElNotification({
-          message: "样本信息上传",
-          type: "info",
-          showClose: true,
-          position: "top-right",
-          duration: "2000",
-          offset: 60,
-        });
-      }, 1000);
+        this.showInfoNotification(sampleMessage)
+      },500);
     },
     // 切换为Genemapper下机数据上传
     changeTab1() {
       this.activeName = "first";
+      var genMessage = "Genemapper下机数据上传";
       setTimeout(() => {
-        ElNotification({
-          message: "Genemapper下机数据上传",
-          type: "info",
-          showClose: true,
-          position: "top-right",
-          duration: "2000",
-          offset: 60,
-        });
-      }, 1000);
+        this.showInfoNotification(genMessage);
+      }, 500);
     },
     // 生成html文件
     switchReceiveStatus3(val) {
