@@ -12,7 +12,7 @@
           name="first"
           v-if="showUploadGen"
         >
-          <div id="holder" class="holder" style="height: 505px">
+          <div id="holder" class="holder">
             <div>
               <el-upload
                 class="upload-demo"
@@ -237,7 +237,7 @@
                 ></el-switch>
               </el-col>
               <el-col :span="2"></el-col>
-               <el-col :span="9">
+              <el-col :span="9">
                 <el-input
                   v-model="ntcSampleName"
                   placeholder="NTC检测样本名"
@@ -274,7 +274,7 @@
               </el-col>
               <el-col :span="2"></el-col>
               <el-col :span="2"></el-col>
-               <el-col :span="9">
+              <el-col :span="9">
                 <el-input
                   v-model="ladderSampleName"
                   placeholder="Ladder检测样本名"
@@ -291,11 +291,11 @@
                   </template>
                 </el-input>
               </el-col>
-               <el-col :span="2"></el-col>
-               <el-col :span="9"></el-col>
-               <el-col :span="2"></el-col>
+              <el-col :span="2"></el-col>
+              <el-col :span="9"></el-col>
+              <el-col :span="2"></el-col>
             </el-row>
-              <!-- <el-col :span="8">
+            <!-- <el-col :span="8">
                 <el-switch
                   v-model="value2"
                   size="large"
@@ -311,60 +311,60 @@
                   @change="switchReceiveStatus2"
                 ></el-switch>
               </el-col> -->
-            
+
             <el-row class="row-container">
               <el-col :span="24">
                 <el-divider content-position="left">报告文件设置</el-divider>
               </el-col>
-            <!-- <el-row class="fileSetting">  -->
-                <el-col :span="8">
-                  <el-select
-                    v-model="value5"
-                    size="large"
-                    @change="handleSelectChange"
-                  >
-                    <el-option
-                      v-for="item in options"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value"
-                    />
-                  </el-select>
-                </el-col>
-                <el-col :span="8">
-                  <el-switch
-                    v-model="value3"
-                    size="large"
-                    inline-prompt
-                    active-text="生成 HTML 文件"
-                    active-value="1"
-                    inactive-value="0"
-                    style="
+              <!-- <el-row class="fileSetting">  -->
+              <el-col :span="8">
+                <el-select
+                  v-model="value5"
+                  size="large"
+                  @change="handleSelectChange"
+                >
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  />
+                </el-select>
+              </el-col>
+              <el-col :span="8">
+                <el-switch
+                  v-model="value3"
+                  size="large"
+                  inline-prompt
+                  active-text="生成 HTML 文件"
+                  active-value="1"
+                  inactive-value="0"
+                  style="
                     --el-switch-on-color: #13ce66;
                     --el-switch-off-color: #ff4949;
                   "
-                    inactive-text="生成 HTML 文件"
-                    @change="switchReceiveStatus3"
-                  >
-                  </el-switch>
-                </el-col>
-                <el-col :span="8">
-                  <el-switch
-                    v-model="value4"
-                    size="large"
-                    inline-prompt
-                    active-text="MiSans 字体"
-                    active-value="1"
-                    inactive-value="0"
-                    style="
+                  inactive-text="生成 HTML 文件"
+                  @change="switchReceiveStatus3"
+                >
+                </el-switch>
+              </el-col>
+              <el-col :span="8">
+                <el-switch
+                  v-model="value4"
+                  size="large"
+                  inline-prompt
+                  active-text="MiSans 字体"
+                  active-value="1"
+                  inactive-value="0"
+                  style="
                     --el-switch-on-color: #13ce66;
                     --el-switch-off-color: #ff4949;
                   "
-                    inactive-text="MiSans 字体"
-                    @change="switchReceiveStatus4"
-                  >
-                  </el-switch>
-                </el-col>
+                  inactive-text="MiSans 字体"
+                  @change="switchReceiveStatus4"
+                >
+                </el-switch>
+              </el-col>
             </el-row>
             <el-row class="row-container">
               <el-col :span="24">
@@ -535,12 +535,15 @@ export default {
     handleClick(tab, event) {
       console.log(tab.props.label, event);
       var label = tab.props.label;
-      if (label == "GeneMapper下机数据上传") {
-        this.showInfoNotification(label);
-      } else if (label == "样本信息数据上传") {
-        this.showInfoNotification(label);
-      } else if (label == "设置") {
-        this.showInfoNotification(label);
+      switch (label) {
+        case "GeneMapper下机数据上传":
+        case "样本信息数据上传":
+        case "设置":
+          this.showInfoNotification(label);
+          break;
+        default:
+          // 默认情况下的处理逻辑
+          break;
       }
     },
     // info消息通知
@@ -1606,10 +1609,10 @@ export default {
           offset: 60,
         });
         log.error("\n" + nullNotice);
-        this.nullDataNotification(
+        this.errorNotification(
           sampleFileName,
           "当前处理输入文件：" +
-            SampleFileName +
+            sampleFileName +
             "有误！" +
             "\n" +
             "样本信息表数据为空，请记得添加样本信息数据！"
@@ -4756,15 +4759,6 @@ export default {
       };
       const notification = new Notification("SMNFiler Error", options);
     },
-    nullDataNotification(fileName, body) {
-      var path = require("path");
-      var pic = path.join(process.cwd(), "/resources/app256x256.png");
-      const options = {
-        icon: pic,
-        body: body,
-      };
-      const notification = new Notification("SMNFiler Error", options);
-    },
     // 保存自定义样本名
     saveSampleName() {
       var sampleName = this.sampleName;
@@ -4941,7 +4935,9 @@ export default {
   height: calc(100% - 40px); /* 40px 是指每个标签页的高度 */
   display: flex;
 }
-
+#holder {
+  height: 77vh;
+}
 .demo-tabs .el-tab-pane {
   flex: 1;
 }
@@ -4954,7 +4950,7 @@ export default {
   /* margin-top: 60px; */
 }
 .upload-demo .el-upload-dragger {
-  height: 450px;
+  height: 69vh;
 }
 .el-upload-dragger {
   margin-top: 10px;
@@ -4993,7 +4989,7 @@ a.help {
   font-size: 16px !important;
 }
 i.el-icon.el-icon--upload {
-  margin-top: 125px;
+  margin-top: 21vh;
 }
 .leftText {
   display: flex;
@@ -5022,7 +5018,7 @@ i.el-icon.el-icon--upload {
   justify-content: center;
   align-items: center;
 }
-.el-col-9{
+.el-col-9 {
   margin-top: 24px;
 }
 </style>
