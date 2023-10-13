@@ -373,9 +373,11 @@
               <!-- </el-row>
             <el-row class="fileSetting"> -->
               <el-col :span="24">
-                <el-button @click="openLogFile" type="primary" size="large">
-                  打开日志文件
-                </el-button>
+                 <el-tooltip class="box-item" content="打开日志文件" effect="light">
+                  <el-button @click="openLogFile" type="primary" size="large">
+                    <el-icon><Document /></el-icon>日志
+                  </el-button>
+                 </el-tooltip>
               </el-col>
             </el-row>
           </div>
