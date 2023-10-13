@@ -452,19 +452,21 @@ export default {
       var table = document.getElementById("myTable");
       var windowHeight = this.getWindowHeight();
       var windowWidth = this.getWindowWidth();
-      if (table == null) {
-        console.log("nothing");
-        console.log("windowHeight", windowHeight);
-        console.log("windowWidth", windowWidth);
-      } else {
-        console.log("windowHeight", windowHeight);
-        console.log("windowWidth", windowWidth);
-        // console.log("table.offsetTop", table.offsetTop);
-        var tableHeight = windowHeight - table.offsetTop - 100;
-        table.style.height = tableHeight + "px";
-        var tableWidth = windowWidth - 20;
-        table.style.width = tableWidth + "px";
-      }
+      // if (table == null) {
+      //   console.log("nothing");
+      //   console.log("windowHeight", windowHeight);
+      //   console.log("windowWidth", windowWidth);
+      // } else {
+      //   console.log("windowHeight", windowHeight);
+      //   console.log("windowWidth", windowWidth);
+      //   // console.log("table.offsetTop", table.offsetTop);
+      //   var tableHeight = windowHeight - table.offsetTop - 100;
+      //   table.style.height = tableHeight + "px";
+      //   var tableWidth = windowWidth - 20;
+      //   table.style.width = tableWidth + "px";
+      // }
+      var tableHeight,tableWidth
+      table == null ?(console.log("nothing"),console.log("windowHeight", windowHeight),console.log("windowWidth", windowWidth)):(console.log("windowHeight", windowHeight),console.log("windowWidth", windowWidth),tableHeight = windowHeight - table.offsetTop-100,tableWidth = windowWidth - 20,table.style.height = tableHeight + "px",table.style.width = tableWidth + "px");
     },
     // 根据不同操作系统设置默认值
     outputFormat() {
@@ -724,7 +726,6 @@ export default {
       log.transports.file.resolvePath = () =>
         path.join(logFilepath, logFilename);
       const { exec } = window.require("child_process");
-      var fs = window.require("fs");
       var exeFile;
       var linuxNewUrl = path.join(process.cwd(), "/resources/analysis_miss");
       var windowNewUrl = path.join(
@@ -1343,7 +1344,6 @@ export default {
       var logFilename = "SMNFilerVue.log";
       log.transports.file.resolvePath = () =>
         path.join(logFilepath, logFilename);
-
       var xlsx = window.require("node-xlsx");
       var sampleFileNamePath = file.path.trim();
       console.log(sampleFileNamePath);
@@ -1400,6 +1400,7 @@ export default {
       // var header1 = [];
       // var header2=  [];
       // var footer2= [];
+
       for (var j = 0; j < sampleSheetsData.length; j++) {
         sampleLineData.push(sampleSheetsData[j]);
         console.log("sampleLineData", sampleLineData);
@@ -1597,7 +1598,7 @@ export default {
         };
       });
       console.log("objArr1", objArr1);
-      if (objArr.length == 0) {
+      if (objArr1.length == 0) {
         var nullNotice =
           "样本信息表中数据暂无数据,请重新上传有数据的样本信息表!";
         this.showErrorNotification(nullNotice)
