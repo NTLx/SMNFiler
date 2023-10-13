@@ -452,19 +452,6 @@ export default {
       var table = document.getElementById("myTable");
       var windowHeight = this.getWindowHeight();
       var windowWidth = this.getWindowWidth();
-      // if (table == null) {
-      //   console.log("nothing");
-      //   console.log("windowHeight", windowHeight);
-      //   console.log("windowWidth", windowWidth);
-      // } else {
-      //   console.log("windowHeight", windowHeight);
-      //   console.log("windowWidth", windowWidth);
-      //   // console.log("table.offsetTop", table.offsetTop);
-      //   var tableHeight = windowHeight - table.offsetTop - 100;
-      //   table.style.height = tableHeight + "px";
-      //   var tableWidth = windowWidth - 20;
-      //   table.style.width = tableWidth + "px";
-      // }
       var tableHeight,tableWidth
       table == null ?(console.log("nothing"),console.log("windowHeight", windowHeight),console.log("windowWidth", windowWidth)):(console.log("windowHeight", windowHeight),console.log("windowWidth", windowWidth),tableHeight = windowHeight - table.offsetTop-100,tableWidth = windowWidth - 20,table.style.height = tableHeight + "px",table.style.width = tableWidth + "px");
     },
@@ -526,16 +513,13 @@ export default {
     //处理文件列表
     handleChange(file, fileList1) {
       this.fileList1 = fileList1.slice(-1);
-      console.log("fileList1", fileList1.length);
     },
     // 处理样本信息文件列表
     handleChange1(file, fileList2) {
       this.fileList2 = fileList2.slice(-1);
-      console.log("fileList2", fileList2.length);
     },
     //点击切换tabs栏方法
     handleClick(tab, event) {
-      console.log(tab.props.label, event);
       var label = tab.props.label;
       switch (label) {
         case "GeneMapper下机数据上传":
@@ -595,7 +579,6 @@ export default {
     // 上传Genemapper下机数据文件之前文件格式校验方法
     beforeAvatarUpload(file, fileList1) {
       let extension = file.name.substring(file.name.lastIndexOf(".") + 1);
-      console.log("extension", extension);
       let extensionList = ["txt", "csv"];
       if (extensionList.indexOf(extension) < 0) {
         const formatMessage =
@@ -668,7 +651,6 @@ export default {
         text: "上传处理中",
         background: "rgba(0, 0, 0, 0.7)",
       });
-      console.log("loading", loading);
       var stdName = data.data.stdName;
       var language = data.data.language;
       var peakStatus = data.data.peakStatus;
@@ -678,16 +660,9 @@ export default {
       var fileTypeParameter = data.data.fileTypeParameter;
       var ntcName = data.data.ntcName;
       var ladderName = data.data.ladderName;
-      console.log("结果文件为中文", data.data.language);
-      console.log("峰状态", data.data.peakStatus);
-      console.log("文件格式", data.data.outputFormat);
-      console.log("文件种类", data.data.fileType);
-      console.log("字体文件状态", data.data.fontStatus);
-      console.log("生成html文件", data.data.htmlStatus);
       this.tableData = "";
       // 创建 Date 对象并传入时间戳
       var date = new Date();
-
       // 使用 Date 对象的方法获取日期和时间信息
       var year = date.getFullYear(); // 年份
       var month = date.getMonth() + 1; // 月份（注意月份从 0 开始，所以要加 1）
@@ -716,7 +691,6 @@ export default {
         inputFileNameWithOutSuffix + "." + formattedDateTime;
       var outputDirectry = path.join(inputFile, generateDataFolder);
       console.log("outputDirectry", outputDirectry);
-
       var log = window.require("electron-log");
       log.transports.console.level = "silly";
       var app = window.require("@electron/remote").app;
@@ -960,7 +934,6 @@ export default {
                     console.log("summaryFile", summaryFile);
                     this.outputDirectry = outputDirectry;
                     var xlsx = window.require("node-xlsx");
-                    // var tsvFile = fs.readFileSync(summaryFile, "utf8");
                     const parsedData = xlsx.parse(summaryFile);
                     console.log("parsedData", parsedData);
                     var parsedSheetData = parsedData[0].data;
@@ -1327,14 +1300,14 @@ export default {
     },
     // 处理样本信息数据文件并生成报告
     httpRequest1(data1) {
-      console.log("处理样本data1", data1);
+      console.log("样本数据处理开始")
       var loading = ElLoading.service({
         lock: true,
         text: "上传处理中",
         background: "rgba(0, 0, 0, 0.7)",
       });
       var file = data1.file;
-      console.log("file", file);
+      console.log("样本信息输入文件", file);
       var path = require("path");
       var log = window.require("electron-log");
       log.transports.console.level = "silly";
@@ -1346,16 +1319,16 @@ export default {
         path.join(logFilepath, logFilename);
       var xlsx = window.require("node-xlsx");
       var sampleFileNamePath = file.path.trim();
-      console.log(sampleFileNamePath);
+      console.log("样本数据文件路径",sampleFileNamePath);
       var sampleFileName = sampleFileNamePath.substring(
         sampleFileNamePath.lastIndexOf("\\") + 1
       );
-      console.log("sampleFileName", sampleFileName);
+      console.log("样本数据名", sampleFileName);
       var sampleFileNameCurrentPath = sampleFileNamePath.substring(
         0,
         sampleFileNamePath.lastIndexOf("\\") + 1
       );
-      console.log("sampleFileNameCurrentPath", sampleFileNameCurrentPath);
+      console.log("样本数据文件根路径", sampleFileNameCurrentPath);
       log.info(
         "\n" +
           "当前处理文件名：" +
@@ -1449,7 +1422,6 @@ export default {
           }
         }
       }
-      console.log("number", number);
       const objArr = {
         number: number,
         customerName: customerName,
@@ -1472,7 +1444,6 @@ export default {
         conclude: conclude,
       };
       console.log("objArr", objArr);
-
       var objArr1 = objArr.customerName.map(function (name, index) {
         var leftSlash = "/";
         if (objArr.number[index] == " " || objArr.number[index] == undefined) {
@@ -1597,7 +1568,7 @@ export default {
           conclude: objArr.conclude[index],
         };
       });
-      console.log("objArr1", objArr1);
+      console.log("样本信息表数据", objArr1);
       if (objArr1.length == 0) {
         var nullNotice =
           "样本信息表中数据暂无数据,请重新上传有数据的样本信息表!";
@@ -1615,7 +1586,7 @@ export default {
       } else {
         this.tableData = objArr1;
         if (data1.data.fileType == "summaryFileAndReportFile") {
-          console.log("结果和报告文件");
+          console.log("当前输出文件为结果文件以及报告文件");
           var outputFile = this.outputArr1;
           var outputDirectry = this.outputDirectry;
           console.log("outputDirectry", outputDirectry);
@@ -1654,7 +1625,6 @@ export default {
                   newFolderName[index],
                   pdfName[index]
                 );
-                console.log("pdfPathAndName", pdfPathAndName);
                 if (objArr1[index].smn1 >= 2) {
                   var reportResult = "未检出目标基因拷贝数异常";
                   var recommend = "无";
@@ -1676,7 +1646,6 @@ export default {
                     "/resources/MiSans-Normal.ttf"
                   );
                   var changeFont1 = changeFont.replace(/\\/g, "/");
-                  console.log(changeFont1);
                   var changeFont2 = "url(" + changeFont1 + ")";
                   var currentFont = `@font-face{
                                   font-family:"MiSans-Normal";
@@ -1692,7 +1661,6 @@ export default {
                     "/resources/simsun.ttc"
                   );
                   var defaultFont1 = defaultFont.replace(/\\/g, "/");
-                  console.log(defaultFont1);
                   var defaultFont2 = "url(" + defaultFont1 + ")";
                   currentFont = `@font-face{
                                       font-family:"simsun";
@@ -2472,9 +2440,8 @@ export default {
 
                 // Html File change to PDF File method
                 function afterWrite() {
-                  console.log("ceshi");
+                  console.log("进入生成报告文件方法");
                   var { BrowserWindow } = window.require("@electron/remote");
-
                   window_to_PDF1[index] = new BrowserWindow({ show: false }); //to just open the browser in background
                   window_to_PDF1[index].loadURL(
                     `file://${htmlPathAndName[index].replace(/\\/g, "/")}`
@@ -2482,7 +2449,6 @@ export default {
                   window_to_PDF1[index].webContents.on(
                     "did-finish-load",
                     function () {
-                      console.log("ceshi111");
                       window_to_PDF1[index].webContents
                         .printToPDF({})
                         .then((data) => {
@@ -2491,7 +2457,6 @@ export default {
                               loading.close();
                               throw error;
                             }
-
                             var pdfnotice =
                               `Wrote ` +
                               pdfPathAndName.length +
@@ -2558,7 +2523,7 @@ export default {
           });
         } else if (data1.data.fileType == "summaryFileAndReportPictureFile") {
           this.adjustTableHeight();
-          console.log("结果和含图片的报告文件");
+          console.log("当前输出文件为结果文件和含图片的报告文件");
           var figureFile = this.outputFigureArr1;
           var outputDirectry = this.outputDirectry;
           console.log("outputDirectry", outputDirectry);
@@ -2602,7 +2567,6 @@ export default {
                   newFolderName[index],
                   pdfName[index]
                 );
-                console.log("pdfPathAndName", pdfPathAndName);
                 if (objArr1[index].smn1 >= 2) {
                   var reportResult = "未检出目标基因拷贝数异常";
                   var recommend = "无";
@@ -3861,7 +3825,6 @@ export default {
                     "/resources/MiSans-Normal.ttf"
                   );
                   var changeFont1 = changeFont.replace(/\\/g, "/");
-                  console.log(changeFont1);
                   var changeFont2 = "url(" + changeFont1 + ")";
                   var currentFont = `@font-face{
                                   font-family:"MiSans-Normal";
@@ -3877,7 +3840,6 @@ export default {
                     "/resources/simsun.ttc"
                   );
                   var defaultFont1 = defaultFont.replace(/\\/g, "/");
-                  console.log(defaultFont1);
                   var defaultFont2 = "url(" + defaultFont1 + ")";
                   currentFont = `@font-face{
                                       font-family:"simsun";
@@ -4653,12 +4615,10 @@ export default {
                   }
                 );
                 var window_to_PDF1 = [];
-
                 // Html File change to PDF File method
                 function afterWrite() {
-                  console.log("ceshi");
+                  console.log("进入生成报告文件方法");
                   var { BrowserWindow } = window.require("@electron/remote");
-
                   window_to_PDF1[index] = new BrowserWindow({ show: false }); //to just open the browser in background
                   window_to_PDF1[index].loadURL(
                     `file://${htmlPathAndName[index].replace(/\\/g, "/")}`
@@ -4666,18 +4626,15 @@ export default {
                   window_to_PDF1[index].webContents.on(
                     "did-finish-load",
                     function () {
-                      console.log("ceshi111");
                       window_to_PDF1[index].webContents
                         .printToPDF({})
                         .then((data) => {
                           fs.writeFile(pdfPathAndName[index], data, (error) => {
                             if (error) throw error;
-
                             var pdfnotice =
                               `Wrote ` +
                               pdfPathAndName.length +
                               ` PDF successfully`;
-
                             if (index == pdfPathAndName.length - 1) {
                               setTimeout(() => {
                                 if (
@@ -4703,8 +4660,6 @@ export default {
                                 "成功生成PDF文件：" +
                                 pdfName[index]
                             );
-
-                            // loading.close();
                             if (data1.data.htmlStatus == 0) {
                               fs.unlink(htmlPathAndName[index], function (err) {
                                 if (err) {
@@ -4759,7 +4714,6 @@ export default {
       this.uploadParams.stdName = sampleName;
       var saveSampleName = "当前标准品样本名：" + sampleName
       this.showInfoNotification(saveSampleName)
-      // this.customSampleName = false;
     },
     // 保存NTC检测样本名
     saveNTCSampleName() {
@@ -4767,7 +4721,6 @@ export default {
       this.uploadParams.ntcName = ntcSampleName;
       var saveNTCSampleName = "当前NTC检测样本名：" + ntcSampleName
       this.showInfoNotification(saveNTCSampleName)
-      // this.customNTCSampleName = false;
     },
     // 保存Ladder检测样本名
     saveLadderSampleName() {
@@ -4775,16 +4728,11 @@ export default {
       this.uploadParams.ladderName = ladderSampleName;
       var saveLadderSampleName = "当前Ladder检测样本名：" + ladderSampleName
       this.showInfoNotification(saveLadderSampleName)      
-      // this.customLadderSampleName = false;
     },
     //设置输出结果文件为中文
     switchReceiveStatus1(val) {
       this.uploadParams.language = val;
     },
-    //峰面积
-    // switchReceiveStatus2(val) {
-    //   this.uploadParams.peakStatus = val;
-    // },
     //切换输出文件种类
     switchFileType(val) {
       if (val == "summaryFileAndReportFile") {
@@ -4852,22 +4800,22 @@ export default {
         fs.constants.F_OK,
         (err) => {
           if (err) {
-            console.log("文件不存在");
+            console.log("日志文件不存在");
             this.showErrorNotification(
               "由于您还未进行任何数据分析操作，因此暂时无日志生成！"
             );
           } else {
-            console.log("文件存在");
+            console.log("日志文件存在");
             if (process.platform === "darwin") {
               const { shell } = window.require("electron");
               const openFile = (filePath) => {
                 shell
                   .openPath(filePath)
                   .then(() => {
-                    console.log("文件已成功打开");
+                    console.log("日志文件已成功打开");
                   })
                   .catch((error) => {
-                    console.error("打开文件时出错:", error);
+                    console.error("打开日志文件时出错:", error);
                   });
               };
               openFile(path.join(convertedLogFilepath, logFilename));
