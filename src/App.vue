@@ -373,11 +373,15 @@
               <!-- </el-row>
             <el-row class="fileSetting"> -->
               <el-col :span="24">
-                 <el-tooltip class="box-item" content="打开日志文件" effect="light">
+                <el-tooltip
+                  class="box-item"
+                  content="打开日志文件"
+                  effect="light"
+                >
                   <el-button @click="openLogFile" type="primary" size="large">
                     <el-icon><Document /></el-icon>日志
                   </el-button>
-                 </el-tooltip>
+                </el-tooltip>
               </el-col>
             </el-row>
           </div>
@@ -454,8 +458,17 @@ export default {
       var table = document.getElementById("myTable");
       var windowHeight = this.getWindowHeight();
       var windowWidth = this.getWindowWidth();
-      var tableHeight,tableWidth
-      table == null ?(console.log("nothing"),console.log("windowHeight", windowHeight),console.log("windowWidth", windowWidth)):(console.log("windowHeight", windowHeight),console.log("windowWidth", windowWidth),tableHeight = windowHeight - table.offsetTop-100,tableWidth = windowWidth - 20,table.style.height = tableHeight + "px",table.style.width = tableWidth + "px");
+      var tableHeight, tableWidth;
+      table == null
+        ? (console.log("nothing"),
+          console.log("windowHeight", windowHeight),
+          console.log("windowWidth", windowWidth))
+        : (console.log("windowHeight", windowHeight),
+          console.log("windowWidth", windowWidth),
+          (tableHeight = windowHeight - table.offsetTop - 100),
+          (tableWidth = windowWidth - 20),
+          (table.style.height = tableHeight + "px"),
+          (table.style.width = tableWidth + "px"));
     },
     // 根据不同操作系统设置默认值
     outputFormat() {
@@ -586,6 +599,8 @@ export default {
         const formatMessage =
           "很抱歉，您选择的文件格式不符合要求，请重新选择文件！";
         this.showErrorNotification(formatMessage);
+        log.error(formatMessage);
+        this.errorNotification(formatMessage);
         return false;
       }
     },
@@ -597,6 +612,8 @@ export default {
         const formatMessage =
           "很抱歉，您选择的文件格式不符合要求，请重新选择文件！";
         this.showErrorNotification(formatMessage);
+        log.error(formatMessage);
+        this.errorNotification(formatMessage);
         return false;
       }
     },
@@ -752,28 +769,14 @@ export default {
                     "有误！\n具体详情请查看日志文件。"
                 );
                 const notice = "输入下机数据文件" + file.name + "处理有误！";
-                log.error(
-                  "\n" +
-                    "当前输入下机数据文件" +
-                    file.name +
-                    "\n" +
-                    "处理有误！" +
-                    "\n" +
-                    stderr
-                );
+                log.error(notice + "\n" + stderr);
                 this.showErrorNotification(notice);
                 console.log("error:\n" + error);
                 console.log("stderr:\n" + stderr);
               } else if (stdout) {
                 loading.close();
                 const notice = "输入下机数据文件" + file.name + "处理完成";
-                log.info(
-                  "\n" +
-                    "当前输入下机数据文件" +
-                    file.name +
-                    "\n" +
-                    "处理完成！"
-                );
+                log.info(notice);
                 this.showSuccessNotification(notice);
                 console.log("stdout:\n" + stdout);
                 if (fileType !== "summaryFile") {
@@ -791,12 +794,12 @@ export default {
                       generateDataFolder,
                       outPutFileName
                     );
-                    console.log("summaryFile", summaryFile);
+                    console.log("输出summary文件路径：", summaryFile);
                     this.outputDirectry = outputDirectry;
                     var xlsx = window.require("node-xlsx");
                     // var tsvFile = fs.readFileSync(summaryFile, "utf8");
                     const parsedData = xlsx.parse(summaryFile);
-                    console.log("parsedData", parsedData);
+                    console.log("summary数据数组", parsedData);
                     var parsedSheetData = parsedData[0].data;
                     // iconv.skipDecodeWarning = true;
                     var parsedLineData = [];
@@ -895,28 +898,14 @@ export default {
                     "有误！\n具体详情请查看日志文件。"
                 );
                 const notice = "输入下机数据文件" + file.name + "处理有误！";
-                log.error(
-                  "\n" +
-                    "当前输入下机数据文件" +
-                    file.name +
-                    "\n" +
-                    "处理有误！" +
-                    "\n" +
-                    stderr
-                );
+                log.error(notice + "\n" + stderr);
                 this.showErrorNotification(notice);
                 console.log("error:\n" + error);
                 console.log("stderr:\n" + stderr);
               } else if (stdout) {
                 loading.close();
-                const notice = "输入下机数据文件" + file.name + "处理完成";
-                log.info(
-                  "\n" +
-                    "当前输入下机数据文件" +
-                    file.name +
-                    "\n" +
-                    "处理完成！"
-                );
+                const notice = "输入下机数据文件" + file.name + "处理完成!";
+                log.info(notice);
                 this.showSuccessNotification(notice);
                 console.log("stdout:\n" + stdout);
                 if (fileType !== "summaryFile") {
@@ -1038,28 +1027,14 @@ export default {
                     "有误！\n具体详情请查看日志文件。"
                 );
                 const notice = "输入下机数据文件" + file.name + "处理有误！";
-                log.error(
-                  "\n" +
-                    "当前输入下机数据文件" +
-                    file.name +
-                    "\n" +
-                    "处理有误！" +
-                    "\n" +
-                    stderr
-                );
+                log.error(notice + "\n" + stderr);
                 this.showErrorNotification(notice);
                 console.log("error:\n" + error);
                 console.log("stderr:\n" + stderr);
               } else if (stdout) {
                 loading.close();
-                const notice = "输入下机数据文件" + file.name + "处理完成";
-                log.info(
-                  "\n" +
-                    "当前输入下机数据文件" +
-                    file.name +
-                    "\n" +
-                    "处理完成！"
-                );
+                const notice = "输入下机数据文件" + file.name + "处理完成!";
+                log.info(notice);
                 this.showSuccessNotification(notice);
                 console.log("stdout:\n" + stdout);
                 if (fileType !== "summaryFile") {
@@ -1182,28 +1157,14 @@ export default {
                     "有误！\n具体详情请查看日志文件。"
                 );
                 const notice = "输入下机数据文件" + file.name + "处理有误！";
-                log.error(
-                  "\n" +
-                    "当前输入下机数据文件" +
-                    file.name +
-                    "\n" +
-                    "处理有误！" +
-                    "\n" +
-                    stderr
-                );
+                log.error(notice + "\n" + stderr);
                 this.showErrorNotification(notice);
                 console.log("error:\n" + error);
                 console.log("stderr:\n" + stderr);
               } else if (stdout) {
                 loading.close();
-                const notice = "输入下机数据文件" + file.name + "处理完成";
-                log.info(
-                  "\n" +
-                    "当前输入下机数据文件" +
-                    file.name +
-                    "\n" +
-                    "处理完成！"
-                );
+                const notice = "输入下机数据文件" + file.name + "处理完成!";
+                log.info(notice);
                 this.showSuccessNotification(notice);
                 console.log("stdout:\n" + stdout);
                 if (fileType !== "summaryFile") {
@@ -1302,7 +1263,7 @@ export default {
     },
     // 处理样本信息数据文件并生成报告
     httpRequest1(data1) {
-      console.log("样本数据处理开始")
+      console.log("样本数据处理开始");
       var loading = ElLoading.service({
         lock: true,
         text: "上传处理中",
@@ -1321,7 +1282,7 @@ export default {
         path.join(logFilepath, logFilename);
       var xlsx = window.require("node-xlsx");
       var sampleFileNamePath = file.path.trim();
-      console.log("样本数据文件路径",sampleFileNamePath);
+      console.log("样本数据文件路径", sampleFileNamePath);
       var sampleFileName = sampleFileNamePath.substring(
         sampleFileNamePath.lastIndexOf("\\") + 1
       );
@@ -1331,13 +1292,7 @@ export default {
         sampleFileNamePath.lastIndexOf("\\") + 1
       );
       console.log("样本数据文件根路径", sampleFileNameCurrentPath);
-      log.info(
-        "\n" +
-          "当前处理文件名：" +
-          sampleFileName +
-          "\n" +
-          "成功传入输入样本数据文件"
-      );
+      log.info("当前处理文件名：" +sampleFileName +"\n" +"成功传入输入样本数据文件");
       var sampleSheets = xlsx.parse(file.path.trim());
       var sampleSheetsData = sampleSheets[0].data;
       var sampleLineData = [];
@@ -1574,8 +1529,8 @@ export default {
       if (objArr1.length == 0) {
         var nullNotice =
           "样本信息表中数据暂无数据,请重新上传有数据的样本信息表!";
-        this.showErrorNotification(nullNotice)
-        log.error("\n" + nullNotice);
+        this.showErrorNotification(nullNotice);
+        log.error(nullNotice);
         this.errorNotification(
           sampleFileName,
           "当前处理输入文件：" +
@@ -2410,10 +2365,10 @@ export default {
                       var notice = "输入文件 " + sampleFileName + " 处理有误";
                       if (index == htmlPathAndName.length - 1) {
                         that.showErrorNotification(notice);
+                        that.errorNotification(notice);
                       }
                       log.error(
-                        "\n" +
-                          "当前处理文件名为：" +
+                        "当前处理文件名为：" +
                           sampleFileName +
                           "\n错误提示：\n" +
                           err
@@ -2428,14 +2383,7 @@ export default {
                         that.showSuccessNotification(notice);
                       }
                     }, 1000);
-                    log.info(
-                      "\n" +
-                        "当前处理文件名为：" +
-                        sampleFileName +
-                        "\n" +
-                        "成功生成HTML文件：" +
-                        htmlName[index]
-                    );
+                    log.info("当前处理文件名为：" +sampleFileName +"\n" +"成功生成HTML文件：" +htmlName[index]);
                   }
                 );
                 var window_to_PDF1 = [];
@@ -2481,14 +2429,7 @@ export default {
                               console.log("that", that);
                               that.showSuccessNotification(pdfnotice);
                             }
-                            log.info(
-                              "\n" +
-                                "当前处理文件名为：" +
-                                htmlName[index] +
-                                "\n" +
-                                "成功生成PDF文件：" +
-                                pdfName[index]
-                            );
+                            log.info("当前处理文件名为：" +htmlName[index] +"\n" +"成功生成PDF文件：" +pdfName[index]);
                             if (data1.data.htmlStatus == 0) {
                               fs.unlink(htmlPathAndName[index], function (err) {
                                 if (err) {
@@ -2510,6 +2451,7 @@ export default {
                         .catch((error) => {
                           if (index == pdfPathAndName.length - 1) {
                             that.showErrorNotification(error);
+                            that.errorNotification(error);
                           }
                           log.error(
                             `Failed to write PDF ${pdfPathAndName[index]}`,
@@ -2547,6 +2489,7 @@ export default {
             });
           }
           var figureFile2 = this.figureFile1;
+          var that = this;
           objArr1.forEach(function (item, index) {
             figureFile2.forEach(function (item, index1) {
               if (objArr1[index].number == figureFile2[index1].fileName) {
@@ -4588,11 +4531,11 @@ export default {
                       var notice = "输入文件 " + sampleFileName + " 处理有误";
 
                       if (index == htmlPathAndName.length - 1) {
-                        this.showErrorNotification(notice);
+                        that.showErrorNotification(notice);
+                        that.errorNotification(notice);
                       }
                       log.error(
-                        "\n" +
-                          "当前处理文件名为：" +
+                        "当前处理文件名为：" +
                           sampleFileName +
                           "\n错误提示：\n" +
                           err
@@ -4607,8 +4550,7 @@ export default {
                       }
                     }, 1000);
                     log.info(
-                      "\n" +
-                        "当前处理文件名为：" +
+                      "当前处理文件名为：" +
                         sampleFileName +
                         "\n" +
                         "成功生成HTML文件：" +
@@ -4655,8 +4597,7 @@ export default {
                               that.showSuccessNotification(pdfnotice);
                             }
                             log.info(
-                              "\n" +
-                                "当前处理文件名为：" +
+                              "当前处理文件名为：" +
                                 htmlName[index] +
                                 "\n" +
                                 "成功生成PDF文件：" +
@@ -4683,6 +4624,7 @@ export default {
                         .catch((error) => {
                           if (index == pdfPathAndName.length - 1) {
                             that.showErrorNotification(error);
+                            that.errorNotification(error);
                           }
                           loading.close();
                           log.error(
@@ -4714,22 +4656,22 @@ export default {
     saveSampleName() {
       var sampleName = this.sampleName;
       this.uploadParams.stdName = sampleName;
-      var saveSampleName = "当前标准品样本名：" + sampleName
-      this.showInfoNotification(saveSampleName)
+      var saveSampleName = "当前标准品样本名：" + sampleName;
+      this.showInfoNotification(saveSampleName);
     },
     // 保存NTC检测样本名
     saveNTCSampleName() {
       var ntcSampleName = this.ntcSampleName;
       this.uploadParams.ntcName = ntcSampleName;
-      var saveNTCSampleName = "当前NTC检测样本名：" + ntcSampleName
-      this.showInfoNotification(saveNTCSampleName)
+      var saveNTCSampleName = "当前NTC检测样本名：" + ntcSampleName;
+      this.showInfoNotification(saveNTCSampleName);
     },
     // 保存Ladder检测样本名
     saveLadderSampleName() {
       var ladderSampleName = this.ladderSampleName;
       this.uploadParams.ladderName = ladderSampleName;
-      var saveLadderSampleName = "当前Ladder检测样本名：" + ladderSampleName
-      this.showInfoNotification(saveLadderSampleName)      
+      var saveLadderSampleName = "当前Ladder检测样本名：" + ladderSampleName;
+      this.showInfoNotification(saveLadderSampleName);
     },
     //设置输出结果文件为中文
     switchReceiveStatus1(val) {
@@ -4738,21 +4680,21 @@ export default {
     //切换输出文件种类
     switchFileType(val) {
       if (val == "summaryFileAndReportFile") {
-        console.log("结果文件和报告");
+        console.log("当前输出文件种类：结果文件和报告");
         this.showUploadGen = true;
         this.showSampleInformation = true;
         this.uploadParams.fileType = val;
         this.uploadParams.fileTypeParameter = " ";
         this.changeTab1();
       } else if (val == "summaryFileAndReportPictureFile") {
-        console.log("结果文件和含图片报告");
+        console.log("当前输出文件种类：结果文件和含图片报告");
         this.showUploadGen = true;
         this.showSampleInformation = true;
         this.uploadParams.fileType = val;
         this.uploadParams.fileTypeParameter = "-f";
         this.changeTab1();
       } else {
-        console.log("结果文件");
+        console.log("当前输出文件种类：结果文件");
         this.uploadParams.fileType = val;
         this.uploadParams.fileTypeParameter = " ";
         this.showUploadGen = true;
@@ -4765,8 +4707,9 @@ export default {
       this.activeName = "second";
       var sampleMessage = "样本信息数据上传";
       setTimeout(() => {
-        this.showInfoNotification(sampleMessage)
-      },500);
+        this.showInfoNotification(sampleMessage);
+      }, 500);
+      this.tableData = [];
     },
     // 切换为Genemapper下机数据上传
     changeTab1() {
@@ -4803,11 +4746,15 @@ export default {
         (err) => {
           if (err) {
             console.log("日志文件不存在");
-            this.showErrorNotification(
-              "由于您还未进行任何数据分析操作，因此暂时无日志生成！"
-            );
+            var logNotice =
+              "由于您还未进行任何数据分析操作，因此暂时无日志生成！";
+            this.showErrorNotification(logNotice);
+            log.error(logNotice);
+            this.errorNotification(logFilename, logNotice);
           } else {
             console.log("日志文件存在");
+            var os = window.require("os");
+            log.info("当前操作系统版本：", os.version());
             if (process.platform === "darwin") {
               const { shell } = window.require("electron");
               const openFile = (filePath) => {
