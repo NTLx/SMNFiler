@@ -708,7 +708,7 @@ export default {
       console.log("inputFileNameWithOutSuffix", inputFileNameWithOutSuffix);
       var generateDataFolder =
         inputFileNameWithOutSuffix + "." + formattedDateTime;
-      var outputDirectry = path.join(inputFile, generateDataFolder);
+      var outputDirectry = inputFile+generateDataFolder;
       console.log("outputDirectry", outputDirectry);
       var log = window.require("electron-log");
       log.transports.console.level = "silly";
@@ -747,18 +747,18 @@ export default {
         if (ntcName == "" && ladderName == "") {
           exec(
             exeFile +
-              " -i " +
-              file.path +
-              " -e " +
-              outputFormat +
-              " -c " +
-              stdName +
-              " " +
-              language +
-              " " +
-              fileTypeParameter +
-              " -o " +
-              outputDirectry,
+              " -i " +'"'+
+              file.path +'"'+
+              " -e " +'"'+
+              outputFormat +'"'+
+              " -c " +'"'+
+              stdName +'"'+
+              " " +'"'+
+              language+'"'+
+              " " +'"'+
+              fileTypeParameter+'"'+
+              " -o " +'"'+
+              outputDirectry+'"',
             (error, stdout, stderr) => {
               if (error || stderr) {
                 loading.close();
@@ -789,11 +789,7 @@ export default {
                       "." +
                       outputFormat +
                       ".Summary.tsv";
-                    const summaryFile = path.join(
-                      inputFile,
-                      generateDataFolder,
-                      outPutFileName
-                    );
+                    const summaryFile = outputDirectry+"/"+outPutFileName
                     console.log("输出summary文件路径：", summaryFile);
                     this.outputDirectry = outputDirectry;
                     var xlsx = window.require("node-xlsx");
@@ -874,20 +870,20 @@ export default {
         } else if (ntcName !== "" && ladderName == "") {
           exec(
             exeFile +
-              " -i " +
-              file.path +
-              " -e " +
-              outputFormat +
-              " -c " +
-              stdName +
+              " -i " +'"'+
+              file.path +'"'+
+              " -e " +'"'+
+              outputFormat +'"'+
+              " -c " +'"'+
+              stdName +'"'+
               " " +
-              language +
-              " -n " +
-              ntcName +
-              " " +
-              fileTypeParameter +
-              " -o " +
-              outputDirectry,
+              language +'"'+
+              " -n " +'"'+
+              ntcName +'"'+
+              " " +'"'+
+              fileTypeParameter +'"'+
+              " -o " +'"'+
+              outputDirectry+'"',
             (error, stdout, stderr) => {
               if (error || stderr) {
                 loading.close();
@@ -917,11 +913,7 @@ export default {
                       "." +
                       outputFormat +
                       ".Summary.tsv";
-                    const summaryFile = path.join(
-                      inputFile,
-                      generateDataFolder,
-                      outPutFileName
-                    );
+                    const summaryFile = outputDirectry+"/"+outPutFileName
                     console.log("summaryFile", summaryFile);
                     this.outputDirectry = outputDirectry;
                     var xlsx = window.require("node-xlsx");
@@ -1001,22 +993,22 @@ export default {
         } else if (ntcName != "" && ladderName != "") {
           exec(
             exeFile +
-              " -i " +
-              file.path +
-              " -e " +
-              outputFormat +
-              " -c " +
-              stdName +
-              " " +
-              language +
-              " -n " +
-              ntcName +
-              " -d " +
-              ladderName +
-              " " +
-              fileTypeParameter +
-              " -o " +
-              outputDirectry,
+              " -i " +'"'+
+              file.path +'"'+
+              " -e " +'"'+
+              outputFormat+'"'+
+              " -c "+'"'+
+              stdName +'"'+
+              " " +'"'+
+              language +'"'+
+              " -n " +'"'+
+              ntcName +'"'+
+              " -d " +'"'+
+              ladderName +'"'+
+              " " +'"'+
+              fileTypeParameter +'"'+
+              " -o " +'"'+
+              outputDirectry+'"',
             (error, stdout, stderr) => {
               if (error || stderr) {
                 loading.close();
@@ -1046,11 +1038,7 @@ export default {
                       "." +
                       outputFormat +
                       ".Summary.tsv";
-                    const summaryFile = path.join(
-                      inputFile,
-                      generateDataFolder,
-                      outPutFileName
-                    );
+                    const summaryFile = outputDirectry+"/"+outPutFileName;
                     console.log("summaryFile", summaryFile);
                     this.outputDirectry = outputDirectry;
                     var xlsx = window.require("node-xlsx");
@@ -1131,22 +1119,22 @@ export default {
         } else if (ntcName == "" && ladderName != "") {
           exec(
             exeFile +
-              " -i " +
-              file.path +
-              " -e " +
-              outputFormat +
-              " -c " +
-              stdName +
-              " " +
-              peakStatus +
-              " " +
-              language +
-              " -d " +
-              ladderName +
-              " " +
-              fileTypeParameter +
-              " -o " +
-              outputDirectry,
+              " -i "+'"'+
+              file.path+'"'+
+              " -e " +'"'+
+              outputFormat+'"'+
+              " -c " +'"'+
+              stdName +'"'+
+              " " +'"'+
+              peakStatus+'"'+
+              " " +'"'+
+              language +'"'+
+              " -d "+'"'+
+              ladderName +'"'+
+              " " +'"'+
+              fileTypeParameter+'"'+
+              " -o "+'"'+
+              outputDirectry+'"',
             (error, stdout, stderr) => {
               if (error || stderr) {
                 loading.close();
@@ -1176,11 +1164,7 @@ export default {
                       "." +
                       outputFormat +
                       ".Summary.tsv";
-                    const summaryFile = path.join(
-                      inputFile,
-                      generateDataFolder,
-                      outPutFileName
-                    );
+                    const summaryFile = outputDirectry+"/"+outPutFileName;
                     console.log("summaryFile", summaryFile);
                     this.outputDirectry = outputDirectry;
                     var xlsx = window.require("node-xlsx");
