@@ -193,108 +193,105 @@
         </el-tab-pane>
         <el-tab-pane label="设置" name="third" class="setting">
           <div class="container">
-            <el-row class="row-container">
-              <el-col :span="24">
-                <el-divider content-position="left"> 输出文件设置 </el-divider>
-              </el-col>
-              <!-- </el-row>
-            <el-row class="fileSetting"> -->
-              <el-col :span="12">
-                <div class="spanPosition">
-                  <span>类型：</span>
-                  <el-radio-group
-                    v-model="radio2"
-                    @change="switchFileType"
-                    size="large"
-                  >
-                    <el-radio-button label="summaryFile"
-                      >结果文件</el-radio-button
-                    >
-                    <el-radio-button label="summaryFileAndReportFile"
-                      >结果文件和报告</el-radio-button
-                    >
-                    <el-radio-button label="summaryFileAndReportPictureFile"
-                      >结果文件和含图片报告</el-radio-button
-                    >
-                  </el-radio-group>
-                </div>
-              </el-col>
-              <el-col :span="12">
-                <el-switch
-                  v-model="value1"
-                  class="ml-2"
-                  size="large"
-                  inline-prompt
-                  active-text="结果文件为中文"
-                  active-value="-l"
-                  inactive-value=" "
-                  style="
-                    --el-switch-on-color: #13ce66;
-                    --el-switch-off-color: #ff4949;
-                  "
-                  inactive-text="结果文件为中文"
-                  @change="switchReceiveStatus1"
-                ></el-switch>
-              </el-col>
-              <el-col :span="2"></el-col>
-              <el-col :span="9">
-                <el-input
-                  v-model="ntcSampleName"
-                  placeholder="NTC检测样本名"
-                  size="large"
-                >
-                  <template #append>
-                    <el-button
-                      type="primary"
-                      class="custom-button"
-                      @click="saveNTCSampleName"
-                      size="large"
-                      >应用</el-button
-                    >
-                  </template>
-                </el-input>
-              </el-col>
-              <el-col :span="2"></el-col>
-              <el-col :span="9">
-                <el-input
-                  v-model="sampleName"
-                  placeholder="样本名默认为STD"
-                  size="large"
-                >
-                  <template #append>
-                    <el-button
-                      type="primary"
-                      @click="saveSampleName"
-                      class="custom-button"
-                      size="large"
-                      >应用</el-button
-                    >
-                  </template>
-                </el-input>
-              </el-col>
-              <el-col :span="2"></el-col>
-              <el-col :span="2"></el-col>
-              <el-col :span="9">
-                <el-input
-                  v-model="ladderSampleName"
-                  placeholder="Ladder检测样本名"
-                  size="large"
-                >
-                  <template #append>
-                    <el-button
-                      type="primary"
-                      @click="saveLadderSampleName"
-                      class="custom-button"
-                      size="large"
-                      >应用</el-button
-                    >
-                  </template>
-                </el-input>
-              </el-col>
-              <el-col :span="2"></el-col>
-              <el-col :span="9"></el-col>
-              <el-col :span="2"></el-col>
-            </el-row>
+            <el-row class="row-container" :gutter="40">
+        <el-col :span="24">
+          <el-divider content-position="left"> 输出文件设置 </el-divider>
+        </el-col>
+        <el-col :span="2"><div class="grid-content ep-bg-purple-dark" ></div></el-col>
+        <el-col :span="10">
+          <div class="spanPosition">
+            <!-- <span>类型：</span> -->
+            <el-radio-group
+              v-model="radio2"
+              @change="switchFileType"
+              size="large"
+            >
+              <el-radio-button label="summaryFile"
+                >结果文件</el-radio-button
+              >
+              <el-radio-button label="summaryFileAndReportFile"
+                >结果文件和报告</el-radio-button
+              >
+              <el-radio-button label="summaryFileAndReportPictureFile"
+                >结果文件和含图片报告</el-radio-button
+              >
+            </el-radio-group>
+          </div>
+        </el-col>
+        <el-col :span="10">
+          <el-input
+            v-model="ntcSampleName"
+            placeholder="NTC检测样本名"
+            size="large"
+          >
+            <template #append>
+              <el-button
+                type="primary"
+                class="custom-button"
+                @click="saveNTCSampleName"
+                size="large"
+                >应用</el-button
+              >
+            </template>
+          </el-input>
+        </el-col>
+        <el-col :span="2"></el-col>
+        <el-col :span="2"></el-col>
+        <el-col :span="10">
+          <el-input
+            v-model="sampleName"
+            placeholder="样本名默认为STD"
+            size="large"
+          >
+            <template #append>
+              <el-button
+                type="primary"
+                @click="saveSampleName"
+                class="custom-button"
+                size="large"
+                >应用</el-button
+              >
+            </template>
+          </el-input>
+        </el-col>
+        <el-col :span="10">
+          <el-input
+            v-model="ladderSampleName"
+            placeholder="Ladder检测样本名"
+            size="large"
+          >
+            <template #append>
+              <el-button
+                type="primary"
+                @click="saveLadderSampleName"
+                class="custom-button"
+                size="large"
+                >应用</el-button
+              >
+            </template>
+          </el-input>
+        </el-col>
+        <el-col :span="2"></el-col>
+        <el-col :span="2"></el-col>
+        <el-col :span="10">
+          <el-switch
+            v-model="value1"
+            class="ml-2"
+            size="large"
+            inline-prompt
+            active-text="结果文件为中文"
+            active-value="-l"
+            inactive-value=" "
+            style="
+              --el-switch-on-color: #13ce66;
+              --el-switch-off-color: #ff4949;
+            "
+            inactive-text="结果文件为中文"
+            @change="switchReceiveStatus1"
+          ></el-switch>
+        </el-col>
+        <el-col :span="12"></el-col>
+      </el-row>
             <!-- <el-col :span="8">
                 <el-switch
                   v-model="value2"
@@ -312,11 +309,12 @@
                 ></el-switch>
               </el-col> -->
 
-            <el-row class="row-container">
+            <el-row class="row-container" :gutter="40">
               <el-col :span="24">
                 <el-divider content-position="left">报告文件设置</el-divider>
               </el-col>
               <!-- <el-row class="fileSetting">  -->
+              <el-col :span="2"></el-col>
               <el-col :span="8">
                 <el-select
                   v-model="value5"
@@ -331,7 +329,7 @@
                   />
                 </el-select>
               </el-col>
-              <el-col :span="8">
+              <el-col :span="6">
                 <el-switch
                   v-model="value3"
                   size="large"
@@ -348,7 +346,7 @@
                 >
                 </el-switch>
               </el-col>
-              <el-col :span="8">
+              <el-col :span="6">
                 <el-switch
                   v-model="value4"
                   size="large"
@@ -365,14 +363,16 @@
                 >
                 </el-switch>
               </el-col>
+              <el-col :span="2"></el-col>
             </el-row>
-            <el-row class="row-container">
+            <el-row class="row-container" :gutter="40">
               <el-col :span="24">
                 <el-divider content-position="left">日志</el-divider>
               </el-col>
               <!-- </el-row>
             <el-row class="fileSetting"> -->
-              <el-col :span="24">
+              <el-col :span="2"></el-col>
+              <el-col :span="20">
                 <el-tooltip
                   class="box-item"
                   content="打开日志文件"
@@ -383,6 +383,7 @@
                   </el-button>
                 </el-tooltip>
               </el-col>
+              <el-col :span="2"></el-col>
             </el-row>
           </div>
         </el-tab-pane>
@@ -4855,7 +4856,8 @@ i.el-icon.el-icon--upload {
 .spanPosition {
   display: flex;
   align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
+  width: 100%;
 }
 .row-container {
   display: flex;
@@ -4863,7 +4865,7 @@ i.el-icon.el-icon--upload {
   justify-content: center;
   align-items: center;
 }
-.el-col-9 {
+.el-col-10 {
   margin-top: 24px;
 }
 </style>
