@@ -40,7 +40,7 @@
                 </div>
                 <template #tip>
                   <div class="el-upload__tip">
-                    文件名当中不能含有空格、特殊符号、中文
+                    文件名当中不能含有特殊符号
                   </div>
                   <!-- <el-descriptions title="" direction="vertical" :column="3" :size="size" border>
                     <el-descriptions-item label="标准品样本名" align="center">{{ sampleName?sampleName:"/" }}</el-descriptions-item>
