@@ -12,13 +12,14 @@
 
 Suitable for Mac OS X (x64 platform) and Windows.
 
-> The package for Windows is ia32, will be functional both x86 and x64 platform.
+> The package for Windows is ia32,will be functional both x86 and x64 platform;
+> The package for Windows is x64,only runs on x64 platform. 
 
 ### Windows
 
 `Portable` package can run without installation.
 
-[Download Portable for win](https://github.com/NTLx/SMNFiler/releases/download/v0.7.0/SMNFiler.v0.7.0.Win_Portable.exe)
+[Download Portable for win](https://github.com/NTLx/SMNFiler/releases/download/v0.8.0/SMNFiler.v0.8.0.Win_Portable.exe)
 
 > [Download mirror](http://cloud.cubicise.com:10081/s/8GRKCowfwqoLji8) for China user.
 
@@ -36,37 +37,43 @@ Move app to `Application` :
 
 ### Main window
 
-![main window](https://cdn.jsdelivr.net/gh/Letmeouted/PCPicture/Snipaste_2023-08-15_08-37-34.png)
+![main window](https://cdn.jsdelivr.net/gh/Letmeouted/PCPicture/Snipaste_2023-10-26_09-15-21.png)
 
 Drag file(s) to process region (means `文件处理区`), or just click this region to select a file.
 
-> input file format: only support `txt` and `csv`.
+> - input file format: only support `txt` and `csv`.
+> - When adding files by clicking, only one file can be selected for processing at a time.
 
 By default, the output will be splited according to sample names, and the result file(s) will be output to the dir where the input file comes from.
 
-### Manual
+#### Manual
 
-You may press the orange button `帮助` to check manual, it will simply open a browser window which link to this page.
+Under network conditions,You may press the orange button `帮助` to check manual, it will simply open a browser window which link to this page. 
 
-### Download sample template file
+#### Download sample template file
 
-Press the blue button `下载样本信息文件` to download sample template file.
-
-### Upload
-
-![uploadWindow](https://cdn.jsdelivr.net/gh/Letmeouted/PCPicture/Snipaste_2023-08-15_10-18-32.png)
-
->The default setting type is `结果文件`.
-
->If you select the option `结果文件和报告` or `结果文件和含图片报告` in the output file category in the settings, the `设置` tab will automatically jump to the `GeneMapper下机数据上传` tab.The `样本信息数据上传` tab will be displayed after uploading the GeneMapper data file.Click the upload button to upload the sample information file, and then the report file can be output normally (the report file will be automatically generated in the folder of the result file, and the folder will be automatically generated according to the file name to store the report file). When the output includes a figure report file, the figure is drawn from a data file ending in .figure.tsv,the generated report file with pictures will be generated in the folder where the result file is located.
+Press the blue button `模板` to download sample template file.
 
 ### Settings
 
 Several settings was offered in `设置面板` , defaut settings should be like this:
 
-![each sample output](https://cdn.jsdelivr.net/gh/Letmeouted/PCPicture/Snipaste_2023-09-08_09-59-40.png)
+![each sample output](https://cdn.jsdelivr.net/gh/Letmeouted/PCPicture/Snipaste_2023-10-26_09-15-10.png)
 
+#### Settings of output files
 The default output file format is "GBK" in the windows environment.
+
+The default output file setting type is `结果文件`.
+
+If you select the option `结果文件和报告` or `结果文件和含图片报告` in the output file category in the settings, the software interface is shown in the figure below:
+
+![resultFileAndReport](https://cdn.jsdelivr.net/gh/Letmeouted/PCPicture/Snipaste_2023-10-26_09-13-26.png)
+
+The `样本信息数据上传` tab will be displayed after uploading the GeneMapper data file.the software interface is shown in the figure below:
+
+![uploadSampleData](https://cdn.jsdelivr.net/gh/Letmeouted/PCPicture/Snipaste_2023-10-26_09-45-12.png)
+
+Click `上传` button to upload the sample information file, and then the report file can be output normally (the report file will be automatically generated in the folder of the result file, and the folder will be automatically generated according to the file name to store the report file. When the output includes a figure report file, the figure is drawn from a data file ending in .figure.tsv,the generated report file with pictures will be generated in the folder where the result file is located).
 
 By default, the output result will be English, If you need Chinese,you can turn on the `结果文件为中文` switch button.
 
@@ -75,8 +82,6 @@ The custom standard sample name in the default output result file is `STD`.If yo
 The custom NCT test sample name in the default output result file is null.If you need to customize the NTC test sample name, please enter the name of the NTC test sample that needs to be customized in the input box, and click the `应用` button.
 
 The custom Ladder test sample name in the default output result file is null.If you need to customize the Ladder test sample name, Please enter the name of the Ladder test sample that needs to be customized in the input box, and click the `应用` button.
-
-The default output file type only includes result files. If you want to output report files, please select the `输出结果文件和报告` option. If you want to output a report file (with pictures), please select the `输出结果文件和含图片报告` option.
 
 #### Settings for output report files
 
